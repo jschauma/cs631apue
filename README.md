@@ -20,7 +20,7 @@ usually changing, so I may not necessarily include them here.
 Sometimes a given lecture's directory may include additional notes or
 scripts.
 
-The organization of the this directory tree is by lecture, and I will
+The organization of this directory tree is by lecture, and I will
 commit/update the contents throughout the Fall 2012 semester as we go
 along.
 
