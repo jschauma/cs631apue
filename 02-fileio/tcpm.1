@@ -1,0 +1,76 @@
+.Dd September 08, 2012
+.Dt TCPM 1
+.Os TCPM
+.Sh NAME
+.Nm tcpm
+.Nd trivially copy a file via mmap/memcpy
+.Sh SYNOPSIS
+.Nm
+.Ar source
+.Ar target
+.Sh DESCRIPTION
+The
+.Nm
+utility copies the contents of the
+.Ar source
+to
+.Ar target .
+That is,
+behaves entirely the same as
+.Xr tcp 1 .
+.Pp
+Unlike
+.Xr tcp 1 ,
+.Nm
+uses
+.Xr mmap 2
+and
+.Xr memcpy 2
+instead of
+.Xr read 2
+and
+.Xr write 2 ,
+which is why it can be rewarded with up to 10 extra credit points.
+.Sh EXAMPLES
+The following examples show common usage:
+.Bd -literal -offset indent
+tcpm file1 file2
+.Ed
+.Pp
+.Bd -literal -offset indent
+tcpm file1 dir
+.Ed
+.Pp
+.Bd -literal -offset indent
+tcpm file1 dir/file2
+.Ed
+.Pp
+.Bd -literal -offset indent
+tcpm file1 dir/subdir/subsubdir/file2
+.Ed
+.Sh EXIT STATUS
+.Nm
+exits 0 on success, and >0 if an error occurred.
+.Sh SEE ALSO
+.Xr tcp 1 ,
+.Xr lseek 2 ,
+.Xr mmap 2 ,
+.Xr memcpy 2
+.Sh NOTES
+The code for the
+.Nm
+utility is, of course, well-formatted according to the guidelines found at
+.Ar http://www.cs.stevens.edu/~jschauma/631/style .
+The program can be compiled using the
+.Ar -Wall
+flags without any errors or warnings on
+.Ar linux-lab.cs.stevens.edu .
+.Sh HISTORY
+The
+.Nm
+program was first assigned as the first programming assignment for extra credit
+for the class CS765
+.Dq Advanced Programming in the UNIX Environment
+at Stevens Institute of Technology at least since around 2005.
+.Sh BUGS
+Well, let's see...
