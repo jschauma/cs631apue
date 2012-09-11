@@ -1,0 +1,519 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+<HEAD>
+  <TITLE>Advanced Programming in the UNIX Environment</TITLE>
+  <STYLE type="text/css">
+  body {
+  background-color: #FFFFFf;
+  }
+  </STYLE>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-25566450-4']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+</HEAD>
+
+<BODY>
+  <TABLE border="1" align="center" cellpadding="15">
+    <TR>
+      <TD valign="top">
+        <H2>Advanced Programming in the UNIX Environment</H2>
+	<H3>CS631 - APUE</H3>
+	<hr>
+	<H3><a name="outline"></a>Course Outline</H3>
+
+        <P>In this course, students will learn to develop complex
+        system-level software in the C programming language while gaining
+        an intimate understanding of the UNIX operating system (and
+        all OS that belong to this family, such as Linux, the BSDs, and
+        even Mac OS X) and its programming environment.
+        </P>
+        <P>
+        Topics covered will include the user/kernel
+        interface, fundamental concepts of UNIX, user
+        authentication, basic and advanced I/O, fileystems, signals,
+        process relationships, and interprocess communication.
+        Fundamental concepts of software development and
+        maintenance on UNIX systems (development and debugging
+        tools such as "make" and "gdb") will also be covered.</P>
+
+        <P>While there are no prerequisite courses, students are
+        expected to have a good working knowledge of the C
+        programming language and to be able to
+        competently use a UNIX system with a command-line shell
+        interface.</P>
+
+        <P>You will be writing a lot of code in this class. You may
+        also find the need to read a lot of code not written by you
+        as well as the manual pages accompanying the sources. For the
+        complete sources of the NetBSD operating system, take a look <a
+        href="http://cvsweb.netbsd.org/bsdweb.cgi/src/">here</a>.</P>
+
+	<hr>
+
+	<table width="100%" border="0">
+	<tr><td valign="top">
+        <H3><a name="time"></a>Time, Date &amp; Place:</H3>
+	<b>Mondays, 18:15 - 20:45, Edwin A. Stevens Hall 222</b>
+        <br>
+        <H3><a name="resources"></a>Resources:</H3>
+
+        <UL>
+          <LI><A href=
+          "https://lists.stevens.edu/cgi-bin/mailman/listinfo/cs631apue">CS631APUE Mailinglist</a></li>
+
+          <LI><A href=
+          "http://man.netbsd.org/cgi-bin/man-cgi/man">
+          NetBSD Manual Pages</A></LI>
+
+          <LI><A href="hw">General Homework Guidelines</a></li>
+
+          <LI><A href="http://pubs.opengroup.org/onlinepubs/9699919799/">Single UNIX Specification</A></LI>
+	  <LI><A href="style">Source Code Style Guide</A></li>
+	  <LI><a href="https://twitter.com/cs631apue">Class Twitter
+Account</a></li>
+	  <li><a href="https://github.com/jschauma/cs631apue">Raw course
+material on GitHub</a></li>
+        </UL>
+	</td><td valign="top" align="right">
+<script src="http://widgets.twimg.com/j/2/widget.js"></script>
+<script>
+new TWTR.Widget({
+  version: 2,
+  type: 'profile',
+  rpp: 3,
+  interval: 4000,
+  width: 350,
+  height: 150,
+  theme: {
+    shell: {
+      background: '#333333',
+      color: '#ffffff'
+    },
+    tweets: {
+      background: '#000000',
+      color: '#ffffff',
+      links: '#4aed05'
+    }
+  },
+  features: {
+    scrollbar: false,
+    loop: false,
+    live: true,
+    hashtags: true,
+    timestamp: true,
+    avatars: false,
+    behavior: 'all'
+  }
+}).render().setUser('cs631apue').start();
+</script>
+	<td>
+	</td></tr>
+	</table>
+
+	<hr>
+        <H3><a name="books"></a>Textbooks:</H3>
+
+        <P>The textbook used in this class is:
+
+        <UL>
+          <LI>
+          ``<A href=
+          "http://www.aw-bc.com/catalog/academic/product/0,1144,0201433079,00.html">
+          Advanced Programming in the UNIX&#174;
+          Environment</A>'', Second Edition<BR>
+          W. Richard Stevens, Stephen A. Rago<BR>
+          ISBN: 0-201-43307-9<BR>
+          Publisher: Addison Wesley Professional<BR>
+          <A href=
+          "http://www.apuebook.com/index.html">Code
+          Examples</A> | <a href="http://proquest.safaribooksonline.com/0201433079">Safari Online version</a><BR></LI>
+	</UL>
+
+        The first edition is also acceptable, even though we will be
+        teaching from the second edition.
+	</p>
+
+	<p>
+        The following books are recommended purely for your own personal
+        reference.  They're not used in the class as a text, but are
+        related and very useful books to have:
+	<UL>
+          <LI>
+          ``<A href="http://cm.bell-labs.com/cm/cs/cbook/">The C
+          Programming Language</A>'' -- <EM>important</EM>: make
+          sure you get the <STRONG>2nd Edition</STRONG> covering
+          <STRONG>ANSI C</STRONG>.<BR>
+          by Brian W. Kernighan and Dennis M. Ritchie.<BR>
+          Prentice Hall, Inc., 1988.<BR>
+          ISBN 0-13-110362-8 (paperback), 0-13-110370-9
+          (hardback).<BR></LI>
+          <LI>
+          ``<a href="http://cm.bell-labs.com/cm/cs/tpop/">The Practice of
+          Programming</a>''<br>
+          by Brian W. Kernighan and Rob Pike.<BR>
+          Addison-Wesley, Inc., 1999.<BR>
+          ISBN 0-201-61586-X. <BR>
+          </LI>
+        </UL>
+
+	Online vendors such as Amazon.com, bn.com, bookpool.com etc.
+	usually sell these books for cheaper than the Stevens bookstore.
+
+	<hr>
+        <H3><a name="instructor"></a>Instructor:</H3><A href=
+        "http://www.cs.stevens.edu/~jschauma/">Jan Schaumann</A>
+        [<A href=
+        "mailto:jschauma@stevens.edu">jschauma@stevens.edu</A>]
+
+	<hr>
+	<H3><a name="systems"></a>Systems Used</H3>
+	<p>All software development will be done on the
+	<tt>linux-lab.cs.stevens-tech.edu</tt>
+	systems.  It is your
+	responsibility to get an account on these systems.</p>
+	<p>All grading will be done on these systems.  While you may
+	choose to develop on your own personal host, you should make sure
+	that your code compiles and runs flawlessly on these systems.</p>
+
+	<hr>
+        <H3><a name="grading"></a>Grading:</H3>There will most likely be:
+        <UL>
+          <LI>5 homework assignment, worth 20 points each</LI>
+
+          <LI>1 midterm project, worth 100 points</LI>
+
+          <LI>1 final project, worth 200 points</LI>
+
+          <LI>1 final exam, worth 100 points</LI>
+
+          <LI>no curve</LI>
+        </UL>
+
+	Letter grades will be given as follows:
+        <UL>
+          <LI>450 - 500 points =&gt; A</LI>
+          <LI>400 - 449 points =&gt; B</LI>
+          <LI>350 - 399 points =&gt; C</LI>
+          <LI>0 - 349 points =&gt; F</LI>
+        </UL>
+
+	Within each letter grade, there are +/- grades given at the
+	discretion of the instructor. (Exception: there is no A+)
+
+	<H4>Plagiarism, Cheating and other ways to get an F</H4>
+	This really should not be necessary, but just to preempt any complains
+	that I did not make myself clear:
+	<blockquote>
+	Students are responsible for their own work.  It is unethical (and in
+	some cases illegal) to present as one's work the ideas, words or
+	representations of another without the proper indication of the
+	source.  Therefore, it is the student's responsibility to give credit
+	for any quotation, idea or data (such as statistical data or source
+	code) borrowed from an outside source.
+	<br><br>
+	Failure to do so constitutes plagiarism, may imply copyright
+	infringement and license violations and is viewed as cheating
+	in this class.
+	</blockquote>
+
+	<hr>
+        <H3><A name="hw">Homework</A> Assignments:</H3>
+
+	<ul>
+		<li><a href="f12-hw1.html">HW#1: read code</a></li>
+		<li><a href="f12-hw2.html">HW#2: trivially copy a file</a></li>
+<!--
+		<li><a href="f11-hw3.html">HW#3: reflective code reading</a></li>
+		<li><a href="f11-hw4.html">HW#4: fill in SWS framework</a></li>
+		<li><a href="f11-hw5.html">HW#5: patch ls(1) to add an option</a></li>
+		<li><a href="f11-extra.html">Extra Credit: implement revline(1)</a></li>-->
+	</ul>
+
+	<hr>
+        <H3><A name="midterm">Midterm</A> Project:</H3>
+	<p><em>This semester's midterm project has not yet been finalized.</em>
+	<!--
+	This was last year's midterm assignment:</em></p>
+        <p>Implement the "<a href="ls.pdf">ls(1)</a>" command as
+        decribed in the manual page provided to you.
+        See the full <A href="f11-midterm.html">midterm project
+        description</A> for details.--></P>
+
+	<hr>
+        <H3><A name="final">Final</A> Project:</H3>
+	<p><em>This semester's final project has not yet been finalized.</em>
+	<!--
+	This was last year's final assignment:</em></p>
+        Implement the "<a href="final/sws.1.pdf">sws(1)</a>" command as
+        decribed in the manual page provided to you.
+        See the full <A href="f11-final-project.html">final project
+        description</A> for details.--></P>
+
+	<hr>
+        <H3><A name="syllabus">Syllabus</A>:</H3>
+
+        <TABLE width="100%" border="1" cellpadding="5">
+          <TR>
+            <TH>Date</TH>
+
+            <TH>Topic</TH>
+
+            <TH>Reading Material</TH>
+
+            <TH>Notes</TH>
+
+          </TR>
+          <TR>
+            <TD>2012-08-29</TD>
+
+            <TD>Introduction, UNIX history, UNIX Programming
+            Basics</TD>
+
+            <TD>Stevens: Chapters 1, 2</TD>
+
+            <TD width="25%"><a href="lecture01.pdf">slides</a><br>
+            &#160;<BR>
+            <A href="simple-cat.c">simple-cat.c</A><BR>
+            <A href="simple-ls.c">simple-ls.c</A><BR>
+            <A href="simple-shell.c">simple-shell.c</A><BR>
+            <A href="simple-shell2.c">simple-shell2.c</A><br><br>
+	    <a href="f12-hw1.html">HW#1</a></TD>
+
+          </TR>
+
+          <TR>
+            <TD>2012-09-03</TD>
+            <TD colspan="3"><em>Labor Day Holiday</em></TD>
+          </TR>
+
+
+          <TR>
+            <TD>2012-09-10</TD>
+
+            <TD>File I/O, File Sharing</TD>
+
+            <TD>Stevens: Chapter 3</TD>
+
+            <TD width="25%"><A href="lecture02.pdf">Lecture
+            Slides</A><BR>
+            &#160;<BR>
+            <A href="hole.c">hole.c</A><BR>
+            <A href="lseek.c">lseek.c</A><BR>
+            <A href="openmax.c">openmax.c</A><BR>
+            <A href="sync-cat.c">sync-cat.c</A><BR>
+            <a href="f12-hw2.html">HW2</a>: <A href="tcp.1.pdf">tcp(1)</A>,<a
+	    href="tcpm.1.pdf">tcpm(1)</a></td>
+          </TR>
+
+          <TR>
+            <TD>2012-09-17</TD>
+
+            <TD>Files and Directories</TD>
+
+            <TD>Stevens: Chapter 4</TD>
+
+            <TD width="25%"><A href="lecture03.pdf">Lecture
+            Slides</A><BR>
+            &#160;<BR>
+            <A href="access.c">access.c</A><BR>
+            <A href="chmod.c">chmod.c</A><BR>
+            <A href="size.c">size.c</A><BR>
+            <A href="still-simple-ls.c">still-simple-ls.c</A><BR>
+            <A href="umask.c">umask.c</A><BR>
+	    <!-- <a href="f11-midterm.html">Midterm Project Assignment</a>--></TD>
+          </TR>
+
+          <TR>
+            <TD>2012-09-24</TD>
+
+            <TD>Filesystems, System Data Files, Time &amp;
+            Date</TD>
+
+            <TD>Stevens: Chapter 4, 6</TD>
+
+            <TD width="25%"><A href="lecture04.pdf">Lecture
+            Slides</A><BR>
+            &#160;<BR>
+            <A href="wait-unlink.c">wait-unlink.c</A><BR>
+	    <a href="cd.c">cd.c</A></TD>
+          </TR>
+
+          <TR>
+            <TD>2012-10-01</TD>
+
+            <TD>Process Environment, Process Control</TD>
+
+            <TD>Stevens: Chapters 7, 8</TD>
+
+            <TD width="25%"><A href="lecture05.pdf">Lecture
+            Slides</A><BR>
+            &#160;<BR>
+            <!-- <A href="const.c">const.c</A><BR> -->
+            <A href="entry.c">entry.c</A><BR>
+            <A href="exit-handlers.c">exit-handlers.c</A><BR>
+            <A href="forkflush.c">forkflush.c</A><BR>
+            <A href="hw.c">hw.c</A><BR>
+            <A href="setjmp1.c">setjmp1.c</A><BR>
+            <A href="setjmp2.c">setjmp2.c</A><BR>
+            <A href="setjmp3.c">setjmp3.c</A></TD>
+          </TR>
+
+
+          <TR>
+            <TD>2012-10-08</TD>
+            <TD colspan="3"><em>No class - Fall recess</em></TD>
+          </TR>
+          <TR>
+            <TD>2012-10-15</TD>
+
+            <TD>Signals</TD>
+
+            <TD>Stevens: Chapter 10</TD>
+
+            <TD width="25%"><A href="lecture06.pdf">Lecture
+            Slides</A><BR>
+            &#160;<BR>
+            <a href="getpwnam.c">getpwnam.c</a><br>
+	    <a href="pending.c">pending.c</a><br>
+            <A href="sigusr.c">sigusr.c</A></TD>
+          </TR>
+
+          <TR>
+            <TD>2012-10-22</TD>
+
+            <TD>Interprocess Communication</TD>
+
+            <TD>Stevens: Chapter 14</TD>
+
+            <TD width="25%"><a href="lecture07.pdf">Lecture
+            Slides</A><BR>
+            <BR>
+            <A href="ipctut.pdf">BSD IPC Tutorial</A><BR>
+            <A href="ipc.pdf">BSD IPC</A><BR>
+            <BR>
+            <A href="pipe1.c">pipe1.c</A><BR>
+            <A href="pipe2.c">pipe2.c</A><BR>
+            <A href="socketpair.c">socketpair.c</A><BR>
+            <A href="udgramread.c">udgramread.c</A><BR>
+            <A href="udgramsend.c">udgramsend.c</A><BR>
+            <A href="dgramread.c">dgramread.c</A><BR>
+            <A href="dgramsend.c">dgramsend.c</A><BR>
+            <A href="streamread.c">streamread.c</A><BR>
+            <A href="streamwrite.c">streamwrite.c</A><BR>
+            <A href="strchkread.c">strchkread.c</A><br>
+            <a href="memory-layout.c">memory-layout.c</a><br><br>
+	    <!-- <a href="f11-hw3.html">HW#3 - reflective code reading</a><br>
+	    <a href="f11-hw4.html">HW#4 - fill in SWS framework</a><br>
+	    <a href="f11-final-project.html">Final Project Assignment--></a>
+	    </TD>
+          </TR>
+
+          <TR>
+            <TD>2012-10-29</TD>
+
+            <TD>Advanced I/O: Nonblocking I/O, Polling, and Record
+            Locking</TD>
+
+            <TD>Stevens: Chapter 14</TD>
+
+            <TD width="25%"><A href="lecture08.pdf">Lecture
+            Slides</A><BR>
+            <BR>
+            <A href="nonblock.c">nonblock.c</A><br>
+            <A href="flock.c">flock.c</A><br><br>
+	    <!--<a href="f10-final-project.html">Final Project
+Assignment</a><br>
+	    <a href="f10-hw3.html">HW#3</a>-->
+	</TD>
+          </TR>
+
+          <TR>
+            <TD>2012-11-05</TD>
+
+            <TD><a name="daemon"></a>D&aelig;mon Processes, Shared Libraries</TD>
+
+            <TD>Stevens: Chapter 13</TD>
+
+            <TD width="25%">&nbsp;<a href="lecture09.pdf">Lecture
+Slides</a><br><br>
+		<a href="dlopenex.c">dlopenex.c</a><br>
+		<a href="evil.c">evil.c</a><br>
+		<a href="ldtest1.2.c">ldtest1.2.c</a><br>
+		<a href="ldtest1.c">ldtest1.c</a><br>
+		<a href="ldtest2.c">ldtest2.c</a><br>
+		<a href="main.c">main.c</a></td>
+          </TR>
+
+          <TR>
+            <TD>2012-11-12</TD>
+
+            <TD>UNIX tools: make(1), revision control, diff(1), patch(1), gdb(1)</TD>
+
+            <TD><A href=
+            "http://www.cvshome.org/docs/manual/cvs-1.11.6/cvs.html">
+            CVS Documentation</A>
+          <A href="http://sourceware.org/gdb/current/onlinedocs/gdb/">
+            Debugging with GDB</A><BR>
+            <A href=
+            "http://heather.cs.ucdavis.edu/~matloff/UnixAndC/CLanguage/Debug.html">
+            Guide to Faster, Less Frustrating Debugging</A><BR>
+            <A href=
+            "http://www.unknownroad.com/rtfm/gdbtut/gdbtoc.html">gdb
+            Tutorial</A></TD>
+            <TD><A href="lecture10.pdf">Lecture Slides</A><BR>
+            <BR>
+	    <A href="compilechain/">compile chain examples</a><br>
+	    <A href="make-examples/">make examples</a><br>
+	    <A href="gdb-examples/">gdb examples</a><br><br>
+            <!--<a href="f10-hw4.html">HW#4</a>-->
+          </TR>
+
+          <TR>
+            <TD>2012-11-19</TD>
+
+            <TD>Encryption in a Nutshell<br>
+                Final Project Discussion / Review</TD>
+
+            <TD>&nbsp;</TD>
+
+            <TD><a href="lecture11.pdf">Lecture Slides</a></TD>
+          </TR>
+          <TR>
+            <TD>2012-11-26</TD>
+
+            <TD>How To Digest A Turkey<br>
+                Final Project Discussion / Review</TD>
+
+            <TD>&nbsp;</TD>
+
+            <TD>&nbsp;</TD>
+          </TR>
+
+
+          <TR>
+            <TD>2012-12-03</TD>
+
+            <TD>Final Exam</TD>
+
+            <TD>all covered chapters and materials</TD>
+
+            <TD>&nbsp;<!--<a href="f11-final.txt">final</a>--></TD>
+          </TR>
+        </TABLE>
+      </TD>
+    </TR>
+  </TABLE>
+</BODY>
+</HTML>
