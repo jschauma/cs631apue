@@ -1,0 +1,662 @@
+% CS631 Advanced Programming in the UNIX Environment
+% Author: Jan Schaumann <jschauma@netmeister.org>
+% $Id: slides.tex,v 1.5 2005/09/13 03:13:26 jschauma Exp $
+\special{! TeXDict begin /landplus90{true}store end }
+
+\documentclass[xga]{xdvislides}
+\usepackage[landscape]{geometry}
+\usepackage{graphics}
+\usepackage{graphicx}
+\usepackage{colordvi}
+
+\begin{document}
+\setfontphv
+
+%%% Headers and footers
+\lhead{\slidetitle}
+\chead{CS631 - Advanced Programming in the UNIX Environment}
+\rhead{Slide \thepage}
+\lfoot{\Gray{Lecture 03: Files and Directories}}
+\cfoot{\relax}
+\rfoot{\Gray{\today}}
+
+\vspace*{\fill}
+\begin{center}
+	\Hugesize
+		CS631 - Advanced Programming in the UNIX Environment\\
+		-- \\
+		Files and Directories
+	\hspace*{5mm}\blueline\\ [1em]
+	\Normalsize
+		Department of Computer Science\\
+		Stevens Institute of Technology\\
+		Jan Schaumann\\
+		\verb+jschauma@stevens.edu+\\
+		\verb+http://www.cs.stevens.edu/~jschauma/631/+
+\end{center}
+\vspace*{\fill}
+
+\subsection{Shana Tova}
+\vspace*{\fill}
+\begin{center}
+\Huge
+Happy 5773!
+\Normalsize
+\end{center}
+\vspace*{\fill}
+
+\subsection{HW\#1 review}
+This is not plain text:
+
+\begin{verbatim}
+{\rtf1\ansi\ansicpg1252\cocoartf1138\cocoasubrtf470
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww18380\viewh12760\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760
+\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f0\fs28 \cf0 In this assignment, ...
+\end{verbatim}
+
+\subsection{HW\#1 review}
+
+\begin{verbatim}
+This is a very long text block containing sentences with no real punctuation and no
+paragraphsText like this is hard to readAlsoreading such long text is no fun, and
+when the instructor is not having fun when grading that might yield undesirable results
+for the studentEven though this is a programming classit is important to be able to
+write English text well:programming is communicationand all communications requires
+clarity.The majority of the work in any given program depends on clear communication
+of the requirementsof getting answers to questions and of working together with other
+peopleThereforeyou should practice writing legigible and clear text that is easy to
+read and understandText should be broken at around 80 characters and paragraphs should
+be created every now and then to make it easier for the readerOtherwise,you end up
+having just this very long text block containing sentences with no real punctuation
+and no paragraphsand as noted abovetext like that is hard to readno fun and may lead
+to a grumpy instructorwhen you really want your instructor to be in a good mood when
+he is attempting to make sense of your homework submissions.
+\end{verbatim}
+
+\subsection{HW\#1 review}
+
+\vspace*{\fill}
+\begin{center}
+\Huge
+``One of my most productive days was throwing away 1,000 lines of code.''
+\Normalsize
+\\
+
+Ken Thompson
+\end{center}
+\vspace*{\fill}
+
+\subsection{HW\#2 notes}
+
+\begin{verbatim}
+#include <bsd/stdlib.h>
+#include <stdio.h>
+
+int main(int argc, char **argv) {
+        setprogname("cowsay");
+        if (argc != 2) {
+                fprintf(stderr, "Usage: %s 'moo'\n", getprogname());
+                exit(1);
+                /* NOTREACHED */
+        }
+        printf("%s\n", argv[1]);
+        return 0;
+}
+
+cc -Wall file.c -lbsd
+\end{verbatim}
+
+
+\subsection{{\tt stat(2)} family of functions}
+\small
+\setlength{\unitlength}{1mm}
+\begin{center}
+	\begin{picture}(150,40)
+		\thinlines
+		\put(0,0){\framebox(130,40){}}
+		\put(10,35){{\tt \#include <sys/types.h>}}
+		\put(10,30){{\tt \#include <sys/stat.h>}}
+		\put(10,22){{\tt int stat(const char *{\em path}, struct stat *{\em sb});}}
+		\put(10,18){{\tt int lstat(const char *{\em path}, struct stat *{\em sb});}}
+		\put(10,14){{\tt int fstat(int {\em fd}, struct stat *{\em sb});}}
+		\put(85,3){Returns: 0 if OK, -1 on error}
+	\end{picture}
+\end{center}
+\Normalsize
+
+All these functions return extended attributes about the referenced file (in
+the case of {\em symbolic links}, {\tt lstat(2)} returns attributes of the
+{\em link}, others return stats of the referenced file).
+
+\subsection{{\tt stat(2)} family of functions}
+\small
+\setlength{\unitlength}{1mm}
+\begin{center}
+	\begin{picture}(150,40)
+		\thinlines
+		\put(0,0){\framebox(130,40){}}
+		\put(10,35){{\tt \#include <sys/types.h>}}
+		\put(10,30){{\tt \#include <sys/stat.h>}}
+		\put(10,22){{\tt int stat(const char *{\em path}, struct stat *{\em sb});}}
+		\put(10,18){{\tt int lstat(const char *{\em path}, struct stat *{\em sb});}}
+		\put(10,14){{\tt int fstat(int {\em fd}, struct stat *{\em sb});}}
+		\put(85,3){Returns: 0 if OK, -1 on error}
+	\end{picture}
+\end{center}
+\Normalsize
+
+All these functions return extended attributes about the referenced file (in
+the case of {\em symbolic links}, {\tt lstat(2)} returns attributes of the
+{\em link}, others return stats of the referenced file).
+\vspace{.25in}
+\small
+\begin{verbatim}
+struct stat {
+    dev_t      st_dev;          /* device number (filesystem) */
+    ino_t      st_ino;          /* i-node number (serial number) */
+    mode_t     st_mode;         /* file type & mode (permissions) */
+    dev_t      st_rdev;         /* device number for special files */
+    nlink_t    st_nlink;        /* number of links */
+    uid_t      st_uid;          /* user ID of owner */
+    gid_t      st_gid;          /* group ID of owner */
+    off_t      st_size;         /* size in bytes, for regular files */
+    time_t     st_atime;        /* time of last access */
+    time_t     st_mtime;        /* time of last modification */
+    time_t     st_ctime;        /* time of last file status change */
+    long       st_blocks;       /* number of 512-byte* blocks allocated */
+    long       st_blksize;      /* best I/O block size */
+};
+\end{verbatim}
+\Normalsize
+
+\subsection{{\tt struct stat}: {\tt st\_mode}}
+
+The {\tt st\_mode} field of the {\tt struct stat} encodes the type of file:
+
+\begin{itemize}
+	\item {\bf regular} -- most common, interpretation of data is up to
+		application
+	\item {\bf directory} -- contains names of other files and pointer to
+		information on those files. Any process can read, only kernel
+		can write.
+	\item {\bf character special} -- used for certain types of devices
+	\item {\bf block special} -- used for disk devices (typically). All
+		devices are either {\em character} or {\em block special}.
+	\item {\bf FIFO} -- used for interprocess communication
+		(sometimes called {\em named pipe})
+	\item {\bf socket} -- used for network communication and non-network
+		communication (same host).
+	\item {\bf symbolic link} -- Points to another file.
+\end{itemize}
+\vspace{.25in}
+Find out more in {\tt <sys/stat.h>}.
+
+\subsection{{\tt struct stat}: {\tt st\_mode}}
+\begin{verbatim}
+$ cc -Wall still-simple-ls.c
+$ ./a.out /dev | more
+\end{verbatim}
+
+\subsection{{\tt struct stat}: {\tt st\_mode}, {\tt st\_uid} and {\tt st\_gid}}
+Every process has six or more IDs associated with it:
+\\
+
+\begin{tabular}{| l | l |}
+	\hline
+	real user ID & who we really are \\
+	real group ID & \\
+	\hline
+	effective user ID & used for file access permission checks \\
+	effective group ID & \\
+	supplementary group IDs & \\
+	\hline
+	saved set-user-ID & saved by {\tt exec} functions \\
+	saved set-group-ID & \\
+	\hline
+\end{tabular}
+\vspace{.25in}
+
+Whenever a file is {\em setuid}, set the {\em effective user ID} to {\tt
+st\_uid}. Whenever a file is {\em setgid}, set the {\em effective group ID} to
+{\tt st\_gid}.  {\tt st\_uid} and {\tt st\_gid} always specify the owner and
+group owner of a file, regardless of whether it is setuid/setgid.
+
+\subsection{{\tt struct stat}: {\tt st\_mode}}
+{\tt st\_mode} also encodes the file access permissions ({\tt S\_IRUSR},
+{\tt S\_IWUSR}, {\tt S\_IXUSR}, {\tt S\_IRGRP}, {\tt S\_IWGRP}, {\tt S\_IXGRP},
+{\tt S\_IROTH}, {\tt S\_IWOTH}, {\tt S\_IXOTH}).  Uses of the permissions are
+summarized as follows:
+
+\begin{itemize}
+	\item To open a file, need execute permission on each directory component of the path
+\end{itemize}
+
+\subsection{{\tt struct stat}: {\tt st\_mode}}
+{\tt st\_mode} also encodes the file access permissions ({\tt S\_IRUSR},
+{\tt S\_IWUSR}, {\tt S\_IXUSR}, {\tt S\_IRGRP}, {\tt S\_IWGRP}, {\tt S\_IXGRP},
+{\tt S\_IROTH}, {\tt S\_IWOTH}, {\tt S\_IXOTH}).  Uses of the permissions are
+summarized as follows:
+
+\begin{itemize}
+	\item To open a file, need execute permission on each directory component of the path
+	\item To open a file with {\tt O\_RDONLY} or {\tt O\_RDWR}, need read permission
+\end{itemize}
+
+\subsection{{\tt struct stat}: {\tt st\_mode}}
+{\tt st\_mode} also encodes the file access permissions ({\tt S\_IRUSR},
+{\tt S\_IWUSR}, {\tt S\_IXUSR}, {\tt S\_IRGRP}, {\tt S\_IWGRP}, {\tt S\_IXGRP},
+{\tt S\_IROTH}, {\tt S\_IWOTH}, {\tt S\_IXOTH}).  Uses of the permissions are
+summarized as follows:
+
+\begin{itemize}
+	\item To open a file, need execute permission on each directory component of the path
+	\item To open a file with {\tt O\_RDONLY} or {\tt O\_RDWR}, need read permission
+	\item To open a file with {\tt O\_WRONLY} or {\tt O\_RDWR}, need write permission
+\end{itemize}
+
+\subsection{{\tt struct stat}: {\tt st\_mode}}
+{\tt st\_mode} also encodes the file access permissions ({\tt S\_IRUSR},
+{\tt S\_IWUSR}, {\tt S\_IXUSR}, {\tt S\_IRGRP}, {\tt S\_IWGRP}, {\tt S\_IXGRP},
+{\tt S\_IROTH}, {\tt S\_IWOTH}, {\tt S\_IXOTH}).  Uses of the permissions are
+summarized as follows:
+
+\begin{itemize}
+	\item To open a file, need execute permission on each directory component of the path
+	\item To open a file with {\tt O\_RDONLY} or {\tt O\_RDWR}, need read permission
+	\item To open a file with {\tt O\_WRONLY} or {\tt O\_RDWR}, need write permission
+	\item To use {\tt O\_TRUNC}, must have write permission
+\end{itemize}
+
+
+\subsection{{\tt struct stat}: {\tt st\_mode}}
+{\tt st\_mode} also encodes the file access permissions ({\tt S\_IRUSR},
+{\tt S\_IWUSR}, {\tt S\_IXUSR}, {\tt S\_IRGRP}, {\tt S\_IWGRP}, {\tt S\_IXGRP},
+{\tt S\_IROTH}, {\tt S\_IWOTH}, {\tt S\_IXOTH}).  Uses of the permissions are
+summarized as follows:
+
+\begin{itemize}
+	\item To open a file, need execute permission on each directory component of the path
+	\item To open a file with {\tt O\_RDONLY} or {\tt O\_RDWR}, need read permission
+	\item To open a file with {\tt O\_WRONLY} or {\tt O\_RDWR}, need write permission
+	\item To use {\tt O\_TRUNC}, must have write permission
+	\item To create a new file, must have write+execute permission for the directory
+\end{itemize}
+
+
+\subsection{{\tt struct stat}: {\tt st\_mode}}
+{\tt st\_mode} also encodes the file access permissions ({\tt S\_IRUSR},
+{\tt S\_IWUSR}, {\tt S\_IXUSR}, {\tt S\_IRGRP}, {\tt S\_IWGRP}, {\tt S\_IXGRP},
+{\tt S\_IROTH}, {\tt S\_IWOTH}, {\tt S\_IXOTH}).  Uses of the permissions are
+summarized as follows:
+
+\begin{itemize}
+	\item To open a file, need execute permission on each directory component of the path
+	\item To open a file with {\tt O\_RDONLY} or {\tt O\_RDWR}, need read permission
+	\item To open a file with {\tt O\_WRONLY} or {\tt O\_RDWR}, need write permission
+	\item To use {\tt O\_TRUNC}, must have write permission
+	\item To create a new file, must have write+execute permission for the directory
+	\item To delete a file, need write+execute on directory, file doesn't matter
+\end{itemize}
+
+
+\subsection{{\tt struct stat}: {\tt st\_mode}}
+{\tt st\_mode} also encodes the file access permissions ({\tt S\_IRUSR},
+{\tt S\_IWUSR}, {\tt S\_IXUSR}, {\tt S\_IRGRP}, {\tt S\_IWGRP}, {\tt S\_IXGRP},
+{\tt S\_IROTH}, {\tt S\_IWOTH}, {\tt S\_IXOTH}).  Uses of the permissions are
+summarized as follows:
+
+\begin{itemize}
+	\item To open a file, need execute permission on each directory component of the path
+	\item To open a file with {\tt O\_RDONLY} or {\tt O\_RDWR}, need read permission
+	\item To open a file with {\tt O\_WRONLY} or {\tt O\_RDWR}, need write permission
+	\item To use {\tt O\_TRUNC}, must have write permission
+	\item To create a new file, must have write+execute permission for the directory
+	\item To delete a file, need write+execute on directory, file doesn't matter
+	\item To execute a file (via {\tt exec} family), need execute permission
+\end{itemize}
+
+\subsection{{\tt access(2)}}
+\small
+\setlength{\unitlength}{1mm}
+\begin{center}
+	\begin{picture}(150,25)
+		\thinlines
+		\put(0,0){\framebox(130,25){}}
+		\put(10,20){{\tt \#include <unistd.h>}}
+		\put(10,12){{\tt int access(const char *{\em path}, int {\em mode});}}
+		\put(85,3){Returns: 0 if OK, -1 on error}
+	\end{picture}
+\end{center}
+\Normalsize
+
+Tests file accessibility on the basis of the {\em real} uid and gid. Allows
+setuid/setgid programs to see if the real user could access the file without
+it having to drop permissions to do so.
+\\
+
+The {\tt mode} paramenter can be a bitwise OR of:
+
+\begin{itemize}
+	\item {\tt R\_OK} -- test for read permission
+	\item {\tt W\_OK} -- test for write permission
+	\item {\tt X\_OK} -- test for execute permission
+	\item {\tt F\_OK} -- test for existence of file
+\end{itemize}
+
+\subsection{{\tt access(2)}}
+\begin{verbatim}
+$ cc -Wall access.c
+$ ./a.out /etc/passwd
+access ok for /etc/passwd
+open ok for /etc/passwd
+$ ./a.out /etc/master.passwd
+access error for /etc/master.passwd
+open error for /etc/master.passwd
+$ sudo chown root a.out
+$ sudo chmod 4755 a.out
+$ ./a.out /etc/passwd
+access ok for /etc/passwd
+open ok for /etc/passwd
+$ ./a.out /etc/master.passwd
+access error for /etc/master.passwd
+open ok for /etc/master.passwd
+$
+\end{verbatim}
+
+\subsection{{\tt access(2)}}
+On Mac OS X:
+\begin{verbatim}
+$ ls -l a.out
+-rwsr-xr-x  1 root  _lpoperator  8896 Sep 26 11:31 a.out
+$ cc -Wall access.c
+ld: can't write output file: a.out
+collect2: ld returned 1 exit status
+$ ls -l a.out
+ls: a.out: No such file or directory
+
+
+dtruss(1) output
+[...]
+10157/0x48d34:  access("a.out\0", 0x0, 0x0)             = 0 0
+10157/0x48d34:  access("a.out\0", 0x2, 0x0)             = -1 Err#13
+10157/0x48d34:  unlink("a.out\0", 0x0, 0x100365AF0)     = 0 0
+[...]
+\end{verbatim}
+
+
+\subsection{{\tt access(2)}}
+On NetBSD:
+\begin{verbatim}
+$ ls -l a.out
+-rwsr-xr-x  1 root  users  9399 Sep 26 16:12 a.out
+$ cc -Wall access.c
+$ ls -l a.out
+-rwxr-xr-x  1 jschauma  users  9399 Sep 26 16:51 a.out
+$
+
+krace(8) output:
+[...]
+ 14250      1 ld       CALL  __stat30(0x43a1bd,0x7f7fffffd340)
+ 14250      1 ld       NAMI  "a.out"
+ 14250      1 ld       CALL  unlink(0x43a1bd)
+ 14250      1 ld       NAMI  "a.out"
+ 14250      1 ld       CALL  open(0x43a1bd,0x602,0x1b6)
+ 14250      1 ld       NAMI  "a.out"
+[...]
+\end{verbatim}
+
+\subsection{{\tt access(2)}}
+On Linux:
+\begin{verbatim}
+$ ls -l a.out
+-rwxr-xr-x 1 root users 6555 Sep 24 20:35 a.out
+$ cc -Wall access.c
+$ ls -l a.out
+-rwxr-xr-x 1 jschauma users 6555 Sep 24 20:36 a.out
+
+strace(1) output
+[...]
+[pid 11721] stat("a.out", {st_mode=S_IFREG|0755, st_size=6555, ...}) = 0
+[pid 11721] lstat("a.out", {st_mode=S_IFREG|0755, st_size=6555, ...}) = 0
+[pid 11721] unlink("a.out")             = 0
+[pid 11721] open("a.out", O_RDWR|O_CREAT|O_TRUNC, 0666) = 3
+[...]
+\end{verbatim}
+
+
+\subsection{{\tt struct stat}: {\tt st\_mode}}
+Which permission set to use is determined (in order listed):
+\begin{enumerate}
+	\item If effective-uid == 0, grant access
+\end{enumerate}
+
+\subsection{{\tt struct stat}: {\tt st\_mode}}
+Which permission set to use is determined (in order listed):
+\begin{enumerate}
+	\item If effective-uid == 0, grant access
+	\item If effective-uid == {\tt st\_uid}
+		\begin{enumerate}
+			\item if appropriate user permission bit is set, grant access
+			\item else, deny access
+		\end{enumerate}
+\end{enumerate}
+
+\subsection{{\tt struct stat}: {\tt st\_mode}}
+Which permission set to use is determined (in order listed):
+\begin{enumerate}
+	\item If effective-uid == 0, grant access
+	\item If effective-uid == {\tt st\_uid}
+		\begin{enumerate}
+			\item if appropriate user permission bit is set, grant access
+			\item else, deny access
+		\end{enumerate}
+	\item If effective-gid == {\tt st\_gid}
+		\begin{enumerate}
+			\item if appropriate group permission bit is set, grant access
+			\item else, deny access
+		\end{enumerate}
+\end{enumerate}
+
+\subsection{{\tt struct stat}: {\tt st\_mode}}
+Which permission set to use is determined (in order listed):
+\begin{enumerate}
+	\item If effective-uid == 0, grant access
+	\item If effective-uid == {\tt st\_uid}
+		\begin{enumerate}
+			\item if appropriate user permission bit is set, grant access
+			\item else, deny access
+		\end{enumerate}
+	\item If effective-gid == {\tt st\_gid}
+		\begin{enumerate}
+			\item if appropriate group permission bit is set, grant access
+			\item else, deny access
+		\end{enumerate}
+	\item If appropriate other permission bit is set, grant access, else deny access
+\end{enumerate}
+
+\subsection{{\tt struct stat}: {\tt st\_mode}}
+Ownership of {\bf new} files and directories:
+\begin{itemize}
+	\item {\tt st\_uid} = effective-uid
+	\item {\tt st\_gid} = ...either:
+		\begin{itemize}
+			\item effective-gid of process
+			\item gid of directory in which it is being created
+		\end{itemize}
+\end{itemize}
+
+\subsection{{\tt umask(2)}}
+\small
+\setlength{\unitlength}{1mm}
+\begin{center}
+	\begin{picture}(150,25)
+		\thinlines
+		\put(0,0){\framebox(130,25){}}
+		\put(10,20){{\tt \#include <sys/stat.h>}}
+		\put(10,12){{\tt mode\_t umask(mode\_t {\em numask});}}
+		\put(62,3){Returns: previous file mode creation mask}
+	\end{picture}
+\end{center}
+\Normalsize
+
+{\tt umask(2)} sets the file creation mode mask. Any bits that are {\em on} in
+the file creation mask are turned {\em off} in the file's mode.
+\\
+
+Important because a user can set a default umask. If a program needs to be
+able to insure certain permissions on a file, it may need to turn off (or
+modify) the umask, which affects only the current process.
+
+
+\subsection{{\tt umask(2)}}
+\begin{verbatim}
+$ cc -Wall umask.c
+$ umask 022
+$ touch foo
+$ ./a.out
+$ ls -l foo*
+-rw-r--r--  1 jschauma  staff  0 Sep 26 18:35 foo
+-rw-r--r--  1 jschauma  staff  0 Sep 26 18:36 foo1
+-rw-rw-rw-  1 jschauma  staff  0 Sep 26 18:36 foo2
+-rw-------  1 jschauma  staff  0 Sep 26 18:36 foo3
+\end{verbatim}
+
+\subsection{{\tt chmod(2)}, {\tt lchmod(2)} and {\tt fchmod(2)}}
+\small
+\setlength{\unitlength}{1mm}
+\begin{center}
+	\begin{picture}(150,35)
+		\thinlines
+		\put(0,0){\framebox(130,35){}}
+		\put(10,30){{\tt \#include <sys/stat.h>}}
+		\put(10,22){{\tt int chmod(const char *{\em path}, mode\_t {\em mode});}}
+		\put(10,17){{\tt int lchmod(const char *{\em path}, mode\_t {\em mode});}}
+		\put(10,12){{\tt int fchmod(int {\em fd}, mode\_t {\em mode});}}
+		\put(85,3){Returns: 0 if OK, -1 on error}
+	\end{picture}
+\end{center}
+\Normalsize
+
+Changes the permission bits on the file. Must be either superuser or {\em
+effective uid} == {\tt st\_uid}. {\em mode} can be any of the bits from our
+discussion of {\tt st\_mode} as well as:
+\begin{itemize}
+	\item {\tt S\_ISUID} -- setuid
+	\item {\tt S\_ISGID} -- setgid
+	\item {\tt S\_ISVTX} -- sticky bit (aka ``saved text'')
+	\item {\tt S\_IRWXU} -- user read, write and execute
+	\item {\tt S\_IRWXG} -- group read, write and execute
+	\item {\tt S\_IRWXO} -- other read, write and execute
+\end{itemize}
+
+\subsection{{\tt chmod(2)}, {\tt lchmod(2)} and {\tt fchmod(2)}}
+\begin{verbatim}
+$ rm foo*
+$ umask 077
+$ touch foo foo1
+$ chmod a+rx foo
+$ cc -Wall chmod.c
+$ ./a.out
+$ ls -l foo foo1
+-rwxr-Sr-x  1 jschauma  staff  0 Sep 26 19:01 foo
+-rw-r--r--  1 jschauma  staff  0 Sep 26 19:01 foo1
+$
+\end{verbatim}
+
+\subsection{{\tt chown(2)}, {\tt lchown(2)} and {\tt fchown(2)}}
+\small
+\setlength{\unitlength}{1mm}
+\begin{center}
+	\begin{picture}(150,35)
+		\thinlines
+		\put(0,0){\framebox(130,35){}}
+		\put(10,30){{\tt \#include <unistd.h>}}
+		\put(10,22){{\tt int chown(const char *{\em path}, uid\_t {\em owner}, gid\_t {\em group});}}
+		\put(10,17){{\tt int lchown(const char *{\em path}, uid\_t {\em owner}, gid\_t {\em group});}}
+		\put(10,12){{\tt int fchown(int {\em fd}, uid\_t {\em owner}, gid\_t {\em group});}}
+		\put(85,3){Returns: 0 if OK, -1 on error}
+	\end{picture}
+\end{center}
+\Normalsize
+
+Changes {\tt st\_uid} and {\tt st\_gid} for a file. For BSD, must be
+superuser. Some SVR4's let users chown files they own. POSIX.1 allows either
+depending on {\tt \_POSIX\_CHOWN\_RESTRICTED} (a kernel constant).
+\\
+
+{\em owner} or {\em group} can be -1 to indicate that it should remain the same.
+Non-superusers can change the {\tt st\_gid} field if both:
+\begin{itemize}
+	\item effective-user ID == {\tt st\_uid} and
+	\item {\em owner} == file's user ID and {\em group} == effective-group ID
+		(or one of the supplementary group IDs)
+\end{itemize}
+\addvspace{.5in}
+{\tt chown} and friends clear all setuid or setgid bits.
+
+\subsection{Directory sizes (on a system using UFS)}
+\begin{verbatim}
+$ cd /tmp
+$ mkdir -p /tmp/d
+$ ls -ld /tmp/d
+drwxr-xr-x  2 jschauma  wheel  512 Sep 26 19:35 /tmp/d
+$ touch d/a d/b d/c d/d d/e d/f d/g
+$ ls -ld /tmp/d
+drwxr-xr-x  2 jschauma  wheel  512 Sep 26 19:35 /tmp/d
+$ touch d/$(jot -b a 255 | tr -d '[:space:]')
+$ ls -ld /tmp/d
+drwxr-xr-x  2 jschauma  wheel  512 Sep 26 19:35 /tmp/d
+$ touch d/$(jot -b b 255 | tr -d '[:space:]')
+$ ls -ld /tmp/d
+drwxr-xr-x  2 jschauma  wheel  1024 Sep 26 19:37 /tmp/d
+$ rm /tmp/d/a*
+$ ls -ld /tmp/d
+drwxr-xr-x  2 jschauma  wheel  1024 Sep 26 19:37 /tmp/d
+$
+\end{verbatim}
+
+\subsection{Directory sizes (on a system using HFS+)}
+\begin{verbatim}
+$ cd /tmp
+$ mkdir -p /tmp/d
+$ cd /tmp/d
+$ ls -ld
+drwxr-xr-x  2 jschauma  wheel  68 Sep 24 18:52 .
+$ touch a
+$ ls -ld
+drwxr-xr-x  3 jschauma  wheel  102 Sep 24 18:52 .
+$ echo $((102 / 3))
+34
+$ touch c
+$ ls -ld
+drwxr-xr-x  4 jschauma  wheel  136 Sep 24 18:52 .
+$ rm c
+$ ls -ld
+drwxr-xr-x  3 jschauma  wheel  102 Sep 24 18:52 .
+$
+\end{verbatim}
+
+\subsection{Homework}
+Reading:
+\begin{itemize}
+	\item manual pages for the functions covered
+	\item Stevens Chap. 4.1 through 4.13
+\end{itemize}
+Playing:
+\begin{itemize}
+	\item in your shell, set your umask to various values and see what
+          happens to new files you create (example: Stevens \# 4.3)
+	\item Verify that turning off user-read permission for a file that you own
+		denies you access to the file, even if group- or other permissions
+		allow reading.
+\end{itemize}
+\addvspace{.5in}
+Midterm Assignment:
+\verb+http://www.cs.stevens.edu/~jschauma/631/f12-midterm.html+
+
+\end{document}

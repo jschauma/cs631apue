@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+<HEAD>
+
+  <TITLE>CS631 -- Advanced Programming in the UNIX Environment</TITLE>
+  <STYLE type="text/css">
+  body {
+  background-color: #FFFFFf;
+  }
+  </STYLE>
+  <STYLE type="text/css">
+  li.c1 {list-style: none}
+  </STYLE>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-25566450-4']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+</HEAD>
+
+<BODY>
+  <TABLE border="1" align="center" cellpadding="15">
+    <TR>
+      <TD valign="top">
+        <H2>CS631 -- Advanced Programming in the UNIX Environment - Fall 2012 - Midterm Assignment</H2>
+
+        <H3>Midterm Assignment: Implement ls(1)</H3>
+
+        <H4>Summary</H4>
+	<p>The objective of this assignment is for you to write a
+        significant system tool from scratch.  In doing so, you will learn
+        many details of the UNIX filesystem and the general system
+        concepts we have covered in class.
+	</p>
+	<h4>Problem assignment</h4>
+	<p>
+	Implement the ls(1) command as described in the manual page provided to
+	you <a href="ls.pdf">here</a>.
+	</p>
+	<P>
+	Please note that this manual page describes a subset of the options
+	available on most systems, so please make sure to consult only this page
+	as reference.
+	</p>
+	<P>
+	Your program must follow the <a href="hw">general homework guidelines</a>.
+	</p>
+	<P>
+	Your code should be easily readable and contain comments <b>where
+	necessary</b>.
+	You may wish to take a look at <a href="style">this file</a> for
+	for examples of good coding style.  Often it makes sense to split
+	functionality across separate files.
+	</p>
+	<h4>Deliverables and Due Date</H4>
+	<h5>Snapshot</H5>
+	<p>
+	You must submit a compilable and working snapshot of
+	your project by 2012-10-08, at 18:15:00.  By then, you should have
+	implemented some basic functionality and some of the command-line
+	options.  It does not need to work without errors or bugs, but it
+	shouldn't segfault either; it should just show that you are making progress.
+	Failure to submit the snapshot on time will result in a 10% deduction
+	from the grade for the midterm project.
+	</p>
+
+	<h5>Final submission</h5>
+	<p>You will submit a single <tt>tar</tt> archive named
+	<em>username</em>-midterm.tar that will extract
+	into a directory named after your username.  In that directory
+	will be at least a file named <tt>ls.c</tt> and an optional Makefile.
+	If you have any commentary on your
+	submission, include it in a file called <tt>README</tt>.
+	</p>
+	<p>
+	For example, I would submit the file <tt>jschauma-midterm.tar</tt>
+	which might and compile as follows:
+	</p>
+	<p>
+	<verbatim><tt><pre>
+$ tar xvf jschauma-midterm.tar
+jschauma
+jschauma/Makefile
+jschauma/README
+jschauma/cmp.c
+jschauma/ls.h
+jschauma/ls.c
+jschauma/print.h
+jschauma/print.c
+$ cd jschauma
+$ make
+$
+	</pre></tt></verbatim></p>
+           <p>
+             The due date for this assignment is 2012-10-22 18:15.  Please
+             attach the file to an email sent from your <tt>@stevens.edu</tt>
+             email address to <a
+             href="mailto:jschauma@stevens.edu?subject=[CS631] midterm">jschauma@stevens.edu</a>
+             with a subject of "[CS631] midterm".
+           </p>
+
+	<h5>Extra Credit</h5>
+	<p>For 15 extra credit points, implement the "<tt>-C</tt>" option
+	("Force multi-column output; this is the default when output is to a terminal."),
+	which nicely formats the output similar to the way the OS provided
+	version of ls(1) does.</p>
+	<p>For 5 extra credit points, implement the "<tt>-x</tt>" option
+	("The same as -C, except that the multi-column output is produced with
+	entries sorted across, rather than down, the columns.").</p>
+	<p>Both of these options take the <tt>COLUMNS</tt> environment
+	variable into account.</p>
+        <hr>
+        [<a href="index.html">Course Website</a>]
+</BODY>
+</HTML>
