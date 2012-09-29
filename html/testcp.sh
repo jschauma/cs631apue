@@ -69,23 +69,28 @@ checkCopyFailures() {
 # outputs : none if successful, error messages otherwise
 checkCopySuccesses() {
 	local arg cmd
-	local file_to_file file_to_existing file_to_dir file_to_subdir
+	local ro_file_to_file file_to_existing abs_file_to_dir rel_file_to_dir abs_file_to_subdir
 	local zero big
 
 	verbose "Checking copy successes..." 2
 
 	prepDir
-	file_to_file="${TEST_FILE} file"
-	file_to_existing="${TEST_FILE} file"
-	file_to_dir="${TEST_FILE} ."
-	file_to_subdir="${TEST_FILE} ./sub/dir/."
+	ro_file_to_file="${TEST_FILE} file"
+	rw_file_to_file="/tmp/f file"
+	file_to_existing="${TEST_FILE} /tmp/f"
+	abs_file_to_dir="${TEST_FILE} ."
+	rel_file_to_dir="g ./sub/dir/."
+	abs_file_to_subdir="${TEST_FILE} ./sub/dir/."
 	zero="zero file"
 	big="big file"
 
 	mkdir -p ./sub/dir
+	cp ${TEST_FILE} /tmp/f
+	cp ${TEST_FILE} ./g
 
 	cd ${DIR}
-	for arg in file_to_file file_to_existing file_to_dir file_to_subdir zero big; do
+	for arg in ro_file_to_file rw_file_to_file abs_file_to_dir \
+		rel_file_to_dir abs_file_to_subdir file_to_existing zero big; do
 		verbose "Test case: ${arg}..." 3
 		rm -f file >/dev/null 2>&1
 		TOTAL=$(( ${TOTAL} + 1 ))
