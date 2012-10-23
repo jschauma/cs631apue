@@ -1,0 +1,188 @@
+.Dd October 19, 2012
+.Dt SWS 1
+.Os
+.Sh NAME
+.Nm sws
+.Nd a simple web server
+.Sh SYNOPSIS
+.Nm
+.Op Fl dh
+.Op Fl c Ar dir
+.Op Fl i Ar address
+.Op Fl l Ar file
+.Op Fl p Ar port
+.Op Fl s Ar dir Fl k Ar key
+.Ar dir
+.Sh DESCRIPTION
+.Nm
+is a very simple web server.
+It behaves quite like you would expect from any regular web server, in that it
+binds to a given port on the given address and waits for incoming HTTP/1.0
+requests.
+It serves content from the given directory.
+That is, any requests for documents is resolved relative to this directory
+(the document root).
+.Sh OPTIONS
+The following options are supported by
+.Nm :
+.Bl -tag -width s_dir__k_key_
+.It Fl c Ar dir
+Allow execution of CGIs from the given directory (relative to the document
+root).
+See
+.Xr CGIs
+for details.
+.It Fl d
+Enter debugging mode.
+That is, do not daemonize, only accept one connection at a time and enable
+logging to stdout.
+.It Fl h
+Print a short usage summary and exit.
+.It Fl i Ar address
+Bind to the given IPv4 or IPv6 address.
+If not provided,
+.Nm
+will listen on all IPv4 and IPv6 addresses on this host.
+.It Fl l Ar file
+Log all requests to the given file.
+See
+.Xr LOGGING
+for details.
+.It Fl p Ar port
+Listen on the given port.
+If not provided,
+.Nm
+will listen on port 8080.
+.It Fl s Ar dir Fl k Ar key
+Enable "secure" mode for the given directory.
+That is, encrypt all content from this directory with the given key.
+See
+.Xr ENCRYPTION
+for details.
+.El
+.Sh DETAILS
+.Nm
+speaks a crippled dialect of HTTP/1.0:
+it responds to GET and HEAD requests according to RFC1945, but may not
+support POST requests and only supports the If-Modified-Since Request-Header.
+.Pp
+When a connection is made,
+.Nm
+will respond with the appropriate HTTP/1.0 status code and the following
+headers:
+.Bl -tag -width Last_Modified_
+.It Date
+The current timestamp in GMT.
+.It Server
+A string identifying this server and version.
+.It Last-Modified
+The timestamp in GMT of the file's last modification date.
+.It Content-Type
+.Ar text/html
+or
+.Ar x-blowfish
+.It Content-Length
+The size in bytes of the data returned.
+.El
+.Pp
+If the request type was a GET, then it will subsequently return the data of
+the requested file.
+After serving the request, the connection is terminated.
+.Sh FEATURES
+.Nm
+supports a number of interesting features:
+.Bl -tag -width directory_indexing_
+.It CGIs
+Execution of CGIs as described in
+.Xr CGIs .
+.It Directory Indexing
+If the request was for a directory and the directory does not contain a file
+named "index.html", then
+.Nm
+will generate a directory index, listing the contents of the directory in
+alphanumeric order.
+Files starting with a "." are ignored.
+.It User Directories
+If the request begins with a "~", then the following string up to the first
+slash is translated into that user's
+.Nm
+directory (ie
+.Ar /home/<user>/sws/ Ns ).
+.It Encrypted Content
+If the
+.Fl s
+and
+.Fl k
+flags were specified, then
+.Nm
+will encrypt the contents of the given directory before returning them to the
+client.
+.El
+.Sh CGIs
+Instead of returning the contents of each file under the directory specified
+via the
+.Fl c
+flag, they are executed and any output generated is returned instead.
+Executiong of CGIs follows the specification in RFC3875.
+.Sh LOGGING
+Per default,
+.Nm
+does not do any logging.
+If explicitly enabled via the
+.Fl l
+flag,
+.Nm
+will log every request in a slight variation of Apache's so-called "common"
+format: '%a %t "%r" %>s %b'.
+That is, it will log:
+.Bl -tag -width ____
+.It %a
+The remote IP address.
+.It %t
+The time the request was received (in GMT).
+.It "%r"
+The (quoted) first line of the request.
+.It %>s
+The status of the request.
+.It %b
+Size of the response in bytes.
+Ie, "Content-Length".
+.El
+.Pp
+All lines will be appended to the given file unless
+.Fl d
+was given, in which case all lines will be printed to stdout.
+.Sh ENCRYPTION
+.Nm
+allows for a given directory to be only served encrypted if the
+.Fl s Ar dir
+flag was specified.
+(This flag turns off directory indexing for the given directory as well.)
+.Pp
+The contents of any file under this directory are encrypted using
+OpenSSL's blowfish algorithm (see
+.Xr BF_cbc_encrypt 3 Ns ).
+The key to encrypt the data is provided via the
+.Fl k Ar key
+flag.
+.Nm
+prevents leaking of the key into the process table.
+.Pp
+For files served from this directory,
+.Nm
+will set the
+.Ar Content-Type
+header to "x-blowfish".
+.Sh EXIT STATUS
+.Ex -std
+.Sh SEE ALSO
+.Xr RFC1945 ,
+.Xr BF_cbc_encrypt 3 ,
+.Xr setproctitle 3
+.Sh HISTORY
+A simple http server has been a frequent final project assignment for the
+class
+.Ar Advanced Programming in the UNIX Environment
+at Stevens Institute of Technology.
+This variation was first assigned in the Fall 2008 by
+.An Jan Schaumann .

@@ -191,13 +191,9 @@ new TWTR.Widget({
         <H3><a name="grading"></a>Grading:</H3>There will most likely be:
         <UL>
           <LI>5 homework assignment, worth 20 points each</LI>
-
           <LI>1 midterm project, worth 100 points</LI>
-
           <LI>1 final project, worth 200 points</LI>
-
           <LI>1 final exam, worth 100 points</LI>
-
           <LI>no curve</LI>
         </UL>
 
@@ -234,8 +230,8 @@ new TWTR.Widget({
 	<ul>
 		<li><a href="f12-hw1.html">HW#1: read code</a></li>
 		<li><a href="f12-hw2.html">HW#2: trivially copy a file</a></li>
+		<li><a href="f12-hw3.html">HW#3: reflective code reading</a></li>
 <!--
-		<li><a href="f11-hw3.html">HW#3: reflective code reading</a></li>
 		<li><a href="f11-hw4.html">HW#4: fill in SWS framework</a></li>
 		<li><a href="f11-hw5.html">HW#5: patch ls(1) to add an option</a></li>
 		<li><a href="f11-extra.html">Extra Credit: implement revline(1)</a></li>-->
@@ -245,18 +241,15 @@ new TWTR.Widget({
         <H3><A name="midterm">Midterm</A> Project:</H3>
         <p>Implement the "<a href="ls.pdf">ls(1)</a>" command as
         decribed in the manual page provided to you.
-        See the full <A href="f11-midterm.html">midterm project
+        See the full <A href="f12-midterm.html">midterm project
         description</A> for details.</P>
 
 	<hr>
         <H3><A name="final">Final</A> Project:</H3>
-	<p><em>This semester's final project has not yet been finalized.</em>
-	<!--
-	This was last year's final assignment:</em></p>
-        Implement the "<a href="final/sws.1.pdf">sws(1)</a>" command as
+        Implement the "<a href="sws.1.pdf">sws(1)</a>" command as
         decribed in the manual page provided to you.
-        See the full <A href="f11-final-project.html">final project
-        description</A> for details.--></P>
+        See the full <A href="f12-final-project.html">final project
+        description</A> for details.</P>
 
 	<hr>
         <H3><A name="syllabus">Syllabus</A>:</H3>
@@ -264,13 +257,9 @@ new TWTR.Widget({
         <TABLE width="100%" border="1" cellpadding="5">
           <TR>
             <TH>Date</TH>
-
             <TH>Topic</TH>
-
             <TH>Reading Material</TH>
-
             <TH>Notes</TH>
-
           </TR>
           <TR>
             <TD>2012-08-29</TD>
@@ -280,7 +269,7 @@ new TWTR.Widget({
 
             <TD>Stevens: Chapters 1, 2</TD>
 
-            <TD width="25%"><a href="lecture01.pdf">slides</a><br>
+            <TD width="25%"><a href="lecture01.pdf">Lecture slides</a><br>
             &#160;<BR>
             <A href="simple-cat.c">simple-cat.c</A><BR>
             <A href="simple-ls.c">simple-ls.c</A><BR>
@@ -369,26 +358,26 @@ new TWTR.Widget({
 
 
           <TR>
-            <TD>2012-10-08</TD>
-            <TD colspan="3"><em>No class - Fall recess</em></TD>
-          </TR>
-          <TR>
-            <TD>2012-10-15</TD>
+            <TD>2012-10-09</TD>
 
-            <TD>Signals</TD>
+            <TD>Process Groups, Sessions, Signals</TD>
 
             <TD>Stevens: Chapter 10</TD>
 
-            <TD width="25%"><A href="lecture06.pdf">Lecture
+            <TD width="25%"><em>Note: Tuesday class!</em><br>
+		<A href="lecture06.pdf">Lecture
             Slides</A><BR>
+		<a
+href="http://www.informit.com/articles/article.aspx?p=366888&seqNum=7">FreeBSD Process Management</a> (from "The Design and Implementation of the FreeBSD Operating System")<BR>
             &#160;<BR>
-            <a href="getpwnam.c">getpwnam.c</a><br>
+	    <a href="eintr.c">eintr.c</a><br>
 	    <a href="pending.c">pending.c</a><br>
+            <a href="reentrant.c">reentrant.c</a><br>
             <A href="sigusr.c">sigusr.c</A></TD>
           </TR>
 
           <TR>
-            <TD>2012-10-22</TD>
+            <TD>2012-10-15</TD>
 
             <TD>Interprocess Communication</TD>
 
@@ -402,12 +391,12 @@ new TWTR.Widget({
             <BR>
             <A href="pipe1.c">pipe1.c</A><BR>
             <A href="pipe2.c">pipe2.c</A><BR>
-            <a href="popen.c">popen.c</a><br><br>
-            <a href="semdemo.c">semdemo.c</a><br><br>
-            <a href="shmdemo.c">shmdemo.c</a><br><br>
-            <a href="memory-layout.c">memory-layout.c</a><br><br>
-            <a href="msgsend.c">msgsend.c</a><br><br>
-            <a href="msgrecv.c">msgrecv.c</a><br><br>
+            <a href="popen.c">popen.c</a><br>
+            <a href="semdemo.c">semdemo.c</a><br>
+            <a href="shmdemo.c">shmdemo.c</a><br>
+            <a href="memory-layout.c">memory-layout.c</a><br>
+            <a href="msgsend.c">msgsend.c</a><br>
+            <a href="msgrecv.c">msgrecv.c</a><br>
             <A href="socketpair.c">socketpair.c</A><BR>
             <A href="udgramread.c">udgramread.c</A><BR>
             <A href="udgramsend.c">udgramsend.c</A><BR>
@@ -423,7 +412,7 @@ new TWTR.Widget({
           </TR>
 
           <TR>
-            <TD>2012-10-29</TD>
+            <TD>2012-10-22</TD>
 
             <TD>Advanced I/O: Nonblocking I/O, Polling, and Record
             Locking</TD>
@@ -435,14 +424,14 @@ new TWTR.Widget({
             <BR>
             <A href="nonblock.c">nonblock.c</A><br>
             <A href="flock.c">flock.c</A><br><br>
-	    <!--<a href="f10-final-project.html">Final Project
+	    <a href="f12-final-project.html">Final Project
 Assignment</a><br>
-	    <a href="f10-hw3.html">HW#3</a>-->
+	    <a href="f12-hw3.html">HW#3</a>
 	</TD>
           </TR>
 
           <TR>
-            <TD>2012-11-05</TD>
+            <TD>2012-10-29</TD>
 
             <TD><a name="daemon"></a>D&aelig;mon Processes, Shared Libraries</TD>
 
@@ -459,7 +448,7 @@ Slides</a><br><br>
           </TR>
 
           <TR>
-            <TD>2012-11-12</TD>
+            <TD>2012-11-05</TD>
 
             <TD>UNIX tools: make(1), revision control, diff(1), patch(1), gdb(1)</TD>
 
@@ -483,7 +472,7 @@ Slides</a><br><br>
           </TR>
 
           <TR>
-            <TD>2012-11-19</TD>
+            <TD>2012-11-12</TD>
 
             <TD>Encryption in a Nutshell<br>
                 Final Project Discussion / Review</TD>
@@ -492,6 +481,17 @@ Slides</a><br><br>
 
             <TD><a href="lecture11.pdf">Lecture Slides</a></TD>
           </TR>
+          <TR>
+            <TD>2012-11-19</TD>
+
+            <TD>Advanced topics based on interest<br>
+                Final Project Discussion / Review</TD>
+
+            <TD>&nbsp;</TD>
+
+            <TD>&nbsp;</TD>
+          </TR>
+
           <TR>
             <TD>2012-11-26</TD>
 
@@ -502,6 +502,7 @@ Slides</a><br><br>
 
             <TD>&nbsp;</TD>
           </TR>
+
 
 
           <TR>
