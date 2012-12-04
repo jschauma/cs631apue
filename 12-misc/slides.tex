@@ -1,0 +1,106 @@
+% CS631 Advanced Programming in the UNIX Environment
+% Author: Jan Schaumann <jschauma@netmeister.org>
+
+\documentclass[xga]{xdvislides}
+\usepackage[landscape]{geometry}
+\usepackage{graphics}
+\usepackage{graphicx}
+\usepackage{colordvi}
+\usepackage[normalem]{ulem}
+
+\begin{document}
+\setfontphv
+
+%%% Headers and footers
+\lhead{\slidetitle}
+\chead{CS631 - Advanced Programming in the UNIX Environment}
+\rhead{Slide \thepage}
+\lfoot{\Gray{Lecture 12: Porting, Code Reading}}
+\cfoot{\relax}
+\rfoot{\Gray{\today}}
+
+\vspace*{\fill}
+\begin{center}
+	\Hugesize
+		CS631 - Advanced Programming in the UNIX Environment\\
+		-- \\
+		Code Reading, Practical Porting\\
+	\hspace*{5mm}\blueline\\ [1em]
+	\Normalsize
+		Department of Computer Science\\
+		Stevens Institute of Technology\\
+		Jan Schaumann\\
+		\verb+jschauma@stevens.edu+\\
+		\verb+http://www.cs.stevens.edu/~jschauma/631/+
+\end{center}
+\vspace*{\fill}
+
+\subsection{Different systems available}
+The following hosts should now be available to you:
+
+\begin{itemize}
+	\item NetBSD 6.0: {\tt cs631-netbsd.netmeister.org} \\
+		{\tt \#ifdef \_\_NetBSD\_\_}
+	\item OmniOS 5.11 (Solaris 11): {\tt cs631-omnios.netmeister.org}
+\\
+		{\tt \#ifdef \_\_sun\_\_}
+	\item RHEL 6.3: {\tt cs631-rhel.netmeister.org} \\
+		{\tt \#ifdef \_\_linux\_\_}
+\end{itemize}
+\vspace{.5in}
+{\tt cc -E -dM - </dev/null | more}
+
+\subsection{Different systems available}
+You can log in on them using the SSH key you generated.
+
+\begin{verbatim}
+linux-lab$ ssh -i ~/.ssh/cs631 cs631-netbsd.netmeister.org
+cs631-netbsd$ git clone linux-lab.cs.stevens.edu:git/sws.git
+cs631-netbsd$ cd sws
+cs631-netbsd$ make
+\end{verbatim}
+
+\subsection{Let's set up a web server!}
+
+\begin{verbatim}
+linux-lab$ ssh -i ~/.ssh/cs631 cs631-rhel.netmeister.org
+cs631-rhel$ wget http://www.eterna.com.au/bozohttpd/bozohttpd-20111118.tar.bz2
+cs631-rhel$ tar jxf bozohttpd-20111118.tar.bz2
+cs631-rhel$ cd bozohttpd-20111118
+cs631-rhel$ bmake
+cs631-rhel$ nroff -man bozohttpd.8 | less
+cs631-rhel$ export PORT=$(( $(id -u) + 1025 ))
+cs631-rhel$ ./bozohttpd -b -X -I ${PORT} .
+\end{verbatim}
+
+
+\subsection{Let's see...}
+
+\begin{verbatim}
+$ telnet cs631-rhel.netmeister.org ${PORT}
+Trying 23.23.40.250...
+Connected to cs631-rhel.netmeister.org.
+Escape character is '^]'.
+GET / HTTP/1.0
+
+HTTP/1.0 200 OK
+Date: Mon, 03 Dec 2012 19:50:37 GMT
+Server: bozohttpd/20111118
+Accept-Ranges: bytes
+Content-Type: text/html
+
+<html><head><title>Index of index.html</title></head>
+<body><h1>Index of index.html</h1>
+<pre>
+Name                                     Last modified          Size
+\end{verbatim}
+
+\subsection{Let's see...}
+
+Or: in your browser go to {\tt http://cs631-rhel.netmeister.org:\${PORT}/}
+
+\subsection{Let's spin the Wheel of Doom!}
+
+Code reading...
+
+\end{document}
