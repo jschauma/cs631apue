@@ -1,0 +1,93 @@
+% CS631 Advanced Programming in the UNIX Environment
+% Author: Jan Schaumann <jschauma@netmeister.org>
+
+\documentclass[xga]{xdvislides}
+\usepackage[landscape]{geometry}
+\usepackage{graphics}
+\usepackage{graphicx}
+\usepackage{colordvi}
+\usepackage[normalem]{ulem}
+
+\begin{document}
+\setfontphv
+
+%%% Headers and footers
+\lhead{\slidetitle}
+\chead{CS631 - Advanced Programming in the UNIX Environment}
+\rhead{Slide \thepage}
+\lfoot{\Gray{Lecture 13: Code Reading}}
+\cfoot{\relax}
+\rfoot{\Gray{\today}}
+
+\vspace*{\fill}
+\begin{center}
+	\Hugesize
+		CS631 - Advanced Programming in the UNIX Environment\\
+		-- \\
+		Code Reading\\
+	\hspace*{5mm}\blueline\\ [1em]
+	\Normalsize
+		Department of Computer Science\\
+		Stevens Institute of Technology\\
+		Jan Schaumann\\
+		\verb+jschauma@stevens.edu+\\
+		\verb+http://www.cs.stevens.edu/~jschauma/631/+
+\end{center}
+\vspace*{\fill}
+
+\subsection{HTTP Servers}
+
+Team 1: lighttpd
+\begin{itemize}
+	\item {\tt http://www.lighttpd.net/download/}
+	\item {\tt cs631-rhel.netmeister.org}
+\end{itemize}
+
+Team 2: mini\_httpd
+\begin{itemize}
+	\item {\tt http://www.acme.com/software/mini\_httpd/}
+	\item {\tt cs632-omnios.netmeister.org}
+\end{itemize}
+
+Team 3: nginx
+\begin{itemize}
+	\item {\tt http://www.nginx.org/en/download.html}
+	\item {\tt cs632-netbsd.netmeister.org}
+\end{itemize}
+\vspace{.5in}
+Build it, serve it, present it.
+
+\subsection{POST}
+\small
+\begin{verbatim}
+$ telnet www.cs.stevens.edu 80
+POST /~jschauma/cgi-bin/post.cgi HTTP/1.1
+Host: www.cs.stevens.edu
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 55
+
+today=2012-12-10&animal=moose&pizza-topping=prosciutto
+HTTP/1.1 200 OK
+Date: Mon, 10 Dec 2012 23:40:17 GMT
+Server: Apache/2.2.9 (Debian) DAV/2 SVN/1.5.1 PHP/5.3.3-7+squeeze3 with
+Suhosin-Patch mod_ssl/2.2.9 OpenSSL/0.9.8o
+Vary: Accept-Encoding
+Transfer-Encoding: chunked
+Content-Type: text/html
+
+d0
+<html><head><title>Parsing with POST method</title></head><body>
+<h2>These were the values sent:</h2>
+<p>today => 2012-12-10</p>
+<p>animal => moose</p>
+</p>izza-topping => prosciutto
+</p>
+</body></html>
+\end{verbatim}
+\Normalsize
+
+\subsection{Let's spin the Wheel of Doom!}
+
+Code reading...
+
+\end{document}

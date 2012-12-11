@@ -1,0 +1,79 @@
+.Dd November 24, 2012
+.Dt BFED 1
+.Os BFED
+.Sh NAME
+.Nm bfed
+.Nd perform blowfish encryption/decryption
+.Sh SYNOPSIS
+.Nm
+.Op Fl deh
+.Fl k Ar key
+.Sh DESCRIPTION
+The
+.Nm
+utility can be used to perform symmetric encryption/decryption of the
+input stream using the
+.Xr blowfish 3
+block cipher.
+.Sh OPTIONS
+.Nm
+supports the following command-line options:
+.Bl -tag -width k_key__
+.It Fl d
+Perform decryption of the input stream.
+.It Fl e
+Perform encryption of the input stream.
+.It Fl h
+Print a short usage and exit.
+.It Fl k Ar key
+Use the given string as the symmetric key.
+.El
+.Sh DETAILS
+.Nm
+reads data from stdin and either encrypts or decrypts it (depending on the
+.Fl d
+or
+.Fl e
+flag).
+It uses OpenSSL's
+.Xr blowfish 3
+cipher using a 128 bit (16 byte) key (specified via the
+.Fl k
+flag) and an \fBivec\fR initialized to zero.
+.Pp
+Since the
+.Ar key
+is given on the command-line,
+.Nm
+prevents leaking the secret into the process table by using
+.Xr setproctitle 3
+(where available) or by manipulating \fBargv\fR.
+.Pp
+Output is written to stdout.
+.Sh EXAMPLES
+The following examples show common usage.
+.Pp
+To encrypt the contents of the file 'file' using the key 'm3i sup4h s3cr3t' and
+storing the encrypted output in 'file.enc':
+.Bd -literal -offset indent
+bfed -e -k 'm3i sup4h s3cr3t' <file >file.enc
+.Ed
+.Pp
+To decrypt the contents of that file again:
+.Bd -literal -offset indent
+bfed -d -k 'm3i sup4h s3cr3t' <file.enc
+.Ed
+.Sh EXIT STATUS
+.Nm
+exits 0 on success, and >0 if an error occurred.
+.Sh SEE ALSO
+.Xr blowfish 3 ,
+.Xr EVP_EncryptInit 3
+.Sh HISTORY
+The
+.Nm
+program was first assigned as a stand-alone programming assignment for the class
+.Dq Advanced Programming in the UNIX Environment
+at Stevens Institute of Technology in the Fall of 2012.
+.Sh BUGS
+Well, let's see...
