@@ -21,7 +21,7 @@ Sometimes a given lecture's directory may include additional notes or
 scripts.
 
 The organization of this directory tree is by lecture, and I will
-commit/update the contents throughout the Fall 2012 semester as we go
+commit/update the contents throughout each semester as we go
 along.
 
 License
