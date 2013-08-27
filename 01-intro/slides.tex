@@ -46,13 +46,20 @@
 \verb+http://cm.bell-labs.com/who/dmr/chist.html+
 \end{center}
 
-
-\subsection{Advanced Programming}
+\subsection{Extra Fun!}
+\vspace*{\fill}
 \begin{center}
-\includegraphics{pics/magic-hat.eps} \\
-\verb+http://is.gd/TTCLri+
+\includegraphics[scale=0.5]{pics/gopherbw.eps} \\
+\verb+http://golang.org+
 \end{center}
+\vspace*{\fill}
 
+%\subsection{Advanced Programming}
+%\begin{center}
+%\includegraphics{pics/magic-hat.eps} \\
+%\verb+http://is.gd/TTCLri+
+%\end{center}
+%
 
 \subsection{In a nutshell: the "what"}
 \begin{verbatim}
@@ -228,20 +235,32 @@ Grading:
 \subsection{Syllabus}
 %Topics:
 \begin{itemize}
-	\item 2012-08-29: Introduction, UNIX history, UNIX Programming Basics
-	\item 2012-09-10: File I/O, File Sharing
-	\item 2012-09-17: Files and Directories, Filesystems
-	\item 2012-09-24: System Data Files, Time \& Date, Process Environment
-	\item 2012-10-01: Process Control, Signals
-	\item 2012-10-15: Signals
-	\item 2012-10-22: Interprocess Communication
-	\item 2012-10-29: Advanced I/O: Nonblocking I/O, Polling, and Record Locking
-	\item 2012-11-05: Daemon Processes, final project discussion
-	\item 2012-11-12: UNIX tools: make(1), cvs(1), gdb(1), etc.
-	\item 2012-11-19: Encryption; Review
-	\item 2012-11-26: Encryption; Review
-	\item 2012-12-03: Final Exam
+	\item 2013-08-26: Introduction, UNIX history, UNIX Programming Basics
+	\item 2013-09-09: File I/O, File Sharing
+	\item 2013-09-16: Files and Directories, Filesystems
+	\item 2013-09-23: System Data Files, Time \& Date, Process Environment
+	\item 2013-09-30: Process Control, Signals
+	\item 2013-10-07: Signals
+	\item 2013-10-15: Interprocess Communication
+	\item 2013-10-21: Advanced I/O: Nonblocking I/O, Polling, and Record Locking
+	\item 2013-10-28: Daemon Processes, final project discussion
+	\item 2013-11-04: UNIX tools: make(1), gdb(1), revision control, etc.
+	\item 2013-11-11: Encryption
+	\item 2013-11-18 -- 2013-11-25: Code reading and discussions
+	\item 2013-12-02: Final Exam
 \end{itemize}
+
+\pagebreak
+
+\vspace*{\fill}
+\begin{center}
+  \Hugesize
+    {\tt linux-lab.cs.stevens.edu}
+	\hspace*{5mm}\blueline\\ [1em]
+  \Normalsize
+{\tt http://tarantula.phy.stevens.edu/wiki/index.php/Linux\_Lab}
+\end{center}
+\vspace*{\fill}
 
 \pagebreak
 
@@ -275,7 +294,7 @@ Grading:
 	\item 1986 4.3BSD released (NFS)
 	\item 1991 Linus Torvalds starts working on the Linux kernel
 	\item 1993 Following the settlement of USL vs. BSDi: NetBSD, then FreeBSD are created
-	\item 1994 Single UNIX Specification (\verb+http://is.gd/7fuSxO+) introduced
+	\item 1994 Single UNIX Specification introduced
 	\item 1995 4.4BSD-Lite Release 2 (last CSRG release); OpenBSD
 		forked off NetBSD
 	\item 2000 Darwin created (derived from NeXT, FreeBSD, NetBSD)
@@ -469,10 +488,7 @@ $
 \Normalsize
 
 \subsection{Soooo... what exactly is a "shell"?}
-
-\subsection{Soooo... what exactly is a "shell"?}
 \vspace*{\fill}
-\begin{center}
 \begin{verbatim}
 $ wget http://www.cs.stevens.edu/~jschauma/631/simple-shell.c
 $ more simple-shell.c
@@ -483,7 +499,6 @@ $$ /bin/ls
 $$ ^D
 $
 \end{verbatim}
-\end{center}
 \vspace*{\fill}
 
 
@@ -523,7 +538,6 @@ $
 
 \subsection{Listing files in a directory}
 \vspace*{\fill}
-\begin{center}
 \begin{verbatim}
 $ wget http://www.cs.stevens.edu/~jschauma/631/simple-ls.c
 $ more simple-ls.c
@@ -532,7 +546,6 @@ $ ./myls .
 [...]
 $
 \end{verbatim}
-\end{center}
 \vspace*{\fill}
 
 
@@ -584,9 +597,8 @@ $ time grep -r _POSIX_SOURCE /usr/include >/dev/null
 \vspace{.5in}
 {\bf Standards}
 \begin{itemize}
-	\item ANSI C (X3.159-1989) C89, C9X/C99 (ISO/IEC 9899)
-	\item IEEE POSIX (1003.1-2001) and SUSv3 (ISO/IEC 9945-2003)
-	\item X/Open XPG3 and FIPS
+	\item ANSI C (X3.159-1989) C89, C9X/C99 (ISO/IEC 9899), C11 (ISO/IEC 9899:2011)
+	\item IEEE POSIX (1003.1-2008) / SUSv4
 \end{itemize}
 
 \subsection{Standard I/O}
@@ -605,7 +617,6 @@ $ time grep -r _POSIX_SOURCE /usr/include >/dev/null
 
 \subsection{Standard I/O: cat(1)}
 \vspace*{\fill}
-\begin{center}
 \begin{verbatim}
 $ for f in cat cat2; do
     wget http://www.cs.stevens.edu/~jschauma/631/simple-${f}.c
@@ -615,8 +626,8 @@ done
 [...]
 $
 \end{verbatim}
-\end{center}
 \vspace*{\fill}
+
 
 \subsection{Processes}
 Programs executing in memory are called {\em processes}.
@@ -630,7 +641,6 @@ Programs executing in memory are called {\em processes}.
 		{\tt fork(2)}, {\tt exec(3)} and {\tt waitpid(2)} functions.
 \end{itemize}
 \vspace*{\fill}
-\begin{center}
 \begin{verbatim}
 $ wget http://www.cs.stevens.edu/~jschauma/631/pid.c
 $ more pid.c
@@ -640,7 +650,6 @@ $ ./mypid .
 $ echo $$
 [...]
 \end{verbatim}
-\end{center}
 \vspace*{\fill}
 
 \subsection{Processes}
@@ -723,16 +732,17 @@ Caught SIGINT!
 	\item read {\tt intro(2)}, Stevens 1 \& 2
 	\item follow, test and understand all examples from this lecture
 	\item sign up on the course mailing list (using a Stevens email address)
-	\item visit and bookmark these websites:
+	\item bookmark these websites:
 		\begin{itemize}
 			\item {\tt http://www.cs.stevens.edu/\~{}jschauma/631/}
 			\item {\tt http://pubs.opengroup.org/onlinepubs/9699919799/}
 		\end{itemize}
-	\item get the full sources to NetBSD: \\
-		{\tt ftp://ftp.netbsd.org/pub/NetBSD/NetBSD-5.1/source/sets/}
+%	\item get the full sources to NetBSD: \\
+%		{\tt ftp://ftp.netbsd.org/pub/NetBSD/NetBSD-5.1/source/sets/}
 	\item ensure you have an account on {\tt linux-lab.cs.stevens.edu}; see \\
-		{\tt http://tarantula.srcit.stevens.edu/wiki/index.php/Main\_Page}
+		{\tt http://tarantula.phy.stevens.edu/wiki/index.php/Linux\_Lab}
 	\vspace{.5in}
-	\item {\tt http://www.cs.stevens.edu/\~{}jschauma/631/f12-hw1.html}
+	\item {\tt http://www.cs.stevens.edu/\~{}jschauma/631/f13-intro.html}
+	\item {\tt http://www.cs.stevens.edu/\~{}jschauma/631/f13-hw1.html}
 \end{itemize}
 \end{document}

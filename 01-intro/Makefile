@@ -12,17 +12,20 @@ PDFTOTEXT=	pdftotext
 FIGURES=	pics/WrongProgramming.eps pics/magic-hat.eps \
 		pics/kernighan-ritchie.eps pics/unix_architecture.eps \
 		pics/pipeline.eps pics/process-tree.eps \
-		pics/epoch-fail.eps
+		pics/epoch-fail.eps pics/gopherbw.eps
 
 .SUFFIXES: .tex .dvi .ps .pdf .txt .fig .eps .png .jpg .gif
 
 all:	$(FIGURES) $(TARGET).dvi
+#	${BIBTEX} $(TARGET)
 
-#show: ${FIGURES} ${TARGET}.dvi
-#	xsetroot -solid white
-#	xdvipresent xga ${TARGET}.dvi -rulecolor white -bg white -hl white -paper 25.8x19.3 -fullscreen -geometry 1440x900+70-0 -p 740
-show: ${FIGURES} ${TARGET}.pdf
-	open ${TARGET}.pdf
+show: ${FIGURES} ${TARGET}.dvi
+	xsetroot -solid white
+	xdvipresent xga ${TARGET}.dvi -rulecolor white -bg white -hl white -paper 25.8x19.3 -fullscreen -geometry 1440x900+70-0 -p 740
+#show: ${TARGET}.pdf
+#	open ${TARGET}.pdf
+
+slides:	#example.knuth.eps example.knuth2.eps example.knuth3.eps
 
 .tex.dvi: ${FIGURES}
 	$(LATEX) $<
@@ -42,10 +45,13 @@ show: ${FIGURES} ${TARGET}.pdf
 
 ps:	$(TARGET).dvi $(TARGET).ps
 
+# PS will be upside down - add the following line after each "%%Page: "
+# directive:
+# 180 rotate -612 -792 translate
 .dvi.ps:
 	$(DVIPS) $@ $<
 
-pdf:  $(FIGURES) $(TARGET).dvi $(TARGET).ps $(TARGET).pdf
+pdf:  ${FIGURES} $(TARGET).dvi $(TARGET).ps $(TARGET).pdf
 
 txt: $(TARGET).dvi $(TARGET).ps $(TARGET).pdf $(TARGET).txt
 

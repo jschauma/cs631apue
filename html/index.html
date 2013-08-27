@@ -39,20 +39,34 @@
         expected to have a good working knowledge of the C
         programming language and to be able to
         competently use a UNIX system with a command-line shell
-        interface.</P>
+        interface.  This class overlaps <em>significantly</em> with
+	CS392 ``Systems Programming'' -- you cannot take CS631 if you have
+        taken CS392.</P>
+
+	<hr>
+
+	<h3><a name="source-code">Source Code</a></h3>
 
         <P>You will be writing a lot of code in this class. You may
-        also find the need to read a lot of code not written by you
-        as well as the manual pages accompanying the sources. For the
-        complete sources of the NetBSD operating system, take a look <a
-        href="http://cvsweb.netbsd.org/bsdweb.cgi/src/">here</a>.</P>
+        also find the need to <em>read</em> a lot of code not written by you
+        as well as the manual pages accompanying the sources:</p>
+
+	<p>
+	<ul>
+	<li><a href="http://sources.debian.net/">Debian</a></li>
+	<li><a href="http://svnweb.freebsd.org/">FreeBSD</a></li>
+	<li><a href="http://ftp.gnu.org/gnu/coreutils/">GNU coreutils</a></li>
+	<li><a href="https://github.com/illumos/illumos-gate/tree/master/usr/src">illumos</a> (OpenSolaris derivative)</li>
+	<li><a href="http://cvsweb.netbsd.org/bsdweb.cgi/src/">NetBSD</a></li>
+	<li><a href="http://www.openbsd.org/cgi-bin/cvsweb/">OpenBSD</a></li>
+	</ul>
 
 	<hr>
 
 	<table width="100%" border="0">
 	<tr><td valign="top">
         <H3><a name="time"></a>Time, Date &amp; Place:</H3>
-	<b>Mondays, 18:15 - 20:45, Edwin A. Stevens Hall 222</b>
+	<b>Mondays, 18:15 - 20:45, Babbio Center 304</b>
         <br>
         <H3><a name="resources"></a>Resources:</H3>
 
@@ -169,7 +183,7 @@ new TWTR.Widget({
 	<p>All software development will be done on the
 	<tt>linux-lab.cs.stevens-tech.edu</tt>
 	systems.  It is your
-	responsibility to get an account on these systems.</p>
+	responsibility to <a href="http://tarantula.phy.stevens.edu/wiki/index.php/Linux\_Lab">get an account on these systems</a> <b>prior to the start of the class</b>.</p>
 	<p>All grading will be done on these systems.  While you may
 	choose to develop on your own personal host, you should make sure
 	that your code compiles and runs flawlessly on these systems.</p>
@@ -217,34 +231,46 @@ new TWTR.Widget({
 
 	<hr>
         <H3><A name="hw">Homework</A> Assignments:</H3>
+	<p>Homework assignments will be posted as the semester progresses.</p>
 
+<!--
 	<ul>
 		<li><a href="f12-hw1.html">HW#1: read code</a></li>
 		<li><a href="f12-hw2.html">HW#2: trivially copy a file</a></li>
 		<li><a href="f12-hw3.html">HW#3: reflective code reading</a></li>
 		<li><a href="f12-hw4.html">HW#4: yes, even more code reading</a></li>
 		<li><a href="f12-hw5.html">HW#5: write a simple tool to perform encryption/decryption of content</a></li>
-<!--
 		<li><a href="f11-extra.html">Extra Credit: implement revline(1)</a></li>-->
 	</ul>
 
 	<hr>
         <H3><A name="midterm">Midterm</A> Project:</H3>
-        <p>Implement the "<a href="ls.pdf">ls(1)</a>" command as
+	<p>The midterm assignment will be posted early in the semester.</p>
+        <!-- <p>Implement the "<a href="ls.pdf">ls(1)</a>" command as
         decribed in the manual page provided to you.
         See the full <A href="f12-midterm.html">midterm project
-        description</A> for details.</P>
+        description</A> for details.</P> -->
 
 	<hr>
         <H3><A name="final">Final</A> Project:</H3>
-        Implement the "<a href="sws.1.pdf">sws(1)</a>" command as
+	<p>The final project will be posted near the middle of the semester.</p>
+        <!-- <p>Implement the "<a href="sws.1.pdf">sws(1)</a>" command as
         decribed in the manual page provided to you.
         See the full <A href="f12-final-project.html">final project
-        description</A> for details.</P>
+        description</A> for details.</P> -->
 
+	<hr>
+        <H3><A name="final-exam">Final Exam</A>:</H3>
+	<p>Details to be announced.</p>
+        <!-- In 2012, we had a take-home
+        <a href="final-F2012.txt">final</a>.  The final may differ in the coming semester.
+	-->
 	<hr>
         <H3><A name="syllabus">Syllabus</A>:</H3>
 
+	Homework assignments, slides, and other material listed below is
+	from the previous semester.  We will update the content as the
+	semester progresses.
         <TABLE width="100%" border="1" cellpadding="5">
           <TR>
             <TH>Date</TH>
@@ -257,7 +283,7 @@ new TWTR.Widget({
 
           </TR>
           <TR>
-            <TD>2012-08-29</TD>
+            <TD>2013-08-26</TD>
 
             <TD>Introduction, UNIX history, UNIX Programming
             Basics</TD>
@@ -270,18 +296,19 @@ new TWTR.Widget({
             <A href="simple-ls.c">simple-ls.c</A><BR>
             <A href="simple-shell.c">simple-shell.c</A><BR>
             <A href="simple-shell2.c">simple-shell2.c</A><br><br>
-	    <a href="f12-hw1.html">HW#1</a></TD>
+            <a href="f13-intro.html">Intro</a><br>
+	    <a href="f13-hw1.html">HW#1</a></TD>
 
           </TR>
 
           <TR>
-            <TD>2012-09-03</TD>
+            <TD>2013-09-02</TD>
             <TD colspan="3"><em>Labor Day Holiday</em></TD>
           </TR>
 
 
           <TR>
-            <TD>2012-09-10</TD>
+            <TD>2013-09-09</TD>
 
             <TD>File I/O, File Sharing</TD>
 
@@ -294,12 +321,12 @@ new TWTR.Widget({
             <A href="lseek.c">lseek.c</A><BR>
             <A href="openmax.c">openmax.c</A><BR>
             <A href="sync-cat.c">sync-cat.c</A><BR>
-            <a href="f12-hw2.html">HW2</a>: <A href="tcp.1.pdf">tcp(1)</A>,<a
-	    href="tcpm.1.pdf">tcpm(1)</a></td>
+            <!-- <a href="f12-hw2.html">HW2</a>: <A href="tcp.1.pdf">tcp(1)</A>,<a
+	    href="tcpm.1.pdf">tcpm(1)</a> --></td>
           </TR>
 
           <TR>
-            <TD>2012-09-17</TD>
+            <TD>2013-09-16</TD>
 
             <TD>Files and Directories</TD>
 
@@ -317,7 +344,7 @@ new TWTR.Widget({
           </TR>
 
           <TR>
-            <TD>2012-09-24</TD>
+            <TD>2013-09-23</TD>
 
             <TD>Filesystems, System Data Files, Time &amp;
             Date</TD>
@@ -332,7 +359,7 @@ new TWTR.Widget({
           </TR>
 
           <TR>
-            <TD>2012-10-01</TD>
+            <TD>2013-09-30</TD>
 
             <TD>Process Environment, Process Control</TD>
 
@@ -353,7 +380,7 @@ new TWTR.Widget({
 
 
           <TR>
-            <TD>2012-10-09</TD>
+            <TD>2013-10-07</TD>
 
             <TD>Process Groups, Sessions, Signals</TD>
 
@@ -372,14 +399,14 @@ href="http://www.informit.com/articles/article.aspx?p=366888&seqNum=7">FreeBSD P
           </TR>
 
           <TR>
-            <TD>2012-10-15</TD>
+            <TD>2013-10-15</TD>
 
             <TD>Interprocess Communication</TD>
 
             <TD>Stevens: Chapter 14</TD>
 
-            <TD width="25%"><a href="lecture07.pdf">Lecture
-            Slides</A><BR>
+            <TD width="25%"><em>Note: Tuesday class!</em><br><br>
+		<a href="lecture07.pdf">Lecture Slides</A><BR>
             <BR>
             <A href="ipctut.pdf">BSD IPC Tutorial</A><BR>
             <A href="ipc.pdf">BSD IPC</A><BR>
@@ -407,7 +434,7 @@ href="http://www.informit.com/articles/article.aspx?p=366888&seqNum=7">FreeBSD P
           </TR>
 
           <TR>
-            <TD>2012-10-22</TD>
+            <TD>2013-10-21</TD>
 
             <TD>Advanced I/O: Nonblocking I/O, Polling, and Record
             Locking</TD>
@@ -421,22 +448,13 @@ href="http://www.informit.com/articles/article.aspx?p=366888&seqNum=7">FreeBSD P
             <A href="flock.c">flock.c</A><br><br>
 	    <a href="f12-final-project.html">Final Project
 Assignment</a><br>
-	    <a href="f12-hw3.html">HW#3</a>
+	    <!-- <a href="f12-hw3.html">HW#3</a> -->
 	</TD>
           </TR>
 
           <TR>
-            <TD>2012-10-29</TD>
+            <TD>2013-10-28</TD>
 
-            <TD colspan="3"><em>Class cancelled due to hurricane Sandy</em></TD>
-          </TR>
-
-          <TR>
-            <TD>2012-11-05</TD>
-            <TD colspan="3"><em>Class cancelled</em></TD>
-          </TR>
-          <TR>
-            <TD>2012-11-12</TD>
             <TD><a name="daemon"></a>D&aelig;mon Processes, Shared Libraries</TD>
 
             <TD>Stevens: Chapter 13</TD>
@@ -450,11 +468,11 @@ Slides</a><br><br>
 		<a href="ldtest2.c">ldtest2.c</a><br>
 		<a href="main.c">main.c</a><br>
 		<a href="setget.c">setget.c</a><br><br>
-	        <a href="f12-hw4.html">HW#4</a></td>
+	        <!-- <a href="f12-hw4.html">HW#4</a> --></td>
           </TR>
 
           <TR>
-            <TD>2012-11-19</TD>
+            <TD>2013-11-04</TD>
 
             <TD>UNIX tools: make(1), revision control, diff(1), patch(1), gdb(1)</TD>
 
@@ -478,7 +496,7 @@ Slides</a><br><br>
           </TR>
 
           <TR>
-            <TD>2012-11-26</TD>
+            <TD>2013-11-11</TD>
 
             <TD>Encryption in a Nutshell<br>
                 Final Project Discussion / Code Review</TD>
@@ -486,11 +504,11 @@ Slides</a><br><br>
             <TD>&nbsp;</TD>
 
             <TD><a href="lecture11.pdf">Lecture Slides</a><br>
-                <a href="f12-hw5.html">HW#5</a></TD>
+                <!-- <a href="f12-hw5.html">HW#5</a> --></TD>
           </TR>
 
           <TR>
-            <TD>2012-12-03</TD>
+            <TD>2013-11-18</TD>
 
             <TD>Code Review / Porting</TD>
 
@@ -500,7 +518,7 @@ Slides</a><br><br>
           </TR>
 
           <TR>
-            <TD>2012-12-10</TD>
+            <TD>2013-11-25</TD>
 
             <TD>Code Reading</TD>
 
@@ -511,16 +529,11 @@ Slides</a><br><br>
 	    </TD>
             <TD><a href="lecture13.pdf">Lecture Slides</a></TD>
           </TR>
-
-
           <TR>
-            <TD>2012-12-17</TD>
-
-            <TD>Final Exam</TD>
-
-            <TD>all covered chapters and materials</TD>
-
-            <TD>&nbsp;<!--<a href="f11-final.txt">final</a>--></TD>
+            <TD>2013-12-02</TD>
+            <TD>TBD</TD>
+            <TD>&nbsp;</TD>
+            <TD>&nbsp;</TD>
           </TR>
         </TABLE>
       </TD>

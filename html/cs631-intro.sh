@@ -43,16 +43,15 @@
 # filter rejects executables.  We can't reliably remove any executables
 # students might (accidentally or intentionally) create.)
 
+umask 077
+NAME="CS631-Intro"
+
 INSTRUCTOR="jschauma"
 DOMAIN="stevens.edu"
-
-# You should not have a need to change anything below this line.
-
-umask 077
-
-NAME="CS631-Intro"
 SCRIPT_DIR="$(mktemp -d "${TMPDIR:-/tmp}/${NAME}.${USER}.XXXX")"
 MYCWD="$(pwd)"
+
+trap "cleanup" 0
 
 cleanup() {
 	rm -fr "${SCRIPT_DIR}"
@@ -60,7 +59,8 @@ cleanup() {
 
 submitOutput() {
 	cp -f ./intro-${USER}.tar* "${SCRIPT_DIR}"/ 2>/dev/null
-	tar cf ~${INSTRUCTOR}/${NAME}/${USER}.tar "${SCRIPT_DIR}" >/dev/null 2>&1
+	tar cf ~jschauma/cs631-intro/${USER}.tar "${SCRIPT_DIR}" >/dev/null 2>&1
+	rm -f "${tarfile}"
 	mail -s "${USER} completed ${NAME}" ${INSTRUCTOR}@${DOMAIN} </dev/null >/dev/null 2>&1
 }
 
@@ -81,7 +81,11 @@ task() {
 ### Main
 ###
 
-trap "cleanup" 0
+if ! expr "$(hostname -f)" : ".*srcit.stevens-tech.edu" >/dev/null 2>&1; then
+	echo "Please run this script on linux-lab.cs.stevens.edu." >&2
+	exit 1
+fi
+
 
 ## Intro
 
@@ -218,7 +222,6 @@ EOF
 task 10
 
 ## That's all, folks!
-
 submitOutput
 
 cat <<EOF
