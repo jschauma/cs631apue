@@ -59,7 +59,7 @@ cleanup() {
 
 submitOutput() {
 	cp -f ./intro-${USER}.tar* "${SCRIPT_DIR}"/ 2>/dev/null
-	tar cf ~jschauma/cs631-intro/${USER}.tar "${SCRIPT_DIR}" >/dev/null 2>&1
+	tar cf ~${INSTRCUTOR}/${NAME}/${USER}.tar "${SCRIPT_DIR}" >/dev/null 2>&1
 	rm -f "${tarfile}"
 	mail -s "${USER} completed ${NAME}" ${INSTRUCTOR}@${DOMAIN} </dev/null >/dev/null 2>&1
 }
