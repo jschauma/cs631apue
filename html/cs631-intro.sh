@@ -37,11 +37,7 @@
 # compile a simple program.
 #
 # The script prompts the user to perform certain tasks; all interactions
-# are logged via script(1), and the output is stored in the instructor's
-# (world-writable) directory.  (We don't email the output, since outgoing
-# mail at this institution goes through Google, and the outgoing mail
-# filter rejects executables.  We can't reliably remove any executables
-# students might (accidentally or intentionally) create.)
+# are logged via script(1), and the output is emailed to the instructor.
 
 umask 077
 NAME="CS631-Intro"
@@ -58,10 +54,17 @@ cleanup() {
 }
 
 submitOutput() {
-	cp -f ./intro-${USER}.tar* "${SCRIPT_DIR}"/ 2>/dev/null
-	tar cf ~${INSTRCUTOR}/${NAME}/${USER}.tar "${SCRIPT_DIR}" >/dev/null 2>&1
-	rm -f "${tarfile}"
-	mail -s "${USER} completed ${NAME}" ${INSTRUCTOR}@${DOMAIN} </dev/null >/dev/null 2>&1
+	mutt -s "${USER} completed ${NAME}"	\
+		-a "${SCRIPT_DIR}/${NAME}.1" 	\
+		-a "${SCRIPT_DIR}/${NAME}.2"	\
+		-a "${SCRIPT_DIR}/${NAME}.3"	\
+		-a "${SCRIPT_DIR}/${NAME}.4"	\
+		-a "${SCRIPT_DIR}/${NAME}.5"	\
+		-a "${SCRIPT_DIR}/${NAME}.6"	\
+		-a "${SCRIPT_DIR}/${NAME}.7"	\
+		-a "${SCRIPT_DIR}/${NAME}.8"	\
+		-a "${SCRIPT_DIR}/${NAME}.10" 	\
+		-- ${INSTRUCTOR}@${DOMAIN} </dev/null >/dev/null 2>&1
 }
 
 task() {
