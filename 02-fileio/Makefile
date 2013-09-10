@@ -67,3 +67,57 @@ html:
 clean:
 	rm -f *.out **.bbl *.blg *.log *.aux *.dvi *.ps *.pdf *.toc *.bak *.lof ${FIGURES}
 	rm -fr $(TARGET)/
+
+###
+### Code examples
+###
+
+code-clean:
+	rm -f a.out fifo file.hole file.nohole hole newfile openmax openex rwex
+	rm -fr tmp
+	rm -f async-cat.c ascat scat out
+
+openmax: openmax.c
+	cc -Wall $< -o $@
+
+openex: openex.c
+	cc -Wall $< -o $@
+
+rwex: rwex.c
+	cc -Wall $< -o $@
+
+hole: hole.c
+	cc -Wall $< -o $@
+
+catio: tmpfiles ../01-intro/simple-cat.c
+	for n in 1048576 32768 16384 4096 512 256 128 64 1 ; do		\
+		echo "BUFFSIZE = $$n";					\
+		cc -Wall -DBUFFSIZE=$$n ../01-intro/simple-cat.c;	\
+		i=$$(( $$i + 1 ));					\
+		time ./a.out <tmp/file$$i >tmp/file$$i.copy;		\
+		echo;							\
+	done;
+
+tmpfiles: tmp/file9
+
+tmp/file9:
+	mkdir -p tmp
+	for n in 0 1 2 3 4 5 6 7 8 9; do				\
+		dd if=/dev/urandom of=tmp/file$$n count=204800;		\
+	done;
+
+sync: tmpfiles scat
+	time ./scat <tmp/file1 >out
+
+scat: sync-cat.c
+	cc -Wall sync-cat.c -o scat
+
+
+async: tmpfiles ascat
+	time ./ascat <tmp/file1 >out
+
+ascat: async-cat.c
+	cc -Wall $< -o $@
+
+async-cat.c: sync-cat.c
+	sed -e 's|\(.*O_SYNC.*\)|//\1|' sync-cat.c > async-cat.c

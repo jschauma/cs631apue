@@ -35,6 +35,28 @@
 \end{center}
 \vspace*{\fill}
 
+\subsection{Shell Command-Line Processing}
+\begin{center}
+\Huge
+\begin{verbatim}
+$ cc -Wall argv.c
+$ ./a.out
+$ ./a.out *.c
+$ ./a.out *.none
+$ ./a.out *.[1c]
+$ ./a.out "*.c"
+$ ./a.out $USER
+$ ./a.out "$(echo *.1)"
+$ ./a.out {foo,bar,baz}.whatever
+$ ./a.out {1..5}
+$ ./a.out {1..5}{a..f}
+\end{verbatim}
+\normalsize
+\vspace{.25in}
+See also:
+\verb+http://is.gd/Ydgywd+ and \verb+http://is.gd/iZa9rC+
+\end{center}
+
 \subsection{File Descriptors}
 \begin{itemize}
 	\item A {\em file descriptor} (or {\em file handle}) is a small,
@@ -194,6 +216,45 @@ and may be OR'd with any of these:
 	\item {\tt O\_SYNC} --  Each write waits for physical I/O to complete
 \end{itemize}
 
+\subsection{{\tt open(2)} variants}
+\small
+\setlength{\unitlength}{1mm}
+\begin{center}
+	\begin{picture}(200,28)
+		\thinlines
+		\put(0,0){\framebox(180,28){}}
+		\put(10,23){{\tt \#include <fcntl.h>}}
+		\put(10,15){{\tt int open(const char *{\em pathname}, int {\em oflag}, ... /* mode\_t {\em mode} */ );}}
+		\put(10,10){{\tt int openat(int {\em dirfd}, const char *{\em pathname}, int {\em oflag}, ... /* mode\_t {\em mode} */ );}}
+		\put(115,3){Returns:  file descriptor if OK, -1 on error}
+	\end{picture}
+\end{center}
+\vspace{.25in}
+\Normalsize
+On some platforms {\em oflag} may also be one of:
+\small
+\begin{itemize}
+	\item {\tt O\_EXEC} -- Open for execute only
+	\item {\tt O\_SEARCH} -- Open for search only (applies to directories)
+\end{itemize}
+\vspace{.25in}
+\Normalsize
+and may be OR'd with any of these:
+\small
+\begin{itemize}
+	\item {\tt O\_DIRECTORY} -- If path resolves to a non-directory file, fail and set errno to {\tt ENOTDIR}.
+	\item {\tt O\_DSYNC} -- Wait for physical I/O for data, except
+file attributes
+	\item {\tt O\_RSYNC} -- Block read operations on any pending writes.
+	\item {\tt O\_PATH} -- Obtain a file descriptor purely for
+fd-level operations. (Linux $>$2.6.36 only)
+\end{itemize}
+\Normalsize
+\vspace{.25in}
+{\tt openat(2)} is used to handle relative pathnames from different
+working directories in an atomic fashion.
+
+
 \subsection{{\tt close(2)}}
 \small
 \setlength{\unitlength}{1mm}
@@ -214,6 +275,18 @@ and may be OR'd with any of these:
 	\item file descriptors not explicitly closed are closed by the kernel
 		when the process terminates.
 \end{itemize}
+
+\subsection{{\tt open(2)} and {\tt close(2)}}
+\begin{center}
+\Huge
+\begin{verbatim}
+$ make code-clean
+$ make openex
+$ ./openex
+\end{verbatim}
+\normalsize
+\end{center}
+
 
 \subsection{{\tt read(2)}}
 \small
@@ -253,10 +326,11 @@ There can be several cases where {\tt read} returns less than the number of
 bytes requested:
 \begin{itemize}
 	\item EOF reached before requested number of bytes have been read
-    \item Reading from a terminal device, one "line" read at a time
-    \item Reading from a network, buffering can cause delays in arrival of data
-    \item Record-oriented devices (magtape) may return data one record at
+	\item Reading from a terminal device, one "line" read at a time
+	\item Reading from a network, buffering can cause delays in arrival of data
+	\item Record-oriented devices (magtape) may return data one record at
 		a time
+	\item Interruption by a signal
 \end{itemize}
 \vspace{.25in}
 {\tt read} begins reading at the current offset, and increments the offset
@@ -287,6 +361,18 @@ by the number of bytes actually read.
 	\item after the write, the offset is
 		adjusted by the number of bytes actually written
 \end{itemize}
+
+\subsection{{\tt read(2)} and {\tt write(2)}}
+\begin{center}
+\Huge
+\begin{verbatim}
+$ make code-clean
+$ make rwex
+$ ./rwex
+$ tail rwex.c
+\end{verbatim}
+\normalsize
+\end{center}
 
 \subsection{{\tt lseek(2)}}
 \small
@@ -406,15 +492,20 @@ Caveats with the program {\tt simple-cat.c} from the last class:
 \subsection{{\tt I/O Efficiency}}
 \begin{verbatim}
 $ for n in $(seq 10); do
-dd if=/dev/urandom of=file$n count=20480
-done
-$ i=1
-$ for n in 1 512 1024 2048 4096 8192 16384 32768 65536 131072; do
-cc -Wall -DBUFFSIZE=$n simple-cat.c
-time ./a.out <file$i > file$i.copy
-i=$(( $i + 1 ))
+	dd if=/dev/urandom of=tmp/file$n count=204800
 done
 
+$ i=1
+$ for n in 1048576 32768 16384 4096 512 256 128 64 1 ; do
+	cc -Wall -DBUFFSIZE=$n simple-cat.c;
+	i=$(( $i + 1 ));
+	time ./a.out <tmp/file$i >tmp/file$i.copy;
+done
+
+$ make tmpfiles
+$ make catio
+
+$ stat -f "%k" tmp/file1
 \end{verbatim}
 
 Note: results vary depending on OS/filesystem.
@@ -434,7 +525,7 @@ data structures which relate to files.  (See: Stevens, pp 70 ff)
 \begin{itemize}
 	\item each process table entry has a table of file descriptors, which contain
 		\begin{itemize}
-			\item the file descriptor flags (\verb+fcntl(2)+)
+			\item the file descriptor flags (ie {\tt FD\_CLOEXEC}, see \verb+fcntl(2)+)
 			\item a pointer to a file table entry
 		\end{itemize}
 \end{itemize}
@@ -448,7 +539,7 @@ data structures which relate to files.  (See: Stevens, pp 70 ff)
 \begin{itemize}
 	\item each process table entry has a table of file descriptors, which contain
 		\begin{itemize}
-			\item the file descriptor flags (\verb+fcntl(2)+)
+			\item the file descriptor flags (ie {\tt FD\_CLOEXEC}, see \verb+fcntl(2)+)
 			\item a pointer to a file table entry
 		\end{itemize}
 	\item the kernel maintains a file table;  each entry contains
@@ -469,7 +560,7 @@ data structures which relate to files.  (See: Stevens, pp 70 ff)
 	\item each process table entry has a table of file descriptors, which
 		contain
 		\begin{itemize}
-			\item the file descriptor flags (\verb+fcntl(2)+)
+			\item the file descriptor flags (ie {\tt FD\_CLOEXEC}, see \verb+fcntl(2)+)
 			\item a pointer to a file table entry
 		\end{itemize}
 	\item the kernel maintains a file table;  each entry contains
@@ -542,6 +633,26 @@ if (write(fd, buff, 100) != 100) { /* ...and write */
 
 What if another process was doing the same thing to the same file?
 
+\subsection{{\tt pread(2)} and {\tt pwrite(2)}}
+\small
+\setlength{\unitlength}{1mm}
+\begin{center}
+	\begin{picture}(150,30)
+		\thinlines
+		\put(0,0){\framebox(130,30){}}
+		\put(10,25){{\tt \#include <unistd.h>}}
+		\put(10,17){{\tt ssize\_t pread(int {\em fd}, void *{\em buf}, size\_t {\em count}, off\_t {\em offset});}}
+		\put(10,13){{\tt ssize\_t pwrite(int {\em fd}, void *{\em buf}, size\_t {\em count}, off\_t {\em offset});}}
+		\put(45,3){Both return number of bytes read/written, -1 on error}
+	\end{picture}
+\end{center}
+\Normalsize
+
+Atomic read/write at offset without invoking {\tt lseek(2)}.
+
+Current offset is {\em not} updated.
+
+
 \subsection{{\tt dup(2)} and {\tt dup2(2)}}
 \small
 \setlength{\unitlength}{1mm}
@@ -592,7 +703,7 @@ Here, they all relate to changing properties of an already open file. It can:
 \begin{tabular}{l l l}
 	{\bf cmd} & {\bf effect} & {\bf return value} \\
 	\hline
-	{\tt F\_DUPFD} & duplicate {\em filedes} (\small {\tt FD\_CLOEXEC} file descriptor flag is cleared )\Normalsize& new filedes \\
+	{\tt F\_DUPFD} & duplicate {\em filedes} \small({\tt FD\_CLOEXEC} file descriptor flag is cleared \Normalsize& new filedes \\
 	{\tt F\_GETFD} & get the file descriptor flags for {\em filedes} & descriptor flags \\
 	{\tt F\_SETFD} & set the file descriptor flags to the value of the third argument & not -1 \\
 	{\tt F\_GETFL} & get the file status flags & status flags \\
@@ -604,7 +715,6 @@ Here, they all relate to changing properties of an already open file. It can:
 
 \subsection{{\tt fcntl(2)}}
 \begin{verbatim}
-$ dd if=/dev/urandom of=file bs=512 count=1024000
 $ cc -Wall sync-cat.c -o scat
 $ sed -e 's/\(.*O_SYNC.*\)/\/\/\1/' sync-cat.c > async-cat.c
 $ cc -Wall async-cat.c -o ascat
@@ -634,6 +744,30 @@ $
 Another catch-all function, this one is designed to handle device specifics
 that can't be specified via any of the previous function calls. For example,
 terminal I/O, magtape access, socket I/O, etc.
+
+Mentioned here mostly for completeness's sake.
+
+\subsection{{\tt /dev/fd}}
+\begin{verbatim}
+$ ls -l /dev/stdin /dev/stdout /dev/stderr
+lr-xr-xr-x  1 root  wheel  0 Sep  7 13:56 /dev/stderr -> fd/2
+lr-xr-xr-x  1 root  wheel  0 Sep  7 13:56 /dev/stdin -> fd/0
+lr-xr-xr-x  1 root  wheel  0 Sep  7 13:56 /dev/stdout -> fd/1
+$ ls -l /dev/fd/
+total 0
+crw--w----   1 jschaumann  tty     16,   4 Sep  8 21:48 0
+crw--w----   1 jschaumann  tty     16,   4 Sep  8 21:48 1
+crw--w----   1 jschaumann  tty     16,   4 Sep  8 21:48 2
+drw-r--r--  93 jschaumann  staff      3162 Sep  8 21:40 3
+dr--r--r--   1 root        wheel         0 Sep  7 13:56 4
+$ echo first >file1
+$ echo third >file2
+$ echo second | cat file1 /dev/fd/0 file2
+first
+second
+third
+\end{verbatim}
+
 
 \subsection{Homework}
 \begin{itemize}

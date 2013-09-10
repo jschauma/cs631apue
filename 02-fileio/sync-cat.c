@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#define BUFFSIZE 32768
+#define BUFFSIZE 512
 
 int
 main(void)
