@@ -3,8 +3,9 @@
  * then chown and setuid the executable and repeat.
  *
  * After chowning and setuid'ing the executable (ie a.out), note that
- * trying to compile the program again may give unexpected results on Mac
- * OS X:  ld will remove the executable after failing to write to it.
+ * trying to compile the program again may give unexpected results on
+ * (certain versions of) Mac OS X:  ld may remove the executable after
+ * failing to write to it!
  * NetBSD and Linux will also remove the executable, but then create a new
  * one.  Use this to illustrate the fact that nuking a file does not
  * require write permissions on the file itself, but on the directory.
@@ -21,7 +22,7 @@ main(int argc, char **argv) {
 
 	if (argc != 2) {
 		fprintf(stderr, "%s: usage: %s filename\n", argv[0], argv[0]);
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 
 	if (access(argv[1], R_OK) == -1)
@@ -35,5 +36,5 @@ main(int argc, char **argv) {
 	else
 		printf("open ok for %s\n", argv[1]);
 
-	exit(0);
+	exit(EXIT_SUCCESS);
 }

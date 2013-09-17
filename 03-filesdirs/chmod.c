@@ -17,21 +17,21 @@ main(int argc, char **argv) {
 
 	if ( stat("foo", &sbuf) == -1 ) {
 		perror("can't stat foo");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 
-	/* turn off group execute and turn on set-group-ID */
-	if ( chmod("foo", (sbuf.st_mode & ~S_IXGRP) | S_ISGID) == -1 ) {
+	/* turn off group execute and turn on set-UID */
+	if ( chmod("foo", (sbuf.st_mode & ~S_IXGRP) | S_ISUID) == -1 ) {
 		perror("can't chmod foo");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 
 	/* set absolute mode to rw-r--r-- */
 
 	if ( chmod("foo1", S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH) == -1 ) {
 		perror("can't chmod foo1");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 
-	exit(0);
+	exit(EXIT_SUCCESS);
 }

@@ -36,49 +36,84 @@
 \end{center}
 \vspace*{\fill}
 
-\subsection{Shana Tova}
+\subsection{Text Formatting 101}
+
+This is a very long text block contnaing sentences with no re al
+punctuation and no paragraphsText like this is hard to readAlsoreading
+such lo ng text is no fun, and when the instructor is not having fun when
+grading that might yield undesirable resluts for the studentEven though
+this is a programming classit is i mportant to be able to write English
+text well:programming is communicationand a ll communications requires
+clarity.The majority of the work in any given program depend s on clear
+communication of the requirementsof getting answers to questions and of wo
+rking together with other peopleThereforeyou should practice writing
+legigible and clear text that is easy to read and understandText should be
+broken at around 80 charac ters and paragraphs should be created every now
+and then to make it easier for the readerO therwise,you end up having just
+this very long text block containing sentences w ith no real punctuation
+and no paragraphsand as noted abovetext like that is hard to r eadno fun
+and may lead to a grumpy instructorwhen you really want your instructor t
+o be in a good mood when he is attempting to make sense of your homework
+submissions.
+
+\subsection{HW\#1 - some stats}
+\begin{verbatim}
+   7 pwd
+   5 mkdir
+   5 echo
+   4 kill
+   4 cp
+   2 test
+   2 mv
+   2 cat
+   1 rm
+   1 ls
+   1 ln
+   1 date
+   1 chmod
+\end{verbatim}
+
+\subsection{HW\#1 - some stats}
+
+\begin{verbatim}
+$ wc -w * | sort -n | column
+      41 HW1-a          625 HW1-h        1295 HW1-n
+     239 HW1-b          632 HW1-g        1359 HW1-o
+     451 HW1-c          647 hw1-i        1409 HW1-p
+     489 HW1-d          742 HW1-j        1750 HW1-q
+     494 HW1-e          861 HW1-k
+     497 HW1-f          965 HW1-l
+     524 HW1-g         1079 HW1-m
+$
+\end{verbatim}
+
+
+\subsection{When reading code...}
+
 \vspace*{\fill}
 \begin{center}
 \Huge
-Happy 5773!
+First understand {\em what} it does. \\
+\vspace{.5in}
+
+Then understand {\em why} it does it. \\
+\vspace{.5in}
+
+Only then pay attention to {\em how} it does it.
 \Normalsize
 \end{center}
 \vspace*{\fill}
 
-\subsection{HW\#1 review}
-This is not plain text:
+\subsection{When reading code...}
+\begin{itemize}
+	\item compare source code and documentation; are they in sync?
+	\item compare documentation and reality; are they in sync?
+	\item review manual pages for system- and library calls made; are
+		there (failure or success) cases unaccounted for?
+	\item what follow-up questions do you have?
+\end{itemize}
 
-\begin{verbatim}
-{\rtf1\ansi\ansicpg1252\cocoartf1138\cocoasubrtf470
-{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;}
-\margl1440\margr1440\vieww18380\viewh12760\viewkind0
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760
-\tx6480\tx7200\tx7920\tx8640\pardirnatural
-
-\f0\fs28 \cf0 In this assignment, ...
-\end{verbatim}
-
-\subsection{HW\#1 review}
-
-\begin{verbatim}
-This is a very long text block containing sentences with no real punctuation and no
-paragraphsText like this is hard to readAlsoreading such long text is no fun, and
-when the instructor is not having fun when grading that might yield undesirable results
-for the studentEven though this is a programming classit is important to be able to
-write English text well:programming is communicationand all communications requires
-clarity.The majority of the work in any given program depends on clear communication
-of the requirementsof getting answers to questions and of working together with other
-peopleThereforeyou should practice writing legigible and clear text that is easy to
-read and understandText should be broken at around 80 characters and paragraphs should
-be created every now and then to make it easier for the readerOtherwise,you end up
-having just this very long text block containing sentences with no real punctuation
-and no paragraphsand as noted abovetext like that is hard to readno fun and may lead
-to a grumpy instructorwhen you really want your instructor to be in a good mood when
-he is attempting to make sense of your homework submissions.
-\end{verbatim}
-
-\subsection{HW\#1 review}
+\subsection{"More code" does not necessarily imply a "better program".}
 
 \vspace*{\fill}
 \begin{center}
@@ -91,25 +126,18 @@ Ken Thompson
 \end{center}
 \vspace*{\fill}
 
-\subsection{HW\#2 notes}
+\pagebreak
 
-\begin{verbatim}
-#include <bsd/stdlib.h>
-#include <stdio.h>
+\vspace*{\fill}
+\begin{center}
+  \Hugesize
+	Code Reading
+	\hspace*{5mm}\blueline\\ [1em]
+	HW\#2
+  \Normalsize
+\end{center}
+\vspace*{\fill}
 
-int main(int argc, char **argv) {
-        setprogname("cowsay");
-        if (argc != 2) {
-                fprintf(stderr, "Usage: %s 'moo'\n", getprogname());
-                exit(1);
-                /* NOTREACHED */
-        }
-        printf("%s\n", argv[1]);
-        return 0;
-}
-
-cc -Wall file.c -lbsd
-\end{verbatim}
 
 
 \subsection{{\tt stat(2)} family of functions}
@@ -372,20 +400,29 @@ $
 On Mac OS X:
 \begin{verbatim}
 $ ls -l a.out
--rwsr-xr-x  1 root  _lpoperator  8896 Sep 26 11:31 a.out
+-rwsr-xr-x  1 root  staff  8732 Sep 15 22:35 a.out
 $ cc -Wall access.c
-ld: can't write output file: a.out
+ld: can't write output file: a.out for architecture x86_64
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+$ ls -l a.out
+-rwsr-xr-x  1 root  staff  8732 Sep 15 22:35 a.out
+$ gcc -Wall access.c
+ld: can't write output file: a.out for architecture x86_64
 collect2: ld returned 1 exit status
 $ ls -l a.out
 ls: a.out: No such file or directory
+\end{verbatim}
 
-
-dtruss(1) output
+\subsection{{\tt access(2)}}
+\begin{verbatim}
+$ sudo dtruss gcc -Wall access.c
 [...]
 10157/0x48d34:  access("a.out\0", 0x0, 0x0)             = 0 0
 10157/0x48d34:  access("a.out\0", 0x2, 0x0)             = -1 Err#13
 10157/0x48d34:  unlink("a.out\0", 0x0, 0x100365AF0)     = 0 0
 [...]
+$ ls -ld . a.out
+$ rm -f a.out
 \end{verbatim}
 
 
@@ -397,9 +434,7 @@ $ ls -l a.out
 $ cc -Wall access.c
 $ ls -l a.out
 -rwxr-xr-x  1 jschauma  users  9399 Sep 26 16:51 a.out
-$
-
-krace(8) output:
+$ ktruss cc -Wall access.c
 [...]
  14250      1 ld       CALL  __stat30(0x43a1bd,0x7f7fffffd340)
  14250      1 ld       NAMI  "a.out"
@@ -418,8 +453,7 @@ $ ls -l a.out
 $ cc -Wall access.c
 $ ls -l a.out
 -rwxr-xr-x 1 jschauma users 6555 Sep 24 20:36 a.out
-
-strace(1) output
+$ strace -f cc -Wall access.c
 [...]
 [pid 11721] stat("a.out", {st_mode=S_IFREG|0755, st_size=6555, ...}) = 0
 [pid 11721] lstat("a.out", {st_mode=S_IFREG|0755, st_size=6555, ...}) = 0
@@ -560,11 +594,14 @@ $ rm foo*
 $ umask 077
 $ touch foo foo1
 $ chmod a+rx foo
+$ ls -l foo*
+-rwxr-xr-x  1 jschaumann  staff  0 Sep 15 23:00 foo
+-rw-------  1 jschaumann  staff  0 Sep 15 23:00 foo1
 $ cc -Wall chmod.c
 $ ./a.out
 $ ls -l foo foo1
--rwxr-Sr-x  1 jschauma  staff  0 Sep 26 19:01 foo
--rw-r--r--  1 jschauma  staff  0 Sep 26 19:01 foo1
+-rwsr--r-x  1 jschaumann  staff  0 Sep 15 23:01 foo
+-rw-r--r--  1 jschaumann  staff  0 Sep 15 23:01 foo1
 $
 \end{verbatim}
 
@@ -657,6 +694,6 @@ Playing:
 \end{itemize}
 \addvspace{.5in}
 Midterm Assignment:
-\verb+http://www.cs.stevens.edu/~jschauma/631/f12-midterm.html+
+\verb+http://www.cs.stevens.edu/~jschauma/631/f13-midterm.html+
 
 \end{document}

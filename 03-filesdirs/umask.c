@@ -24,7 +24,7 @@ main(int argc, char **argv) {
 				S_IRGRP | S_IWGRP |
 				S_IROTH | S_IWOTH) == -1 ) {
 		perror("create error for foo1");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 
 
@@ -34,7 +34,7 @@ main(int argc, char **argv) {
 				S_IRGRP | S_IWGRP |
 				S_IROTH | S_IWOTH) == -1 ) {
 		perror("create error for foo2");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 
 	umask(S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
@@ -43,8 +43,8 @@ main(int argc, char **argv) {
 				S_IRGRP | S_IWGRP |
 				S_IROTH | S_IWOTH) == -1 ) {
 		perror("create error for foo3");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 
-	return 0;
+	return EXIT_SUCCESS;
 }

@@ -21,17 +21,17 @@ main(int argc, char **argv) {
 
 	if (argc != 2) {
 		fprintf(stderr, "usage: %s dir_name\n", argv[0]);
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 
 	if ((dp = opendir(argv[1])) == NULL ) {
 		fprintf(stderr, "can't open '%s': %s\n", argv[1], strerror(errno));
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 
 	if (chdir(argv[1]) == -1) {
 		fprintf(stderr, "can't chdir to '%s': %s\n", argv[1], strerror(errno));
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 
 	while ((dirp = readdir(dp)) != NULL ) {
@@ -95,5 +95,5 @@ main(int argc, char **argv) {
 	}
 
 	closedir(dp);
-	exit(0);
+	exit(EXIT_SUCCESS);
 }
