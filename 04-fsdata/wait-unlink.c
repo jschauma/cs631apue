@@ -55,7 +55,7 @@ main(int argc, char **argv) {
 	}
 
 	printf("\nOk, foo unlinked.  Disk space not free'd since 'bar' still exists...\n");
-	system("ls -li foo bar");
+	(void)system("ls -li foo bar");
 
 	if (system("df .") != 0) {
 		perror("unable to run df(1)");
@@ -72,7 +72,7 @@ main(int argc, char **argv) {
 
 	printf("\nOk, bar unlinked.  Disk space not free'd since I still have a file handle open...\n");
 	printf("\nRunning 'ls -li foo bar':\n");
-	system("ls -li foo bar");
+	(void)system("ls -li foo bar");
 
 	if (system("df .") != 0) {
 		perror("unable to run df(1)");
