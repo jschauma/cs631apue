@@ -38,6 +38,79 @@
 \end{center}
 \vspace*{\fill}
 
+\subsection{Test Driven Development}
+\vspace*{\fill}
+\begin{center}
+	\includegraphics[scale=2]{pics/tdd.eps}
+\end{center}
+\vspace*{\fill}
+
+\subsection{Avoid useless comments.}
+
+\begin{verbatim}
+/* The number of the arguments should be 3. */
+if (argc < 3) {
+
+int sdf, ddf;  /* src, dst file descriptor */
+
+progname = argv[0]; /*save the program name for the program*/
+
+char buf[BUFFERSIZE]; //a buffer to transfer data from source to target
+
+\end{verbatim}
+
+Commenting code should only be necessary when you have to explain
+something that is not obvious from reading the code itself.
+
+
+\subsection{Dynamic memory allocation...}
+
+...you're doing it wrong:
+
+\begin{verbatim}
+char buf[BUFFERSIZE]; //a buffer to transfer data from source to target
+\end{verbatim}
+
+Use \verb+malloc(3)+ - which can fail.
+
+Really, believe me.
+
+\subsection{Dynamic memory allocation...}
+
+\begin{verbatim}
+    dstExpanded = (char*)malloc(maxFileLength);
+    memset(dstExpanded,maxFileLength,0);
+
+    buff = (char*)malloc(blksize * sizeof(char));
+    sfd = open(source, O_RDONLY);
+\end{verbatim}
+
+\vspace*{\fill}
+\begin{center}
+	\includegraphics[scale=.7,angle=-90]{pics/malloc.eps}
+\end{center}
+\vspace*{\fill}
+
+\subsection{Make sure to check all return codes.}
+
+Instead of this:
+\begin{verbatim}
+        newdir= (char*)malloc(len+1);
+        strncpy(newdir, buf,len+1);
+\end{verbatim}
+
+Do this:
+\begin{verbatim}
+        if ((newdir = (char*)malloc(len+1)) == NULL) {
+                fprintf(stderr, "Unable to allocate memory: %s\n",
+                                        strerror(errno));
+                exit(EXIT_FAILURE);
+        }
+        strncpy(newdir, buf, len+1);
+\end{verbatim}
+
+
+
 \subsection{Use {\em either} spaces {\em or} tabs; don't mix whitespace.}
 
 Instead of:
@@ -60,24 +133,6 @@ Instead of:
                 if(input_fd<0){
 \end{verbatim}
 
-
-\subsection{Make sure to check all return codes.}
-
-Instead of this:
-\begin{verbatim}
-        newdir= (char*)malloc(len+1);
-        strncpy(newdir, buf,len+1);
-\end{verbatim}
-
-Do this:
-\begin{verbatim}
-        if ((newdir = (char*)malloc(len+1)) == NULL) {
-                fprintf(stderr, "Unable to allocate memory: %s\n",
-                                        strerror(errno));
-                exit(EXIT_FAILURE);
-        }
-        strncpy(newdir, buf, len+1);
-\end{verbatim}
 
 \subsection{Use {\tt strerror(3)} and print error messages to {\tt stderr}.}
 Instead of this:
@@ -132,25 +187,28 @@ Do this:
 \subsection{Control indentation and improve logic flow.}
 \smallish
 \begin{verbatim}
-  if (argc != 3) {
-    quit("wrong number of arguments");
-  }
+if (argc != 3) {
+        usage();
+}
 
-  if (!lstat(srcName,&srcStat)) {
-    quit("error - could not stat");
-  }
+if (!lstat(srcName,&srcStat)) {
+        quit("%s: Unable to lstat %s: %s\n", getprogname(), srcName,
+                strerror(errno));
+}
 
-  if (!S_ISREG(srcStat.st_mode)) {
-    quit("error - not a regular file");
-  }
+if (!S_ISREG(srcStat.st_mode)) {
+        quit("%s: %s is not a regular file.", getprogname(), srcName);
+}
 
-  if ( (tgtFd=open(tgtName, tgtFlags, srcStat.st_mode)) < 0) {
-    quit("error - could not open...");
-  }
+if ((tgtFd=open(tgtName, tgtFlags, srcStat.st_mode)) < 0) {
+        quit("%s: Unable to open %s: %s\n", getprogname(), tgtName,
+                strerror(errno));
+}
 
-  if ( !lstat(tgtName,&tgtStat) ) {
-    quit("error - could not stat...");
-  }
+if ( !lstat(tgtName,&tgtStat) ) {
+        quit("%s: Unable to lstat %s: %s\n", getprogname(), tgtName,
+                strerror(errno));
+}
 \end{verbatim}
 \Normalsize
 
@@ -174,6 +232,22 @@ close(infile);
                 }
                  else{
 \end{verbatim}
+
+\subsection{Standard terminal size is 80x24.}
+\vspace*{\fill}
+\begin{center}
+	\includegraphics[scale=0.65,angle=-90]{pics/runoff.eps}
+\end{center}
+\vspace*{\fill}
+
+\subsection{Remember:}
+\vspace*{\fill}
+\begin{center}
+	\Hugesize
+	Readability counts.
+	\Normalsize
+\end{center}
+\vspace*{\fill}
 
 \subsection{The {\tt main} function}
 \vspace{.25in}
@@ -211,37 +285,23 @@ close(infile);
 \end{itemize}
 
 \subsection{Process Creation}
-On Mac OS X:
-\small
+On Linux:
 \begin{verbatim}
 $ cc -Wall entry.c
-$ ./a.out
-$ otool -t -v a.out | more
-start:
-0000000100000e1c        pushq   $0x00
+$ readelf -h a.out | more
+ELF Header:
 [...]
-0000000100000e3b        jmp     0x100000e41
-0000000100000e3d        addq    $0x08,%rcx
-0000000100000e41        cmpq    $0x00,(%rcx)
-0000000100000e45        jne     0x100000e3d
-0000000100000e47        addq    $0x08,%rcx
-0000000100000e4b        callq   0x100000e89  ; _main
-0000000100000e50        movl    %eax,%edi
-0000000100000e52        callq   0x100000ea6  ; exit(3)
-0000000100000e57        hlt
+  Entry point address:               0x400460
+  Start of program headers:          64 (bytes into file)
+  Start of section headers:          4432 (bytes into file)
+$ objdump -d a.out
 [...]
-_main:
-0000000100000e89        pushq   %rbp
-0000000100000e8a        movq    %rsp,%rbp
-0000000100000e8d        subq    $0x10,%rsp
-0000000100000e91        movl    %edi,0xfc(%rbp)
-0000000100000e94        movq    %rsi,0xf0(%rbp)
-0000000100000e98        leaq    0x0000002f(%rip),%rdi
-0000000100000e9f        callq   0x100000eac
-0000000100000ea4        leave
-0000000100000ea5        ret
+0000000000400460 <_start>:
+  400460:       31 ed                   xor    %ebp,%ebp
+  400462:       49 89 d1                mov    %rdx,%r9
+[...]
+$
 \end{verbatim}
-\Normalsize
 
 \subsection{Process Creation}
 On Linux:
@@ -638,6 +698,11 @@ $
 \addvspace{.5in}
 Knowing this, how does manipulation of the environment work?
 
+\subsection{Lifetime of a UNIX Process}
+\begin{center}
+	\includegraphics[angle=-90,scale=0.8]{pics/lifetime6.eps}
+\end{center}
+
 
 % This section can be included if the students appear to have sufficient
 % background knowledge so that this class does not become too advanced;
@@ -995,7 +1060,7 @@ Differences between {\tt wait(2)}, {\tt wait3(2)}, {\tt wait4(2)} and {\tt
 waitpid(2)}:
 
 \begin{itemize}
-	\item {\tt wait(2)} can block until the process terminates, {\tt waitpid(2)}
+	\item {\tt wait(2)} will block until the process terminates, {\tt waitpid(2)}
 		has an option to prevent it from blocking
 	\item {\tt waitpid(2)} can wait for a specific process to finish
 	\item {\tt wait3(2)} and {\tt wait4(2)} allow you to get detailed

@@ -7,7 +7,10 @@ DVIPS	=	dvips -o
 PS2PDF	=	ps2pdf
 PDFTOTEXT=	pdftotext
 
-FIGURES=	pics/lifetime1.eps	\
+FIGURES=	pics/runoff.eps		\
+		pics/tdd.eps		\
+		pics/malloc.eps		\
+		pics/lifetime1.eps	\
 		pics/lifetime2.eps	\
 		pics/lifetime3.eps	\
 		pics/lifetime4.eps	\

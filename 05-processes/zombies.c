@@ -2,6 +2,8 @@
  * disappear again.  If you like, you can try killing some of the zombies.
  */
 
+#include <sys/wait.h>
+
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
