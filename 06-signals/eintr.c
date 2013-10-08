@@ -37,8 +37,9 @@ main(void) {
 		/* NOTREACHED */
 	}
 
+	/* Ensure interrupted system calls are restarted rather than
+	 * setting errno to EINTR. */
 	sa.sa_flags = SA_RESTART;
-
 	if (sigaction(SIGQUIT, &sa, NULL) == -1) {
 		fprintf(stderr, "Unable to establish signal handler for SIGQUIT: %s\n",
 			strerror(errno));

@@ -28,7 +28,7 @@ my_alarm(int signo)
 
 	write(STDOUT_FILENO, "in signal handler\n", 18);
 	if ((rootptr = getpwnam("root")) == NULL) {
-		fprintf(stderr, "no 'root' found!\n");
+		write(STDERR_FILENO, "no 'root' found!\n", 17);
 		exit(1);
 	}
 	alarm(1);

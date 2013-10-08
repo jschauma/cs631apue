@@ -351,17 +351,18 @@ ls(1) & \# PID {\em M}, PPID {\em N}, EUID {\em U}\\
 \begin{center}
 	\begin{picture}(150,30)
 		\thinlines
-		\put(0,0){\framebox(130,30){}}
-		\put(10,25){{\tt \#include <unistd.h>}}
-		\put(10,18){{\tt pid\_t getpgrp(void);}}
-		\put(10,13){{\tt pid\_t getpgid(pid\_t {\em pid});}}
-		\put(30,5){Returns: process group ID if OK, -1 otherwise}
+		\put(0,0){\framebox(130,25){}}
+		\put(10,20){{\tt \#include <unistd.h>}}
+		\put(10,13){{\tt pid\_t getpgrp(void);}}
+		\put(10,8){{\tt pid\_t getpgid(pid\_t {\em pid});}}
+		\put(55,3){Returns: process group ID if OK, -1 otherwise}
 	\end{picture}
 \end{center}
 \Normalsize
 \begin{itemize}
 	\item in addition to having a PID, each process also
-		belongs to a process group
+		belongs to a process group (collection of processes
+		assocaited with the same job / terminal)
 	\item each process group has a unique process group ID
 	\item process group IDs (like PIDs) are positive integers and can
 		be stored in a {\tt pid\_t} data type
@@ -463,7 +464,7 @@ $ proc3 | proc4 | proc5
 	\includegraphics[angle=-90,scale=0.6]{pics/pscat.eps}
 \end{center}
 \begin{verbatim}
-$ ps -o pid,ppid,pgrp,sess,comm | ./cat1 | ./cat2
+$ ps -o pid,ppid,pgid,sess,comm | ./cat1 | ./cat2
   PID  PPID  PGRP  SESS COMMAND
  1989   949  7736   949 ps
  1990   949  7736   949 cat1
@@ -478,7 +479,7 @@ $ ps -o pid,ppid,pgrp,sess,comm | ./cat1 | ./cat2
 \end{center}
 \addvspace{.5in}
 \begin{verbatim}
-$ ps -o pid,ppid,pgrp,sess,comm
+$ ps -o pid,ppid,pgid,sess,comm
   PID  PPID  PGRP  SESS COMMAND
 24251 24250 24251 24251 ksh
 24620 24251 24620 24251 ps
@@ -491,7 +492,7 @@ $
 \end{center}
 \addvspace{.5in}
 \begin{verbatim}
-$ ps -o pid,ppid,pgrp,sess,comm
+$ ps -o pid,ppid,pgid,sess,comm
   PID  PPID  PGRP  SESS COMMAND
 24251 24250 24251 24251 ksh
 24620 24251 24620 24251 ps
@@ -507,7 +508,7 @@ $
 \begin{verbatim}
 $ dd if=/dev/zero of=/dev/null bs=512 count=2048000 >/dev/null 2>&1 &
 [1]	24748
-$ ps -o pid,ppid,pgrp,sess,comm
+$ ps -o pid,ppid,pgid,sess,comm
   PID  PPID  PGRP  SESS COMMAND
 24251 24250 24251 24251 ksh
 24748 24251 24748 24251 dd
@@ -778,26 +779,6 @@ $$
 	\item or the address of a function which should catch or handle a signal
 \end{itemize}
 
-\subsection{{\tt signal(3)}}
-\small
-\setlength{\unitlength}{1mm}
-\begin{center}
-	\begin{picture}(150,22)
-		\thinlines
-		\put(0,0){\framebox(130,22){}}
-		\put(10,17){{\tt \#include <signal.h>}}
-		\put(10,10){{\tt void (*signal(int {\em signo}, void (*func)(int)))(int);}}
-		\put(30,3){Returns: previous disposition of signal if OK, {\tt SIG\_ERR} otherwise}
-	\end{picture}
-\end{center}
-\Normalsize
-{\em func} can be:
-\begin{itemize}
-	\item {\tt SIG\_IGN} which requests that we ignore the signal {\tt signo}
-	\item {\tt SIG\_DFL} which requests that we accept the default action for signal {\tt signo}
-	\item or the address of a function which should catch or handle a signal
-\end{itemize}
-
 \subsection{Signal Examples}
 \begin{verbatim}
 $ cc -Wall siguser.c
@@ -886,7 +867,7 @@ sig_quit: caught SIGQUIT (3), now sleeping
 ^\sig_quit: exiting (3)
 sig_quit: caught SIGQUIT (4), now sleeping
 sig_quit: exiting (4)
-$
+[...]
 \end{verbatim}
 
 (Note that "simultaneously" delivered signals may be "merged" into one.)
@@ -926,7 +907,6 @@ sig_quit: caught SIGQUIT (3), now sleeping
 sig_quit: caught SIGQUIT (4), now sleeping
 sig_quit: exiting (4)
 [...]
-$
 \end{verbatim}
 
 \subsection{Program Startup}
