@@ -38,7 +38,7 @@
 #include <string.h>
 #include <unistd.h>
 
-/* Dover Beach by Matthew Arnold */
+/* 'Dover Beach' by Matthew Arnold -- look it up. */
 #define DATA "The sea is calm tonight, the tide is full . . ."
 
 /*
@@ -47,9 +47,7 @@
  * portnumber
  */
 
-int main(argc, argv)
-	int argc;
-	char *argv[];
+int main(int argc, char **argv)
 {
 	int sock;
 	struct sockaddr_in name;

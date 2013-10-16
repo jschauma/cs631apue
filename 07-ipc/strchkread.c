@@ -29,6 +29,7 @@
  *
  *	@(#)strchkread.c	8.1 (Berkeley) 6/8/93
  */
+#include <arpa/inet.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/time.h>
@@ -56,6 +57,8 @@ int main()
 	int rval;
 	fd_set ready;
 	struct timeval to;
+	struct sockaddr_in client;
+	char *client_addr;
 
 	/* Create socket */
 	sock = socket(AF_INET, SOCK_STREAM, 0);
@@ -91,8 +94,10 @@ int main()
 			continue;
 		}
 		if (FD_ISSET(sock, &ready)) {
-			printf("Ready!\n");
-			msgsock = accept(sock, (struct sockaddr *)0, (socklen_t *)0);
+			length = sizeof(client);
+			msgsock = accept(sock, (struct sockaddr *)&client, &length);
+			client_addr = inet_ntoa(client.sin_addr);
+			printf("Client connection from %s!\n", client_addr);
 			if (msgsock == -1)
 				perror("accept");
 			else do {
@@ -100,9 +105,9 @@ int main()
 				if ((rval = read(msgsock, buf, 1024)) < 0)
 					perror("reading stream message");
 				else if (rval == 0)
-					printf("Ending connection\n");
+					printf("Ending connection from %s.\n", client_addr);
 				else
-					printf("-->%s\n", buf);
+					printf("Client (%s) sent: %s", client_addr, buf);
 			} while (rval > 0);
 			close(msgsock);
 		} else

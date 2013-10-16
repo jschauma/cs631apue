@@ -32,12 +32,13 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/un.h>
+#include <netdb.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 
-/* Dover Beach by Matthew Arnold */
+/* 'Dover Beach' by Matthew Arnold -- look it up. */
 #define DATA "The sea is calm tonight, the tide is full . . ."
 
 /*
@@ -45,9 +46,7 @@
  * line arguments.  The form of the command line is udgramsend pathname
  */
 
-int main(argc, argv)
-	int argc;
-	char *argv[];
+int main(int argc, char **argv)
 {
 	int sock;
 	struct sockaddr_un name;

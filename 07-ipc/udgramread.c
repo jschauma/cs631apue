@@ -41,6 +41,7 @@
  * };
  */
 
+#include <netdb.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -77,6 +78,9 @@ int main()
 		perror("reading from socket");
 	printf("--> %s\n", buf);
 	close(sock);
-//	unlink(NAME);
+
+	/* A UNIX domain datagram socket is a 'file'.  If you don't unlink
+	 * it, it will remain in the file system. */
+	unlink(NAME);
 	return 0;
 }

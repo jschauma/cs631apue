@@ -36,6 +36,14 @@
 \end{center}
 \vspace*{\fill}
 
+
+\subsection{Midterm Evaluation}
+\vspace*{\fill}
+\begin{center}
+\verb+http://www.cs.stevens.edu/~jschauma/cgi-bin/midterm.cgi+
+\end{center}
+\vspace*{\fill}
+
 \subsection{Pipes: {\tt pipe(2)}}
 \small
 \setlength{\unitlength}{1mm}
@@ -70,17 +78,45 @@
 \end{center}
 
 \subsection{Pipes: {\tt pipe(2)}}
-A trivial example:
-
 \begin{verbatim}
-$ cc -Wall pipe1.c
+$ cc -Wall pipe1.c;
 $ ./a.out
-Hello child!  I'm your parent pid 11891!
-I'm the child(11893).
+P=> Parent process with pid 23988 (and its ppid 7474).
+P=> Sending a message to the child process (pid 23989):
+C=> Child process with pid 23989 (and its ppid 23988).
+C=> Reading a message from the parent (pid 23988):
+Hello child!  I'm your parent pid 23988!
 $
 \end{verbatim}
 \vfill
 %\hfill \includegraphics[scale=0.9]{pics/j2.eps}
+
+
+\subsection{Pipes: {\tt pipe(2)}}
+\begin{verbatim}
+$ cc -Wall pipe1.c
+$ ./a.out
+P=> Parent process with pid 23984 (and its ppid 7474).
+P=> Sending a message to the child process (pid 23985):
+C=> Child process with pid 23985 (and its ppid 1).
+C=> Reading a message from the parent (pid 1):
+Hello child!  I'm your parent pid 23984!
+$
+\end{verbatim}
+\vfill
+
+\subsection{Pipes: {\tt pipe(2)}}
+\begin{verbatim}
+$ cc -Wall pipe1.c;
+$ ./a.out
+P=> Parent process with pid 23986 (and its ppid 7474).
+P=> Sending a message to the child process (pid 23987):
+C=> Child process with pid 23987 (and its ppid 23986).
+C=> Reading a message from the parent (pid 1):
+Hello child!  I'm your parent pid 23986!
+$
+\end{verbatim}
+\vfill
 
 \subsection{Pipes: {\tt pipe(2)}}
 A more useful example: displaying some content using the user's preferred
@@ -466,7 +502,7 @@ srwxr-xr-x  1 jans  users   0 Oct 31 19:17 socket
 %\hfill \includegraphics[scale=0.9]{pics/j7.eps}
 
 
-\subsection{Sockets: Datagrams in the UNIX domain}
+\subsection{Sockets: Datagrams in the UNIX/LOCAL domain}
 \begin{itemize}
 	\item create socket using {\tt socket(2)}
 	\item attach to a socket using {\tt bind(2)}

@@ -14,19 +14,20 @@
 #include <unistd.h>
 
 #define	DEF_PAGER	"/usr/bin/more"		/* default pager program */
+#define LINE_LENGTH	128			/* arbitrary! */
 
 int
 main(int argc, char **argv) {
 	int n, fd[2];
 	pid_t pid;
-	char line[128], *pager, *argv0;
+	char line[LINE_LENGTH], *pager, *argv0;
 	FILE *fp;
 
 	if (argc != 2) {
 		perror("usage: a.out <pathname>");
 		exit(1);
 	}
-	if ( (fp = fopen(argv[1], "r")) == NULL) {
+	if ((fp = fopen(argv[1], "r")) == NULL) {
 		fprintf(stderr, "can't open %s\n", argv[1]);
 		exit(1);
 	}
@@ -36,14 +37,14 @@ main(int argc, char **argv) {
 		exit(1);
 	}
 
-	if ( (pid = fork()) < 0) {
+	if ((pid = fork()) < 0) {
 		perror("fork error");
 		exit(1);
 	}
 	else if (pid > 0) {		/* parent */
 		close(fd[0]);		/* close read end */
 		/* parent copies argv[1] to pipe */
-		while (fgets(line, 128, fp) != NULL) {
+		while (fgets(line, LINE_LENGTH, fp) != NULL) {
 			n = strlen(line);
 			if (write(fd[1], line, n) != n) {
 				perror("write error to pipe");
@@ -74,9 +75,9 @@ main(int argc, char **argv) {
 		}
 
 		/* get arguments for execl() */
-		if ( (pager = getenv("PAGER")) == NULL)
+		if ((pager = getenv("PAGER")) == NULL)
 			pager = DEF_PAGER;
-		if ( (argv0 = strrchr(pager, '/')) != NULL)
+		if ((argv0 = strrchr(pager, '/')) != NULL)
 			argv0++;		/* step past rightmost slash */
 		else
 			argv0 = pager;	/* no slash in pager */

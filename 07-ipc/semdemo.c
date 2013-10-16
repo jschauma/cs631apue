@@ -18,11 +18,13 @@
 
 #define MAX_RETRIES 10
 
+#ifndef __DARWIN_UNIX03
 union semun {
 	int val;
 	struct semid_ds *buf;
 	ushort *array;
 };
+#endif
 
 /*
 ** initsem() -- more-than-inspired by W. Richard Stevens' UNIX Network

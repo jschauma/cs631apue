@@ -26,7 +26,7 @@ main(int argc, char **argv) {
 		exit(1);
 	}
 
-	if ( (pager = getenv("PAGER")) == NULL)
+	if ((pager = getenv("PAGER")) == NULL)
 		pager = DEF_PAGER;
 
 	if ((pipe = popen(pager, "w")) == NULL) {
@@ -35,7 +35,7 @@ main(int argc, char **argv) {
 		exit(1);
 	}
 
-	if ( (fp = fopen(argv[1], "r")) == NULL) {
+	if ((fp = fopen(argv[1], "r")) == NULL) {
 		fprintf(stderr, "can't open %s\n", argv[1]);
 		exit(1);
 	}

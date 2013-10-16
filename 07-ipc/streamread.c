@@ -29,9 +29,12 @@
  *
  *	@(#)streamread.c	8.1 (Berkeley) 6/8/93
  */
+#include <arpa/inet.h>
 #include <sys/types.h>
 #include <sys/socket.h>
+
 #include <netinet/in.h>
+
 #include <netdb.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -55,7 +58,7 @@ int main()
 	int msgsock;
 	char buf[1024];
 	int rval;
-	int i;
+	struct sockaddr_in client;
 
 	/* Create socket */
 	sock = socket(AF_INET, SOCK_STREAM, 0);
@@ -82,18 +85,18 @@ int main()
 	/* Start accepting connections */
 	listen(sock, 5);
 	do {
-		msgsock = accept(sock, 0, 0);
+		length = sizeof(client);
+		msgsock = accept(sock, (struct sockaddr *)&client, &length);
 		if (msgsock == -1)
 			perror("accept");
 		else do {
 			bzero(buf, sizeof(buf));
 			if ((rval = read(msgsock, buf, 1024)) < 0)
 				perror("reading stream message");
-			i = 0;
 			if (rval == 0)
 				printf("Ending connection\n");
 			else
-				printf("-->%s\n", buf);
+				printf("Client (%s) sent: %s", inet_ntoa(client.sin_addr), buf);
 		} while (rval != 0);
 		close(msgsock);
 	} while (TRUE);
