@@ -5,7 +5,7 @@
  * Illustrate blocking and non-blocking modes: in blocking mode, we
  * are avoiding the danger of a deadlock by the fact that upgrading a read
  * lock releases that lock, allowing the second process to eventually get
- * the exlusive lock.  I non-blocking mode, we avoid a deadlock by
+ * the exlusive lock.  In non-blocking mode, we avoid a deadlock by
  * explicitly releasing all locks and aborting after 10 tries.
  */
 #include <sys/file.h>
@@ -45,8 +45,8 @@ main(void) {
 	printf("Now trying to get an exclusive lock.\n");
 
 	for (i=0; i < 10; i++) {
-		/* if (flock(fd, LOCK_EX|LOCK_NB) < 0) { */
-		if (flock(fd, LOCK_EX) < 0) {
+		if (flock(fd, LOCK_EX|LOCK_NB) < 0) {
+		/* if (flock(fd, LOCK_EX) < 0) { */
 			printf("Unable to get an exclusive lock.\n");
 			if (i==9) {
 				printf("Giving up all locks.\n");

@@ -36,14 +36,23 @@
 \end{center}
 \vspace*{\fill}
 
-\subsection{Midterm Course Evaluation}
-\vspace*{\fill}
-\\
-\verb+http://www.cs.stevens.edu/~jschauma/cgi-bin/midterm.cgi+
-\vspace*{\fill}
+\subsection{Nonblocking I/O}
+Recall from our lecture on signals that certain system calls can block forever:
+\begin{itemize}
+	\item {\tt read(2)} from a particular file, if data isn't present (pipes,
+		terminals, network devices)
+	\item {\tt write(2)} to the same kind of file
+	\item {\tt open(2)} of a particular file until a specific condition occurs
+	\item {\tt read(2)} and {\tt write(2)} of files that have mandatory
+		locking enabled
+	\item certain {\tt ioctls(2)}
+	\item some IPC functions (such as {\tt sendto(2)} or {\tt recv(2)})
+\end{itemize}
+\vspace{.25in}
+See {\tt eintr.c} from that lecture.
 
 \subsection{Nonblocking I/O}
-Certain system calls can block forever:
+Recall from our lecture on signals that certain system calls can block forever:
 \begin{itemize}
 	\item {\tt read(2)} from a particular file, if data isn't present (pipes,
 		terminals, network devices)
@@ -77,10 +86,10 @@ Ways to specify nonblocking mode:
 $ cc -Wall nonblock.c
 $ ./a.out >/dev/null
 wrote 100000 bytes
-wrote 100000 bytes
 [...]
-$ ./a.out | cat >/dev/null
-wrote 100000 bytes
+$ ./a.out | ( sleep 3; cat >/dev/null ) 2>&1 | more
+[...]
+$ ( ./a.out | cat >/dev/null ) 2>&1 | more
 [...]
 write error: Resource temporarily unavailable
 wrote 3392 bytes
@@ -93,96 +102,6 @@ $ ./a.out | nc hostname 8080
 [...]
 \end{verbatim}
 
-\subsection{Asynchronous I/O}
-\begin{itemize}
-	\item System V derived async I/O
-		\begin{itemize}
-			\item limited to STREAMS
-			\item enabled via {\tt ioctl(2)}
-			\item uses {\tt SIGPOLL}
-		\end{itemize}
-	\item BSD derived async I/O
-		\begin{itemize}
-			\item limited to terminals and networks
-			\item enabled via {\tt fcntl(2)} ({\tt O\_ASYNC},
-{\tt  F\_SETOWN})
-			\item uses {\tt SIGIO} and {\tt SIGURG}
-		\end{itemize}
-\end{itemize}
-\addvspace{.5in}
-Mentioned here for completeness's sake only.
-
-\subsection{I/O Multiplexing}
-When handling I/O on multiple file descriptors, we have the following
-options:
-
-\begin{itemize}
-	\item blocking mode: open one fd, block, wait (possibly forever),
-		then test the next fd
-	\item fork and use one process for each, communicate using signals
-		or other IPC
-	\item non-blocking mode: open one fd, immediately get results,
-		open next fd, immediately get results, sleep for some time
-	\item asynchronous I/O: get notified by the kernel when either fd
-		is ready for I/O
-\end{itemize}
-
-\subsection{I/O Multiplexing}
-Instead of blocking forever (undesirable), using non-blocking mode
-(busy-polling is inefficient) or using {\em asynchronous I/O} (somewhat
-limited), we can:
-\begin{itemize}
-	\item build a set of file descriptors we're interested in
-	\item call a function that will return if any of the file
-		descriptors are ready for I/O (or a timeout has elapsed)
-\end{itemize}
-
-\subsection{I/O Multiplexing}
-\small
-\setlength{\unitlength}{1mm}
-\begin{center}
-	\begin{picture}(180,40)
-		\thinlines
-		\put(0,0){\framebox(160,40){}}
-		\put(10,35){{\tt \#include <sys/types.h>}}
-		\put(10,30){{\tt \#include <sys/time.h>}}
-		\put(10,25){{\tt \#include <unistd.h>}}
-		\put(10,18){{\tt int select(int {\em maxfdp1}, fd\_set *{\em readfds}, fd\_set *{\em writefds}}}
-		\put(40,13){{\tt fd\_set *{\em exceptfds}, struct timeval *{\em tvptr});}}
-		\put(60,5){Returns: count of ready descriptors, 0 on timeout, -1 otherwise}
-	\end{picture}
-\end{center}
-\Normalsize
-Arguments passed:
-\begin{itemize}
-	\item which descriptors we're interested in
-	\item what conditions we're interested in
-	\item how long we want to wait
-		\begin{itemize}
-			\item {\tt tvptr == NULL} means wait forever
-			\item {\tt tvptr->tv\_sec == tvptr->tv\_usec == 0} means don't wait at all
-			\item wait for specified amount of time
-		\end{itemize}
-\end{itemize}
-\vspace{.25in}
-{\tt select(2)} tells us both the total count of descriptors that are
-ready as well as which ones are ready.
-
-\subsection{I/O Multiplexing}
-\begin{itemize}
-	\item filedescriptor sets are manipulated using the {\tt FD\_*} functions/macros
-	\item read/write sets indicate readiness for read/write; {\em except} indicates an exception condition (for example OOB data, certain terminal events)
-	\item EOF means ready for read - {\tt read(2)} will just return 0 (as usual)
-	\item {\tt pselect(2)} provides finer-grained timeout control;
-allows you to specify a signal mask (original signal mask is restored
-upon return)
-	\item {\tt poll(2)} provides a conceptually similar interface
-\end{itemize}
-\vspace{.5in}
-See also: \verb+http://daniel.haxx.se/docs/poll-vs-select.html+
-
-
-
 \subsection{Resource Locking}
 Ways we have learned so far to ensure only one process has exclusive
 access to a resource:
@@ -194,7 +113,7 @@ access to a resource:
 	\item use of a semaphore
 \end{itemize}
 
-Note: all of the above require cooperation amongst processes.
+What are some problems with each of these?
 
 \subsection{Advisory Locking}
 \small
@@ -212,11 +131,10 @@ Note: all of the above require cooperation amongst processes.
 \begin{itemize}
 	\item applies or removes an advisory lock on the file associated with
 		the file descriptor fd
-	\item {\em operation} can be
+	\item {\em operation} can be {\tt LOCK\_NB} and any one of:
 		\begin{itemize}
 			\item {\tt LOCK\_SH}
 			\item {\tt LOCK\_EX}
-			\item {\tt LOCK\_NB}
 			\item {\tt LOCK\_UN}
 		\end{itemize}
 	\item locks entire file
@@ -302,12 +220,12 @@ Locks are:
 Locks are associated with a {\em file and process pair}, not with a {\em filedescriptor}!
 \begin{verbatim}
 fd1 = open(pathname, ...);
-write_lock(...);
+write_lock(fd1...);        /* lock byte 0 */
 if ((pid = fork()) > 0) {
         fd2 = dup(fd1);
         fd3 = open(pathname, ...);
 } else if (pid == 0) {
-        read_lock(...);
+        read_lock(fd1...); /* lock byte 1 */
 }
 \end{verbatim}
 
@@ -320,7 +238,10 @@ Locks are associated with a {\em file and process pair}, not with a {\em filedes
 \subsection{Mandatory locking}
 \begin{itemize}
 	\item not implemented on all UNIX flavors
-	\item possible to be circumvented
+		\begin{itemize}
+			\item {\tt chmod g+s,g-x file}
+		\end{itemize}
+	\item possible to be circumvented:
 \end{itemize}
 \begin{verbatim}
 $ mandatory-lock /tmp/file &
@@ -328,6 +249,117 @@ $ echo foo > /tmp/file2
 $ rm /tmp/file
 $ mv /tmp/file2 /tmp/file
 \end{verbatim}
+
+\subsection{I/O Multiplexing}
+Standard I/O loop:
+\begin{verbatim}
+while ((n = read(fd1, buf, BUFFSIZE)) > 0) {
+        if (write(fd2, buf, n) != n) {
+                fprintf(stderr, "write error\n");
+                exit(1);
+         }
+}
+\end{verbatim}
+
+Suppose you want to read from multiple file descriptors - now what?
+
+
+
+\subsection{I/O Multiplexing}
+When handling I/O on multiple file descriptors, we have the following
+options:
+
+\begin{itemize}
+	\item blocking mode: open one fd, block, wait (possibly forever),
+		then test the next fd
+	\item fork and use one process for each, communicate using signals
+		or other IPC
+	\item non-blocking mode: open one fd, immediately get results,
+		open next fd, immediately get results, sleep for some time
+	\item asynchronous I/O: get notified by the kernel when either fd
+		is ready for I/O
+\end{itemize}
+
+\subsection{I/O Multiplexing}
+Instead of blocking forever (undesirable), using {\em non-blocking} mode
+(busy-polling is inefficient) or using {\em asynchronous I/O} (somewhat
+limited), we can:
+\begin{itemize}
+	\item build a set of file descriptors we're interested in
+	\item call a function that will return if any of the file
+		descriptors are ready for I/O (or a timeout has elapsed)
+\end{itemize}
+
+\subsection{I/O Multiplexing}
+\small
+\setlength{\unitlength}{1mm}
+\begin{center}
+	\begin{picture}(180,40)
+		\thinlines
+		\put(0,0){\framebox(160,40){}}
+		\put(10,35){{\tt \#include <sys/types.h>}}
+		\put(10,30){{\tt \#include <sys/time.h>}}
+		\put(10,25){{\tt \#include <unistd.h>}}
+		\put(10,18){{\tt int select(int {\em maxfdp1}, fd\_set *{\em readfds}, fd\_set *{\em writefds}}}
+		\put(40,13){{\tt fd\_set *{\em exceptfds}, struct timeval *{\em tvptr});}}
+		\put(60,5){Returns: count of ready descriptors, 0 on timeout, -1 otherwise}
+	\end{picture}
+\end{center}
+\Normalsize
+Arguments passed:
+\begin{itemize}
+	\item which descriptors we're interested in
+	\item what conditions we're interested in
+	\item how long we want to wait
+		\begin{itemize}
+			\item {\tt tvptr == NULL} means wait forever
+			\item {\tt tvptr->tv\_sec == tvptr->tv\_usec == 0} means don't wait at all
+			\item wait for specified amount of time
+		\end{itemize}
+\end{itemize}
+\vspace{.25in}
+{\tt select(2)} tells us both the total count of descriptors that are
+ready as well as which ones are ready.
+
+
+\subsection{I/O Multiplexing}
+\begin{itemize}
+	\item filedescriptor sets are manipulated using the {\tt FD\_*} functions/macros
+	\item read/write sets indicate readiness for read/write; {\em except} indicates an exception condition (for example OOB data, certain terminal events)
+	\item EOF means ready for read - {\tt read(2)} will just return 0 (as usual)
+	\item {\tt pselect(2)} provides finer-grained timeout control;
+allows you to specify a signal mask (original signal mask is restored
+upon return)
+	\item {\tt poll(2)} provides a conceptually similar interface
+\end{itemize}
+\vspace{.5in}
+See also:
+\begin{itemize}
+	\item last week's {\tt strchkread.c}
+	\item \verb+http://daniel.haxx.se/docs/poll-vs-select.html+
+\end{itemize}
+
+\subsection{Asynchronous I/O}
+\begin{itemize}
+	\item System V derived async I/O
+		\begin{itemize}
+			\item limited to STREAMS
+			\item enabled via {\tt ioctl(2)}
+			\item uses {\tt SIGPOLL}
+		\end{itemize}
+	\item BSD derived async I/O
+		\begin{itemize}
+			\item limited to terminals and networks
+			\item enabled via {\tt fcntl(2)} ({\tt O\_ASYNC},
+{\tt  F\_SETOWN})
+			\item uses {\tt SIGIO} and {\tt SIGURG}
+		\end{itemize}
+\end{itemize}
+\addvspace{.5in}
+Mentioned here for completeness's sake only.
+
+See {\tt aio(7)} for an example of POSIX AIO.
+
 
 \subsection{Memory Mapped I/O}
 \small
@@ -382,7 +414,7 @@ the systems you have access to.
 \\
 \vspace*{\fill}
 Final project: write a simple web server. \\
-{\tt http://www.cs.stevens.edu/\~{}jschauma/631/f12-final-project.html}
+{\tt http://www.cs.stevens.edu/\~{}jschauma/631/f13-final-project.html}
 \vspace*{\fill}
 
 \subsection{HTTP}
@@ -615,11 +647,15 @@ Processing requests consists of:
 \end{itemize}
 
 \subsection{Homework}
-HW\#3: reflective code reading \\
-{\tt http://www.cs.stevens.edu/\~{}jschauma/631/f12-hw3.html}
+Be able to explain how the shell executes the following statement: \\
+{\tt ( ./a.out | cat >/dev/null ) 2>\&1 | more}
+
+\vspace{.5in}
+HW\#3: webserver framework \\
+{\tt http://www.cs.stevens.edu/\~{}jschauma/631/f13-hw3.html}
 
 \vspace{.5in}
 Final project: write a simple web server. \\
-{\tt http://www.cs.stevens.edu/\~{}jschauma/631/f12-final-project.html}
+{\tt http://www.cs.stevens.edu/\~{}jschauma/631/f13-final-project.html}
 
 \end{document}
