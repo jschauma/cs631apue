@@ -9,9 +9,9 @@ DVIPS	=	dvips -o
 PS2PDF	=	ps2pdf
 PDFTOTEXT=	pdftotext
 
-FIGURES=	pics/daemon.eps pics/syslog.eps pics/elf.eps
+FIGURES=	pics/datatransfer.eps pics/daemon.eps pics/syslog.eps pics/elf.eps
 
-.SUFFIXES: .tex .dvi .ps .pdf .txt .fig .eps .png
+.SUFFIXES: .tex .dvi .ps .pdf .txt .fig .eps .png .jpg
 
 all:	$(FIGURES) $(TARGET).dvi
 #	${BIBTEX} $(TARGET)
@@ -38,6 +38,9 @@ ps:	$(TARGET).dvi $(TARGET).ps
 .dvi.ps:
 	$(DVIPS) $@ $<
 
+.jpg.eps:
+	jpegtopnm $< | pnmtops > $@
+
 .png.eps:
 	pngtopnm $< | pnmtops > $@
 
@@ -58,3 +61,33 @@ clean:
 	rm -f **.bbl *.blg *.log *.aux *.dvi *.ps *.pdf *.toc *.bak *.lof ${FIGURES}
 	rm -fr $(TARGET)/
 	rm -f *.o *.out
+
+code-clean:
+	rm -f *.o libldtest*
+	rm -fr lib lib2 lib3
+
+libldtest.a: ldtest1.o ldtest2.o
+	ar -vq libldtest.a ldtest1.o ldtest2.o
+	ar -t libldtest.a
+
+libldtest.so: lib/libldtest.so
+
+lib/libldtest.so: ldtest1.o ldtest2.o
+	mkdir -p lib
+	cc -shared -Wl,-soname,libldtest.so.1 -o lib/libldtest.so.1.0 ldtest1.o ldtest2.o
+	ln -s libldtest.so.1.0 lib/libldtest.so.1
+	ln -s libldtest.so.1 lib/libldtest.so
+
+libldtest.so-2: lib2/libldtest.so
+
+lib2/libldtest.so: ldtest1.2.o ldtest2.o
+	mkdir -p lib2
+	cc -shared -Wl,-soname,libldtest.so.1 -o lib2/libldtest.so.1.0 ldtest1.2.o ldtest2.o
+	ln -s libldtest.so.1.0 lib2/libldtest.so.1
+	ln -s libldtest.so.1 lib2/libldtest.so
+
+evil: evil.o ldtest1.o ldtest2.o
+	mkdir -p lib3
+	cc -shared -Wl,-soname,libldtest.so.1 -o lib3/libldtest.so.1.0 ldtest1.o ldtest2.o evil.o
+	ln -s libldtest.so.1.0 lib3/libldtest.so.1
+	ln -s libldtest.so.1 lib3/libldtest.so

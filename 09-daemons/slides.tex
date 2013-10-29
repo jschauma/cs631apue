@@ -25,7 +25,7 @@
 	\Hugesize
 		CS631 - Advanced Programming in the UNIX Environment\\
 		-- \\
-		D\ae mon processes, System Logging, Shared Libraries\\
+		HTTP, D\ae mon processes, System Logging, Shared Libraries\\
 	\hspace*{5mm}\blueline\\ [1em]
 	\Normalsize
 		Department of Computer Science\\
@@ -35,6 +35,239 @@
 		\verb+http://www.cs.stevens.edu/~jschauma/631/+
 \end{center}
 \vspace*{\fill}
+
+\subsection{HTTP}
+\vspace{.5in}
+\begin{center}
+	\verb+http://www.cs.stevens.edu/~jschauma/631/f13-final-project.html+ \\
+	\vspace{.5in}
+	\Huge
+	Hypertext Transfer Protocol
+	\\
+	\vspace{.5in}
+	RFC2616
+\end{center}
+\Normalsize
+
+\subsection{HTTP}
+\vspace{.5in}
+\begin{center}
+	\Huge
+	HTTP is a request/response protocol.
+\end{center}
+\Normalsize
+
+\subsection{The Hypertext Transfer Protocol}
+HTTP is a request/response protocol:
+\begin{enumerate}
+	\item client sends a request to the server
+	\item server responds
+\end{enumerate}
+
+\subsection{The Hypertext Transfer Protocol}
+HTTP is a request/response protocol:
+\begin{enumerate}
+	\item client sends a request to the server
+		\begin{itemize}
+			\item request method
+			\item URI
+			\item protocol version
+			\item request modifiers
+			\item client information
+		\end{itemize}
+	\item server responds
+\end{enumerate}
+
+\subsection{HTTP: A client request}
+\vspace*{.5in}
+\\
+\Hugesize
+\begin{center}
+\begin{verbatim}
+$ telnet www.google.com 80
+Trying 2607:f8b0:400c:c02::93...
+Connected to www.google.com.
+Escape character is '^]'.
+GET / HTTP/1.0
+
+\end{verbatim}
+\end{center}
+\Normalsize
+\vspace*{\fill}
+
+
+\subsection{The Hypertext Transfer Protocol}
+HTTP is a request/response protocol:
+\begin{enumerate}
+	\item client sends a request to the server
+		\begin{itemize}
+			\item request method
+			\item URI
+			\item protocol version
+			\item request modifiers
+			\item client information
+		\end{itemize}
+	\item server responds
+		\begin{itemize}
+			\item status line (including success or error code)
+			\item server information
+			\item entity metainformation
+			\item content
+		\end{itemize}
+\end{enumerate}
+
+\subsection{HTTP: a server response}
+%\newcommand{\smallish}{\fontsize{18}{18}\selectfont}
+%\smallish
+\begin{verbatim}
+HTTP/1.0 200 OK
+Date: Mon, 22 Oct 2012 03:08:18 GMT
+Content-Type: text/html; charset=ISO-8859-1
+Server: gws
+
+<!doctype html><html itemscope="itemscope"
+itemtype="http://schema.org/WebPage"><head><meta content="Search the
+world's information, including webpages, images, videos and more. Google
+has many special features to help you find exactly what you're looking
+for." name="description"><meta content="noodp" name="robots"><meta
+itemprop="image"
+content="/images/google_favicon_128.png"><title>Google</title><script>
+window.google={kEI:"oriEUNmMGMX50gH6kYGwBw",getEI:function(a){var
+b;while(a&&!(a.getAttribute&&(b=a.getAttribute("eid"))))a=a.parentNode;return
+b||google.kEI},https:function(){return
+window.location.protocol=="https:"},kEXPI:"25657,30316,39523,39977,40362
+\end{verbatim}
+%\Normalsize
+
+\subsection{The Hypertext Transfer Protocol}
+Server status codes:
+\begin{itemize}
+	\item {\bf 1xx} -- Informational; Request received, continuing process
+	\item {\bf 2xx} -- Success; The action was successfully received,
+        understood, and accepted
+	\item {\bf 3xx} -- Redirection; Further action must be taken in order to
+        complete the request
+	\item {\bf 4xx} -- Client Error; The request contains bad syntax or
+		cannot be fulfilled
+	\item {\bf 5xx} -- Server Error; The server failed to fulfill an
+		apparently valid request
+\end{itemize}
+
+\subsection{HTTP: A client request}
+\newcommand{\smallish}{\fontsize{16}{16}\selectfont}
+\smallish
+\begin{center}
+\begin{verbatim}
+$ telnet www.cs.stevens.edu 80
+Trying 155.246.89.84...
+Connected to tarantula.srcit.stevens-tech.edu.
+Escape character is '^]'.
+GET / HTTP/1.0
+
+HTTP/1.1 200 OK
+Date: Mon, 04 Apr 2011 02:16:14 GMT
+Server: Apache/2.2.9 (Debian) DAV/2 SVN/1.5.1 PHP/5.2.6-1+lenny9 with Suhosin-Patch mod_ssl/2.2.9 OpenSSL/0.9.8o
+Last-Modified: Wed, 17 Nov 2010 19:25:54 GMT
+Content-Type: text/html
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>SRCIT wiki page</title>
+<meta http-equiv="REFRESH"
+content="0;url=http://www.srcit.stevens.edu/wiki"></HEAD>
+<BODY>
+</BODY>
+</HTML>
+\end{verbatim}
+\end{center}
+\Normalsize
+
+\subsection{HTTP - more than just text}
+HTTP is a {\em Transfer Protocol} -- serving {\em data}, not any specific
+text format.
+
+\begin{itemize}
+	\item {\tt Accept-Encoding} client header can specify different formats
+		such as {\em gzip}, {\em Shared Dictionary Compression over HTTP (SDCH)} etc.
+	\item corresponding server headers: {\tt Content-Type} and
+		{\tt Content-Encoding}
+\end{itemize}
+\begin{center}
+	\includegraphics[scale=0.6,angle=-90]{pics/datatransfer.eps}
+\end{center}
+
+\subsection{HTTP - more than just static data}
+HTTP is a {\em Transfer Protocol} -- what is transferred need not be
+static; resources may generate different data to return based on many
+variables.
+
+\begin{itemize}
+	\item CGI -- resource is {\em executed}, needs to generate
+		appropriate response headers
+	\item server-side scripting (ASP, PHP, Perl, ...)
+	\item client-side scripting (JavaScript/ECMAScript/JScript,...)
+	\item applications based on HTTP, using:
+		\begin{itemize}
+			\item AJAX
+			\item RESTful services
+			\item JSON, XML, YAML to represent state and
+				abstract information
+		\end{itemize}
+\end{itemize}
+
+\subsection{Writing a {\em simple} HTTP server}
+\begin{itemize}
+	\item parse command-line options, initialize world, ...
+	\item open socket
+	\item run as a d\ae mon, loop forever
+		\begin{itemize}
+			\item accept connection
+			\item fork child to handle request
+		\end{itemize}
+	\item upon {\tt SIGHUP} re-read configuration, restart
+\end{itemize}
+
+\subsection{Writing a {\em simple} HTTP server}
+Processing requests consists of:
+\begin{itemize}
+	\item reading request from socket
+	\item parsing request
+		\begin{itemize}
+			\item valid syntax?
+			\item type of request (GET, HEAD, POST)?
+			\item determine pathname
+				\begin{itemize}
+					\item $\sim$ translation
+					\item translate relative into absolute pathname
+				\end{itemize}
+		\end{itemize}
+	\item generate server status response
+	\item handle request
+\end{itemize}
+
+\subsection{Writing a {\em simple} HTTP server}
+Processing requests consists of:
+\begin{itemize}
+	\item handling regular file request
+		\begin{itemize}
+			\item {\tt stat(2)} file
+			\item {\tt open(2)} file
+			\item {\tt read(2)} file
+			\item {\tt write(2)} to socket
+			\item {\tt close(2)} file
+			\item terminate connection
+			\item exit child handler
+		\end{itemize}
+	\item handling CGI execution
+		\begin{itemize}
+			\item setup environment
+			\item setup filedescriptors (stdin/stdout)
+			\item fork-exec executable
+		\end{itemize}
+\end{itemize}
+
+
 
 \subsection{Client-Server Model}
 \begin{itemize}
@@ -256,10 +489,10 @@ How do shared libraries work?
 	\item contents of {\em static} libraries are pulled into the
 		executable at link time
 	\item contents of {\em dynamic} libraries are used to resolve
-		symbols at link time, but loaded at execution time by the
+		symbols at {\bf link time}, but loaded at {\bf execution time} by the
 		{\em dynamic linker}
-	\item contents of {\em dynamic} libraries may be loaded at any
-		time via explicit calls to the dynamic linking loader interface
+	\item contents of {\em dynamic} libraries may be loaded at {\bf any
+		time} via explicit calls to the dynamic linking loader interface
 		functions
 \end{itemize}
 
@@ -272,7 +505,9 @@ etc.
 	\includegraphics[scale=0.5]{pics/elf.eps}
 \end{center}
 More details:
-\verb+http://www.acsu.buffalo.edu/~charngda/elf.html+
+\verb+http://www.cs.stevens.edu/~jschauma/631/elf.html+
+
+\verb+http://www.thegeekstuff.com/2012/07/elf-object-file-format/+
 \Normalsize
 
 
@@ -382,7 +617,6 @@ $ ldd a.out
 [...]
 $ ./a.out
 [...]
-$ sed -e 's/ldtest1 /second ldtest1 /' ldtest1.c > ldtest1.2.c
 $ mkdir lib2
 $ cc -Wall -c -fPIC ldtest1.2.c
 $ cc -shared -Wl,-soname,libldtest.so.1 -o lib2/libldtest.so.1.0 ldtest1.2.o ldtest2.o
@@ -437,9 +671,10 @@ $ LD_DEBUG=all ./a.out
 \end{verbatim}
 
 \subsection{Homework}
-Grade each other's midterm assignment:
-\\
+Same as last week:
 
-\verb+http://www.cs.stevens.edu/~jschauma/631/f12-hw4.html+
+\verb+http://www.cs.stevens.edu/~jschauma/631/f13-hw3.html+
+
+\verb+http://www.cs.stevens.edu/~jschauma/631/f13-final-project.html+
 
 \end{document}

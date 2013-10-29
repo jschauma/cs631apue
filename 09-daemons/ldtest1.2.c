@@ -8,5 +8,5 @@
 #include <stdio.h>
 
 void ldtest1(const char *str) {
-	printf("second ldtest1 => %s\n", str);
+	printf("alternate ldtest1 implementation => %s\n", str);
 }
