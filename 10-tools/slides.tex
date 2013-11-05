@@ -36,6 +36,22 @@
 \end{center}
 \vspace*{\fill}
 
+\subsection{Amended Final Project Requirements}
+"Real World" edition
+\begin{itemize}
+	\item group work:
+		\begin{itemize}
+			\item 3-4 people in a team
+			\item let me know your team composition by next week
+			\item all people will get the same grade on the final project
+		\end{itemize}
+	\item use of {\tt git(1)} required
+	\item use of a {\tt Makefile} required
+	\item code must be split across multiple files
+	\item milestone deliverables (HW3 was the first)
+	\item multi-platform support
+\end{itemize}
+
 \subsection{Software Development Tools}
 \begin{center}
 	\includegraphics[scale=0.8]{pics/ide.eps}
@@ -63,12 +79,12 @@ The most important tools are:
 		 version control
 \end{itemize}
 
-\subsection{Compilers}
-
-\begin{center}
-	\includegraphics[scale=0.9,angle=-90]{pics/compiler_monster.eps}
-\end{center}
-
+%\subsection{Compilers}
+%
+%\begin{center}
+%	\includegraphics[scale=0.9,angle=-90]{pics/compiler_monster.eps}
+%\end{center}
+%
 
 \subsection{Compilers}
 
@@ -170,7 +186,9 @@ $ ld hello.o -lc
 $ cc -v hello.o
 [...]
 $ ld -dynamic-linker /lib64/ld-linux-x86-64.so.2 \
-        /usr/lib/crt1.o /usr/lib/crti.o hello.o -lc /usr/lib/crtn.o
+        /usr/lib/x86_64-linux-gnu/crt1.o         \
+        /usr/lib/x86_64-linux-gnu/crti.o hello.o \
+        -lc /usr/lib/x86_64-linux-gnu/crtn.o
 $ file a.out
 $ ./a.out
 \end{verbatim}
@@ -244,6 +262,112 @@ $ cc -v hello.c
 $ TMPDIR=/var/tmp cc -v hello.c
 $ cc -dumpspec
 \end{verbatim}
+
+\subsection{A Debugger}
+\vspace*{\fill}
+\begin{center}
+	\includegraphics{pics/debugging.eps}
+\end{center}
+\vspace*{\fill}
+
+\subsection{{\tt gdb(1)}}
+
+The purpose of a debugger such as {\tt gdb(1)} is to allow you to see what is
+going on ``inside'' another program while it executes -- or what another
+program was doing at the moment it crashed. {\tt gdb} allows you to
+
+\begin{itemize}
+	\item make your program stop on specified conditions (for example by
+		setting {\em breakpoints})
+	\item examine what has happened, when your program has stopped (by looking
+		at the {\em backtrace}, inspecting the value of certain variables)
+	\item inspect control flow (for example by {\em stepping} through the
+		program)
+\end{itemize}
+\vspace{.25in}
+Other interesting things you can do:
+
+\begin{itemize}
+	\item examine stack frames: {\em info frame}, {\em info locals}, {\em info
+		args}
+	\item examine memory: {\em x}
+	\item examine assembly: {\em disassemble func}
+\end{itemize}
+
+\subsection{{\tt gdb(1)}}
+\begin{verbatim}
+$ cd student
+$ make
+$ ./a.out -lR ~djd >/dev/null
+total 2701553
+[...]
+Memory fault
+$ gdb ./a.out
+ run -lR ~djd
+Starting program: /home/jschauma/t/student/a.out -lR ~djd
+total 2701553
+[...]
+
+Program received signal SIGSEGV, Segmentation fault.
+0x000000000040214a in print_entries (entryvect=0x6050a0, options=0x605010) at print.c:221
+221	                printf("%10s ", grpentry->gr_name);
+\end{verbatim}
+
+\subsection{{\tt gdb(1)}}
+\begin{verbatim}
+(gdb) bt
+#0  0x000000000040214a in print_entries (entryvect=0x6050a0, options=0x605010) at print.c:221
+#1  0x0000000000401ad5 in list_dir_contents (path=0x7fffffffec59 "/home/djd", ftsopts=48, options=0x605010, ftscompar=0x400df4 <name_comparator>) at print.c:71
+#2  0x000000000040292e in main (argc=1, argv=0x7fffffffe9e8) at ls.c:57
+(gdb) li
+216	  } else {
+217	      pwentry = getpwuid(myentryp->fts_statp->st_uid);
+218	      printf("%8s ", pwentry->pw_name);
+219
+220	      grpentry = getgrgid(myentryp->fts_statp->st_gid);
+221	      printf("%10s ", grpentry->gr_name);
+222	  }
+223
+224	  // displaying the size
+225	  size = (long long)(myentryp->fts_statp->st_size);
+(gdb) p grpentry
+$1 = (struct group *) 0x0
+\end{verbatim}
+
+\subsection{{\tt gdb(1)}}
+\begin{verbatim}
+$ cc -g gdb1.c
+$ ./a.out
+[...]
+$ gdb ./a.out
+[...]
+(gdb) break main
+Breakpoint 1 at 0x400603: file gdb1.c, line 10.
+(gdb) run
+Starting program: /home/jschauma/t/gdb-examples/a.out
+
+Breakpoint 1, main (argc=1, argv=0x7fffffffe9e8) at gdb1.c:10
+10		c = fgetc(stdin);
+(gdb) n
+
+\end{verbatim}
+
+\subsection{{\tt gdb(1)}}
+\begin{verbatim}
+$ ulimit -c unlimited
+$ cc -g gdb2.c
+$ ./a.out
+$ gdb a.out core
+bt
+[...]
+frame 2
+li
+p buf
+kill
+watch num
+run
+\end{verbatim}
+
 
 \subsection{{\tt make(1)}}
 
@@ -541,73 +665,6 @@ $ patch </tmp/patch
 $ diff Makefile.[24]
 \end{verbatim}
 
-\subsection{A Debugger}
-\vspace*{\fill}
-\begin{center}
-	\includegraphics{pics/debugging.eps}
-\end{center}
-\vspace*{\fill}
-
-\subsection{{\tt gdb(1)}}
-
-The purpose of a debugger such as {\tt gdb(1)} is to allow you to see what is
-going on ``inside'' another program while it executes -- or what another
-program was doing at the moment it crashed. {\tt gdb} allows you to
-
-\begin{itemize}
-	\item make your program stop on specified conditions (for example by
-		setting {\em breakpoints})
-	\item examine what has happened, when your program has stopped (by looking
-		at the {\em backtrace}, inspecting the value of certain variables)
-	\item inspect control flow (for example by {\em stepping} through the
-		program)
-\end{itemize}
-\vspace{.25in}
-Other interesting things you can do:
-
-\begin{itemize}
-	\item examine stack frames: {\em info frame}, {\em info locals}, {\em info
-		args}
-	\item examine memory: {\em x}
-	\item examine assembly: {\em disassemble func}
-\end{itemize}
-
-\subsection{{\tt gdb(1)}}
-\begin{verbatim}
-$ cc -g gdb1.c
-$ ./a.out
-[...]
-$ gdb ./a.out
-[...]
-frame 8
-print c
-n
-n
-[...]
-li
-
-\end{verbatim}
-
-\subsection{{\tt gdb(1)}}
-\begin{verbatim}
-$ ulimit -c unlimited
-$ cc -g gdb2.c
-$ ./a.out
-$ gdb a.out core
-bt
-[...]
-frame 2
-li
-p buf
-kill
-break gdb2.c:main
-run
-li
-n
-p buf
-p num
-\end{verbatim}
-
 \subsection{Revision Control}
 Version control systems allow you to
 
@@ -645,6 +702,8 @@ Examples:
 {\tt http://git.savannah.gnu.org/cgit/coreutils.git/log/}
 
 \subsection{Setting up git(1) for your final project}
+Each team identifies one member to host the repository. \\
+
 Initialize the source code repository:
 \\
 
@@ -653,6 +712,9 @@ ssh linux-lab.cs.stevens.edu
 mkdir -p ~/git/sws.git
 cd ~/git/sws
 git --bare init
+setfacl -R -m user:teammate1:rwx .
+setfacl -R -m user:teammate2:rwx .
+setfacl -R -m user:teammate3:rwx .
 \end{verbatim}
 
 \subsection{Setting up git(1) for your final project}
