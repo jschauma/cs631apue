@@ -1,0 +1,183 @@
+% CS631 Advanced Programming in the UNIX Environment
+% Author: Jan Schaumann <jschauma@netmeister.org>
+% $Id: slides.tex,v 1.1 2005/11/20 18:42:12 jschauma Exp $
+
+\documentclass[xga]{xdvislides}
+\usepackage[landscape]{geometry}
+\usepackage{graphics}
+\usepackage{graphicx}
+\usepackage{colordvi}
+\usepackage[normalem]{ulem}
+
+\begin{document}
+\setfontphv
+
+%%% Headers and footers
+\lhead{\slidetitle}
+\chead{CS631 - Advanced Programming in the UNIX Environment}
+\rhead{Slide \thepage}
+\lfoot{\Gray{Lecture 11: Encryption in a Nutshell}}
+\cfoot{\relax}
+\rfoot{\Gray{\today}}
+
+\vspace*{\fill}
+\begin{center}
+	\Hugesize
+		CS631 - Advanced Programming in the UNIX Environment\\
+		-- \\
+		Practical Code Reading of HTTP Server Implementations\\
+	\hspace*{5mm}\blueline\\ [1em]
+	\Normalsize
+		Department of Computer Science\\
+		Stevens Institute of Technology\\
+		Jan Schaumann\\
+		\verb+jschauma@stevens.edu+\\
+		\verb+http://www.cs.stevens.edu/~jschauma/631/+
+\end{center}
+\vspace*{\fill}
+
+
+\subsection{Setting up your SSH keys}
+\begin{verbatim}
+$ ssh linux-lab.cs.stevens.edu
+linux-lab$ ssh-keygen -t rsa -f ~/.ssh/cs631
+linux-lab$ cat ~/.ssh/cs631.pub | mail -s "[CS631] $USER's pubkey" \
+                   jschauma@stevens.edu
+\end{verbatim}
+
+\subsection{Different systems available}
+The following hosts should now be available to you:
+
+\begin{itemize}
+	\item NetBSD 6.1.2: {\tt cs631-netbsd.netmeister.org} \\
+		{\tt \#ifdef \_\_NetBSD\_\_}
+	\item OmniOS 5.11 (Solaris 11): {\tt cs631-omnios.netmeister.org}
+\\
+		{\tt \#ifdef \_\_sun\_\_}
+\end{itemize}
+\vspace{.5in}
+{\tt cc -E -dM - </dev/null | more}
+
+\subsection{Different systems available}
+You can log in on them using the SSH key you generated.
+
+\begin{verbatim}
+linux-lab$ ssh -i ~/.ssh/cs631 cs631-netbsd.netmeister.org
+cs631-netbsd$ git clone linux-lab.cs.stevens.edu:git/sws.git
+cs631-netbsd$ cd sws
+cs631-netbsd$ make
+\end{verbatim}
+
+\subsection{Let's set up a web server!}
+
+\begin{verbatim}
+linux-lab$ ssh -i ~/.ssh/cs631 cs631-netbsd.netmeister.org
+cs631-netbsd$ wget http://www.eterna.com.au/bozohttpd/bozohttpd-20130711.tar.bz2
+cs631-netbsd$ tar jxf bozohttpd-20130711.tar.bz2
+cs631-netbsd$ cd bozohttpd-20130711
+cs631-netbsd$ make
+cs631-netbsd$ nroff -man bozohttpd.8 | less
+cs631-netbsd$ export PORT=$(( $(id -u) + 1025 ))
+cs631-netbsd$ ./httpd -b -X -I ${PORT} .
+\end{verbatim}
+
+\subsection{Let's set up a web server!}
+\begin{verbatim}
+$ telnet cs631-netbsd.netmeister.org ${PORT}
+Trying 54.211.148.123...
+Connected to ec2-54-211-148-123.compute-1.amazonaws.com.
+Escape character is '^]'.
+GET / HTTP/1.0
+
+HTTP/1.0 200 OK
+Date: Mon, 11 Nov 2013 16:17:39 GMT
+Server: bozohttpd/20111118
+Accept-Ranges: bytes
+Content-Type: text/html
+
+<html><head><title>Index of index.html</title></head>
+<body><h1>Index of index.html</h1>
+<pre>
+Name                                     Last modified          Size
+\end{verbatim}
+
+\subsection{Let's see...}
+
+Or: in your browser go to {\tt http://cs631-netbsd.netmeister.org:\${PORT}/}
+
+%\subsection{Let's set up a web server!}
+%This time on {\tt cs631-omnios.netmeister.org}: \\
+%
+%{\tt http://www.acme.com/software/mini\_httpd/} \\
+%
+%Build it, run it.
+%
+%\subsection{Let's set up a web server!}
+%Pick a platform.  Pick a server. \\
+%
+%{\tt http://www.lighttpd.net/download/} \\
+%{\tt http://www.nginx.org/en/download.html} \\
+%{\tt http://tinyhttpd.sourceforge.net/} \\
+%
+%Build it, run it.
+
+
+\subsection{Code Reading}
+Each team reads one code base:
+\begin{itemize}
+	\item bozohttpd -- {\tt http://www.eterna.com.au/bozohttpd/}
+	\item lighttpd -- {\tt http://www.lighttpd.net/download/}
+	\item mini\_httpd -- {\tt http://www.acme.com/software/mini\_httpd/}
+	\item nginx -- {\tt http://www.nginx.org/en/download.html}
+	\item tinyhttpd -- {\tt http://tinyhttpd.sourceforge.net/}
+\end{itemize}
+\vspace{.5in}
+
+Present the basic parts of the code:
+\begin{itemize}
+	\item Where/how does it handle connections?  Does it select, pre-fork, ...?
+	\item Were/how does it handle HTTP request parsing, validation, ...?
+	\item Where/how does it handle directory indexing?
+	\item Where/how does it server actual files?
+\end{itemize}
+
+
+\subsection{Next Milestone}
+{\tt http://www.cs.stevens.edu/\~{}jschauma/631/f13-hw4.html} \\
+
+Let's brainstorm how to test this. \\
+
+Let's collect test cases.
+
+%\subsection{POST}
+%\small
+%\begin{verbatim}
+%$ telnet www.cs.stevens.edu 80
+%POST /~jschauma/cgi-bin/post.cgi HTTP/1.1
+%Host: www.cs.stevens.edu
+%Content-Type: application/x-www-form-urlencoded
+%Content-Length: 55
+%
+%today=2013-11-11&animal=moose&pizza-topping=prosciutto
+%HTTP/1.1 200 OK
+%Date: Mon, 10 Dec 2012 23:40:17 GMT
+%Server: Apache/2.2.9 (Debian) DAV/2 SVN/1.5.1 PHP/5.3.3-7+squeeze3 with
+%Suhosin-Patch mod_ssl/2.2.9 OpenSSL/0.9.8o
+%Vary: Accept-Encoding
+%Transfer-Encoding: chunked
+%Content-Type: text/html
+%
+%d0
+%<html><head><title>Parsing with POST method</title></head><body>
+%<h2>These were the values sent:</h2>
+%<p>today => 2013-11-11</p>
+%<p>animal => moose</p>
+%</p>izza-topping => prosciutto
+%</p>
+%</body></html>
+%\end{verbatim}
+%\Normalsize
+%
+
+
+\end{document}
