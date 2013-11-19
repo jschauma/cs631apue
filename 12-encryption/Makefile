@@ -8,7 +8,7 @@ PDFTOTEXT=	pdftotext
 FIGURES=	pics/symmetric-key-crypto.eps	\
 		pics/DES.eps			\
 		pics/Public_key_encryption.eps	\
-		pics/handshake2.eps		\
+		pics/encryption-handshake.eps	\
 		pics/Ecb_encryption.eps		\
 		pics/Ecb_decryption.eps		\
 		pics/Cbc_encryption.eps		\
