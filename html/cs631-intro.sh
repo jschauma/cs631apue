@@ -39,7 +39,6 @@
 # The script prompts the user to perform certain tasks; all interactions
 # are logged via script(1), and the output is emailed to the instructor.
 
-umask 077
 NAME="CS631-Intro"
 
 INSTRUCTOR="jschauma"
@@ -71,7 +70,7 @@ task() {
 	local readonly n="${1}"
 
 	echo
-	echo "Remember to type 'exit' when you are done."
+	echo "When you are done, just type 'exit'."
 	echo
 	cd intro-${USER} 2>/dev/null
 	script -q "${SCRIPT_DIR}/${NAME}.${n}"
@@ -229,7 +228,7 @@ submitOutput
 
 cat <<EOF
 
-Alright, that was all!  See, that wasn't so bad, now as it?
+Alright, that was all!  See, that wasn't so bad, now was it?
 If you wish, you can remove the directory 'intro-$USER' now.
 
 Goodbye.

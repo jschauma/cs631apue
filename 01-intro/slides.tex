@@ -34,17 +34,92 @@
 \end{center}
 \vspace*{\fill}
 
-\subsection{Programming}
+\subsection{New Rules}
+\Hugesize
+\vspace*{\fill}
 \begin{center}
-\includegraphics[scale=0.7]{pics/WrongProgramming.eps} \\
-\verb+http://is.gd/Z4CLky+
+Close your laptops!
 \end{center}
+\vspace*{\fill}
+\Normalsize
 
-\subsection{Programming}
+\subsection{New Rules}
+\Hugesize
+\vspace*{\fill}
+\begin{center}
+Close your laptops! \\
+\vspace{.5in}
+Open your eyes! \\
+\small
+(Mind, too.)
+\end{center}
+\vspace*{\fill}
+\Normalsize
+
+
+\subsection{What is this about?}
 \begin{center}
 \includegraphics[scale=0.6,angle=-90]{pics/kernighan-ritchie.eps} \\
 \verb+http://cm.bell-labs.com/who/dmr/chist.html+
 \end{center}
+
+\subsection{What is this about?}
+\Hugesize
+\vspace*{\fill}
+\begin{center}
+Open your laptops!
+\end{center}
+\begin{verbatim}
+$ ssh linux-lab.cs.stevens.edu
+$ mذdir apue
+$ cp ~jschauma/apue/welcome.c apue/
+\end{verbatim}
+\vspace{.5in}
+Now compile and run the program.
+\vspace*{\fill}
+\Normalsize
+
+
+\subsection{Programming}
+\begin{center}
+\includegraphics[scale=0.7,angle=-90]{pics/if-programming-languages-were-weapons.eps} \\
+\vspace{.5in}
+\verb+http://is.gd/6aidgb+ \\
+\verb+https://i.imgur.com/ZyeCO.jpg+
+\end{center}
+
+\subsection{Important ANSI C Features, Error Handling}
+\begin{itemize}
+	\item	Important ANSI C Features:
+		\begin{itemize}
+			\item function prototypes
+			\item generic pointers ({\tt void *})
+			\item abstract data types (e.g. {\tt pid\_t}, {\tt size\_t})
+		\end{itemize}
+	\item	Error Handling:
+		\begin{itemize}
+			\item meaningful return values
+			\item {\tt errno} variable
+			\item look up constant error values via two functions:
+				\small
+				\setlength{\unitlength}{1mm}
+				\begin{center}
+					\begin{picture}(200,20)
+						\thinlines
+						\put(-10,0){\framebox(180,15){}}
+						\put(0,10){{\tt \#include <string.h>}}
+						\put(0,5){{\tt char *strerror(int {\em errnum})}}
+						\put(100,2){Returns: pointer to message string}
+					\end{picture}
+					\begin{picture}(200,20)
+						\thinlines
+						\put(-10,0){\framebox(180,15){}}
+						\put(0,10){{\tt \#include <stdio.h>}}
+						\put(0,5){{\tt void perror(const char {\em *msg})}}
+					\end{picture}
+				\end{center}
+		\end{itemize}
+\end{itemize}
 
 \subsection{Extra Fun!}
 \vspace*{\fill}
@@ -53,13 +128,6 @@
 \verb+http://golang.org+
 \end{center}
 \vspace*{\fill}
-
-%\subsection{Advanced Programming}
-%\begin{center}
-%\includegraphics{pics/magic-hat.eps} \\
-%\verb+http://is.gd/TTCLri+
-%\end{center}
-%
 
 \subsection{In a nutshell: the "what"}
 \begin{verbatim}
@@ -71,6 +139,12 @@ chmod      df         kill       mv         rm         systrace
 cp         domainname ksh        pax        rmdir      tar
 cpio       echo       ln         ps         sh         test
 $
+\end{verbatim}
+
+See also:
+\begin{verbatim}
+$ ssh linux-lab.cs.stevens.edu
+$ cd ~jschauma/apue/src/
 \end{verbatim}
 
 \subsection{In a nutshell: the "what"}
@@ -213,54 +287,43 @@ The "why":
 Textbook:
 \begin{itemize}
 	\item ``Advanced Programming in the UNIX Environment'', by
-		W. Richard Stevens, Stephen A. Rago (2nd Edition)
+		W. Richard Stevens, Stephen A. Rago (3rd Edition)
 \end{itemize}
-\addvspace{.5in}
+\addvspace{.25in}
 Help:
 \begin{itemize}
 	\item \verb+http://lists.stevens.edu/cgi-bin/mailman/listinfo/cs631apue+
+	\item IRC: \verb+#cs631apue+ on Freenode
 	\item \verb+https://twitter.com/#!/cs631apue+
 \end{itemize}
-\addvspace{.5in}
+\addvspace{.25in}
 
 Grading:
 \begin{itemize}
 	\item 5 homework assignments, worth 20 points each
 	\item 1 midterm project, worth 100 points
-	\item 1 final exam, worth 100 points
-	\item 1 final project, worth 200 points
+	\item 1 final project (group work), worth 200 points
+	\item 1 final programming assignment (individual), worth 100 points
 	\item no curve
 \end{itemize}
 
 \subsection{Syllabus}
 %Topics:
 \begin{itemize}
-	\item 2013-08-26: Introduction, UNIX history, UNIX Programming Basics
-	\item 2013-09-09: File I/O, File Sharing
-	\item 2013-09-16: Files and Directories, Filesystems
-	\item 2013-09-23: System Data Files, Time \& Date, Process Environment
-	\item 2013-09-30: Process Control, Signals
-	\item 2013-10-07: Signals
-	\item 2013-10-15: Interprocess Communication
-	\item 2013-10-21: Advanced I/O: Nonblocking I/O, Polling, and Record Locking
-	\item 2013-10-28: Daemon Processes, final project discussion
-	\item 2013-11-04: UNIX tools: make(1), gdb(1), revision control, etc.
-	\item 2013-11-11: Encryption
-	\item 2013-11-18 -- 2013-11-25: Code reading and discussions
-	\item 2013-12-02: Final Exam
+	\item 2014-09-08: Introduction, UNIX history, UNIX Programming Basics
+	\item 2014-09-15: File I/O, File Sharing
+	\item 2014-09-22: Files and Directories, Filesystems
+	\item 2014-09-29: System Data Files, Time \& Date, Process Environment
+	\item 2014-10-06: Process Control, Signals
+	\item 2014-10-07: Process Groups, Signals
+	\item 2014-10-14: Interprocess Communication
+	\item 2014-10-20: Advanced I/O: Nonblocking I/O, Polling, and Record Locking
+	\item 2014-10-27: Daemon Processes, final project discussion
+	\item 2014-11-03: UNIX tools: make(1), gdb(1), revision control, etc.
+	\item 2014-11-10: Encryption
+	\item 2014-11-17 -- 2014-11-24: Code reading and discussions
+	\item 2014-12-01: Review
 \end{itemize}
-
-\pagebreak
-
-\vspace*{\fill}
-\begin{center}
-  \Hugesize
-    {\tt linux-lab.cs.stevens.edu}
-	\hspace*{5mm}\blueline\\ [1em]
-  \Normalsize
-{\tt http://tarantula.phy.stevens.edu/wiki/index.php/Linux\_Lab}
-\end{center}
-\vspace*{\fill}
 
 \pagebreak
 
@@ -288,7 +351,7 @@ Grading:
 	\item two main directions emerge: BSD and what was to become ``System V''
 \end{itemize}
 
-\subsection{UNIX history}
+\subsection{Notable dates in UNIX history}
 \begin{itemize}
 	\item 1984 4.2BSD released (TCP/IP)
 	\item 1986 4.3BSD released (NFS)
@@ -298,13 +361,11 @@ Grading:
 	\item 1995 4.4BSD-Lite Release 2 (last CSRG release); OpenBSD
 		forked off NetBSD
 	\item 2000 Darwin created (derived from NeXT, FreeBSD, NetBSD)
-	\item ...
-\end{itemize}
-
-Some of todays main Unix versions:
-\begin{itemize}
-	\item mostly BSD: *BSD, Linux, Mac OS X
-	\item mostly SysV: Solaris, HP-UX, IRIX
+	\item 2003 Xen; SELinux
+	\item 2005 Hadoop; DTrace; ZFS; Solaris Containers
+	\item 2006 AWS ("Cloud Computing" comes full circle)
+	\item 2007 iOS; KVM appears in Linux
+	\item 2008 Android; Solaris open sourced as OpenSolaris
 \end{itemize}
 
 \subsection{Some UNIX versions}
@@ -345,6 +406,28 @@ More UNIX (some generic, some trademark, some just unix-like):
 \end{tabular}
 \Normalsize
 
+\subsection{UNIX Everywhere}
+\Hugesize
+\vspace*{\fill}
+\begin{center}
+Today, your desktop, server, cloud, TV, phone, watch, stereo, car
+navigation system, thermostat, door lock, etc. all run a Unix-like OS... \\
+\end{center}
+\vspace*{\fill}
+\Normalsize
+
+\subsection{UNIX Everywhere}
+\Hugesize
+\vspace*{\fill}
+\begin{center}
+Today, your desktop, server, cloud, TV, phone, watch, stereo, car
+navigation system, thermostat, door lock, etc. all run a Unix-like OS... \\
+\vspace{.5in}
+...with all the risks that entails.
+\end{center}
+\vspace*{\fill}
+\Normalsize
+
 \pagebreak
 
 \vspace*{\fill}
@@ -379,17 +462,17 @@ Say "Thank you, Douglas McIlroy!"
 
 
 \subsection{Program Design}
-\verb+https://secure.wikimedia.org/wikipedia/en/wiki/Unix_philosophy+ \\
+\verb+https://en.wikipedia.org/wiki/Unix_philosophy+ \\
 
 UNIX programs...
 \begin{itemize}
 	\item ...are simple
-	\item ...have a manual page
 	\item ...follow the element of least surprise
 	\item ...accept input from {\tt stdin}
 	\item ...generate output to {\tt stdout}
 	\item ...generate meaningful error messages to {\tt stderr}
 	\item ...have meaningful exit codes
+	\item ...have a manual page
 \end{itemize}
 \subsection{Boot/Login process}
 \small
@@ -555,17 +638,26 @@ $
 		identify users on the system and grant permissions appropriate to them.
 	\item {\em Group ID}s come in two types; {\em primary} and {\em secondary}.
 \end{itemize}
+\vspace{.25in}
+
+\begin{verbatim}
+$ id
+\end{verbatim}
 
 \subsection{Unix Time Values}
 {\em Calendar time}: measured in seconds since the UNIX epoch (Jan
 1, 00:00:00, 1970, GMT). Stored in a variable of type {\tt time\_t}.
 \\
 
+\begin{verbatim}
+$ date +%s
+\end{verbatim}
+
 \begin{center}
 \includegraphics[scale=0.8,angle=-90]{pics/epoch-fail.eps} \\
 \verb+https://www.xkcd.com/376/+ \\
 \vspace{.25in}
-\verb+https://secure.wikimedia.org/wikipedia/en/wiki/Year_2038_problem+
+\verb+https://en.wikipedia.org/wiki/Year_2038_problem+
 \end{center}
 
 
@@ -611,18 +703,14 @@ $ time grep -r _POSIX_SOURCE /usr/include >/dev/null
 			\item kernel provides {\bf unbuffered} I/O through e.g.
 				{\tt open read write lseek close}
 			\item kernel provides {\bf buffered} I/O through e.g.
-				{\tt getc putc fopen fread fwrite}
+				{\tt fopen fread fwrite getc putc}
 		\end{itemize}
 \end{itemize}
-
-\subsection{Standard I/O: cat(1)}
 \vspace*{\fill}
 \begin{verbatim}
-$ for f in cat cat2; do
-    wget http://www.cs.stevens.edu/~jschauma/631/simple-${f}.c
-    cc -Wall -o my${f} simple-${f}.c
-    ./my${f} <simple-${f}.c
-done
+$ wget http://www.cs.stevens.edu/~jschauma/631/simple-cat.c
+$ wget http://www.cs.stevens.edu/~jschauma/631/simple-cat2.c
+$ diff -bu simple-cat*.c
 [...]
 $
 \end{verbatim}
@@ -653,11 +741,6 @@ $ echo $$
 \vspace*{\fill}
 
 \subsection{Processes}
-\begin{center}
-\includegraphics[scale=0.75]{pics/process-tree.eps} \\
-\end{center}
-
-\subsection{Processes}
 \vspace*{\fill}
 \Huge
 \begin{center}
@@ -666,6 +749,52 @@ $ echo $$
 \Normalsize
 \vspace*{\fill}
 
+
+
+\subsection{Processes}
+\small
+\begin{verbatim}
+[...]
+total memory = 768 MB
+avail memory = 732 MB
+timecounter: Timecounters tick every 10.000 msec
+mainbus0 (root)
+[...]
+boot device: xbd3
+root on xbd3a dumps on xbd3b
+mountroot: trying lfs...
+mountroot: trying ffs...
+root file system type: ffs
+init: copying out path `/sbin/init' 11
+[...]
+Starting local daemons:.
+Starting sendmail.
+Starting sshd.
+Starting snmpd.
+Starting cron.
+
+NetBSD/amd64 (panix.netmeister.org) (console)
+
+login: jschauma
+Password:
+Last login: Sat Sep 10 14:27:56 2011 on console
+Copyright (c) 1982, 1986, 1989, 1991, 1993
+    The Regents of the University of California.  All rights reserved.
+
+NetBSD 5.0.2 (PANIX-VC) #2: Tue Oct 19 16:30:57 EDT 2010
+
+Welcome to NetBSD!
+
+$
+\end{verbatim}
+\Normalsize
+
+
+
+\subsection{Processes}
+\begin{center}
+\includegraphics[scale=0.75]{pics/process-tree.eps} \\
+\end{center}
 
 \subsection{Signals}
 \begin{itemize}
@@ -692,57 +821,22 @@ Caught SIGINT!
 \end{center}
 \vspace*{\fill}
 
-
-\subsection{Important ANSI C Features, Error Handling}
-\begin{itemize}
-	\item	Important ANSI C Features:
-		\begin{itemize}
-			\item function prototypes
-			\item generic pointers ({\tt void *})
-			\item abstract data types (e.g. {\tt pid\_t}, {\tt size\_t})
-		\end{itemize}
-	\item	Error Handling:
-		\begin{itemize}
-			\item meaningful return values
-			\item {\tt errno} variable
-			\item look up constant error values via two functions:
-				\small
-				\setlength{\unitlength}{1mm}
-				\begin{center}
-					\begin{picture}(200,20)
-						\thinlines
-						\put(-10,0){\framebox(180,15){}}
-						\put(0,10){{\tt \#include <string.h>}}
-						\put(0,5){{\tt char *strerror(int {\em errnum})}}
-						\put(100,2){Returns: pointer to message string}
-					\end{picture}
-					\begin{picture}(200,20)
-						\thinlines
-						\put(-10,0){\framebox(180,15){}}
-						\put(0,10){{\tt \#include <stdio.h>}}
-						\put(0,5){{\tt void perror(const char {\em *msg})}}
-					\end{picture}
-				\end{center}
-		\end{itemize}
-\end{itemize}
-
-
 \subsection{Homework}
 \begin{itemize}
 	\item read {\tt intro(2)}, Stevens 1 \& 2
 	\item follow, test and understand all examples from this lecture
-	\item sign up on the course mailing list (using a Stevens email address)
+	\item ask questions on the course mailing list and IRC channel
 	\item bookmark these websites:
 		\begin{itemize}
-			\item {\tt http://www.cs.stevens.edu/\~{}jschauma/631/}
-			\item {\tt http://pubs.opengroup.org/onlinepubs/9699919799/}
+			\item {\tt https://www.cs.stevens.edu/\~{}jschauma/631/}
+			\item {\tt https://pubs.opengroup.org/onlinepubs/9699919799/}
 		\end{itemize}
 %	\item get the full sources to NetBSD: \\
 %		{\tt ftp://ftp.netbsd.org/pub/NetBSD/NetBSD-5.1/source/sets/}
 	\item ensure you have an account on {\tt linux-lab.cs.stevens.edu}; see \\
-		{\tt http://tarantula.phy.stevens.edu/wiki/index.php/Linux\_Lab}
+		{\tt https://www.srcit.stevens.edu/wiki/index.php/Linux\_Lab}
 	\vspace{.5in}
-	\item {\tt http://www.cs.stevens.edu/\~{}jschauma/631/f13-intro.html}
-	\item {\tt http://www.cs.stevens.edu/\~{}jschauma/631/f13-hw1.html}
+	\item {\tt http://www.cs.stevens.edu/\~{}jschauma/631/intro.html}
+	\item {\tt http://www.cs.stevens.edu/\~{}jschauma/631/f14-hw1.html}
 \end{itemize}
 \end{document}

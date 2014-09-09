@@ -39,9 +39,13 @@
         expected to have a good working knowledge of the C
         programming language and to be able to
         competently use a UNIX system with a command-line shell
-        interface.  This class overlaps <em>significantly</em> with
-	CS392 ``Systems Programming'' -- you cannot take CS631 if you have
-        taken CS392.</P>
+        interface.  <em>All coursework will be done exclusively on
+        linux-lab.cs.stevens.edu from the command-line.</em>  This is not
+        an introduction to using Unix!</P>
+
+        <P>This class overlaps <em>significantly</em> with
+	CS392 ``Systems Programming'' -- if you have taken this class,
+        please talk to me in person before trying to register for CS631.</P>
 
 	<hr>
 	<table width="100%" border="0">
@@ -49,7 +53,7 @@
 	<tr><td width="50%" valign="top">
 
         <H3><a name="time"></a>Time, Date &amp; Place:</H3>
-	<p><b>Mondays, 18:15 - 20:45, Babbio Center 304</b></p>
+	<p><b>Mondays, 18:15 - 20:45, Lieb 120</b></p>
 
         <H3><a name="instructor"></a>Instructor:</H3><A href=
         "http://www.cs.stevens.edu/~jschauma/">Jan Schaumann</A>
@@ -61,12 +65,16 @@
         <H3><a name="resources"></a>Resources:</H3>
 
 	<ul>
-	  <li><a href="#syllabus">Course Syllabus</a></li>
           <LI><A href=
           "https://lists.stevens.edu/cgi-bin/mailman/listinfo/cs631apue">CS631APUE Mailinglist</a></li>
-
+	  <LI><A href="https://webchat.freenode.net/">Freenode IRC Webchat
+-- use #cs631apue</a></li>
+	</ul>
+	<ul>
+	  <li><a href="#syllabus">Course Syllabus</a></li>
           <LI><A href="hw">General Homework Guidelines</a></li>
 	  <LI><A href="style">Source Code Style Guide</A></li>
+	  <LI><A href="text">Writing ASCII Text</A></li>
 	  <LI><a href="#source-code">Links to OS Source Code</a></li>
 	  <li><a href="#books">Textbooks used in this class</a></li>
 	  <li><a href="#systems">Systems used in this class</a></li>
@@ -74,9 +82,7 @@
 	  <li><a href="#hw">Homework Assignments</a></li>
 	  <li><a href="#midterm">Midterm Project</a></li>
 	  <li><a href="#final">Final Project</a></li>
-	  <li><a href="#final-exam">Final Exam</a></li>
 	</ul>
-
 
         <UL>
           <LI><A href=
@@ -128,16 +134,14 @@ js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';i
           ``<A href=
           "http://www.aw-bc.com/catalog/academic/product/0,1144,0201433079,00.html">
           Advanced Programming in the UNIX&#174;
-          Environment</A>'', Second Edition<BR>
+          Environment</A>'', Third Edition<BR>
           W. Richard Stevens, Stephen A. Rago<BR>
-          ISBN: 0-201-43307-9<BR>
+          ISBN: 0-321-63773-9<BR>
           Publisher: Addison Wesley Professional<BR>
           <A href=
-          "http://www.apuebook.com/index.html">Code
-          Examples</A> | <a href="http://proquest.safaribooksonline.com/0201433079">Safari Online version</a><BR></LI>
+          "http://www.apuebook.com/code3e.html">Code
+          Examples</A> | <a href="http://proquest.safaribooksonline.com/book/programming/unix/9780321638014">Safari Online version</a><BR></LI>
 	</UL>
-
-        The third edition, released in May 2013, is also acceptable.
 	</p>
 
 	<p>
@@ -163,15 +167,12 @@ js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';i
           </LI>
         </UL>
 
-	Online vendors such as Amazon.com, bn.com, etc.
-	usually sell these books for cheaper than the Stevens bookstore.
-
 	<hr>
 	<H3><a name="systems"></a>Systems Used</H3>
 	<p>All software development will be done on the
 	<tt>linux-lab.cs.stevens-tech.edu</tt>
 	systems.  It is your
-	responsibility to <a href="http://tarantula.phy.stevens.edu/wiki/index.php/Linux\_Lab">get an account on these systems</a> <b>prior to the start of the class</b>.</p>
+	responsibility to <a href="https://www.srcit.stevens.edu/wiki/index.php/Linux_Lab">get an account on these systems</a> <b>prior to the start of the class</b>.</p>
 	<p>All grading will be done on these systems.  While you may
 	choose to develop on your own personal host, you should make sure
 	that your code compiles and runs flawlessly on these systems.</p>
@@ -219,9 +220,11 @@ js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';i
 
 	<hr>
         <H3><A name="hw">Homework</A> Assignments:</H3>
+	These were the assignments given in the Fall of 2013.  It is
+	likely that this year's assignments will be somewhat different.
 	<ul>
-		<li><a href="f13-intro.html">Intro "test"</a></li>
-		<li><a href="f13-hw1.html">HW#1: read code</a></li>
+		<li><a href="intro.html">Intro "test"</a></li>
+		<li><a href="f14-hw1.html">HW#1: read code</a></li>
 		<li><a href="f13-hw2.html">HW#2: trivially copy a file</a></li>
 		<li><a href="f13-hw3.html">HW#3: webserver framework</a></li>
 		<li><a href="f13-hw4.html">HW#4: sws, milestone#2</a></li>
@@ -244,10 +247,11 @@ js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';i
         See the full <A href="f13-final-project.html">final project
         description</A> for details.</P>
 
+	<!--
 	<hr>
         <H3><A name="final-exam">Final Exam</A>:</H3>
 	<p>Details to be announced.</p>
-        <!-- In 2012, we had a take-home
+        In 2012, we had a take-home
         <a href="final-F2012.txt">final</a>.  The final may differ in the coming semester.
 	-->
 	<hr>
@@ -267,8 +271,21 @@ js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';i
             <TH>Notes</TH>
 
           </TR>
+
           <TR>
-            <TD>2013-08-26</TD>
+            <TD>2014-08-25</TD>
+            <TD colspan="3"><em>No Class</em></TD>
+          </TR>
+
+          <TR>
+            <TD>2014-09-01</TD>
+            <TD colspan="3"><em>Labor Day Holiday</em></TD>
+          </TR>
+
+         </TR>
+
+          <TR>
+            <TD>2014-09-08</TD>
 
             <TD>Introduction, UNIX history, UNIX Programming
             Basics</TD>
@@ -281,19 +298,13 @@ js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';i
             <A href="simple-ls.c">simple-ls.c</A><BR>
             <A href="simple-shell.c">simple-shell.c</A><BR>
             <A href="simple-shell2.c">simple-shell2.c</A><br><br>
-            <a href="f13-intro.html">Intro</a><br>
-	    <a href="f13-hw1.html">HW#1</a></TD>
+            <a href="intro.html">Intro</a><br>
+	    <a href="f14-hw1.html">HW#1</a></TD>
 
           </TR>
 
           <TR>
-            <TD>2013-09-02</TD>
-            <TD colspan="3"><em>Labor Day Holiday</em></TD>
-          </TR>
-
-
-          <TR>
-            <TD>2013-09-09</TD>
+            <TD>2014-09-15</TD>
 
             <TD>File I/O, File Sharing</TD>
 
@@ -314,7 +325,7 @@ js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';i
           </TR>
 
           <TR>
-            <TD>2013-09-16</TD>
+            <TD>2014-09-22</TD>
 
             <TD>Files and Directories</TD>
 
@@ -332,7 +343,7 @@ js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';i
           </TR>
 
           <TR>
-            <TD>2013-09-23</TD>
+            <TD>2014-09-29</TD>
 
             <TD>Filesystems, System Data Files, Time &amp;
             Date</TD>
@@ -347,7 +358,7 @@ js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';i
           </TR>
 
           <TR>
-            <TD>2013-09-30</TD>
+            <TD>2014-10-06</TD>
 
             <TD>Process Environment, Process Control</TD>
 
@@ -368,9 +379,13 @@ js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';i
             <A href="setjmp3.c">setjmp3.c</A> --></TD>
           </TR>
 
+          <TR>
+            <TD>2014-10-13</TD>
+            <TD colspan="3"><em>Fall Recess</em></TD>
+          </TR>
 
           <TR>
-            <TD>2013-10-07</TD>
+            <TD>2014-10-14</TD>
 
             <TD>Process Groups, Sessions, Signals</TD>
 
@@ -379,6 +394,7 @@ js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';i
             <TD width="25%">
 		<A href="lecture06.pdf">Lecture
             Slides</A><BR>
+		<em>Note: Tuesday class!</em><br>
 		<a
 href="http://www.informit.com/articles/article.aspx?p=366888&seqNum=7">FreeBSD Process Management</a> (from "The Design and Implementation of the FreeBSD Operating System")<BR>
             &#160;<BR>
@@ -389,13 +405,13 @@ href="http://www.informit.com/articles/article.aspx?p=366888&seqNum=7">FreeBSD P
           </TR>
 
           <TR>
-            <TD>2013-10-15</TD>
+            <TD>2014-10-20</TD>
 
             <TD>Interprocess Communication</TD>
 
             <TD>Stevens: Chapter 14</TD>
 
-            <TD width="25%"><em>Note: Tuesday class!</em><br><br>
+            <TD width="25%">
 		<a href="lecture07.pdf">Lecture Slides</A><BR>
             <BR>
             <A href="ipctut.pdf">BSD IPC Tutorial</A><BR>
@@ -424,7 +440,7 @@ href="http://www.informit.com/articles/article.aspx?p=366888&seqNum=7">FreeBSD P
           </TR>
 
           <TR>
-            <TD>2013-10-21</TD>
+            <TD>2014-10-27</TD>
 
             <TD>Advanced I/O: Nonblocking I/O, Polling, and Record
             Locking</TD>
@@ -443,14 +459,19 @@ Assignment</a><br>
           </TR>
 
           <TR>
-            <TD>2013-10-28</TD>
+            <TD>2014-11-03</TD>
 
             <TD><a name="daemon"></a>D&aelig;mon Processes, Shared Libraries</TD>
 
             <TD>Stevens: Chapter 13</TD>
 
-            <TD width="25%">&nbsp;<a href="lecture09.pdf">Lecture
-Slides</a><br><br>
+            <TD width="25%"><a href="lecture09.pdf">Lecture
+Slides</a><br>
+		<a
+href="http://jvns.ca/blog/2014/09/06/how-to-read-an-executable/">How to
+read an Executable</a><br>
+		<a href="elf.html">The Executable and Linkable Format
+(ELF)</a><br><br>
 		<a href="dlopenex.c">dlopenex.c</a><br>
 		<a href="evil.c">evil.c</a><br>
 		<a href="ldtest1.2.c">ldtest1.2.c</a><br>
@@ -462,7 +483,7 @@ Slides</a><br><br>
           </TR>
 
           <TR>
-            <TD>2013-11-04</TD>
+            <TD>2014-11-10</TD>
 
             <TD>UNIX tools: make(1), revision control, diff(1), patch(1), gdb(1)</TD>
 
@@ -486,7 +507,7 @@ Slides</a><br><br>
           </TR>
 
           <TR>
-            <TD>2013-11-11</TD>
+            <TD>2014-11-17</TD>
 
             <TD>Code Reading / HTTP Server Implementations</TD>
 
@@ -502,7 +523,7 @@ Slides</a><br><br>
           </TR>
 
           <TR>
-            <TD>2013-11-18</TD>
+            <TD>2014-11-24</TD>
 
             <TD>Encryption in a Nutshell</TD>
 
@@ -513,18 +534,10 @@ Slides</a><br><br>
           </TR>
 
           <TR>
-            <TD>2013-11-25</TD>
-
-            <TD>Review</TD>
-
-            <TD>All materials covered.</TD>
-            <TD><a href="lecture13.pdf">Lecture Slides</a></TD>
-          </TR>
-          <TR>
-            <TD>2013-12-02</TD>
+            <TD>2014-12-01</TD>
             <TD>Final Exam</TD>
             <TD>&nbsp;</TD>
-            <TD>&nbsp;</TD>
+            <TD><a href="f13-final.txt">Final Exam</a></TD>
           </TR>
         </TABLE>
       </TD>

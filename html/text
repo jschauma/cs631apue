@@ -1,0 +1,39 @@
+All assignments given in the class CS631 Advanced Programming in the UNIX
+Environment must be submitted as plain ASCII text files.  Plain text is
+the most portable and ubiquitous format; no special tools are required to
+read it, all Unix tools can process it, and all formatting is fixed and
+guaranteed to be the same across systems.  Plain text makes no assumptions
+about the abilities of the system on which it is read.
+
+However, it appears that students are not used to writing plain text and
+often tend to use word processors, end up writing HTML or XML documents,
+or submit PDF files.  None of this is necessary, even for long and complex
+documents.  If plain text is good enough for RFCs, it is good enough for
+your homework submissions in this class.
+
+However, to ensure that the content of the documents you write is easy to
+read, please follow the recommendations below:
+
+- Just like with code, readability is important!
+
+- Use a Unix text editor on a Unix(-like) system.
+
+  It is essential to be able to efficiently use a text editor, and doing
+  all your writing / coding / text processing in one of the common editors
+  available on all Unix systems is good practice.  vi(1)/vim(1) and emacs(1)
+  are popular choices.
+
+- Break your lines at around 76 characters.  Longer lines are harder to
+  read.
+
+- Use paragraphs.  Text that is all written in one large block without any
+  paragraphs is very hard to read.  Give your text (and reader) some room
+  to breath.
+
+- Spell-check your text before submitting it.  On my Unix-like systems,
+  you can find the ispell(1) command installed.
+
+- Re-read your text before submitting it.  Sometimes it is useful to take
+  some time in between finishing writing your text and actually submitting
+  it.  Giving your brain a break will let you find mistakes or identify
+  possible improvements.
