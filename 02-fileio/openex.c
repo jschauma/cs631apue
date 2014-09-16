@@ -80,6 +80,7 @@ openFile() {
 	printf("'./openex.c' opened. File descriptor is: %d\n", fd);
 
 	(void)close(fd);
+	printf("'./openex.c' closed again\n");
 }
 
 void
@@ -124,6 +125,7 @@ main(int argc, char **argv) {
 	printf("\n");
 	sleep(2);
 
+	printf("cp openex.c newfile\n");
 	system("cp openex.c newfile");
 	system("ls -l newfile");
 	truncateFile();

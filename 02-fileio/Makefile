@@ -94,7 +94,7 @@ catio: tmpfiles ../01-intro/simple-cat.c
 		echo "BUFFSIZE = $$n";					\
 		cc -Wall -DBUFFSIZE=$$n ../01-intro/simple-cat.c;	\
 		i=$$(( $$i + 1 ));					\
-		time ./a.out <tmp/file$$i >tmp/file$$i.copy;		\
+		/usr/bin/time -p ./a.out <tmp/file$$i >tmp/file$$i.copy;\
 		echo;							\
 	done;
 

@@ -35,28 +35,29 @@
 \end{center}
 \vspace*{\fill}
 
-\subsection{Shell Command-Line Processing}
-\begin{center}
-\Huge
-\begin{verbatim}
-$ cc -Wall argv.c
-$ ./a.out
-$ ./a.out *.c
-$ ./a.out *.none
-$ ./a.out *.[1c]
-$ ./a.out "*.c"
-$ ./a.out $USER
-$ ./a.out "$(echo *.1)"
-$ ./a.out {foo,bar,baz}.whatever
-$ ./a.out {1..5}
-$ ./a.out {1..5}{a..f}
-\end{verbatim}
-\normalsize
-\vspace{.25in}
-See also:
-\verb+http://is.gd/Ydgywd+ and \verb+http://is.gd/iZa9rC+
-\end{center}
 
+%\subsection{Shell Command-Line Processing}
+%\begin{center}
+%\Huge
+%\begin{verbatim}
+%$ cc -Wall argv.c
+%$ ./a.out
+%$ ./a.out *.c
+%$ ./a.out *.none
+%$ ./a.out *.[1c]
+%$ ./a.out "*.c"
+%$ ./a.out $USER
+%$ ./a.out "$(echo *.1)"
+%$ ./a.out {foo,bar,baz}.whatever
+%$ ./a.out {1..5}
+%$ ./a.out {1..5}{a..f}
+%\end{verbatim}
+%\normalsize
+%\vspace{.25in}
+%See also:
+%\verb+http://is.gd/Ydgywd+ and \verb+http://is.gd/iZa9rC+
+%\end{center}
+%
 \subsection{File Descriptors}
 \begin{itemize}
 	\item A {\em file descriptor} (or {\em file handle}) is a small,
@@ -121,7 +122,7 @@ See also:
 \end{center}
 
 \vspace*{\fill}
-See also: \verb+http://en.wikipedia.org/wiki/File_descriptor+
+See also: \verb+https://en.wikipedia.org/wiki/File_descriptor+
 
 \subsection{Standard I/O}
 Basic File I/O: almost all UNIX file I/O can be
@@ -274,6 +275,8 @@ working directories in an atomic fashion.
 		that file (more on that in future lectures)
 	\item file descriptors not explicitly closed are closed by the kernel
 		when the process terminates.
+	\item to avoid leaking file descriptors, always {\tt close(2)}
+		them within the same scope
 \end{itemize}
 
 \subsection{{\tt open(2)} and {\tt close(2)}}
@@ -353,8 +356,7 @@ by the number of bytes actually read.
 \Normalsize
 \vspace{.25in}
 \begin{itemize}
-	\item {\tt write} returns {\tt nbytes} or an error has occurred (disk
-		full, file size limit exceeded, ...)
+	\item {\tt write} returns {\tt nbytes} or an error has occurred % (disk full, file size limit exceeded, ...)
 	\item for regular files, {\tt write} begins writing at the
 		current offset (unless {\tt O\_APPEND} has been specified, in which
 		case the offset is first set to the end of the file)
@@ -460,7 +462,7 @@ $ ls -ls file.*
 20064 -rw-r--r--  1 jschauma  wheel  10240020 Sep 18 17:21 file.nohole
 \end{verbatim}
 
-See also: \verb+http://en.wikipedia.org/wiki/Sparse_file+ (not on HFS+)
+\verb+https://en.wikipedia.org/wiki/Sparse_file+ (not on HFS+ / NFS)
 
 
 \subsection{{\tt I/O Efficiency}}
@@ -491,21 +493,21 @@ Caveats with the program {\tt simple-cat.c} from the last class:
 
 \subsection{{\tt I/O Efficiency}}
 \begin{verbatim}
-$ for n in $(seq 10); do
-	dd if=/dev/urandom of=tmp/file$n count=204800
-done
-
-$ i=1
-$ for n in 1048576 32768 16384 4096 512 256 128 64 1 ; do
-	cc -Wall -DBUFFSIZE=$n simple-cat.c;
-	i=$(( $i + 1 ));
-	time ./a.out <tmp/file$i >tmp/file$i.copy;
-done
-
 $ make tmpfiles
+
+$ for n in $(seq 10); do
+        dd if=/dev/urandom of=tmp/file$n count=204800
+done
+
+$ i=1; for n in 1048576 32768 16384 4096 512 256 128 64 1 ; do
+        cc -Wall -DBUFFSIZE=$n simple-cat.c;
+        i=$(( $i + 1 ));
+        time ./a.out <tmp/file$i >tmp/file$i.copy;
+done
+
 $ make catio
 
-$ stat -f "%k" tmp/file1
+$ stat -f "%k" tmp/file1 # stat -c "%o" tmp/file1
 \end{verbatim}
 
 Note: results vary depending on OS/filesystem.
@@ -514,13 +516,13 @@ Note: results vary depending on OS/filesystem.
 Since UNIX is a multi-user/multi-tasking system, it is conceivable (and
 useful) if more than one process can act on a single file simultaneously. In
 order to understand how this is accomplished, we need to examine some kernel
-data structures which relate to files.  (See: Stevens, pp 70 ff)
+data structures which relate to files.  (See: Stevens, pp 75 ff)
 
 \subsection{File Sharing}
 Since UNIX is a multi-user/multi-tasking system, it is conceivable (and
 useful) if more than one process can act on a single file simultaneously. In
 order to understand how this is accomplished, we need to examine some kernel
-data structures which relate to files.  (See: Stevens, pp 70 ff)
+data structures which relate to files.  (See: Stevens, pp 75 ff)
 
 \begin{itemize}
 	\item each process table entry has a table of file descriptors, which contain
@@ -534,7 +536,7 @@ data structures which relate to files.  (See: Stevens, pp 70 ff)
 Since UNIX is a multi-user/multi-tasking system, it is conceivable (and
 useful) if more than one process can act on a single file simultaneously. In
 order to understand how this is accomplished, we need to examine some kernel
-data structures which relate to files.  (See: Stevens, pp 70 ff)
+data structures which relate to files.  (See: Stevens, pp 75 ff)
 
 \begin{itemize}
 	\item each process table entry has a table of file descriptors, which contain
@@ -554,7 +556,7 @@ data structures which relate to files.  (See: Stevens, pp 70 ff)
 Since UNIX is a multi-user/multi-tasking system, it is conceivable (and useful)
 if more than one process can act on a single file simultaneously. In
 order to understand how this is accomplished, we need to examine some kernel
-data structures which relate to files.  (See: Stevens, pp 70 ff)
+data structures which relate to files.  (See: Stevens, pp 75 ff)
 
 \begin{itemize}
 	\item each process table entry has a table of file descriptors, which
@@ -582,6 +584,12 @@ data structures which relate to files.  (See: Stevens, pp 70 ff)
 \end{center}
 
 \subsection{File Sharing}
+\begin{center}
+\includegraphics[scale=0.8,angle=-90]{pics/open-files-sharing.eps} \\
+\end{center}
+
+
+\subsection{File Sharing}
 Knowing this, here's what happens with each of the calls we discussed earlier:
 
 \begin{itemize}
@@ -595,12 +603,6 @@ Knowing this, here's what happens with each of the calls we discussed earlier:
 	\item to {\tt lseek} to the end of a file, just copy current file size into
 		current file offset.
 \end{itemize}
-
-\subsection{File Sharing}
-\begin{center}
-\includegraphics[scale=0.8,angle=-90]{pics/open-files-sharing.eps} \\
-\end{center}
-
 
 \subsection{Atomic Operations}
 
@@ -725,6 +727,9 @@ $ time ./ascat <file >out
 $
 
 \end{verbatim}
+\vspace{.25in}
+
+Note: results will differ depending on the filesystem (-options).
 
 \subsection{{\tt ioctl(2)}}
 \small
@@ -774,10 +779,11 @@ third
 	\item Reading:
 		\begin{itemize}
 			\item manual pages for the functions covered
-			\item Stevens Chap. 3
+			\item Stevens Chap. 3, 4
 		\end{itemize}
 	\item Thinking:
 		\begin{itemize}
+			\item Stevens \# 3.4
 			\item Stevens \# 3.5 (bourne shell syntax ``$>\&$'')
 		\end{itemize}
 	\item Coding:
