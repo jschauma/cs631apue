@@ -21,9 +21,10 @@ FIGURES=	pics/fs1.eps		\
 		pics/subdirs2.eps	\
 		pics/subdirs3.eps 	\
 		pics/tdd.eps		\
-		pics/strftime.eps
+		pics/strftime.eps	\
+		pics/waterfall.eps
 
-.SUFFIXES: .tex .dvi .ps .pdf .txt .fig .eps .gif .jpg
+.SUFFIXES: .tex .dvi .ps .pdf .txt .fig .eps .gif .jpg .png
 
 all:	$(FIGURES) $(TARGET).dvi
 #	${BIBTEX} $(TARGET)
@@ -46,6 +47,9 @@ slides:	#example.knuth.eps example.knuth2.eps example.knuth3.eps
 	giftopnm $< | pnmtops > $@
 
 .jpg.eps:
+	convert $< $@
+
+.png.eps:
 	convert $< $@
 
 ps:	$(TARGET).dvi $(TARGET).ps

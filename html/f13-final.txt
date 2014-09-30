@@ -1,0 +1,267 @@
+CS631 Final Exam
+
+December 2, 2013
+
+Instructions: Answer all questions.  Answers for the multiple-choice
+section should be written in the blue book, not circled or otherwise
+indicated on the exam printout.  Write the letter(s) of any answers that
+you think are correct (not the text of the answer itself).
+
+Answers for the the other sections should also be written neatly in the
+blue book.  Please try hard to write legibly -- if I can't read what you
+wrote, I can't give you credit for it.  You may use more than one blue
+book if necessary.  Write your name on the cover of all blue books.
+
+This exam is open-book and open notes, but you may not share another
+student's materials or use any electronic devices.  Please turn off all
+mobile devices.
+
+When asked to write pseudo code, you do not need to include _all_ error
+checking or diagnostic messages you might normally include.  However,
+your pseudo code should cover explicit and anticipated error cases.
+
+When asked to write "real" code, please include any and all
+error-checking, error-message generation etc. as you would in a real
+program.
+
+Please read the assignments carefully and think about them before you
+start writing code.  Some of the requirements may not be immediately
+obvious.
+
+Multiple choice: (2 points each)
+
+1) What is the effect of lseek(fd, 10, SEEK_END) where fd is a valid
+   file descriptor for the process calling lseek?
+
+A. The file offset pointer for the descriptor fd is set to the current
+   end of file.  That is, a subsequent write will append data to the file.
+
+B. The file offset pointer for the descriptor fd is set 10 bytes beyond
+   the current end of file.  That is, a subsequent write will write data 10
+   bytes past the current end, creating a so-called sparse file.
+
+C. The file offset pointer for the descriptor fd is set 10 bytes beyond
+   the current beginning of the file, since seeking beyond the end loops
+   around.  That is, a subsequent write will write data starting at the
+   11th byte of the file.
+
+D. Any/all of the above.  That is, the answer is implementation
+   dependent.
+
+
+2) Consider the following file:
+
+   -r--r--r--  3 jschauma  wheel  0 Dec  1 14:00 file
+
+   Calling 'unlink("./file")' as user 'jschauma' from within this
+   directory will have the following effect:
+
+A. The directory entry "file" will be removed from the current
+   directory.
+
+B. The call will fail, since nobody has write permissions to the file,
+   so it can only be removed by the superuser.
+
+C. The call will fail, since the file was already removed (as indicated
+   by the '0'); another process just happens to still have the file open.
+
+D. Impossible to answer with the information available.
+
+
+3) Suppose you wish to update the ctime on a given file.  The correct
+   function to use is:
+
+A. open(2)
+
+B. write(2)
+
+C. utimes(2)
+
+D. stat(2)
+
+E. Any/all of the above.
+
+F. None of the above.
+
+4) Which of the following is NOT (normally) found in the inode
+   information:
+
+A. timestamp of file creation
+
+B. file name
+
+C. pointer to parent directory
+
+D. pointer to next file in directory
+
+E. all of A - D are found in the inode
+
+F. none of A - D are found in the inode
+
+
+5) 3 points
+
+   Give three reasons why a call to socket(2) may fail.  For each reason
+   note what, if anything, can be done about that.
+
+
+6) 3 points
+
+   Name three possible ways of IPC for two unrelated processes on the
+   same host.
+
+
+7) 6 points
+
+     Consider the following files and commands executed:
+
+$ whoami
+susan
+$ ls -l file1 file2
+--w-rw-r-x  1 bob     wheel  4 Dec 13 18:12 file1
+--w-rw-r-x  1 susan   wheel  4 Dec 13 18:12 file2
+$ cat file2
+cat: file2: Permission denied
+$ su - bob
+Password:
+$ whoami
+bob
+$ cat file1
+foo
+$
+
+    (a) 2 points: Explain why 'susan' cannot read file2.
+    (b) 4 points: Explain why 'bob' can read file1.
+
+8) 8 points
+
+   Write reasonably detailed pseudo code to implement the mv(1) command
+   as described below:
+
+
+mv source target
+
+The mv utility renames the file named by the source operand to the
+destination path named by the target operand.
+
+
+
+9) 12 points
+
+   Consider the following files and directories:
+
+$ groups jdoe
+users sys
+$ groups jschauma
+users wheel
+$ pwd
+/somewhere
+$ ls -lad .
+drwxrwxrwt  4 root  wheel  512 Jul 20 17:35 .
+$ ls -la file1 file2 dir
+----rw--w-  1 jschauma  wheel  0 Jul 20 17:35 file1
+-rw-r--r--  1 root      sys    0 Jul 20 17:33 file2
+
+dir:
+total 16
+drwxrwx---  2 jdoe      sys    512 Jul 20 17:34 .
+drwxrwxrwt  4 root      wheel  512 Jul 20 17:35 ..
+-rw-------  1 jschauma  wheel  123 Jul 20 17:33 file3
+-r-xrwxr-x  1 root      wheel  456 Jul 20 17:33 file4
+
+
+We have the following users:
+
+- root
+- jdoe
+- jschauma
+- all users in the group 'users'
+- all users in the group 'wheel'
+- all other users
+
+
+(a) List all of the above who can read /somewhere/dir/file3.
+
+(b) List all of the above who can write to the file
+    /somewhere/dir/file4.
+
+(c) List all of the above who can remove the file /somewhere/file1.
+
+(d) Knowing that 'root' will regularly run '/somewhere/dir/file4', can
+    'jdoe' trick 'root' to execute his code instead?
+
+    If so, how?  If not, why not?
+
+10) 25 points:
+
+    Implement the following variation of the tail(1) command:
+
+The tail utility displays the last part of a file or, by default, its
+standard input, to the standard output.  It accepts a single
+command-line option ("-n number") specifying the number of lines it
+should display.  If "-n" is not specified, tail will display the last 10
+lines of the input.
+
+Example execution:
+
+01  $ wc -l <file
+02  15
+03  $ tail file | wc -l
+04  10
+05  $ tail -n 20 file | wc -l
+06  15
+07  $ cat file | tail -n 2
+08  This is the second-to-last line.
+09  This is the last line.
+10  $
+
+Line 01 - 02: We have a file with 15 lines.
+Line 03 - 04: The program displays the last ten lines by default.
+Line 05 - 06: The input file contains fewer lines than requested, so the
+              program will exit after printing all lines.
+Line 07 - 09: The program reads input from stdin and displays the last two
+              lines.
+
+11) 35 points
+
+    Implement the lock(1) command:
+
+lock requests a password from the user, reads it again for verification
+and then will normally not relinquish the terminal until the password is
+repeated.  There are two other conditions under which it will terminate:
+it will timeout after some interval of time (15 minutes) and it may be
+killed by someone with the appropriate permission.
+
+Example execution:
+
+01   $ lock
+02   Key:
+03   Again:
+04   lock: timeout in 15 minutes
+05   time now is Sun Dec  4 00:20:27 EST 2005
+06   Key:
+07   Key:
+08   Key: lock: type in the unlock key. timeout in 14:28 minutes
+09   Key:
+10   $
+
+
+Line 01: The program is started without any command line arguments.
+
+Line 02: The program asks us for the key to use.
+
+Line 03: The program asks us to re-enter the key.
+	 If the keys in 02 and 03 don't match, it prints an error
+         message and exits.
+
+Line 04: Lock established, first diagnostic message displayed.
+
+Line 06: We enter the wrong key.
+
+Line 07: We enter the wrong key.
+
+Line 08: We try to be sneaky and hit Control+C, hoping the program will
+         simply abort.  But - blast! - the program is smarter than that
+         and reports the timeout instead.
+
+Line 09: We enter the correct key, the terminal is unlocked.

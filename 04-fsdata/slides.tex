@@ -8,6 +8,7 @@
 \usepackage{graphics}
 \usepackage{graphicx}
 \usepackage{colordvi}
+\usepackage[normalem]{ulem}
 
 \begin{document}
 \setfontphv
@@ -36,14 +37,260 @@
 \end{center}
 \vspace*{\fill}
 
-%\subsection{HW\#2 Notes}
-%\vspace*{\fill}
-%\begin{center}
-%\includegraphics[scale=2.0]{pics/tdd.eps} \\
-%{\tt http://www.cs.stevens.edu/\~{}jschauma/631/testcp.sh}
-%\end{center}
-%\vspace*{\fill}
-%
+\subsection{HW\#2 Notes}
+\vspace*{\fill}
+\begin{center}
+\includegraphics[scale=2.0]{pics/tdd.eps} \\
+{\tt http://www.cs.stevens.edu/\~{}jschauma/631/testcp.sh}
+\end{center}
+\vspace*{\fill}
+
+\subsection{HW\#2 Notes: Avoid useless comments}
+\Huge
+\begin{verbatim}
+/* check input size */
+if (argc != 3) {
+
+/* open files to be read */
+if ((fd1=open(argv[1], O_RDONLY)) == -1) {
+
+/*main function*/
+int main(int argc, char *argv[])
+
+/* Close file descriptors */
+close(sourcefile);
+\end{verbatim}
+\Normalsize
+
+\subsection{HW\#2 Notes}
+Errors go to \verb+stderr+, please!  Use
+\verb+strerror(3)+/\verb+perror(3)+. \\
+
+\verb+printf("Error: Cannot Open Source File!\n");+ \\
+
+\subsection{HW\#2 Notes}
+Errors go to \verb+stderr+, please!  Use
+\verb+strerror(3)+/\verb+perror(3)+. \\
+
+\verb+printf("Error: Cannot Open Source File!\n");+ \\
+
+Don't generate useless output! \\
+
+\verb+printf(" Open input success\n");+ \\
+
+\subsection{HW\#2 Notes}
+Errors go to \verb+stderr+, please!  Use
+\verb+strerror(3)+/\verb+perror(3)+. \\
+
+\verb+printf("Error: Cannot Open Source File!\n");+ \\
+
+Don't generate useless output! \\
+
+\verb+printf(" Open input success\n");+ \\
+
+Spell-check your comments / output! \\
+
+\begin{verbatim}
+/*isdir() function is for cheak dir
+
+/*get file addres*/
+file_to = maskDir(argv[2], file_from);
+
+/*check what kina of cy opertion it is*/
+\end{verbatim}
+
+
+\subsection{HW\#2 Notes: Whitespace counts}
+Use spaces or tabs, but be consistent.
+\Huge
+\vspace*{\fill}
+\begin{verbatim}
+    char * target;
+    char * tmp;
+    char * slash="/";
+        char buf[BUFFSIZE];
+    struct stat in_st;
+    if(argc!=3){
+        usage();
+\end{verbatim}
+\vspace*{\fill}
+\Normalsize
+
+\subsection{HW\#2 Notes: Whitespace counts}
+Give your code room to breathe. (Spaces don't cost you anything.)
+\Huge
+\vspace*{\fill}
+\begin{verbatim}
+if(out_opened==0&&(out=open(argv[2], O_DIRECTORY))<0){
+    perror(argv[2]);
+    return OUTPUT_OPEN_FAIL;
+}else{
+    target=(char*)malloc(strlen(argv[2])+strlen(argv[1])+2);
+    strcat(target,argv[2]);
+    strcat(target,slash);
+    tmp=(char*)malloc(strlen(argv[1])+1);
+    strcat(tmp, argv[1]);
+    strcat(target, basename(tmp));
+\end{verbatim}
+\vspace*{\fill}
+\Normalsize
+
+\subsection{HW\#2 Notes: Whitespace counts}
+Avoid waterfall code.
+\vspace*{\fill}
+\begin{verbatim}
+if (condition) {
+        if (condition) {
+                if (condition) {
+                        if (condition) {
+                                if (condition) {
+                                        something
+                                }
+                        }
+                } else {
+                        if (condition) {
+                                something
+                        } else
+                                something
+                }
+\end{verbatim}
+\vspace*{\fill}
+\Normalsize
+
+\subsection{HW\#2 Notes: Whitespace counts}
+\vspace*{\fill}
+\begin{center}
+\includegraphics[scale=0.55]{pics/waterfall.eps}
+\end{center}
+\vspace*{\fill}
+
+\subsection{HW\#2 Notes: Check all return codes!}
+\begin{verbatim}
+target=(char*)malloc(strlen(argv[2])+strlen(argv[1])+2);
+strcat(target,argv[2]);
+
+dst = (char *)malloc(sizeof(argv[2]) + 1 + sizeof(src_fname));
+sprintf(dst, "%s/%s", argv[2], src_fname);
+
+fstat(sfd, &mod);
+if ((tfd = open(tar, O_WRONLY | O_CREAT | O_TRUNC, mod.st_mode)) < 0){
+\end{verbatim}
+\Normalsize
+
+\subsection{HW\#2 Notes: Don't overflow your buffers!}
+Use of \verb+strcat(3)+ etc. considered harmful.
+\vspace*{\fill}
+\begin{verbatim}
+tar=argv[2];
+strcat(tar,slash);
+
+char str[MAX_INPUT];
+strcpy(str, argv[2]);
+
+tar_tmp = argv[2];^M
+char *tar = (char*) malloc ((strlen(src) + strlen(tar_tmp)^M
+      + 1) * sizeof(char*));^M
+strcpy(tar, tar_tmp);^M
+
+char target[200];
+strcpy(target,argv[2]);
+\end{verbatim}
+Use \verb+strlcat(3)+/\verb+strlcpy(3)+ etc. instead.
+\vspace*{\fill}
+
+\pagebreak
+
+\vspace*{\fill}
+\begin{center}
+  \Hugesize
+	In related news...
+	\hspace*{5mm}\blueline\\ [1em]
+    \#shellshock
+  \Normalsize
+\end{center}
+\vspace*{\fill}
+
+\pagebreak
+\subsection{\#shellshock}
+Remote Code Execution vulnerability in... \verb+bash(1)+!
+
+\begin{verbatim}
+env x='() { :;}; echo vulnerable' bash -c true
+\end{verbatim}
+
+Comes in multiple flavors / patches.
+
+\begin{verbatim}
+env X='() { (a)=>\' sh -c "echo date"; cat echo
+\end{verbatim}
+
+Currently circulating:
+\begin{itemize}
+	\item CVE-2014-6271
+	\item CVE-2014-7169
+	\item CVE-2014-7186
+	\item CVE-2014-7187
+	\item CVE-2014-6278
+	\item CVE-2014-6277
+\end{itemize}
+
+\subsection{\#shellshock}
+\begin{itemize}
+	\item accidental code execution upon environment variable evaluation
+	\item environment variables can be set by the user / client
+	\item CGI scripts, for example, require certain variables to be set
+	\item input sanitization rarely done (right)
+\end{itemize}
+
+\subsection{\#shellshock}
+Who writes CGIs in shell anyway?
+
+\subsection{\#shellshock}
+\sout{Who writes CGIs in shell anyway?} \\
+
+\#shellshock affects more than just CGIs written in \sout{bash}\verb+/bin/sh+:
+\begin{itemize}
+	\item \verb+ssh(1)+ (\verb+SSH_ORIGINAL_COMMAND+ or circumvention of 2FA)
+	\item \verb+dhclient(8)+ (invokes shell script with data from the server)
+	\item \verb+qmail+ via From-parsing and local forwarding
+	\item log processing down the line
+	\item infinite number of programs in any language shell out (explicitly or implicitly)
+	\begin{itemize}
+		\item \verb+system(...)+
+		\item \verb+popen(...)+
+		\item \verb+subprocess.call(...)+
+		\item ...
+	\end{itemize}
+\end{itemize}
+
+\subsection{\#shellshock}
+Some lessons for you:
+\begin{itemize}
+	\item don't trust user input
+	\item verify and sanitize all input
+	\item verify and sanitize the environment
+	\item verify and sanitize any and all arguments
+	\item input sanitization is {\em hard}
+	\item don't shell out; \verb+exec(2)+ instead
+	\item don't assume your tool won't be in the critical path
+	\item writing a shell is {\em hard}
+	\item always keep patching...
+\end{itemize}
+
+\pagebreak
+
+\vspace*{\fill}
+\begin{center}
+  \Hugesize
+	File Systems
+	\hspace*{5mm}\blueline\\ [1em]
+	System Data Files, Time \& Date
+  \Normalsize
+\end{center}
+\vspace*{\fill}
+
+
+
 \subsection{File Systems}
 \begin{itemize}
 	\item a disk can be divided into logical {\em partitions}
@@ -948,6 +1195,7 @@ Lastly, there is a {\tt printf(3)} like function for times:
 Reading:
 \begin{itemize}
 	\item Stevens, Chapter 4 and 6
+	\item Falsehoods Programmers believe about time: {\tt http://is.gd/yFSYR0}
 \end{itemize}
 Other:
 \begin{itemize}

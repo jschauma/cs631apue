@@ -32,61 +32,9 @@
 		Stevens Institute of Technology\\
 		Jan Schaumann\\
 		\verb+jschauma@stevens.edu+\\
-		\verb+http://www.cs.stevens.edu/~jschauma/631/+
+		\verb+https://www.cs.stevens.edu/~jschauma/631/+
 \end{center}
 \vspace*{\fill}
-
-\subsection{Text Formatting 101}
-
-This is a very long text block contnaing sentences with no re al
-punctuation and no paragraphsText like this is hard to readAlsoreading
-such lo ng text is no fun, and when the instructor is not having fun when
-grading that might yield undesirable resluts for the studentEven though
-this is a programming classit is i mportant to be able to write English
-text well:programming is communicationand a ll communications requires
-clarity.The majority of the work in any given program depend s on clear
-communication of the requirementsof getting answers to questions and of wo
-rking together with other peopleThereforeyou should practice writing
-legigible and clear text that is easy to read and understandText should be
-broken at around 80 charac ters and paragraphs should be created every now
-and then to make it easier for the readerO therwise,you end up having just
-this very long text block containing sentences w ith no real punctuation
-and no paragraphsand as noted abovetext like that is hard to r eadno fun
-and may lead to a grumpy instructorwhen you really want your instructor t
-o be in a good mood when he is attempting to make sense of your homework
-submissions.
-
-\subsection{HW\#1 - some stats}
-\begin{verbatim}
-   7 pwd
-   5 mkdir
-   5 echo
-   4 kill
-   4 cp
-   2 test
-   2 mv
-   2 cat
-   1 rm
-   1 ls
-   1 ln
-   1 date
-   1 chmod
-\end{verbatim}
-
-\subsection{HW\#1 - some stats}
-
-\begin{verbatim}
-$ wc -w * | sort -n | column
-      41 HW1-a          625 HW1-h        1295 HW1-n
-     239 HW1-b          632 HW1-g        1359 HW1-o
-     451 HW1-c          647 hw1-i        1409 HW1-p
-     489 HW1-d          742 HW1-j        1750 HW1-q
-     494 HW1-e          861 HW1-k
-     497 HW1-f          965 HW1-l
-     524 HW1-g         1079 HW1-m
-$
-\end{verbatim}
-
 
 \subsection{When reading code...}
 
@@ -113,7 +61,8 @@ Only then pay attention to {\em how} it does it.
 	\item what follow-up questions do you have?
 \end{itemize}
 
-\subsection{"More code" does not necessarily imply a "better program".}
+\subsection{Note!}
+"More code" does not necessarily imply a "better program".
 
 \vspace*{\fill}
 \begin{center}
@@ -126,6 +75,17 @@ Ken Thompson
 \end{center}
 \vspace*{\fill}
 
+\subsection{Note!}
+"More comments" does not necessarily imply "easier to understand".
+\vspace{.5in}
+\begin{itemize}
+	\item avoid useless comments
+	\item use descriptive variable- and function names
+	\item comments easily become obsolete
+\end{itemize}
+
+\vspace{.5in}
+Good comments describe {\em why}, not {\em what}.
 \pagebreak
 
 \vspace*{\fill}
@@ -228,6 +188,10 @@ Find out more in {\tt <sys/stat.h>}.
 \begin{verbatim}
 $ cc -Wall still-simple-ls.c
 $ ./a.out /dev | more
+
+$ ls -l /dev/fd/1
+
+$ ls -l /dev/fd/1 | cat
 \end{verbatim}
 
 \subsection{{\tt struct stat}: {\tt st\_mode}, {\tt st\_uid} and {\tt st\_gid}}
@@ -694,6 +658,6 @@ Playing:
 \end{itemize}
 \addvspace{.5in}
 Midterm Assignment:
-\verb+http://www.cs.stevens.edu/~jschauma/631/f13-midterm.html+
+\verb+https://www.cs.stevens.edu/~jschauma/631/f14-midterm.html+
 
 \end{document}
