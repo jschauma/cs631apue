@@ -38,217 +38,6 @@
 \end{center}
 \vspace*{\fill}
 
-\subsection{Test Driven Development}
-\vspace*{\fill}
-\begin{center}
-	\includegraphics[scale=2]{pics/tdd.eps}
-\end{center}
-\vspace*{\fill}
-
-\subsection{Avoid useless comments.}
-
-\begin{verbatim}
-/* The number of the arguments should be 3. */
-if (argc < 3) {
-
-int sdf, ddf;  /* src, dst file descriptor */
-
-progname = argv[0]; /*save the program name for the program*/
-
-char buf[BUFFERSIZE]; //a buffer to transfer data from source to target
-
-\end{verbatim}
-
-Commenting code should only be necessary when you have to explain
-something that is not obvious from reading the code itself.
-
-
-\subsection{Dynamic memory allocation...}
-
-...you're doing it wrong:
-
-\begin{verbatim}
-char buf[BUFFERSIZE]; //a buffer to transfer data from source to target
-\end{verbatim}
-
-Use \verb+malloc(3)+ - which can fail.
-
-Really, believe me.
-
-\subsection{Dynamic memory allocation...}
-
-\begin{verbatim}
-    dstExpanded = (char*)malloc(maxFileLength);
-    memset(dstExpanded,maxFileLength,0);
-
-    buff = (char*)malloc(blksize * sizeof(char));
-    sfd = open(source, O_RDONLY);
-\end{verbatim}
-
-\vspace*{\fill}
-\begin{center}
-	\includegraphics[scale=.7,angle=-90]{pics/malloc.eps}
-\end{center}
-\vspace*{\fill}
-
-\subsection{Make sure to check all return codes.}
-
-Instead of this:
-\begin{verbatim}
-        newdir= (char*)malloc(len+1);
-        strncpy(newdir, buf,len+1);
-\end{verbatim}
-
-Do this:
-\begin{verbatim}
-        if ((newdir = (char*)malloc(len+1)) == NULL) {
-                fprintf(stderr, "Unable to allocate memory: %s\n",
-                                        strerror(errno));
-                exit(EXIT_FAILURE);
-        }
-        strncpy(newdir, buf, len+1);
-\end{verbatim}
-
-
-
-\subsection{Use {\em either} spaces {\em or} tabs; don't mix whitespace.}
-
-Instead of:
-\begin{verbatim}
-        else{
-        input = argv[1];
-        output = argv[2];
-          //check if the input file exists
-                input_fd = open(input, O_RDONLY);
-                if(input_fd<0){
-\end{verbatim}
-
-...do this:
-\begin{verbatim}
-        else{
-                input = argv[1];
-                output = argv[2];
-                //check if the input file exists
-                input_fd = open(input, O_RDONLY);
-                if(input_fd<0){
-\end{verbatim}
-
-
-\subsection{Use {\tt strerror(3)} and print error messages to {\tt stderr}.}
-Instead of this:
-\begin{verbatim}
-        if(lstat(argv[1], &s_stat)< 0) {
-                if(errno == ENOENT){
-                        printf("%s, No such file or directory!\n",argv[1]);
-                        exit(1);
-                }else{
-                        printf("%s lstat error!\n", argv[1]);
-                        exit(1);
-                }
-        }
-\end{verbatim}
-Do this:
-\begin{verbatim}
-        if(lstat(argv[1], &s_stat)< 0) {
-                fprintf(stderr, "Unable to stat %s: %s\n",
-                                        argv[1], strerror(errno));
-                exit(EXIT_FAILURE);
-        }
-\end{verbatim}
-
-\subsection{Control indentation and improve logic flow.}
-\smallish
-\begin{verbatim}
-  if (argc == 3) {
-    [...]
-    if ( !lstat(srcName,&srcStat)) {
-      if(S_ISREG(srcStat.st_mode)) {
-        [...]
-        if( (tgtFd=open(tgtName, tgtFlags, srcStat.st_mode)) < 0) {
-          if ( !lstat(tgtName,&tgtStat) ) {
-          [...]
-          } else {
-            quit("error - could not stat...");
-          }
-        } else {
-          quit("error - could not open...");
-        }
-      } else {
-        quit("error - not a regular file");
-      }
-    } else {
-      quit("error - could not stat");
-    }
-  } else {
-    quit("wrong number of arguments");
-  }
-\end{verbatim}
-
-\subsection{Control indentation and improve logic flow.}
-\smallish
-\begin{verbatim}
-if (argc != 3) {
-        usage();
-}
-
-if (!lstat(srcName,&srcStat)) {
-        quit("%s: Unable to lstat %s: %s\n", getprogname(), srcName,
-                strerror(errno));
-}
-
-if (!S_ISREG(srcStat.st_mode)) {
-        quit("%s: %s is not a regular file.", getprogname(), srcName);
-}
-
-if ((tgtFd=open(tgtName, tgtFlags, srcStat.st_mode)) < 0) {
-        quit("%s: Unable to open %s: %s\n", getprogname(), tgtName,
-                strerror(errno));
-}
-
-if ( !lstat(tgtName,&tgtStat) ) {
-        quit("%s: Unable to lstat %s: %s\n", getprogname(), tgtName,
-                strerror(errno));
-}
-\end{verbatim}
-\Normalsize
-
-\subsection{Be consistent in your style.}
-Don't mix whitespace/tab, braces on line or on next, ...
-
-\begin{verbatim}
-  if ((infile = open(name1, O_RDONLY)) == -1)  return (1);
-  stat(name2, &to_stat);
-  if(S_ISDIR(to_stat.st_mode))//dir operation
-        {
-            strcat(temp,name2);
-            strcat(temp,slash);
-            strcat(temp,name1);
-            if((outfile = open(temp, O_WRONLY | O_CREAT, mode)) == -1)
-            {
-                    fprintf(stderr, "Can't create this file\n");
-close(infile);
-                        exit(1);
-                }
-                }
-                 else{
-\end{verbatim}
-
-\subsection{Standard terminal size is 80x24.}
-\vspace*{\fill}
-\begin{center}
-	\includegraphics[scale=0.65,angle=-90]{pics/runoff.eps}
-\end{center}
-\vspace*{\fill}
-
-\subsection{Remember:}
-\vspace*{\fill}
-\begin{center}
-	\Hugesize
-	Readability counts.
-	\Normalsize
-\end{center}
-\vspace*{\fill}
-
 \subsection{The {\tt main} function}
 \vspace{.25in}
 \small
@@ -302,6 +91,67 @@ $ objdump -d a.out
 [...]
 $
 \end{verbatim}
+
+\subsection{Process Creation}
+\verb+glibc/sysdeps/x86_64/start.S+
+
+\begin{verbatim}
+0000000000401058 <_start>:
+  401058:       31 ed                   xor    %ebp,%ebp
+  40105a:       49 89 d1                mov    %rdx,%r9
+  40105d:       5e                      pop    %rsi
+  40105e:       48 89 e2                mov    %rsp,%rdx
+  401061:       48 83 e4 f0             and    $0xfffffffffffffff0,%rsp
+  401065:       50                      push   %rax
+  401066:       54                      push   %rsp
+  401067:       49 c7 c0 e0 1a 40 00    mov    $0x401ae0,%r8
+  40106e:       48 c7 c1 50 1a 40 00    mov    $0x401a50,%rcx
+  401075:       48 c7 c7 91 11 40 00    mov    $0x401191,%rdi
+  40107c:       e8 2f 01 00 00          callq  4011b0 <__libc_start_main>
+  401081:       f4                      hlt
+  401082:       90                      nop
+  401083:       90                      nop
+\end{verbatim}
+
+\subsection{Process Creation}
+\verb+glibc/csu/lic-start.c+
+
+\begin{verbatim}
+STATIC int
+LIBC_START_MAIN (int (*main) (int, char **, char ** MAIN_AUXVEC_DECL),
+                 int argc, char **argv,
+                 __typeof (main) init,
+                 void (*fini) (void),
+                 void (*rtld_fini) (void), void *stack_end)
+{
+[...]
+  result = main (argc, argv, __environ MAIN_AUXVEC_PARAM);
+
+  exit (result);
+}
+\end{verbatim}
+
+\subsection{Process Creation}
+On Linux:
+\begin{verbatim}
+$ cc -Wall entry.c
+$ readelf -h a.out | more
+ELF Header:
+[...]
+  Entry point address:               0x400460
+  Start of program headers:          64 (bytes into file)
+  Start of section headers:          4432 (bytes into file)
+$ objdump -d a.out
+[...]
+0000000000400460 <_start>:
+  400460:       31 ed                   xor    %ebp,%ebp
+  400462:       49 89 d1                mov    %rdx,%r9
+[...]
+$
+\end{verbatim}
+
+
+
 
 \subsection{Process Creation}
 On Linux:
@@ -464,10 +314,11 @@ $ echo $?
 10
 $ cc -Wall --std=c99 hw.c
 $ ./a.out
+Hello World!
+$ echo $?
 0
 $
 \end{verbatim}
-
 
 \subsection{Environment List}
 Environment variables are stored in a global array of pointers:
@@ -494,6 +345,46 @@ These can also be accessed by:
 		\put(10,3){{\tt void unsetenv(cont char *{\em name});}}
 	\end{picture}
 \end{center}
+\Normalsize
+
+\subsection{Environment List}
+Environment variables are stored in a global array of pointers:
+\\
+
+\verb+      extern char **environ;+
+\\
+
+The list is {\tt null} terminated.
+\\
+
+These can also be accessed by:
+\vspace{.25in}
+\small
+\setlength{\unitlength}{1mm}
+\begin{center}
+	\begin{picture}(150,35)
+		\thinlines
+		\put(0,0){\framebox(130,35){}}
+		\put(10,30){{\tt \#include <stdlib.h>}}
+		\put(10,18){{\tt char *getenv(const char *{\em name});}}
+		\put(10,13){{\tt int putenv(const char *{\em string});}}
+		\put(10,8){{\tt int setenv(const char *{\em name}, const char *{\em value}, int {\em rewrite});}}
+		\put(10,3){{\tt void unsetenv(cont char *{\em name});}}
+	\end{picture}
+\end{center}
+\vspace{.25in}
+\small
+\setlength{\unitlength}{1mm}
+\begin{center}
+	\begin{picture}(150,10)
+		\thinlines
+		\put(0,0){\framebox(130,10){}}
+		\put(10,5){{\tt int main(int {\em argc}, char **{\em argv}, char **{\em anvp});}}
+	\end{picture}
+\end{center}
+\Normalsize
+
+
 \Normalsize
 
 \subsection{Memory Layout of a C Program}
@@ -698,11 +589,11 @@ $
 \addvspace{.5in}
 Knowing this, how does manipulation of the environment work?
 
-\subsection{Lifetime of a UNIX Process}
-\begin{center}
-	\includegraphics[angle=-90,scale=0.8]{pics/lifetime6.eps}
-\end{center}
-
+%\subsection{Lifetime of a UNIX Process}
+%\begin{center}
+%	\includegraphics[angle=-90,scale=0.8]{pics/lifetime6.eps}
+%\end{center}
+%
 
 % This section can be included if the students appear to have sufficient
 % background knowledge so that this class does not become too advanced;
