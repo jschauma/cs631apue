@@ -35,13 +35,18 @@
         maintenance on UNIX systems (development and debugging
         tools such as "make" and "gdb") will also be covered.</P>
 
-        <P>While there are no prerequisite courses, students are
-        expected to have a good working knowledge of the C
-        programming language and to be able to
-        competently use a UNIX system with a command-line shell
-        interface.  <em>All coursework will be done exclusively on
-        linux-lab.cs.stevens.edu from the command-line.</em>  This is not
-        an introduction to using Unix!</P>
+	<P><b>Students are expected to have a good working knowledge
+	of the C programming language, have written non-trivial
+	programs before, and to be able to competently use a UNIX
+	system with a command-line shell interface.
+	<em>All coursework will be done exclusively on linux-lab.cs.stevens.edu
+	from the command-line.</em>  This is <em>not</em> an
+	introduction to using Unix!</b></P>
+
+	<P>If you email me to waive the prerequisites, please provide
+	information about how you meet the requirements listed above in
+	bold.  (This has the added benefit of showing that you've actually
+	read at least this far on this page.)</p>
 
         <P>This class overlaps <em>significantly</em> with
 	CS392 ``Systems Programming'' -- if you have taken this class,
@@ -53,12 +58,16 @@
 	<tr><td width="50%" valign="top">
 
         <H3><a name="time"></a>Time, Date &amp; Place:</H3>
-	<p><b>Mondays, 18:15 - 20:45, Lieb 120</b></p>
+	<p><b>Mondays, 18:15 - 20:45, E330</b></p>
 
         <H3><a name="instructor"></a>Instructor:</H3><A href=
         "http://www.cs.stevens.edu/~jschauma/">Jan Schaumann</A>
         [<A href=
         "mailto:jschauma@stevens.edu">jschauma@stevens.edu</A>]
+
+        <p><small>When emailing me, please use your @stevens.edu address.
+          I will likely not even see your email if it is sent from gmail
+          or any other non-stevens address.</small></p>
 
 	<hr>
 
@@ -94,6 +103,7 @@
 Account</a></li>
 	  <li><a href="https://github.com/jschauma/cs631apue">Raw course
 material on GitHub</a></li>
+          <li><a href="git.html">Using git in this class</a></li>
         </UL>
 	</td><td valign="top" align="right">
 <a class="twitter-timeline" data-dnt="true"
@@ -184,9 +194,11 @@ js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';i
 
           <LI>1 midterm project, worth 100 points</LI>
 
-          <LI>1 final project, worth 200 points</LI>
+          <LI>1 group project, worth 200 points</LI>
 
-          <LI>1 final exam, worth 100 points</LI>
+          <LI>1 final assignment, worth 100 points</LI>
+
+          <!-- <LI>1 final exam, worth 100 points</LI> -->
 
           <LI>no curve</LI>
         </UL>
@@ -222,15 +234,13 @@ js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';i
         <H3><A name="hw">Homework</A> Assignments:</H3>
 	<ul>
 		<li><a href="intro.html">Intro "test"</a></li>
-		<li><a href="f14-hw1.html">HW#1: read code</a></li>
+		<!-- <li><a href="f14-hw1.html">HW#1: read code</a></li>
 		<li><a href="f14-hw2.html">HW#2: trivially copy a file</a></li>
-<!--
 		<li><a href="f14-hw3.html">HW#3: webserver framework</a></li>
 		<li><a href="f14-hw4.html">HW#4: sws, milestone#2</a></li>
-		<li><a href="f14-hw5.html">HW#5: write a simple tool to perform encryption/decryption of content</a></li>
--->
-<!--
-		<li><a href="f11-extra.html">Extra Credit: implement revline(1)</a></li>-->
+		<li><a href="f14-aed.html">HW#5: write a simple tool to perform encryption/decryption of content</a></li>
+		<li><a href="f14-sish.html">Final assignment: write a
+simple shell</a></li> -->
 	</ul>
 
 	<hr>
@@ -273,19 +283,7 @@ js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';i
           </TR>
 
           <TR>
-            <TD>2014-08-25</TD>
-            <TD colspan="3"><em>No Class</em></TD>
-          </TR>
-
-          <TR>
-            <TD>2014-09-01</TD>
-            <TD colspan="3"><em>Labor Day Holiday</em></TD>
-          </TR>
-
-         </TR>
-
-          <TR>
-            <TD>2014-09-08</TD>
+            <TD>2015-08-31</TD>
 
             <TD>Introduction, UNIX history, UNIX Programming
             Basics</TD>
@@ -299,12 +297,17 @@ js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';i
             <A href="simple-shell.c">simple-shell.c</A><BR>
             <A href="simple-shell2.c">simple-shell2.c</A><br><br>
             <a href="intro.html">Intro</a><br>
-	    <a href="f14-hw1.html">HW#1</a></TD>
+	    <!-- <a href="f14-hw1.html">HW#1</a> --></TD>
 
           </TR>
 
           <TR>
-            <TD>2014-09-15</TD>
+            <TD>2015-09-07</TD>
+            <TD colspan="3"><em>Labor Day Holiday</em></TD>
+          </TR>
+
+          <TR>
+            <TD>2015-09-14</TD>
 
             <TD>File I/O, File Sharing</TD>
 
@@ -320,12 +323,12 @@ js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';i
             <A href="openmax.c">openmax.c</A><BR>
             <A href="rwex.c">rwex.c</A><BR>
             <A href="sync-cat.c">sync-cat.c</A><BR>
-            <a href="f14-hw2.html">HW2</a>: <A href="tcp.1.pdf">tcp(1)</A>,<a
-	    href="tcpm.1.pdf">tcpm(1)</a></td>
+            <!-- <a href="f14-hw2.html">HW2</a>: <A href="tcp.1.pdf">tcp(1)</A>,<a
+	    href="tcpm.1.pdf">tcpm(1)</a> --></td>
           </TR>
 
           <TR>
-            <TD>2014-09-22</TD>
+            <TD>2015-09-21</TD>
 
             <TD>Files and Directories</TD>
 
@@ -343,7 +346,13 @@ js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';i
           </TR>
 
           <TR>
-            <TD>2014-09-29</TD>
+            <TD>2015-09-28</TD>
+            <TD colspan="3"><em>No Class</em></TD>
+          </TR>
+
+
+          <TR>
+            <TD>2015-10-05</TD>
 
             <TD>Filesystems, System Data Files, Time &amp;
             Date</TD>
@@ -358,13 +367,19 @@ js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';i
           </TR>
 
           <TR>
-            <TD>2014-10-06</TD>
+            <TD>2015-10-12</TD>
+            <TD colspan="3"><em>Fall Recess</em></TD>
+          </TR>
+
+          <TR>
+            <TD>2015-10-13</TD>
 
             <TD>Process Environment, Process Control</TD>
 
             <TD>Stevens: Chapters 7, 8</TD>
 
-            <TD width="25%"><A href="lecture05.pdf">Lecture
+            <TD width="25%"><em>Note: Tuesday class</em><br><br>
+		<A href="lecture05.pdf">Lecture
             Slides</A><BR>
             &#160;<BR>
             <a href="testcp.sh">testcp.sh</a><BR>
@@ -380,12 +395,7 @@ js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';i
           </TR>
 
           <TR>
-            <TD>2014-10-13</TD>
-            <TD colspan="3"><em>Fall Recess</em></TD>
-          </TR>
-
-          <TR>
-            <TD>2014-10-14</TD>
+            <TD>2015-10-19</TD>
 
             <TD>Process Groups, Sessions, Signals</TD>
 
@@ -394,7 +404,6 @@ js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';i
             <TD width="25%">
 		<A href="lecture06.pdf">Lecture
             Slides</A><BR>
-		<em>Note: Tuesday class!</em><br>
 		<a
 href="http://www.informit.com/articles/article.aspx?p=366888&seqNum=7">FreeBSD Process Management</a> (from "The Design and Implementation of the FreeBSD Operating System")<BR>
             &#160;<BR>
@@ -405,7 +414,7 @@ href="http://www.informit.com/articles/article.aspx?p=366888&seqNum=7">FreeBSD P
           </TR>
 
           <TR>
-            <TD>2014-10-20</TD>
+            <TD>2015-10-26</TD>
 
             <TD>Interprocess Communication</TD>
 
@@ -434,13 +443,12 @@ href="http://www.informit.com/articles/article.aspx?p=366888&seqNum=7">FreeBSD P
             <A href="streamwrite.c">streamwrite.c</A><BR>
             <A href="strchkread.c">strchkread.c</A><br>
 	    <!-- <a href="f11-hw3.html">HW#3 - reflective code reading</a><br>
-	    <a href="f11-hw4.html">HW#4 - fill in SWS framework</a><br>
-	    <a href="f11-final-project.html">Final Project Assignment--></a>
+		-->
 	    </TD>
           </TR>
 
           <TR>
-            <TD>2014-10-27</TD>
+            <TD>2015-11-02</TD>
 
             <TD>Advanced I/O: Nonblocking I/O, Polling, and Record
             Locking</TD>
@@ -454,12 +462,12 @@ href="http://www.informit.com/articles/article.aspx?p=366888&seqNum=7">FreeBSD P
             <A href="flock.c">flock.c</A><br><br>
 	    <a href="f14-final-project.html">Final Project
 Assignment</a><br>
-	    <a href="f14-hw3.html">HW#3</a>
+	    <!-- <a href="f14-hw3.html">HW#3</a> -->
 	</TD>
           </TR>
 
           <TR>
-            <TD>2014-11-03</TD>
+            <TD>2015-11-09</TD>
 
             <TD><a name="daemon"></a>D&aelig;mon Processes, Shared Libraries</TD>
 
@@ -483,7 +491,7 @@ read an Executable</a><br>
           </TR>
 
           <TR>
-            <TD>2014-11-10</TD>
+            <TD>2015-11-16</TD>
 
             <TD>UNIX tools: make(1), revision control, diff(1), patch(1), gdb(1)</TD>
 
@@ -507,7 +515,7 @@ read an Executable</a><br>
           </TR>
 
           <TR>
-            <TD>2014-11-17</TD>
+            <TD>2015-11-23</TD>
 
             <TD>Code Reading / HTTP Server Implementations</TD>
 
@@ -519,25 +527,26 @@ read an Executable</a><br>
 		</TD>
 
             <TD><a href="lecture11.pdf">Lecture Slides</a><br>
-                <a href="f14-hw4.html">HW#4</a></TD>
+                <!-- <a href="f14-hw4.html">HW#4</a> --></TD>
           </TR>
 
           <TR>
-            <TD>2014-11-24</TD>
+            <TD>2015-11-30</TD>
 
             <TD>Encryption in a Nutshell</TD>
 
             <TD>&nbsp;</TD>
 
             <TD><a href="lecture12.pdf">Lecture Slides</a><br>
-                <a href="f14-hw5.html">HW#5</a></TD>
+		<a href="f14-aed.html">In class coding exercise</a></TD>
           </TR>
 
           <TR>
-            <TD>2014-12-01</TD>
-            <TD>Final Exam</TD>
+            <TD>2015-12-07</TD>
+            <TD>Review</TD>
             <TD>&nbsp;</TD>
-            <TD><a href="f14-final.txt">Final Exam</a></TD>
+            <TD><a href="lecture13.pdf">Lecture Slides</a><br>
+		<a href="f14-sish.html">Final assignment</a></TD>
           </TR>
         </TABLE>
       </TD>
