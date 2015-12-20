@@ -36,20 +36,19 @@
 \end{center}
 \vspace*{\fill}
 
-\subsection{Amended Final Project Requirements}
+\subsection{Reminder: Final Project Requirements}
 "Real World" edition
 \begin{itemize}
 	\item group work:
 		\begin{itemize}
-			\item 3-4 people in a team
-			\item let me know your team composition by next week
+			\item 3-5 people in a team
 			\item all people will get the same grade on the final project
+			\item team-work and collaboration will be a factor in grading
 		\end{itemize}
 	\item use of {\tt git(1)} required
-	\item use of a {\tt Makefile} required
 	\item code must be split across multiple files
-	\item milestone deliverables (HW3 was the first)
-	\item multi-platform support
+	\item use of a {\tt Makefile} required
+	\item multi-platform and dual-stack (IPv4/IPv6) required
 \end{itemize}
 
 \subsection{Software Development Tools}
@@ -88,12 +87,6 @@ The most important tools are:
 
 \subsection{Compilers}
 
-\begin{center}
-	\includegraphics[scale=0.65]{pics/compiler.eps}
-\end{center}
-
-\subsection{Compilers}
-
 A compiler translates {\em source code} from a high-level programming
 language into {\em machine code} for a given architecture by performing a
 number of steps:
@@ -106,6 +99,12 @@ number of steps:
 	\item code generation
 	\item code optimization
 \end{itemize}
+
+\subsection{Compilers}
+
+\begin{center}
+	\includegraphics[scale=0.65]{pics/compiler.eps}
+\end{center}
 
 
 \subsection{Compilers}
@@ -296,6 +295,40 @@ Other interesting things you can do:
 
 \subsection{{\tt gdb(1)}}
 \begin{verbatim}
+$ cc -g gdb1.c
+$ ./a.out
+[...]
+$ gdb ./a.out
+[...]
+(gdb) break main
+Breakpoint 1 at 0x400603: file gdb1.c, line 10.
+(gdb) run
+Starting program: /home/jschauma/t/gdb-examples/a.out
+
+Breakpoint 1, main (argc=1, argv=0x7fffffffe9e8) at gdb1.c:10
+10		c = fgetc(stdin);
+(gdb) n
+
+\end{verbatim}
+
+\subsection{{\tt gdb(1)}}
+\begin{verbatim}
+$ ulimit -c unlimited
+$ cc -g gdb2.c
+$ ./a.out
+$ gdb a.out core
+bt
+[...]
+frame 2
+li
+p buf
+kill
+watch num
+run
+\end{verbatim}
+
+\subsection{{\tt gdb(1)}}
+\begin{verbatim}
 $ cd student
 $ make
 $ ./a.out -lR ~djd >/dev/null
@@ -332,40 +365,6 @@ Program received signal SIGSEGV, Segmentation fault.
 225	  size = (long long)(myentryp->fts_statp->st_size);
 (gdb) p grpentry
 $1 = (struct group *) 0x0
-\end{verbatim}
-
-\subsection{{\tt gdb(1)}}
-\begin{verbatim}
-$ cc -g gdb1.c
-$ ./a.out
-[...]
-$ gdb ./a.out
-[...]
-(gdb) break main
-Breakpoint 1 at 0x400603: file gdb1.c, line 10.
-(gdb) run
-Starting program: /home/jschauma/t/gdb-examples/a.out
-
-Breakpoint 1, main (argc=1, argv=0x7fffffffe9e8) at gdb1.c:10
-10		c = fgetc(stdin);
-(gdb) n
-
-\end{verbatim}
-
-\subsection{{\tt gdb(1)}}
-\begin{verbatim}
-$ ulimit -c unlimited
-$ cc -g gdb2.c
-$ ./a.out
-$ gdb a.out core
-bt
-[...]
-frame 2
-li
-p buf
-kill
-watch num
-run
 \end{verbatim}
 
 
@@ -699,63 +698,54 @@ Examples:
 
 {\tt http://svnweb.freebsd.org/base/stable/9/bin/ls/} \\
 
-{\tt http://git.savannah.gnu.org/cgit/coreutils.git/log/}
+{\tt http://git.savannah.gnu.org/cgit/coreutils.git/log/} \\
 
-\subsection{Setting up git(1) for your final project}
-Each team identifies one member to host the repository. \\
+{\tt http://cvsweb.netbsd.org/bsdweb.cgi/src/share/misc/bsd-family-tree?rev=HEAD}
 
-Initialize the source code repository:
+\subsection{Revision Control: Branching}
+Different strategies:
+\begin{itemize}
+	\item trunk / master is fragile
+		\begin{itemize}
+			\item {\em trunk} is work in progress, may not even compile
+			\item all work happens in {\em trunk}
+			\item releases are tagged on {\em trunk}, then branched
+		\end{itemize}
+	\item trunk / master is stable
+		\begin{itemize}
+			\item {\em master} is always stable
+			\item all work is done in branches (feature or bugfix)
+			\item feature branches are deleted after merge
+			\item releases are made automatically from master
+		\end{itemize}
+\end{itemize}
+
+You may combine these as {\em release branching} /
+{\em feature branching} / {\em task branching}.
+
+\subsection{Commit Messages}
+
+Commit messages are like comments: often useless and
+misleading, but critical in understanding human
+thinking behind the code. \\
+
+Commit messages are full sentences in correct and
+properly formatted English.
 \\
 
-\begin{verbatim}
-ssh linux-lab.cs.stevens.edu
-mkdir -p ~/git/sws.git
-cd ~/git/sws
-git --bare init
-setfacl -R -m user:teammate1:rwx .
-setfacl -R -m user:teammate2:rwx .
-setfacl -R -m user:teammate3:rwx .
-\end{verbatim}
+Commit messages briefly summarize the {\em what}, but
+provide important historical context as to the {\em
+how} and, more importantly, {\em why}. \\
 
-\subsection{Setting up git(1) for your final project}
-Add your code from the project directory:
-\\
+Commit messages SHOULD reference and integrate with
+ticket tracking systems. \\
 
-\begin{verbatim}
-ssh linux-lab.cs.stevens.edu
-cd ~/cs631/sws
-git init
-git remote add origin ~/git/sws.git
-git config branch.master.merge refs/heads/master
-git config branch.master.remote origin
-git config --global user.name "Your Full Name"
-git config --global user.email $USER@stevens.edu
-git add *
-git commit -m "initial import of all files"
-git push origin master
-\end{verbatim}
-
-\subsection{Setting up git(1) for your final project}
-Check out a copy on a local host and make changes:
-\\
-
-\begin{verbatim}
-local$ git clone linux-lab.cs.stevens.edu:git/sws.git
-local$ cd sws
-local$ $EDITOR README
-local$ git add README
-local$ git commit README
-local$ git push
-
-linux-lab$ cd ~/cs631/sws
-linux-lab$ git pull
-linux-lab$ $EDITOR ...
-linux-lab$ git add ...; git commit; git push
-\end{verbatim}
-
-\subsection{Homework}
-Generate an ssh key pair and send me the {\em public} key. \\
-See {\tt ssh-keygen(1)}.
+See also:
+\begin{itemize}
+	\item \verb+http://is.gd/Wd1LhA+
+	\item \verb+http://is.gd/CUtwhA+
+	\item \verb+http://is.gd/rPQj5E+
+\end{itemize}
 
 \subsection{Links}
 Revision Control: \\

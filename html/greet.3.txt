@@ -1,0 +1,43 @@
+GREET(3)		 BSD Library Functions Manual		      GREET(3)
+
+NAME
+     greet, hello, getgreeting, setgreeting -- hello world library
+
+LIBRARY
+     Greetings Library (libgreet, -lgreet)
+
+SYNOPSIS
+     #include <greeting.h>
+
+     void
+     greet(void);
+
+     void
+     hello(const char * friend, const char * greeting);
+
+     char *
+     getgreeting(void);
+
+     int
+     setgreeting(const char * greeting);
+
+DESCRIPTION
+     The greet, family of functions allows you to easily greet your users.
+
+     The greet() function simply prints the current greeting, followed by a
+     newline character (\n) to stdout.
+
+     The hello() function prints greeting prefixed with friend, a colon (:)
+     and a space to stdout.
+
+     The getgreeting() function returns the current greeting.
+
+     The setgreeting() function sets the default greeting to use when calling
+     greet().
+
+HISTORY
+     The greet, family of functions was first introduced in the class 'CS631
+     Advanced Programming in the UNIX Environment' at Stevens Institute of
+     Technology in the Fall of 2015.
+
+BSD			       November 9, 2015 			   BSD

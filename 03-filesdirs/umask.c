@@ -13,38 +13,33 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
+#include <errno.h>
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
+void
+myOpen(const char *path) {
+	if ( open(path, O_CREAT | O_EXCL | O_WRONLY,
+				S_IRUSR | S_IWUSR |
+				S_IRGRP | S_IWGRP |
+				S_IROTH | S_IWOTH) == -1 ) {
+		fprintf(stderr, "Unable to create %s: %s\n",
+				path, strerror(errno));
+		exit(EXIT_FAILURE);
+	}
+}
 
 int
 main(int argc, char **argv) {
-	if ( open("foo1", O_CREAT | O_EXCL | O_WRONLY,
-				S_IRUSR | S_IWUSR |
-				S_IRGRP | S_IWGRP |
-				S_IROTH | S_IWOTH) == -1 ) {
-		perror("create error for foo1");
-		exit(EXIT_FAILURE);
-	}
-
+	myOpen("foo1");
 
 	umask(0);
-	if ( open("foo2", O_CREAT | O_EXCL | O_WRONLY,
-				S_IRUSR | S_IWUSR |
-				S_IRGRP | S_IWGRP |
-				S_IROTH | S_IWOTH) == -1 ) {
-		perror("create error for foo2");
-		exit(EXIT_FAILURE);
-	}
+	myOpen("foo2");
 
 	umask(S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
-	if ( open("foo3", O_CREAT | O_EXCL | O_WRONLY,
-				S_IRUSR | S_IWUSR |
-				S_IRGRP | S_IWGRP |
-				S_IROTH | S_IWOTH) == -1 ) {
-		perror("create error for foo3");
-		exit(EXIT_FAILURE);
-	}
+	myOpen("foo3");
 
 	return EXIT_SUCCESS;
 }

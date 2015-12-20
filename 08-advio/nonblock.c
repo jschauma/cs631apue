@@ -13,27 +13,32 @@
 #include <string.h>
 #include <unistd.h>
 
+#define BUFSIZE 100000
+
 int
 main(void) {
 	int flags, count, resid, loops;
-	char buf[100000], *ptr;
+	char buf[BUFSIZE], *ptr;
 
 	/* fill buffer with 'a' */
-	memset(buf, 'a', 100000);
+	memset(buf, 'a', BUFSIZE);
 
 	/* set non-blocking mode on stdout */
 	if ((flags = fcntl(STDOUT_FILENO, F_GETFL, 0)) < 0) {
 		perror("getting file flags");
 		exit(1);
 	}
+#ifdef NONBLOCK
 	if (fcntl(STDOUT_FILENO, F_SETFL, flags|O_NONBLOCK) < 0) {
 		perror("setting file flags");
 		exit(2);
 	}
+#endif
+
 
 	for (loops = 0; loops < 50; loops++) {
 		ptr = buf;
-		resid = 100000;
+		resid = BUFSIZE;
 		while(resid > 0) {
 			count = write(STDOUT_FILENO, ptr, resid);
 			if (count >= 0) {

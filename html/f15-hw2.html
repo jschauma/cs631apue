@@ -1,0 +1,75 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+<HEAD>
+
+  <TITLE>CS631 -- Advanced Programming in the UNIX Environment</TITLE>
+  <STYLE type="text/css">
+  body {
+  background-color: #FFFFFf;
+  }
+  </STYLE>
+  <STYLE type="text/css">
+  li.c1 {list-style: none}
+  </STYLE>
+
+</HEAD>
+
+<BODY>
+  <TABLE border="1" align="center" cellpadding="15">
+    <TR>
+      <TD valign="top">
+        <H2>CS631 -- Advanced Programming in the UNIX Environment - HW#2</H2>
+
+        <H3>HW#2: trivially copy a file</H3>
+
+        <H4>Summary</H4>
+	<p>The objective of this assignment is for you to write your first
+        program and get comfortable developing a tool from a given specification.
+	</p>
+	<h4>Problem assignment</h4>
+	<p>Write a simple program to copy a file following the
+	specification in <a href="tcp.1.pdf">this manual page</a>.  For an
+	extra 10 points, also implement <a href="tcpm.1.pdf">the tcpm(1) tool</a>.
+	Your program will:
+        <ul>
+          <li>follow the <a href="hw">general homework guidelines</a></li>
+	  <li>be written in C (not C++ or anything else)</li>
+	  <li><em>not</em> generate any output other than error messages
+            when appropriate</li>
+        </ul>
+	</p>
+	<h4>Deliverables and Due Date</H4>
+	<p>You will submit a single <tt>tar</tt> archive named
+	<em>username</em>-hw2.tar that will extract
+	into a directory named after your username.  In that directory
+	will be at least a file named <tt>tcp.c</tt> and an optional Makefile.
+	If you have any commentary on your
+	submission, include it in a file called <tt>README</tt>.
+	</p>
+	<p>
+	For example, I would submit the file <tt>jschauma-hw1.tar</tt>
+	which might extract the files and let me run the program as follows:
+	</p>
+	<p>
+	<verbatim><tt><pre>
+$ tar xvf jschauma-hw2.tar
+jschauma
+jschauma/tcp.c
+jschauma/README
+$ cd jschauma
+$ cc -Wall tcp.c
+
+	</pre></tt></verbatim></p>
+           <p>
+             The due date for this assignment is 2015-09-21 16:00.  Please
+             attach the file to an email sent from your <tt>@stevens.edu</tt>
+             email address to <a
+             href="mailto:jschauma@stevens.edu?subject=[CS631] HW2">jschauma@stevens.edu</a>
+             with a subject of "[CS631] HW2".
+           </p>
+
+        <hr>
+        [<a href="index.html">Course Website</a>]
+</BODY>
+</HTML>

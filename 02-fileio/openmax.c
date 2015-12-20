@@ -3,11 +3,19 @@
  * descriptors a process can have.  It illustrates the use of
  * pre-processor directives and sysconf(3) to identify a resource that can
  * be changed at system run time.
+ *
+ * This version also displays the per-process limit
+ * via getrlimit(2) to show that resources may be
+ * limited per process or per user.
  */
+
+#include <sys/resource.h>
 
 #include <errno.h>
 #include <limits.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 
 #define OPEN_MAX_GUESS 256
@@ -35,6 +43,12 @@ open_max(void) {
 
 int
 main(int argc, char **argv) {
-	printf("I could have %d open file descriptors.\n", open_max());
-	return 0;
+	struct rlimit rlp;
+	if (getrlimit(RLIMIT_NOFILE, &rlp) != 0) {
+		fprintf(stderr, "Unable to get per process rlimit: %s\n", strerror(errno));
+		exit(EXIT_FAILURE);
+	}
+	printf("This user could open %d file descriptors.\n", open_max());
+	printf("This process could open %d file descriptors.\n", (int)rlp.rlim_cur);
+	return EXIT_SUCCESS;
 }

@@ -91,3 +91,6 @@ evil: evil.o ldtest1.o ldtest2.o
 	cc -shared -Wl,-soname,libldtest.so.1 -o lib3/libldtest.so.1.0 ldtest1.o ldtest2.o evil.o
 	ln -s libldtest.so.1.0 lib3/libldtest.so.1
 	ln -s libldtest.so.1 lib3/libldtest.so
+
+libgreet: greet/libgreet.so
+	cd greet && make

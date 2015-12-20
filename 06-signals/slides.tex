@@ -346,36 +346,6 @@ ls(1) & \# PID {\em M}, PPID {\em N}, EUID {\em U}\\
 \end{itemize}
 
 \subsection{Process Groups}
-\small
-\setlength{\unitlength}{1mm}
-\begin{center}
-	\begin{picture}(150,30)
-		\thinlines
-		\put(0,0){\framebox(130,25){}}
-		\put(10,20){{\tt \#include <unistd.h>}}
-		\put(10,13){{\tt pid\_t getpgrp(void);}}
-		\put(10,8){{\tt pid\_t getpgid(pid\_t {\em pid});}}
-		\put(55,3){Returns: process group ID if OK, -1 otherwise}
-	\end{picture}
-\end{center}
-\Normalsize
-\begin{itemize}
-	\item in addition to having a PID, each process also
-		belongs to a process group (collection of processes
-		assocaited with the same job / terminal)
-	\item each process group has a unique process group ID
-	\item process group IDs (like PIDs) are positive integers and can
-		be stored in a {\tt pid\_t} data type
-	\item each process group can have a process group leader
-		\begin{itemize}
-			\item leader identified by its process group ID == PID
-			\item leader can create a new process group, create processes in the group
-		\end{itemize}
-	\item a process can set its (or its children's) process group using {\tt setpgid(2)}
-\end{itemize}
-
-
-\subsection{Process Groups}
 \begin{center}
 	\includegraphics[angle=-90,scale=0.8]{pics/session1.eps}
 \end{center}
@@ -409,6 +379,37 @@ $ proc1 | proc2 &
 $ proc3 | proc4 | proc5
 
 \end{verbatim}
+
+\subsection{Process Groups}
+\small
+\setlength{\unitlength}{1mm}
+\begin{center}
+	\begin{picture}(150,30)
+		\thinlines
+		\put(0,0){\framebox(130,25){}}
+		\put(10,20){{\tt \#include <unistd.h>}}
+		\put(10,13){{\tt pid\_t getpgrp(void);}}
+		\put(10,8){{\tt pid\_t getpgid(pid\_t {\em pid});}}
+		\put(55,3){Returns: process group ID if OK, -1 otherwise}
+	\end{picture}
+\end{center}
+\Normalsize
+\begin{itemize}
+	\item in addition to having a PID, each process also
+		belongs to a process group (collection of processes
+		assocaited with the same job / terminal)
+	\item each process group has a unique process group ID
+	\item process group IDs (like PIDs) are positive integers and can
+		be stored in a {\tt pid\_t} data type
+	\item each process group can have a process group leader
+		\begin{itemize}
+			\item leader identified by its process group ID == PID
+			\item leader can create a new process group, create processes in the group
+		\end{itemize}
+	\item a process can set its (or its children's) process group using {\tt setpgid(2)}
+\end{itemize}
+
+
 
 \subsection{Process Groups and Sessions}
 \small
@@ -1074,7 +1075,5 @@ See p. 306 in Stevens for a list.
 \subsection{Homework}
 
 Read, try, play with and understand all examples. \\
-
-Work on your midterm project.
 
 \end{document}

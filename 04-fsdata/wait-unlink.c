@@ -13,22 +13,35 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+void
+runDf() {
+	printf("\nAvailable space is now:\n");
+	if (system("df .") != 0) {
+		perror("unable to run df(1)");
+		exit(EXIT_FAILURE);
+	}
+}
+
 int
 main(int argc, char **argv) {
+	int fd;
 
-	/* setup: create a 500M file */
+	if (chdir("/var/tmp") == -1) {
+		perror("unable to cd to /var/tmp");
+		exit(EXIT_FAILURE);
+	}
+
+	runDf();
+
 	printf("Creating a 500M file...\n");
 	if (system("dd if=/dev/zero of=foo bs=1024k count=500 >/dev/null") != 0) {
 		perror("unable to dd a new file");
 		exit(EXIT_FAILURE);
 	}
 
-	if (system("df .") != 0) {
-		perror("unable to run df(1)");
-		exit(EXIT_FAILURE);
-	}
+	runDf();
 
-	printf("\nLinking 'bar' to 'foo'...\n");
+	printf("\nLinking 'bar' to 'foo'...\n\n");
 	if (link("foo", "bar") == -1) {
 		perror("unable to create a second hard link");
 		exit(EXIT_FAILURE);
@@ -39,12 +52,9 @@ main(int argc, char **argv) {
 		exit(EXIT_FAILURE);
 	}
 
-	if (system("df .") != 0) {
-		perror("unable to run df(1)");
-		exit(EXIT_FAILURE);
-	}
+	runDf();
 
-	if (open("foo", O_RDWR) < 0) {
+	if ((fd = open("foo", O_RDWR)) < 0) {
 		perror("can't open file");
 		exit(EXIT_FAILURE);
 	}
@@ -55,12 +65,10 @@ main(int argc, char **argv) {
 	}
 
 	printf("\nOk, foo unlinked.  Disk space not free'd since 'bar' still exists...\n");
+	/* We expect system(3) to fail here, since foo no longer exists. */
 	(void)system("ls -li foo bar");
 
-	if (system("df .") != 0) {
-		perror("unable to run df(1)");
-		exit(EXIT_FAILURE);
-	}
+	runDf();
 
 	sleep(3);
 
@@ -74,13 +82,17 @@ main(int argc, char **argv) {
 	printf("\nRunning 'ls -li foo bar':\n");
 	(void)system("ls -li foo bar");
 
-	if (system("df .") != 0) {
-		perror("unable to run df(1)");
-		exit(EXIT_FAILURE);
-	}
+	runDf();
 
 	sleep(3);
+
+	/* Closing the file descriptor after having
+	 * unlinked all references to the 500M file
+	 * finally frees the disk space. */
+	close(fd);
 	printf("\n...and done.  Disk space is freed now.\n");
-	printf("Run 'df .' to verify.\n");
+
+	runDf();
+
 	exit(EXIT_SUCCESS);
 }

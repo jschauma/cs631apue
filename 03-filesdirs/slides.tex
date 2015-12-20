@@ -36,6 +36,19 @@
 \end{center}
 \vspace*{\fill}
 
+\newpage
+
+\vspace*{\fill}
+\begin{center}
+  \Hugesize
+	Code Reading
+	\hspace*{5mm}\blueline\\ [1em]
+	HW\#1
+  \Normalsize
+\end{center}
+\vspace*{\fill}
+
+
 \subsection{When reading code...}
 
 \vspace*{\fill}
@@ -97,7 +110,6 @@ Good comments describe {\em why}, not {\em what}.
   \Normalsize
 \end{center}
 \vspace*{\fill}
-
 
 
 \subsection{{\tt stat(2)} family of functions}
@@ -185,14 +197,30 @@ The {\tt st\_mode} field of the {\tt struct stat} encodes the type of file:
 Find out more in {\tt <sys/stat.h>}.
 
 \subsection{{\tt struct stat}: {\tt st\_mode}}
+Let's improve {\tt simple-ls.c}.
+
 \begin{verbatim}
-$ cc -Wall still-simple-ls.c
-$ ./a.out /dev | more
-
-$ ls -l /dev/fd/1
-
-$ ls -l /dev/fd/1 | cat
+$ ssh linux-lab
+$ cc -Wall simple-ls.c
+$ ./a.out ~jschauma/tmp/apue
+.
+..
+stdout
+file
+[...]
+$ $EDITOR simple-ls.c
+$ cc -Wall simple-ls.c
+$ ./a.out ~jschauma/tmp/apue
+. (directory - directory)
+.. (directory - directory)
+stdout (character special - symbolic link)
+[...]
 \end{verbatim}
+
+
+%$ ls -l /dev/fd/1
+%
+%$ ls -l /dev/fd/1 | cat
 
 \subsection{{\tt struct stat}: {\tt st\_mode}, {\tt st\_uid} and {\tt st\_gid}}
 Every process has six or more IDs associated with it:
@@ -360,72 +388,72 @@ open ok for /etc/master.passwd
 $
 \end{verbatim}
 
-\subsection{{\tt access(2)}}
-On Mac OS X:
-\begin{verbatim}
-$ ls -l a.out
--rwsr-xr-x  1 root  staff  8732 Sep 15 22:35 a.out
-$ cc -Wall access.c
-ld: can't write output file: a.out for architecture x86_64
-clang: error: linker command failed with exit code 1 (use -v to see invocation)
-$ ls -l a.out
--rwsr-xr-x  1 root  staff  8732 Sep 15 22:35 a.out
-$ gcc -Wall access.c
-ld: can't write output file: a.out for architecture x86_64
-collect2: ld returned 1 exit status
-$ ls -l a.out
-ls: a.out: No such file or directory
-\end{verbatim}
-
-\subsection{{\tt access(2)}}
-\begin{verbatim}
-$ sudo dtruss gcc -Wall access.c
-[...]
-10157/0x48d34:  access("a.out\0", 0x0, 0x0)             = 0 0
-10157/0x48d34:  access("a.out\0", 0x2, 0x0)             = -1 Err#13
-10157/0x48d34:  unlink("a.out\0", 0x0, 0x100365AF0)     = 0 0
-[...]
-$ ls -ld . a.out
-$ rm -f a.out
-\end{verbatim}
-
-
-\subsection{{\tt access(2)}}
-On NetBSD:
-\begin{verbatim}
-$ ls -l a.out
--rwsr-xr-x  1 root  users  9399 Sep 26 16:12 a.out
-$ cc -Wall access.c
-$ ls -l a.out
--rwxr-xr-x  1 jschauma  users  9399 Sep 26 16:51 a.out
-$ ktruss cc -Wall access.c
-[...]
- 14250      1 ld       CALL  __stat30(0x43a1bd,0x7f7fffffd340)
- 14250      1 ld       NAMI  "a.out"
- 14250      1 ld       CALL  unlink(0x43a1bd)
- 14250      1 ld       NAMI  "a.out"
- 14250      1 ld       CALL  open(0x43a1bd,0x602,0x1b6)
- 14250      1 ld       NAMI  "a.out"
-[...]
-\end{verbatim}
-
-\subsection{{\tt access(2)}}
-On Linux:
-\begin{verbatim}
-$ ls -l a.out
--rwxr-xr-x 1 root users 6555 Sep 24 20:35 a.out
-$ cc -Wall access.c
-$ ls -l a.out
--rwxr-xr-x 1 jschauma users 6555 Sep 24 20:36 a.out
-$ strace -f cc -Wall access.c
-[...]
-[pid 11721] stat("a.out", {st_mode=S_IFREG|0755, st_size=6555, ...}) = 0
-[pid 11721] lstat("a.out", {st_mode=S_IFREG|0755, st_size=6555, ...}) = 0
-[pid 11721] unlink("a.out")             = 0
-[pid 11721] open("a.out", O_RDWR|O_CREAT|O_TRUNC, 0666) = 3
-[...]
-\end{verbatim}
-
+%\subsection{{\tt access(2)}}
+%On Mac OS X:
+%\begin{verbatim}
+%$ ls -l a.out
+%-rwsr-xr-x  1 root  staff  8732 Sep 15 22:35 a.out
+%$ cc -Wall access.c
+%ld: can't write output file: a.out for architecture x86_64
+%clang: error: linker command failed with exit code 1 (use -v to see invocation)
+%$ ls -l a.out
+%-rwsr-xr-x  1 root  staff  8732 Sep 15 22:35 a.out
+%$ gcc -Wall access.c
+%ld: can't write output file: a.out for architecture x86_64
+%collect2: ld returned 1 exit status
+%$ ls -l a.out
+%ls: a.out: No such file or directory
+%\end{verbatim}
+%
+%\subsection{{\tt access(2)}}
+%\begin{verbatim}
+%$ sudo dtruss gcc -Wall access.c
+%[...]
+%10157/0x48d34:  access("a.out\0", 0x0, 0x0)             = 0 0
+%10157/0x48d34:  access("a.out\0", 0x2, 0x0)             = -1 Err#13
+%10157/0x48d34:  unlink("a.out\0", 0x0, 0x100365AF0)     = 0 0
+%[...]
+%$ ls -ld . a.out
+%$ rm -f a.out
+%\end{verbatim}
+%
+%
+%\subsection{{\tt access(2)}}
+%On NetBSD:
+%\begin{verbatim}
+%$ ls -l a.out
+%-rwsr-xr-x  1 root  users  9399 Sep 26 16:12 a.out
+%$ cc -Wall access.c
+%$ ls -l a.out
+%-rwxr-xr-x  1 jschauma  users  9399 Sep 26 16:51 a.out
+%$ ktruss cc -Wall access.c
+%[...]
+% 14250      1 ld       CALL  __stat30(0x43a1bd,0x7f7fffffd340)
+% 14250      1 ld       NAMI  "a.out"
+% 14250      1 ld       CALL  unlink(0x43a1bd)
+% 14250      1 ld       NAMI  "a.out"
+% 14250      1 ld       CALL  open(0x43a1bd,0x602,0x1b6)
+% 14250      1 ld       NAMI  "a.out"
+%[...]
+%\end{verbatim}
+%
+%\subsection{{\tt access(2)}}
+%On Linux:
+%\begin{verbatim}
+%$ ls -l a.out
+%-rwxr-xr-x 1 root users 6555 Sep 24 20:35 a.out
+%$ cc -Wall access.c
+%$ ls -l a.out
+%-rwxr-xr-x 1 jschauma users 6555 Sep 24 20:36 a.out
+%$ strace -f cc -Wall access.c
+%[...]
+%[pid 11721] stat("a.out", {st_mode=S_IFREG|0755, st_size=6555, ...}) = 0
+%[pid 11721] lstat("a.out", {st_mode=S_IFREG|0755, st_size=6555, ...}) = 0
+%[pid 11721] unlink("a.out")             = 0
+%[pid 11721] open("a.out", O_RDWR|O_CREAT|O_TRUNC, 0666) = 3
+%[...]
+%\end{verbatim}
+%
 
 \subsection{{\tt struct stat}: {\tt st\_mode}}
 Which permission set to use is determined (in order listed):
@@ -658,6 +686,6 @@ Playing:
 \end{itemize}
 \addvspace{.5in}
 Midterm Assignment:
-\verb+https://www.cs.stevens.edu/~jschauma/631/f14-midterm.html+
+\verb+https://www.cs.stevens.edu/~jschauma/631/f15-midterm.html+
 
 \end{document}

@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+<HEAD>
+
+  <TITLE>CS631 -- Advanced Programming in the UNIX Environment</TITLE>
+  <STYLE type="text/css">
+  body {
+  background-color: #FFFFFf;
+  }
+  </STYLE>
+  <STYLE type="text/css">
+  li.c1 {list-style: none}
+  </STYLE>
+</HEAD>
+
+<BODY>
+  <TABLE border="1" align="center" cellpadding="15">
+    <TR>
+      <TD valign="top">
+        <H2>CS631 -- Advanced Programming in the UNIX Environment - Final Assignment</H2>
+
+        <H3>Write a simple shell</H3>
+
+<h4>Summary</h4>
+
+<p>In this assignment you will write a simple shell.  In doing so, you
+will apply most of the lessons we learned in this class and gain a better
+understanding of how complex something as simple as a command-line
+interpreter can become as you compare the features available in a POSIX
+compliant shell with your own simple shell.</p>
+
+<h4>Problem assignment</h4>
+
+<p>Write a simple command-line interpreter as described in
+<a href="sish.1.pdf">this manual page</a>.  As usual, your homework
+submission / program will:</p>
+
+<p>
+<ul>
+<li>follow the <a href="hw">general homework guidelines</a></li>
+<li>be written in plain C</li>
+<li>consist of multiple files</li>
+<li>include a Makefile</li>
+<li>follow the principle of least surprise for the user</li>
+<li>not generate any output other than that which was requested</li>
+<li>generate meaningful error messages (to stderr) when appropriate</li>
+<li><em>not</em> add additional features that are not in the
+specification (such as, for example, color coding output or similar
+nonsense)</li>
+<li>compile without warnings</li>
+<li>work on <tt>linux-lab</tt> as well as
+<tt>cs631apue.netmeister.org</tt></li>
+</ul>
+</p>
+
+<h4>Pair Programming</h4>
+
+<p>This assignment will be completed in teams of two people.  In your
+submission, please include a description of how you collaborated and how
+you shared code.</p>
+
+<h4>Hints</h4>
+
+<p>Given the number of aspects covered in this assignment, I would suggest
+that you try to implement features incrementally in the following
+order:</p>
+
+<h5>Shell startup, options parsing, command parsing / tokenization</h5>
+
+<p>Begin by implementing the standard <tt>getopt(3)</tt> flow, initialize
+your world, print a command-line prompt and read input from the
+controlling terminal.</p>
+
+<p>Split the given string into tokens.</p>
+
+<p>Make sure your shell can't be terminated by <tt>Ctrl+C</tt>, and can be
+exited successfully.</p>
+
+<h5>Builtins</h5>
+
+<p>Implement all listed builtins with all supported arguments / exit
+status.  Resist the temptation to implement additional features not
+requested in the assignment.</p>
+
+<h5>Fork-exec commands</h5>
+
+<p>Create a new process and execute commands.  Wait for them to complete.
+Reap your children.  Make their exit status available.</p>
+
+<h5>Implement I/O Redirection</h5>
+
+<p>Inspect the list of tokens for supported I/O redirection operators.
+Ensure no illegal combination is given.  Implement the correct
+redirection.  Make sure to handle error cases correctly and report
+meaningful errors to the user.</p>
+
+<h5>Implement pipelines</h5>
+
+<p>Split the input by the pipe operator before tokenization.  Fork new
+processes for each command in the pipe, connect stdout/stdin as needed.
+Execute the commands.</p>
+
+<h5>Implement backgrounding of processes</h5>
+
+<p>Only implement placing commands into the background after all other
+functionality is present.</p>
+
+<h4>Testing</h4>
+
+<p>The manual page includes a list of examples.  You should consider those
+basic minimum functionality that your shell should provide as shown
+there.</p>
+
+<p>In your README, please elaborate on what other tests you
+considered.</p>
+
+
+<h4>Deliverables and Due Date</H4>
+
+<p>You will submit a single tar archive named <em>username-username</em>-sish.tar
+that will extract into a directory named after your usernames. In that
+directory will be all your files together with a <tt>Makefile</tt> as well
+as a <tt>README</tt>, containing at the very least a description of how
+you collaborated.</p>
+
+<p> The due date for this assignment is 2015-12-18 14:00. Please attach
+the file to an email sent from your <tt>@stevens.edu</tt> email address to
+<a href="mailto:jschauma@stevens.edu?subject=[CS631]
+sish">jschauma@stevens.edu</a> with a subject of "[CS631] sish".</p>
+
+        <hr>
+        [<a href="index.html">Course Website</a>]
+</BODY>
+</HTML>

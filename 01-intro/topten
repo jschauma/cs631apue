@@ -1,0 +1,13 @@
+for f in $(zgrep -i "^en " data.gz |
+		sort -k3 -n | tail -10 | sed -e 's/en \(.*\) [0-9]* [0-9]*/\1/'); do
+	links -dump http://en.wikipedia.org/wiki/${f}
+done |
+tr '[:punct:]' ' ' |
+tr '[:space:]' '\n' |
+tr '[:upper:]' '[:lower:]' |
+egrep '^[a-z]+$' |
+awk '{ print length() " " $0; }' |
+sort |
+uniq |
+sort -n |
+tail -10

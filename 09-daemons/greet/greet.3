@@ -1,0 +1,52 @@
+.Dd November 9, 2015
+.Dt GREET 3
+.Os
+.Sh NAME
+.Nm greet, hello, getgreeting, setgreeting
+.Nd hello world library
+.Sh LIBRARY
+Greetings Library (libgreet, -lgreet)
+.Sh SYNOPSIS
+.In greeting.h
+.Ft void
+.Fn greet "void"
+.Ft void
+.Fn hello "const char * friend" "const char * greeting"
+.Ft char *
+.Fn getgreeting "void"
+.Ft int
+.Fn setgreeting "const char * greeting"
+.Sh DESCRIPTION
+The
+.Nm
+family of functions allows you to easily greet your
+users.
+.Pp
+The
+.Fn greet
+function simply prints the current greeting, followed
+by a newline character (\\n) to stdout.
+.Pp
+The
+.Fn hello
+function prints
+.Ar greeting
+prefixed with
+.Ar friend,
+a colon (:) and a space to stdout.
+.Pp
+The
+.Fn getgreeting
+function returns the current greeting.
+.Pp
+The
+.Fn setgreeting
+function sets the default greeting to use when calling
+.Fn greet .
+.Sh HISTORY
+The
+.Nm
+family of functions was first introduced in the class
+\'CS631 Advanced Programming in the UNIX Environment'
+at Stevens Institute of Technology in the Fall of
+2015.

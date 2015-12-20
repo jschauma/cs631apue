@@ -6,7 +6,8 @@ PS2PDF	=	ps2pdf
 PDFTOTEXT=	pdftotext
 
 FIGURES=	pics/symmetric-key-crypto.eps	\
-		pics/DES.eps			\
+		pics/aes.eps			\
+		pics/ecb.eps			\
 		pics/Public_key_encryption.eps	\
 		pics/encryption-handshake.eps	\
 		pics/Ecb_encryption.eps		\

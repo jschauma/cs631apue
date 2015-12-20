@@ -12,7 +12,7 @@ PDFTOTEXT=	pdftotext
 FIGURES=	pics/if-programming-languages-were-weapons.eps \
 		pics/kernighan-ritchie.eps pics/unix_architecture.eps \
 		pics/pipeline.eps pics/process-tree.eps \
-		pics/epoch-fail.eps pics/gopherbw.eps
+		pics/epoch-fail.eps
 
 .SUFFIXES: .tex .dvi .ps .pdf .txt .fig .eps .png .jpg .gif
 

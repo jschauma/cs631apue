@@ -98,7 +98,7 @@ main(void) {
 		exit(1);
 	}
 
-	/* grab the semaphore set created by seminit.c: */
+	/* grab the semaphore set */
 	if ((semid = initsem(key, 1)) == -1) {
 		perror("initsem");
 		exit(1);

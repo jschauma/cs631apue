@@ -25,62 +25,19 @@
 	\Hugesize
 		CS631 - Advanced Programming in the UNIX Environment\\
 		-- \\
-		Encryption in a Nutshell \\
+		(Only the most basic) Encryption in a Nutshell \\
 	\hspace*{5mm}\blueline\\ [1em]
 	\Normalsize
 		Department of Computer Science\\
 		Stevens Institute of Technology\\
 		Jan Schaumann\\
 		\verb+jschauma@stevens.edu+\\
-		\verb+http://www.cs.stevens.edu/~jschauma/631/+
+		\verb+https://www.cs.stevens.edu/~jschauma/631/+
 \end{center}
 \vspace*{\fill}
 
-\subsection{Purpose of Encryption}
-\begin{center}
-\Hugesize
-\vspace*{\fill}
-Encryption provides Security! Duh.
-\vspace*{\fill}
-\Normalsize
-\end{center}
-
-
-\subsection{Purpose of Encryption}
-Encryption provides security in the areas of:
-\begin{itemize}
-	\item Authenticity
-	\item Accuracy or Integrity
-	\item Secrecy or Confidentiality
-\end{itemize}
-
-\subsection{Purpose of Encryption}
-Encryption provides security in the areas of:
-\begin{itemize}
-	\item Authenticity
-		\begin{itemize}
-			\item {\em Is the party I'm talking to actually who I {\em think} it is?}
-		\end{itemize}
-	\item Accuracy or Integrity
-	\item Secrecy or Confidentiality
-\end{itemize}
-
-\subsection{Purpose of Encryption}
-Encryption provides security in the areas of:
-\begin{itemize}
-	\item Authenticity
-		\begin{itemize}
-			\item {\em Is the party I'm talking to actually who I {\em think} it is?}
-		\end{itemize}
-	\item Accuracy or Integrity
-		\begin{itemize}
-			\item {\em Is the message I received in fact what was sent?}
-		\end{itemize}
-	\item Secrecy or Confidentiality
-\end{itemize}
-
-\subsection{Purpose of Encryption}
-Encryption provides security in the areas of:
+\subsection{Cryptography}
+Cryptography can provide ``security'' in the areas of:
 \begin{itemize}
 	\item Authenticity
 		\begin{itemize}
@@ -115,28 +72,14 @@ Encryption provides security in the areas of:
 \subsection{How does encryption work?}
 Different approaches:
 \begin{itemize}
-	\item secret key cryptography
 	\item public key cryptography
+	\item secret key cryptography
 \end{itemize}
 
 \subsection{How does encryption work?}
 Different approaches:
 \begin{itemize}
-	\item secret key cryptography (example: {\em DES})
-		\begin{itemize}
-			\item Edward and Glenn share a secret
-			\item Edward can prove to Glenn that he knows a secret
-		\end{itemize}
-\end{itemize}
-
- \begin{center}
-        \includegraphics[scale=0.4]{pics/DES.eps}
- \end{center}
-
-\subsection{How does encryption work?}
-Different approaches:
-\begin{itemize}
-	\item public key cryptography (example: {\em RSA})
+	\item public key cryptography (example: {\em RSA}, your ssh keys)
 		\begin{itemize}
 			\item Edward has a private and a public key
 			\item data encrypted with her private key can only be decrypted by
@@ -149,87 +92,58 @@ Different approaches:
 	\includegraphics[scale=0.4]{pics/Public_key_encryption.eps}
  \end{center}
 
-\subsection{Accuracy or Integrity}
-In order to protect against forgery or data manipulation, provide some sort of
-digest or checksum (often a one-way hash).  Popular choices:
-
+\subsection{How does encryption work?}
+Different approaches:
 \begin{itemize}
-	\item {\tt 5f4dcc3b5aa765d61d8327deb882cf99}
-	\item {\tt 5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8}
-	\item {\tt 5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62 \
-                   a11ef721d1542d8}
-	\item {\tt b109f3bbbc244eb82441917ed06d618b9008dd09b3befd1b5 \
-                   e07394c706a8bb980b1d7785e5976ec049b46df5f1326af5a \
-                   2ea6d103fd07c95385ffab0cacbc86}
-\end{itemize}
-
-\subsection{Accuracy or Integrity}
-In order to protect against forgery or data manipulation, provide some sort of
-digest or checksum (often a one-way hash).  Popular choices:
-
-\begin{itemize}
-	\item {\tt 5f4dcc3b5aa765d61d8327deb882cf99} (MD5)
-	\item {\tt 5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8} (SHA-1)
-	\item {\tt 5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62 \
-                   a11ef721d1542d8} (SHA256)
-	\item {\tt b109f3bbbc244eb82441917ed06d618b9008dd09b3befd1b5 \
-                   e07394c706a8bb980b1d7785e5976ec049b46df5f1326af5a \
-                   2ea6d103fd07c95385ffab0cacbc86} (SHA512)
-\end{itemize}
-
-\subsection{Accuracy or Integrity}
-In order to protect against forgery or data manipulation, provide some sort of
-digest or checksum (often a one-way hash).  Popular choices:
-
-\begin{itemize}
-	\item {\tt 5f4dcc3b5aa765d61d8327deb882cf99} (MD5)
-	\item {\tt 5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8} (SHA-1)
-	\item {\tt 5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62 \
-                   a11ef721d1542d8} (SHA256)
-	\item {\tt b109f3bbbc244eb82441917ed06d618b9008dd09b3befd1b5 \
-                   e07394c706a8bb980b1d7785e5976ec049b46df5f1326af5a \
-                   2ea6d103fd07c95385ffab0cacbc86} (SHA512)
-\end{itemize}
-
-
-Caveats:
-\begin{itemize}
-	\item ``rainbow tables'' / internet search engines allow for easy reverse
-		lookup of un-salted hashes.
-	\item integrity only ensured if authenticity of information itself is
-		guaranteed
-\end{itemize}
-
-%\subsection{Authenticity}
-%\begin{figure}[hb]
-%    \begin{center}
-%        \includegraphics[scale=0.63]{sniff.eps} \\
-%    \end{center}
-%\end{figure}
-%
-\subsection{Authenticity}
-\begin{itemize}
-	\item in private key cryptography, authenticity is (often) assumed/implied
-	\item in public key cryptography, often accomplished via a separate
-		signature
-	\item ways to establish assurance of authenticity for parties that have
-		never met:
+	\item secret key cryptography (example: {\em AES})
 		\begin{itemize}
-			\item public key infrastructures (PKI) and certificate
-				authorities (CA)
-			\item ``web of trust''
+			\item Edward and Glenn share a secret key
+			\item for authentication purposes, Edward may prove
+				to Glenn that he knows the secret key
+			\item any data encrypted with this key
+				can also be decrypted using the same key
 		\end{itemize}
 \end{itemize}
 
+ \begin{center}
+        \includegraphics[scale=0.4]{pics/aes.eps}
+ \end{center}
 
-\subsection{Authentication}
-First, the client needs to prove that it knows the secret.  This is done in
-the encryption handshake, consisting of a {\em challenge} and a {\em
-response}.
-\vspace{.125in}
+\subsection{Cipher Modes}
+Encryption entails transformation of input data (``plain''
+or ``clear'' text) into encrypted output data
+(``ciphertext'').  Input data is generally transformed
+in one of two ways:
+\\
+
+{\em Stream Cipher}: each bit on plaintext is combined
+with a pseudo-random cipher digit stream (or {\em keystream})
+\\
+
+{\em Block Cipher}: fixed-length blocks of plaintext
+are transformed into same-sized blocks of ciphertext;
+may require padding
+
+
+\subsection{Electronic Codebook Mode}
 \begin{figure}[hb]
     \begin{center}
-        \includegraphics[scale=0.55]{pics/encryption-handshake.eps} \\
+        \includegraphics[scale=0.85]{pics/Ecb_encryption.eps} \\
+        \includegraphics[scale=0.85]{pics/Ecb_decryption.eps} \\
+    \end{center}
+\end{figure}
+
+\subsection{Electronic Codebook Mode}
+\begin{center}
+	\includegraphics{pics/ecb.eps}
+\end{center}
+
+
+\subsection{Cipher Block Chaining}
+\begin{figure}[hb]
+    \begin{center}
+        \includegraphics[scale=0.85]{pics/Cbc_encryption.eps} \\
+        \includegraphics[scale=0.85]{pics/Cbc_decryption.eps}
     \end{center}
 \end{figure}
 
@@ -250,33 +164,6 @@ for (i=0; i<16; i++)
 
 \end{verbatim}
 
-\subsection{Electronic Codebook Mode}
-\begin{figure}[hb]
-    \begin{center}
-        \includegraphics{pics/Ecb_encryption.eps} \\
-    \end{center}
-\end{figure}
-
-\subsection{Electronic Codebook Mode}
-\begin{figure}[hb]
-    \begin{center}
-        \includegraphics{pics/Ecb_decryption.eps} \\
-    \end{center}
-\end{figure}
-
-\subsection{Cipher Block Chaining}
-\begin{figure}[hb]
-    \begin{center}
-        \includegraphics{pics/Cbc_encryption.eps} \\
-    \end{center}
-\end{figure}
-
-\subsection{Cipher Block Chaining}
-\begin{figure}[hb]
-    \begin{center}
-        \includegraphics{pics/Cbc_decryption.eps} \\
-    \end{center}
-\end{figure}
 
 \subsection{Practical AES}
 \begin{itemize}
@@ -285,15 +172,56 @@ for (i=0; i<16; i++)
 	\item consists of a key setup phase and the actual encryption or
 		decryption
 	\item keying material use of {\tt ivec}, which needs to be shared
+	\item useful code examples in {\tt EVP\_EncryptInit(3)}
 \end{itemize}
 
 
-\subsection{HW\#5}
-\verb+http://www.cs.stevens.edu/~jschauma/631/f13-hw5.html+ \\
-\vspace{.5in}
+\subsection{HW\#4}
+\begin{verbatim}
+https://www.cs.stevens.edu/~jschauma/631/f15-hw4.html
+\end{verbatim}
+\begin{verbatim}
+
+NAME
+     aed - perform aes256‐cbc encryption/decryption
+
+DETAILS
+     aed reads data from stdin and either encrypts or decrypts it (depending
+     on the -d or -e flag).  It uses AES 256bit CBC mode with a SHA1 digest
+     with keying material derived from the passphrase using the
+     EVP_BytesToKey(3) function, generating a suitable salt via RAND_bytes(3).
+
+     Output is written to stdout.
+
+     When encrypting, the output is prefixed by the string "Salted__",
+     followed by the 8 byte salt.
+\end{verbatim}
+\Normalsize
+
+\subsection{HW\#4}
+\begin{verbatim}
+https://www.cs.stevens.edu/~jschauma/631/f15-hw4.html
+\end{verbatim}
+\begin{verbatim}
+
+     To encrypt the contents of the file ’file’ and storing the encrypted out-
+     put in ’file.enc’:
+
+           aed -e -p passfile <file >file.enc
+
+     To decrypt the contents of that file again:
+
+           aed -d -p passfile <file.enc
+
+     Since aed operates on stdin and stdout, the above two commands could also
+     be chained:
+
+           export AED_PASS=$(cat passfile)
+           cat file | aed -e | aed -d
+\end{verbatim}
+\Normalsize
 
 \subsection{References}
-OpenSSL's crypto libraries:
 \begin{itemize}
 	\item {\tt crypto(3)}
 	\item {\tt EVP\_EncryptInit(3)}

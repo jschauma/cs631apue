@@ -1,0 +1,91 @@
+.Dd November 27, 2015
+.Dt AED 1
+.Os AED
+.Sh NAME
+.Nm aed
+.Nd perform aes256-cbc encryption/decryption
+.Sh SYNOPSIS
+.Nm
+.Op Fl deh
+.Op Fl p Ar passin
+.Sh DESCRIPTION
+The
+.Nm
+utility can be used to perform symmetric encryption/decryption of the
+input stream using 256bit AES with a SHA1 digest.
+.Sh OPTIONS
+.Nm
+supports the following command-line options:
+.Bl -tag -width p_passin_
+.It Fl d
+Perform decryption of the input stream.
+.It Fl e
+Perform encryption of the input stream.
+.It Fl h
+Print a short usage and exit.
+.It Fl p Ar passin
+Use the first line of the file 'passin' (minus '\\n') as the passphrase
+from which to derive the key material.
+If this is not specified, use the value of the
+.Ar AED_PASS
+environment variable.
+.El
+.Sh DETAILS
+.Nm
+reads data from stdin and either encrypts or decrypts it (depending on the
+.Fl d
+or
+.Fl e
+flag).
+It uses AES 256bit CBC mode with a SHA1 digest with keying material
+derived from the passphrase using the
+.Xr EVP_BytesToKey 3
+function, generating a suitable salt via
+.Xr RAND_bytes 3 .
+.Pp
+Output is written to stdout.
+.Pp
+When encrypting, the output is prefixed by the 8 byte salt.
+.Sh ENVIRONMENT
+If
+.Fl p Ar passin
+was not specified and the AED_PASS environment variable is set, then
+.Nm
+will use the value of that variable as the passphrase from which to derive
+the key material.
+.Sh EXAMPLES
+The following examples show common usage.
+.Pp
+To encrypt the contents of the file 'file' and storing the encrypted
+output in 'file.enc':
+.Bd -literal -offset indent
+aed -e -p passfile <file >file.enc
+.Ed
+.Pp
+To decrypt the contents of that file again:
+.Bd -literal -offset indent
+aed -d -p passfile <file.enc
+.Ed
+.Pp
+Since
+.Nm
+operates on stdin and stdout, the above two commands could also be
+chained:
+.Bd -literal -offset indent
+export AED_PASS=$(cat passfile)
+cat file | aed -e | aed -d
+.Ed
+.Sh EXIT STATUS
+.Nm
+exits 0 on success, and >0 if an error occurred.
+.Sh SEE ALSO
+.Xr EVP_BytesToKey 3 ,
+.Xr EVP_EncryptInit 3 ,
+.Xr RAND_bytes
+.Sh HISTORY
+This program (or variants thereof) was first assigned as a stand-alone
+programming assignment for the class
+.Dq Advanced Programming in the UNIX Environment
+at Stevens Institute of Technology in the Fall of 2012.
+.Sh BUGS
+Well, let's see...

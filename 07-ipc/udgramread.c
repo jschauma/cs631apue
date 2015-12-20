@@ -81,6 +81,6 @@ int main()
 
 	/* A UNIX domain datagram socket is a 'file'.  If you don't unlink
 	 * it, it will remain in the file system. */
-	unlink(NAME);
+//	unlink(NAME);
 	return 0;
 }

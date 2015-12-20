@@ -13,7 +13,7 @@
 #include <string.h>
 #include <unistd.h>
 
-#define	DEF_PAGER	"/usr/bin/more"		/* default pager program */
+#define	DEF_PAGER	"/usr/bin/more"
 #define LINE_LENGTH	128			/* arbitrary! */
 
 int
@@ -78,9 +78,9 @@ main(int argc, char **argv) {
 		if ((pager = getenv("PAGER")) == NULL)
 			pager = DEF_PAGER;
 		if ((argv0 = strrchr(pager, '/')) != NULL)
-			argv0++;		/* step past rightmost slash */
+			argv0++;
 		else
-			argv0 = pager;	/* no slash in pager */
+			argv0 = pager;
 
 		execlp(pager, argv0, (char *) 0);
 		fprintf(stderr,"execl error for %s\n", pager);

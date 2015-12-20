@@ -230,30 +230,24 @@ and may be OR'd with any of these:
 		\put(115,3){Returns:  file descriptor if OK, -1 on error}
 	\end{picture}
 \end{center}
-\vspace{.25in}
 \Normalsize
-On some platforms {\em oflag} may also be one of:
+{\tt openat(2)} is used to handle relative pathnames from different
+working directories in an atomic fashion.
+
+\vspace{.3in}
+On some platforms additional {\em oflag}s may be supported:
+\vspace{.25in}
 \small
 \begin{itemize}
 	\item {\tt O\_EXEC} -- Open for execute only
 	\item {\tt O\_SEARCH} -- Open for search only (applies to directories)
-\end{itemize}
-\vspace{.25in}
-\Normalsize
-and may be OR'd with any of these:
-\small
-\begin{itemize}
 	\item {\tt O\_DIRECTORY} -- If path resolves to a non-directory file, fail and set errno to {\tt ENOTDIR}.
 	\item {\tt O\_DSYNC} -- Wait for physical I/O for data, except
 file attributes
 	\item {\tt O\_RSYNC} -- Block read operations on any pending writes.
-	\item {\tt O\_PATH} -- Obtain a file descriptor purely for
-fd-level operations. (Linux $>$2.6.36 only)
+	\item {\tt O\_PATH} -- Obtain a file descriptor purely for fd-level operations. (Linux $>$2.6.36 only)
 \end{itemize}
 \Normalsize
-\vspace{.25in}
-{\tt openat(2)} is used to handle relative pathnames from different
-working directories in an atomic fashion.
 
 
 \subsection{{\tt close(2)}}
@@ -512,6 +506,19 @@ $ stat -f "%k" tmp/file1 # stat -c "%o" tmp/file1
 
 Note: results vary depending on OS/filesystem.
 
+\newpage
+\vspace*{\fill}
+\begin{center}
+    \Hugesize
+        Hooray! \\ [1em]
+    \hspace*{5mm}
+    \blueline\\
+    \hspace*{5mm}\\
+        5 Minute Break
+\end{center}
+\vspace*{\fill}
+
+
 \subsection{File Sharing}
 Since UNIX is a multi-user/multi-tasking system, it is conceivable (and
 useful) if more than one process can act on a single file simultaneously. In
@@ -724,7 +731,7 @@ $ time ./scat <file >out
 
 $ time ./ascat <file >out
 
-$
+$ make sync async
 
 \end{verbatim}
 \vspace{.25in}

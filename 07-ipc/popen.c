@@ -13,7 +13,7 @@
 #include <string.h>
 #include <unistd.h>
 
-#define	DEF_PAGER	"/usr/bin/more"		/* default pager program */
+#define	DEF_PAGER	"/usr/bin/more"
 
 int
 main(int argc, char **argv) {

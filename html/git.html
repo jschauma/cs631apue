@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+<HEAD>
+
+  <TITLE>CS631 -- Advanced Programming in the UNIX Environment</TITLE>
+  <STYLE type="text/css">
+  body {
+  background-color: #FFFFFf;
+  }
+  </STYLE>
+  <STYLE type="text/css">
+  li.c1 {list-style: none}
+  </STYLE>
+</HEAD>
+
+<BODY>
+  <TABLE border="1" align="center" cellpadding="15">
+    <TR>
+      <TD valign="top">
+        <H2>CS631 -- Advanced Programming in the UNIX Environment</H2>
+
+        <H3>Using <tt>git(1)</tt></H3>
+
+        <H4>Summary</H4>
+	<p>
+        Learning to use a code revision system and collaborating with
+        others is an important aspect of programming.  <a
+        href="http://git-scm.com/">Git</a> is a popular free and open
+        source distributed version control system and well worth knowing
+        at least the fundamental of.
+        </p>
+        <p>
+        Note: <tt>git(1)</tt> can be used without and independent of <a
+        href="https://github.com/">GitHub</a>!  In this class, we will use
+        <tt>git(1)</tt> on <tt>cs631apue.netmeister.org</tt> for your
+        final project.
+        </p>
+<!--
+        <h4>Unix groups</h4>
+        <p>
+        In order to be able to share a repository hosted on
+        <tt>cs631apue.netmeister.org</tt>, all your team members need to
+        be in a shared Unix group.  This group needs to be created by the
+        system administrators.  To have this group created, send an email
+        to <a href="mailto:jschauma@stevens.edu">jschauma@stevens.edu</a>
+        telling me the name of your team as well as the usernames of all
+        your team's members.  The earlier you do this, the better.
+        </p>
+-->
+        <h4>Accessing the repository</h4>
+        <p>
+        Your instructor will set up the repository for your group.  You
+        will then access the repository via <tt>ssh(1)</tt> under the path
+        <tt>cs631apue.netmeister.org:/usr/local/apue/$team</tt> (where
+        <tt>$team</tt> is the name of your team).
+        </p>
+        <p>
+        For example, if your username on <tt>cs631apue.netmeister.org</tt>
+        was 'jdoe' and you were a member of the team 'hyper', you would
+        check out the repository using the following commands:
+        <blockquote><tt><pre>$ git clone jdoe@cs631apue.netmeister.org:/usr/local/apue/hyper</pre></tt></blockquote>
+        </p>
+        <h4>Working with git</h4>
+        <p>
+        You should make it a habit to begin your working session by
+        updating your copy of the repository and ending it by committing
+        your changes.  If you are ready to push your changes to make them
+        available to your team mates, you would then push them to the
+        repository:
+        <blockquote><tt><pre>$ cd hyper
+$ git pull
+$ $EDITOR http.c
+[edit, debug]
+$ git commit
+$ git push</pre></tt></blockquote>
+        </p>
+        <p>
+        Please <em>always</em> write a <em>meaningful</em> commit message.
+        See these links for why/how:
+        <ul>
+          <li><a href="http://www.slideshare.net/TarinGamberini/commit-messages-goodpractices">Commit messages - Good practices</a></li>
+          <li><a href="http://robots.thoughtbot.com/5-useful-tips-for-a-better-commit-message">5 Useful Tips For A Better Commit Message</a></li>
+          <li><a href="http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html">A Note About Git Commit Messages</a></li>
+        </ul>
+        </p>
+        <hr>
+        [<a href="index.html">Course Website</a>]
+</BODY>
+</HTML>
