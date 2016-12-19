@@ -1,4 +1,4 @@
-/* A simple program to help illustrate the use of dlopen(3) in dlopenex.c:
+/* A simple program to introduce the concept of shared libraries.
  *
  * Compiling this program will work, as we have the forward declaration
  * from the bsd compatibility header.  Linking the executable will fail,

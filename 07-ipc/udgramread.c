@@ -57,30 +57,28 @@ int main()
 {
 	int sock;
 	struct sockaddr_un name;
-	char buf[1024];
+	char buf[BUFSIZ];
 
-	/* Create socket from which to read. */
-	sock = socket(PF_LOCAL, SOCK_DGRAM, 0);
-	if (sock < 0) {
+	if ((sock = socket(PF_LOCAL, SOCK_DGRAM, 0)) < 0) {
 		perror("opening datagram socket");
 		exit(1);
 	}
-	/* Create name. */
+
 	name.sun_family = PF_LOCAL;
-	strcpy(name.sun_path, NAME);
+	(void)strncpy(name.sun_path, NAME, sizeof(name.sun_path));
 	if (bind(sock, (struct sockaddr *)&name, sizeof(struct sockaddr_un))) {
 		perror("binding name to datagram socket");
 		exit(1);
 	}
 	printf("socket --> %s\n", NAME);
-	/* Read from the socket */
-	if (read(sock, buf, 1024) < 0)
+
+	if (read(sock, buf, BUFSIZ) < 0)
 		perror("reading from socket");
 	printf("--> %s\n", buf);
 	close(sock);
 
 	/* A UNIX domain datagram socket is a 'file'.  If you don't unlink
 	 * it, it will remain in the file system. */
-//	unlink(NAME);
+	unlink(NAME);
 	return 0;
 }

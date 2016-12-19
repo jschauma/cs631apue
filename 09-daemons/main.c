@@ -2,7 +2,7 @@
  * work.  We use function prototypes to forward-declare the 'ldtest'
  * functions, which are implemented in the ldtest[12].c files.
  *
- * Compiling this file along works, but linking it will fail.
+ * Compiling this file alone works, but linking it will fail.
  *
  * Compiling main.c and ldtest[12].c in one step will work.
  *

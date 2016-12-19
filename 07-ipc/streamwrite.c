@@ -52,7 +52,7 @@ int main(argc, argv)
 	int argc;
 	char *argv[];
 {
-	int sock;
+	int sock, port;
 	struct sockaddr_in server;
 	struct hostent *hp, *gethostbyname();
 
@@ -61,21 +61,25 @@ int main(argc, argv)
 		exit(1);
 	}
 
-	/* Create socket */
-	sock = socket(AF_INET, SOCK_STREAM, 0);
-	if (sock < 0) {
+	port = atoi(argv[2]);
+	if ((port < 1) || (port > 65536)) {
+		fprintf(stderr, "Invalid port: %s\n", argv[2]);
+		exit(1);
+	}
+
+	if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
 		perror("opening stream socket");
 		exit(1);
 	}
+
 	/* Connect socket using name specified by command line. */
 	server.sin_family = AF_INET;
-	hp = gethostbyname(argv[1]);
-	if (hp == 0) {
+	if ((hp = gethostbyname(argv[1])) == NULL) {
 		fprintf(stderr, "%s: unknown host\n", argv[1]);
 		exit(2);
 	}
 	bcopy(hp->h_addr, &server.sin_addr, hp->h_length);
-	server.sin_port = htons(atoi(argv[2]));
+	server.sin_port = htons(port);
 
 	if (connect(sock, (struct sockaddr *)&server, sizeof(server)) < 0) {
 		perror("connecting stream socket");

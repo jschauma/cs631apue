@@ -53,7 +53,7 @@ int main()
 	socklen_t length;
 	struct sockaddr_in server;
 	int msgsock;
-	char buf[1024];
+	char buf[BUFSIZ];
 	int rval;
 	fd_set ready;
 	struct timeval to;
@@ -70,13 +70,13 @@ int main()
 	server.sin_family = AF_INET;
 	server.sin_addr.s_addr = INADDR_ANY;
 	server.sin_port = 0;
-	if (bind(sock, (struct sockaddr *)&server, sizeof(server))) {
+	if (bind(sock, (struct sockaddr *)&server, sizeof(server)) != 0) {
 		perror("binding stream socket");
 		exit(1);
 	}
 	/* Find out assigned port number and print it out */
 	length = sizeof(server);
-	if (getsockname(sock, (struct sockaddr *)&server, &length)) {
+	if (getsockname(sock, (struct sockaddr *)&server, &length) != 0) {
 		perror("getting socket name");
 		exit(1);
 	}
@@ -102,7 +102,7 @@ int main()
 				perror("accept");
 			else do {
 				bzero(buf, sizeof(buf));
-				if ((rval = read(msgsock, buf, 1024)) < 0)
+				if ((rval = read(msgsock, buf, BUFSIZ)) < 0)
 					perror("reading stream message");
 				else if (rval == 0)
 					printf("Ending connection from %s.\n", client_addr);

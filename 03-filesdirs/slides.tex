@@ -43,69 +43,6 @@
   \Hugesize
 	Code Reading
 	\hspace*{5mm}\blueline\\ [1em]
-	HW\#1
-  \Normalsize
-\end{center}
-\vspace*{\fill}
-
-
-\subsection{When reading code...}
-
-\vspace*{\fill}
-\begin{center}
-\Huge
-First understand {\em what} it does. \\
-\vspace{.5in}
-
-Then understand {\em why} it does it. \\
-\vspace{.5in}
-
-Only then pay attention to {\em how} it does it.
-\Normalsize
-\end{center}
-\vspace*{\fill}
-
-\subsection{When reading code...}
-\begin{itemize}
-	\item compare source code and documentation; are they in sync?
-	\item compare documentation and reality; are they in sync?
-	\item review manual pages for system- and library calls made; are
-		there (failure or success) cases unaccounted for?
-	\item what follow-up questions do you have?
-\end{itemize}
-
-\subsection{Note!}
-"More code" does not necessarily imply a "better program".
-
-\vspace*{\fill}
-\begin{center}
-\Huge
-``One of my most productive days was throwing away 1,000 lines of code.''
-\Normalsize
-\\
-
-Ken Thompson
-\end{center}
-\vspace*{\fill}
-
-\subsection{Note!}
-"More comments" does not necessarily imply "easier to understand".
-\vspace{.5in}
-\begin{itemize}
-	\item avoid useless comments
-	\item use descriptive variable- and function names
-	\item comments easily become obsolete
-\end{itemize}
-
-\vspace{.5in}
-Good comments describe {\em why}, not {\em what}.
-\pagebreak
-
-\vspace*{\fill}
-\begin{center}
-  \Hugesize
-	Code Reading
-	\hspace*{5mm}\blueline\\ [1em]
 	HW\#2
   \Normalsize
 \end{center}
@@ -202,25 +139,29 @@ Let's improve {\tt simple-ls.c}.
 \begin{verbatim}
 $ ssh linux-lab
 $ cc -Wall simple-ls.c
-$ ./a.out ~jschauma/tmp/apue
+$ ./a.out ~jschauma/apue/03/tmp
 .
 ..
-stdout
-file
+log
+đev
 [...]
-$ $EDITOR simple-ls.c
-$ cc -Wall simple-ls.c
-$ ./a.out ~jschauma/tmp/apue
+$ cc -Wall simple-ls-stat.c
+$ ./a.out ~jschauma/apue/03/tmp
 . (directory - directory)
 .. (directory - directory)
-stdout (character special - symbolic link)
+log (socket - socket)
+dev (directory - symbolic link)
 [...]
 \end{verbatim}
 
+\subsection{File types for standard file descriptors}
+You can glean how the OS implements e.g. pipes by
+inspecting certain files in a {\em procfs}:
+\begin{verbatim}
+$ ls -l /dev/fd/1
 
-%$ ls -l /dev/fd/1
-%
-%$ ls -l /dev/fd/1 | cat
+$ ls -l /dev/fd/1 | cat
+\end{verbatim}
 
 \subsection{{\tt struct stat}: {\tt st\_mode}, {\tt st\_uid} and {\tt st\_gid}}
 Every process has six or more IDs associated with it:
@@ -246,99 +187,35 @@ st\_uid}. Whenever a file is {\em setgid}, set the {\em effective group ID} to
 {\tt st\_gid}.  {\tt st\_uid} and {\tt st\_gid} always specify the owner and
 group owner of a file, regardless of whether it is setuid/setgid.
 
-\subsection{{\tt struct stat}: {\tt st\_mode}}
-{\tt st\_mode} also encodes the file access permissions ({\tt S\_IRUSR},
-{\tt S\_IWUSR}, {\tt S\_IXUSR}, {\tt S\_IRGRP}, {\tt S\_IWGRP}, {\tt S\_IXGRP},
-{\tt S\_IROTH}, {\tt S\_IWOTH}, {\tt S\_IXOTH}).  Uses of the permissions are
-summarized as follows:
+\subsection{{\tt setuid(2)}/{\tt seteuid(2)}}
+\small
+\setlength{\unitlength}{1mm}
+\begin{center}
+	\begin{picture}(150,50)
+		\thinlines
+		\put(0,0){\framebox(130,50){}}
+		\put(10,45){{\tt \#include <unistd.h>}}
+		\put(10,35){{\tt int seteuid(uid\_t {\em uid}});}
+		\put(10,31){{\tt int setuid(uid\_t {\em euid}});}
+		\put(85,23){Returns: 0 if OK, -1 on error}
+		\put(10,15){{\tt uid\_t geteuid(void);}}
+		\put(10,10){{\tt uid\_t getuid(void);}}
+		\put(85,3){Returns: uid\_t; no error}
+	\end{picture}
+\end{center}
+\Normalsize
 
-\begin{itemize}
-	\item To open a file, need execute permission on each directory component of the path
-\end{itemize}
+See also: {\tt getresuid(2)} (if {\tt \_GNU\_SOURCE})
+\\
 
-\subsection{{\tt struct stat}: {\tt st\_mode}}
-{\tt st\_mode} also encodes the file access permissions ({\tt S\_IRUSR},
-{\tt S\_IWUSR}, {\tt S\_IXUSR}, {\tt S\_IRGRP}, {\tt S\_IWGRP}, {\tt S\_IXGRP},
-{\tt S\_IROTH}, {\tt S\_IWOTH}, {\tt S\_IXOTH}).  Uses of the permissions are
-summarized as follows:
+{\em setuid} programs should only use elevated privileges
+{\em when needed}.  Note: after using {\tt setuid(2)},
+you {\em cannot} regain elevated privileges.  This is
+by design!
+\\
 
-\begin{itemize}
-	\item To open a file, need execute permission on each directory component of the path
-	\item To open a file with {\tt O\_RDONLY} or {\tt O\_RDWR}, need read permission
-\end{itemize}
+{\tt setuid.c}
 
-\subsection{{\tt struct stat}: {\tt st\_mode}}
-{\tt st\_mode} also encodes the file access permissions ({\tt S\_IRUSR},
-{\tt S\_IWUSR}, {\tt S\_IXUSR}, {\tt S\_IRGRP}, {\tt S\_IWGRP}, {\tt S\_IXGRP},
-{\tt S\_IROTH}, {\tt S\_IWOTH}, {\tt S\_IXOTH}).  Uses of the permissions are
-summarized as follows:
-
-\begin{itemize}
-	\item To open a file, need execute permission on each directory component of the path
-	\item To open a file with {\tt O\_RDONLY} or {\tt O\_RDWR}, need read permission
-	\item To open a file with {\tt O\_WRONLY} or {\tt O\_RDWR}, need write permission
-\end{itemize}
-
-\subsection{{\tt struct stat}: {\tt st\_mode}}
-{\tt st\_mode} also encodes the file access permissions ({\tt S\_IRUSR},
-{\tt S\_IWUSR}, {\tt S\_IXUSR}, {\tt S\_IRGRP}, {\tt S\_IWGRP}, {\tt S\_IXGRP},
-{\tt S\_IROTH}, {\tt S\_IWOTH}, {\tt S\_IXOTH}).  Uses of the permissions are
-summarized as follows:
-
-\begin{itemize}
-	\item To open a file, need execute permission on each directory component of the path
-	\item To open a file with {\tt O\_RDONLY} or {\tt O\_RDWR}, need read permission
-	\item To open a file with {\tt O\_WRONLY} or {\tt O\_RDWR}, need write permission
-	\item To use {\tt O\_TRUNC}, must have write permission
-\end{itemize}
-
-
-\subsection{{\tt struct stat}: {\tt st\_mode}}
-{\tt st\_mode} also encodes the file access permissions ({\tt S\_IRUSR},
-{\tt S\_IWUSR}, {\tt S\_IXUSR}, {\tt S\_IRGRP}, {\tt S\_IWGRP}, {\tt S\_IXGRP},
-{\tt S\_IROTH}, {\tt S\_IWOTH}, {\tt S\_IXOTH}).  Uses of the permissions are
-summarized as follows:
-
-\begin{itemize}
-	\item To open a file, need execute permission on each directory component of the path
-	\item To open a file with {\tt O\_RDONLY} or {\tt O\_RDWR}, need read permission
-	\item To open a file with {\tt O\_WRONLY} or {\tt O\_RDWR}, need write permission
-	\item To use {\tt O\_TRUNC}, must have write permission
-	\item To create a new file, must have write+execute permission for the directory
-\end{itemize}
-
-
-\subsection{{\tt struct stat}: {\tt st\_mode}}
-{\tt st\_mode} also encodes the file access permissions ({\tt S\_IRUSR},
-{\tt S\_IWUSR}, {\tt S\_IXUSR}, {\tt S\_IRGRP}, {\tt S\_IWGRP}, {\tt S\_IXGRP},
-{\tt S\_IROTH}, {\tt S\_IWOTH}, {\tt S\_IXOTH}).  Uses of the permissions are
-summarized as follows:
-
-\begin{itemize}
-	\item To open a file, need execute permission on each directory component of the path
-	\item To open a file with {\tt O\_RDONLY} or {\tt O\_RDWR}, need read permission
-	\item To open a file with {\tt O\_WRONLY} or {\tt O\_RDWR}, need write permission
-	\item To use {\tt O\_TRUNC}, must have write permission
-	\item To create a new file, must have write+execute permission for the directory
-	\item To delete a file, need write+execute on directory, file doesn't matter
-\end{itemize}
-
-
-\subsection{{\tt struct stat}: {\tt st\_mode}}
-{\tt st\_mode} also encodes the file access permissions ({\tt S\_IRUSR},
-{\tt S\_IWUSR}, {\tt S\_IXUSR}, {\tt S\_IRGRP}, {\tt S\_IWGRP}, {\tt S\_IXGRP},
-{\tt S\_IROTH}, {\tt S\_IWOTH}, {\tt S\_IXOTH}).  Uses of the permissions are
-summarized as follows:
-
-\begin{itemize}
-	\item To open a file, need execute permission on each directory component of the path
-	\item To open a file with {\tt O\_RDONLY} or {\tt O\_RDWR}, need read permission
-	\item To open a file with {\tt O\_WRONLY} or {\tt O\_RDWR}, need write permission
-	\item To use {\tt O\_TRUNC}, must have write permission
-	\item To create a new file, must have write+execute permission for the directory
-	\item To delete a file, need write+execute on directory, file doesn't matter
-	\item To execute a file (via {\tt exec} family), need execute permission
-\end{itemize}
 
 \subsection{{\tt access(2)}}
 \small
@@ -454,6 +331,101 @@ $
 %[...]
 %\end{verbatim}
 %
+
+
+\subsection{{\tt struct stat}: {\tt st\_mode}}
+{\tt st\_mode} also encodes the file access permissions ({\tt S\_IRUSR},
+{\tt S\_IWUSR}, {\tt S\_IXUSR}, {\tt S\_IRGRP}, {\tt S\_IWGRP}, {\tt S\_IXGRP},
+{\tt S\_IROTH}, {\tt S\_IWOTH}, {\tt S\_IXOTH}).  Uses of the permissions are
+summarized as follows:
+
+\begin{itemize}
+	\item To open a file, need execute permission on each directory component of the path
+\end{itemize}
+
+\subsection{{\tt struct stat}: {\tt st\_mode}}
+{\tt st\_mode} also encodes the file access permissions ({\tt S\_IRUSR},
+{\tt S\_IWUSR}, {\tt S\_IXUSR}, {\tt S\_IRGRP}, {\tt S\_IWGRP}, {\tt S\_IXGRP},
+{\tt S\_IROTH}, {\tt S\_IWOTH}, {\tt S\_IXOTH}).  Uses of the permissions are
+summarized as follows:
+
+\begin{itemize}
+	\item To open a file, need execute permission on each directory component of the path
+	\item To open a file with {\tt O\_RDONLY} or {\tt O\_RDWR}, need read permission
+\end{itemize}
+
+\subsection{{\tt struct stat}: {\tt st\_mode}}
+{\tt st\_mode} also encodes the file access permissions ({\tt S\_IRUSR},
+{\tt S\_IWUSR}, {\tt S\_IXUSR}, {\tt S\_IRGRP}, {\tt S\_IWGRP}, {\tt S\_IXGRP},
+{\tt S\_IROTH}, {\tt S\_IWOTH}, {\tt S\_IXOTH}).  Uses of the permissions are
+summarized as follows:
+
+\begin{itemize}
+	\item To open a file, need execute permission on each directory component of the path
+	\item To open a file with {\tt O\_RDONLY} or {\tt O\_RDWR}, need read permission
+	\item To open a file with {\tt O\_WRONLY} or {\tt O\_RDWR}, need write permission
+\end{itemize}
+
+\subsection{{\tt struct stat}: {\tt st\_mode}}
+{\tt st\_mode} also encodes the file access permissions ({\tt S\_IRUSR},
+{\tt S\_IWUSR}, {\tt S\_IXUSR}, {\tt S\_IRGRP}, {\tt S\_IWGRP}, {\tt S\_IXGRP},
+{\tt S\_IROTH}, {\tt S\_IWOTH}, {\tt S\_IXOTH}).  Uses of the permissions are
+summarized as follows:
+
+\begin{itemize}
+	\item To open a file, need execute permission on each directory component of the path
+	\item To open a file with {\tt O\_RDONLY} or {\tt O\_RDWR}, need read permission
+	\item To open a file with {\tt O\_WRONLY} or {\tt O\_RDWR}, need write permission
+	\item To use {\tt O\_TRUNC}, must have write permission
+\end{itemize}
+
+
+\subsection{{\tt struct stat}: {\tt st\_mode}}
+{\tt st\_mode} also encodes the file access permissions ({\tt S\_IRUSR},
+{\tt S\_IWUSR}, {\tt S\_IXUSR}, {\tt S\_IRGRP}, {\tt S\_IWGRP}, {\tt S\_IXGRP},
+{\tt S\_IROTH}, {\tt S\_IWOTH}, {\tt S\_IXOTH}).  Uses of the permissions are
+summarized as follows:
+
+\begin{itemize}
+	\item To open a file, need execute permission on each directory component of the path
+	\item To open a file with {\tt O\_RDONLY} or {\tt O\_RDWR}, need read permission
+	\item To open a file with {\tt O\_WRONLY} or {\tt O\_RDWR}, need write permission
+	\item To use {\tt O\_TRUNC}, must have write permission
+	\item To create a new file, must have write+execute permission for the directory
+\end{itemize}
+
+
+\subsection{{\tt struct stat}: {\tt st\_mode}}
+{\tt st\_mode} also encodes the file access permissions ({\tt S\_IRUSR},
+{\tt S\_IWUSR}, {\tt S\_IXUSR}, {\tt S\_IRGRP}, {\tt S\_IWGRP}, {\tt S\_IXGRP},
+{\tt S\_IROTH}, {\tt S\_IWOTH}, {\tt S\_IXOTH}).  Uses of the permissions are
+summarized as follows:
+
+\begin{itemize}
+	\item To open a file, need execute permission on each directory component of the path
+	\item To open a file with {\tt O\_RDONLY} or {\tt O\_RDWR}, need read permission
+	\item To open a file with {\tt O\_WRONLY} or {\tt O\_RDWR}, need write permission
+	\item To use {\tt O\_TRUNC}, must have write permission
+	\item To create a new file, must have write+execute permission for the directory
+	\item To delete a file, need write+execute on directory, file doesn't matter
+\end{itemize}
+
+
+\subsection{{\tt struct stat}: {\tt st\_mode}}
+{\tt st\_mode} also encodes the file access permissions ({\tt S\_IRUSR},
+{\tt S\_IWUSR}, {\tt S\_IXUSR}, {\tt S\_IRGRP}, {\tt S\_IWGRP}, {\tt S\_IXGRP},
+{\tt S\_IROTH}, {\tt S\_IWOTH}, {\tt S\_IXOTH}).  Uses of the permissions are
+summarized as follows:
+
+\begin{itemize}
+	\item To open a file, need execute permission on each directory component of the path
+	\item To open a file with {\tt O\_RDONLY} or {\tt O\_RDWR}, need read permission
+	\item To open a file with {\tt O\_WRONLY} or {\tt O\_RDWR}, need write permission
+	\item To use {\tt O\_TRUNC}, must have write permission
+	\item To create a new file, must have write+execute permission for the directory
+	\item To delete a file, need write+execute on directory, file doesn't matter
+	\item To execute a file (via {\tt exec} family), need execute permission
+\end{itemize}
 
 \subsection{{\tt struct stat}: {\tt st\_mode}}
 Which permission set to use is determined (in order listed):
@@ -626,7 +598,7 @@ Non-superusers can change the {\tt st\_gid} field if both:
 		(or one of the supplementary group IDs)
 \end{itemize}
 \addvspace{.5in}
-{\tt chown} and friends clear all setuid or setgid bits.
+{\tt chown} and friends (should) clear all setuid or setgid bits.
 
 \subsection{Directory sizes (on a system using UFS)}
 \begin{verbatim}
@@ -686,6 +658,6 @@ Playing:
 \end{itemize}
 \addvspace{.5in}
 Midterm Assignment:
-\verb+https://www.cs.stevens.edu/~jschauma/631/f15-midterm.html+
+\verb+https://www.cs.stevens.edu/~jschauma/631/f16-midterm.html+
 
 \end{document}

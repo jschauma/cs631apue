@@ -32,7 +32,7 @@
 		Stevens Institute of Technology\\
 		Jan Schaumann\\
 		\verb+jschauma@cs.stevens.edu+\\
-		\verb+http://www.cs.stevens.edu/~jschauma/631/+
+		\verb+https://www.cs.stevens.edu/~jschauma/631/+
 \end{center}
 \vspace*{\fill}
 
@@ -309,6 +309,19 @@ $ cc -Wall semdemo.c
 $ ipcs -s
 \end{verbatim}
 
+\subsection{IPC data flow}
+\begin{center}
+	\includegraphics[angle=-90,scale=0.8]{pics/ipcflow.eps}
+\end{center}
+
+\subsection{System V IPC: Shared Memory}
+
+\begin{center}
+	\includegraphics[angle=-90,scale=0.8]{pics/shmflow.eps}
+\end{center}
+
+
+
 \subsection{System V IPC: Shared Memory}
 \begin{itemize}
 	\item fastest form of IPC
@@ -572,6 +585,8 @@ moo
 	\item {\tt select(2)} to check if connection requests are pending
 \end{itemize}
 
+XXX add advio select(2) section here?
+
 \subsection{Sockets: Connections using stream sockets}
 \begin{verbatim}
 1$ cc -Wall strchkread.c -o read
@@ -630,19 +645,7 @@ To manipulate the options associated with a socket, use {\tt setsockopt(2)}:
 \end{tabular}
 \Normalsize
 
-%\subsection{Homework}
-%HW\#3: \verb+http://www.cs.stevens.edu/~jschauma/631/f11-hw3.html+ \\
-%
-%Final project: write a simple web server. \\
-%\verb+http://www.cs.stevens.edu/~jschauma/631/f11-final-project.html+
-%
-%\vspace{.5in}
-%HW\#4: write the basic framework for your final project. \\
-%\verb+http://www.cs.stevens.edu/~jschauma/631/f11-hw4.html+
-%
-%\begin{center}
-%\includegraphics[angle=-90,scale=0.9]{pics/pumpkins.eps}
-%\end{center}
+
 
 
 \subsection{More Information}
@@ -650,8 +653,13 @@ To manipulate the options associated with a socket, use {\tt setsockopt(2)}:
 	\item \verb+http://www.cs.stevens.edu/~jschauma/631/ipctut.pdf+
 	\item \verb+http://www.cs.stevens.edu/~jschauma/631/ipc.pdf+
 	\item \verb+http://www.cs.cf.ac.uk/Dave/C/node25.html+
+	\item \verb+http://kohala.com/start/unpv22e/unpv22e.chap12.pdf+
 	\item \verb+http://beej.us/guide/bgipc/output/html/singlepage/bgipc.html+
 \end{itemize}
+\vspace{.5in}
+
+HW\#3: write the basic framework for your final project. \\
+\verb+https://www.cs.stevens.edu/~jschauma/631/f16-hw3.html+
 %\begin{center}
 %\includegraphics[angle=-90,scale=0.75]{pics/nbc.eps}
 %\end{center}

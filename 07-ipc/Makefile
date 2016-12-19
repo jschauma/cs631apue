@@ -14,7 +14,9 @@ FIGURES=	pics/pipe1.eps			\
 		pics/fifo2.eps			\
 		pics/socketpair1.eps		\
 		pics/socketpair2.eps		\
-		pics/memory-layout.eps
+		pics/memory-layout.eps		\
+		pics/ipcflow.eps		\
+		pics/shmflow.eps
 
 .SUFFIXES: .tex .dvi .ps .pdf .txt .fig .eps .png .jpg .gif
 

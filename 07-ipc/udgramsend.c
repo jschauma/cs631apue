@@ -56,16 +56,15 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
-	/* Create socket on which to send. */
 	sock = socket(PF_LOCAL, SOCK_DGRAM, 0);
 	if (sock < 0) {
 		perror("opening datagram socket");
 		exit(1);
 	}
-	/* Construct name of socket to send to. */
+
 	name.sun_family = PF_LOCAL;
-	strcpy(name.sun_path, argv[1]);
-	/* Send message. */
+	(void)strncpy(name.sun_path, argv[1], sizeof(name.sun_path));
+
 	if (sendto(sock, DATA, sizeof(DATA), 0,
 	    (struct sockaddr *)&name, sizeof(struct sockaddr_un)) < 0) {
 		perror("sending datagram message");

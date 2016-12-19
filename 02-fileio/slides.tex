@@ -35,6 +35,54 @@
 \end{center}
 \vspace*{\fill}
 
+\subsection{Recall {\tt simple-cat.c} from last week...}
+\begin{verbatim}
+int main(int argc, char **argv) {
+        int n;
+        char buf[BUFFSIZE];
+
+        while ((n = read(STDIN_FILENO, buf, BUFFSIZE)) > 0) {
+                if (write(STDOUT_FILENO, buf, n) != n) {
+                        fprintf(stderr, "write error\n");
+                        exit(1);
+                }
+        }
+        if (n < 0) {
+                fprintf(stderr, "read error\n");
+                exit(1);
+        }
+
+        return(0);
+}
+\end{verbatim}
+
+\subsection{Warm-up exercise}
+Write a program that:
+\begin{itemize}
+	\item prints the value of {\tt STDIN\_FILENO},
+		{\tt STDOUT\_FILENO}, {\tt STDERR\_FILENO}
+	\item prints the value of the file descriptors
+		referenced via the {\tt stdin}, {\tt
+		stdout}, {\tt stderr} streams
+	\item {\tt open(2)}'s a file, then prints the
+		value of that file descriptor
+	\item {\tt fopen(3)}'s a file, then prints
+		the value of the file descriptor
+		referenced via that stream
+\end{itemize}
+
+What results do you expect?
+
+\subsection{Let's look at the file descriptors.}
+\vspace*{\fill}
+\begin{center}
+\Huge
+\verb+fds.c+
+\normalsize
+\end{center}
+\vspace*{\fill}
+
+
 
 %\subsection{Shell Command-Line Processing}
 %\begin{center}
@@ -232,7 +280,7 @@ and may be OR'd with any of these:
 \end{center}
 \Normalsize
 {\tt openat(2)} is used to handle relative pathnames from different
-working directories in an atomic fashion.
+working directories in an atomic fashion. % TOCTOU - time of check - time of use
 
 \vspace{.3in}
 On some platforms additional {\em oflag}s may be supported:
@@ -248,6 +296,25 @@ file attributes
 	\item {\tt O\_PATH} -- Obtain a file descriptor purely for fd-level operations. (Linux $>$2.6.36 only)
 \end{itemize}
 \Normalsize
+
+\subsection{{\tt openat(2)}}
+POSIX ({\tt https://is.gd/3hZ4EZ}) says: \\
+
+{\em The purpose of the {\tt openat()} function is to enable
+opening files in directories other than the current
+working directory without exposure to race conditions.
+Any part of the path of a file could be changed in
+parallel to a call to {\tt open()}, resulting in unspecified
+behavior. By opening a file descriptor for the target
+directory and using the openat() function it can be
+guaranteed that the opened file is located relative to
+the desired directory. Some implementations use the
+{\tt openat()} function for other purposes as well.}\\
+
+
+Think of {\em specific} examples how this defeats TOCTOU
+problems; write a Proof-of-Concept program to
+illustrate.
 
 
 \subsection{{\tt close(2)}}
@@ -320,7 +387,7 @@ $ ./openex
 \end{center}
 \Normalsize
 There can be several cases where {\tt read} returns less than the number of
-bytes requested:
+bytes requested.  For example:
 \begin{itemize}
 	\item EOF reached before requested number of bytes have been read
 	\item Reading from a terminal device, one "line" read at a time
@@ -357,6 +424,20 @@ by the number of bytes actually read.
 	\item after the write, the offset is
 		adjusted by the number of bytes actually written
 \end{itemize}
+
+\subsection{{\tt write(2)}}
+Some manual pages note: \\
+
+{\em If the real user is not the super-user, then {\tt
+write()} clears the set-user-id bit on a file.  This
+prevents penetration of system security by a user who
+``captures'' a writable set-user-id file owned by
+the super-user.} \\
+
+Think of {\em specific} examples for this behaviour.
+Write a program that attempts to exploit a scenario
+where {\tt write(2)} does {\em not} clear the setuid
+bit, then verify that your evil plan will be foiled.
 
 \subsection{{\tt read(2)} and {\tt write(2)}}
 \begin{center}
@@ -456,7 +537,7 @@ $ ls -ls file.*
 20064 -rw-r--r--  1 jschauma  wheel  10240020 Sep 18 17:21 file.nohole
 \end{verbatim}
 
-\verb+https://en.wikipedia.org/wiki/Sparse_file+ (not on HFS+ / NFS)
+\verb+https://en.wikipedia.org/wiki/Sparse_file+ (not on e.g. HFS+)
 
 
 \subsection{{\tt I/O Efficiency}}
@@ -613,13 +694,11 @@ Knowing this, here's what happens with each of the calls we discussed earlier:
 
 \subsection{Atomic Operations}
 
-In order to ensure consistency across multiple writes, we require {\em
-atomicity} in some operations.
-\\
-
-An operation is atomic if either {\em all} of the steps are performed or
-{\em none} of the steps are performed.
-\\
+In order to ensure consistency across multiple writes,
+we require {\em atomicity} in some operations.  An
+operation is atomic if either {\em all} of the steps
+are performed or {\em none} of the steps are
+performed.  \\
 
 Suppose UNIX didn't have {\tt O\_APPEND} (early versions didn't). To
 append, you'd have to do this:
@@ -640,7 +719,8 @@ if (write(fd, buff, 100) != 100) { /* ...and write */
 
 \Normalsize
 
-What if another process was doing the same thing to the same file?
+What if another process was doing the same thing to the same file? \\
+Recall {\tt rwex.c}.
 
 \subsection{{\tt pread(2)} and {\tt pwrite(2)}}
 \small
@@ -761,6 +841,7 @@ Mentioned here mostly for completeness's sake.
 
 \subsection{{\tt /dev/fd}}
 \begin{verbatim}
+$ bash
 $ ls -l /dev/stdin /dev/stdout /dev/stderr
 lr-xr-xr-x  1 root  wheel  0 Sep  7 13:56 /dev/stderr -> fd/2
 lr-xr-xr-x  1 root  wheel  0 Sep  7 13:56 /dev/stdin -> fd/0
@@ -775,10 +856,10 @@ dr--r--r--   1 root        wheel         0 Sep  7 13:56 4
 $ echo first >file1
 $ echo third >file2
 $ echo second | cat file1 /dev/fd/0 file2
-first
-second
-third
 \end{verbatim}
+
+Note:
+{\tt https://marc.info/?l=ast-users\&m=120978595414990\&w=2}
 
 
 \subsection{Homework}

@@ -38,10 +38,87 @@
 \end{center}
 \vspace*{\fill}
 
-\subsection{Midterm!}
-\vspace{1in}
+\subsection{Shell Command-Line Processing}
+\begin{center}
+\Huge
+\begin{verbatim}
+$ cc -Wall argv.c
+$ ./a.out
+$ ./a.out *.c
+$ ./a.out *.none
+$ ./a.out *.[1c]
+$ ./a.out "*.c"
+$ ./a.out $USER
+$ ./a.out "$(echo *.1)"
+$ ./a.out {foo,bar,baz}.whatever
+$ ./a.out {1..5}
+$ ./a.out {1..5}{a..f}
+\end{verbatim}
+\normalsize
+\vspace{.25in}
+See also:
+\verb+https://is.gd/kJXbpa+ and \verb+http://is.gd/iZa9rC+
+\end{center}
 
-\verb+https://www.cs.stevens.edu/~jschauma/cgi-bin/midterm.cgi+
+\subsection{Memory Layout of a C Program}
+{\tt memory-layout.c}
+\begin{center}
+	\includegraphics[angle=-90,scale=0.8]{pics/process1.eps}
+\end{center}
+
+\subsection{Memory Layout of a C Program}
+{\tt memory-layout.c}
+\begin{center}
+	\includegraphics[angle=-90,scale=0.8]{pics/process2.eps}
+\end{center}
+
+\subsection{Memory Layout of a C Program}
+{\tt memory-layout.c}
+\begin{center}
+	\includegraphics[angle=-90,scale=0.8]{pics/process3.eps}
+\end{center}
+
+\subsection{Memory Layout of a C Program}
+{\tt memory-layout.c}
+\begin{center}
+	\includegraphics[angle=-90,scale=0.8]{pics/process4.eps}
+\end{center}
+
+\subsection{Memory Layout of a C Program}
+{\tt memory-layout.c}
+\begin{center}
+	\includegraphics[angle=-90,scale=0.8]{pics/process5.eps}
+\end{center}
+
+\subsection{Memory Layout of a C Program}
+{\tt memory-layout.c}
+\begin{center}
+	\includegraphics[angle=-90,scale=0.8]{pics/process6.eps}
+\end{center}
+
+\subsection{Memory Layout of a C Program}
+{\tt memory-layout.c}
+\begin{center}
+	\includegraphics[angle=-90,scale=0.8]{pics/process7.eps}
+\end{center}
+
+\subsection{Memory Layout of a C Program}
+{\tt memory-layout.c}
+\begin{center}
+	\includegraphics[angle=-90,scale=0.8]{pics/process8.eps}
+\end{center}
+
+\subsection{Memory Layout of a C Program}
+{\tt memory-layout.c}
+\begin{center}
+	\includegraphics[angle=-90,scale=0.8]{pics/process9.eps}
+\end{center}
+
+\subsection{Memory Layout of a C Program}
+Obligatory "Smashing The Stack For Fun And Profit"
+links: \\
+
+\verb+http://insecure.org/stf/smashstack.html+
 
 \subsection{The {\tt main} function}
 \vspace{.25in}
@@ -119,7 +196,7 @@ $
 \end{verbatim}
 
 \subsection{Process Creation}
-\verb+glibc/csu/lic-start.c+
+\verb+glibc/csu/libc-start.c+
 
 \begin{verbatim}
 STATIC int
@@ -155,6 +232,7 @@ $ objdump -d a.out
 $
 \end{verbatim}
 
+\verb+http://dbp-consulting.com/tutorials/debugging/linuxProgramStartup.html+
 
 
 
@@ -316,7 +394,7 @@ hw.c:7: warning: control reaches end of non-void function
 $ ./a.out
 Hello World!
 $ echo $?
-10
+13
 $ cc -Wall --std=c99 hw.c
 $ ./a.out
 Hello World!
@@ -389,48 +467,32 @@ These can also be accessed by:
 \end{center}
 \Normalsize
 
-
+\subsection{Memory Allocation}
+\small
+\setlength{\unitlength}{1mm}
+\begin{center}
+	\begin{picture}(150,40)
+		\thinlines
+		\put(0,0){\framebox(130,40){}}
+		\put(10,35){{\tt \#include <stdlib.h>}}
+		\put(10,28){{\tt void *malloc(size\_t {\em size});}}
+		\put(10,23){{\tt void *calloc(size\_t {\em nobj}, size\_t {\em size});}}
+		\put(10,18){{\tt void *realloc(void *{\em ptr}, size\_t {\em newsize});}}
+		\put(10,13){{\tt void *alloca(size\_t {\em size});}}
+		\put(10,5){{\tt void free(void *{\em ptr});}}
+	\end{picture}
+\end{center}
 \Normalsize
-
-\subsection{Memory Layout of a C Program}
-\begin{center}
-	\includegraphics[angle=-90,scale=0.8]{pics/process1.eps}
-\end{center}
-
-\subsection{Memory Layout of a C Program}
-\begin{center}
-	\includegraphics[angle=-90,scale=0.8]{pics/process2.eps}
-\end{center}
-
-\subsection{Memory Layout of a C Program}
-\begin{center}
-	\includegraphics[angle=-90,scale=0.8]{pics/process3.eps}
-\end{center}
-
-\subsection{Memory Layout of a C Program}
-\begin{center}
-	\includegraphics[angle=-90,scale=0.8]{pics/process4.eps}
-\end{center}
-
-\subsection{Memory Layout of a C Program}
-\begin{center}
-	\includegraphics[angle=-90,scale=0.8]{pics/process5.eps}
-\end{center}
-
-\subsection{Memory Layout of a C Program}
-\begin{center}
-	\includegraphics[angle=-90,scale=0.8]{pics/process6.eps}
-\end{center}
-
-\subsection{Memory Layout of a C Program}
-\begin{center}
-	\includegraphics[angle=-90,scale=0.8]{pics/process7.eps}
-\end{center}
-
-\subsection{Memory Layout of a C Program}
-\begin{center}
-	\includegraphics[angle=-90,scale=0.8]{pics/process8.eps}
-\end{center}
+\begin{itemize}
+	\item {\em malloc} -- initial value is indeterminate.
+	\item {\em calloc} -- initial value set to all zeros.
+	\item {\em realloc} -- changes size of previously allocated area. Initial
+		value of any additional space is indeterminate.
+	\item {\em alloca} -- allocates memory on stack
+\end{itemize}
+\vspace*{\fill}
+Now consider manipulation of the environment by your
+program...
 
 \subsection{Memory Layout of a C Program}
 \begin{center}
@@ -544,56 +606,6 @@ $ wc -l obj
 $
 \end{verbatim}
 
-\subsection{Memory Allocation}
-\small
-\setlength{\unitlength}{1mm}
-\begin{center}
-	\begin{picture}(150,40)
-		\thinlines
-		\put(0,0){\framebox(130,40){}}
-		\put(10,35){{\tt \#include <stdlib.h>}}
-		\put(10,28){{\tt void *malloc(size\_t {\em size});}}
-		\put(10,23){{\tt void *calloc(size\_t {\em nobj}, size\_t {\em size});}}
-		\put(10,18){{\tt void *realloc(void *{\em ptr}, size\_t {\em newsize});}}
-		\put(10,13){{\tt void *alloca(size\_t {\em size});}}
-		\put(10,5){{\tt void free(void *{\em ptr});}}
-	\end{picture}
-\end{center}
-\Normalsize
-\begin{itemize}
-	\item {\em malloc} -- initial value is indeterminate.
-	\item {\em calloc} -- initial value set to all zeros.
-	\item {\em realloc} -- changes size of previously allocated area. Initial
-		value of any additional space is indeterminate.
-	\item {\em alloca} -- allocates memory on stack
-\end{itemize}
-
-\subsection{Memory Allocation}
-\small
-\setlength{\unitlength}{1mm}
-\begin{center}
-	\begin{picture}(150,40)
-		\thinlines
-		\put(0,0){\framebox(130,40){}}
-		\put(10,35){{\tt \#include <stdlib.h>}}
-		\put(10,28){{\tt void *malloc(size\_t {\em size});}}
-		\put(10,23){{\tt void *calloc(size\_t {\em nobj}, size\_t {\em size});}}
-		\put(10,18){{\tt void *realloc(void *{\em ptr}, size\_t {\em newsize});}}
-		\put(10,13){{\tt void *alloca(size\_t {\em size});}}
-		\put(10,5){{\tt void free(void *{\em ptr});}}
-	\end{picture}
-\end{center}
-\Normalsize
-\begin{itemize}
-	\item {\em malloc} -- initial value is indeterminate.
-	\item {\em calloc} -- initial value set to all zeros.
-	\item {\em realloc} -- changes size of previously allocated area. Initial
-		value of any additional space is indeterminate.
-	\item {\em alloca} -- allocates memory on stack
-\end{itemize}
-\addvspace{.5in}
-Knowing this, how does manipulation of the environment work?
-
 %\subsection{Lifetime of a UNIX Process}
 %\begin{center}
 %	\includegraphics[angle=-90,scale=0.8]{pics/lifetime6.eps}
@@ -602,7 +614,7 @@ Knowing this, how does manipulation of the environment work?
 
 % This section can be included if the students appear to have sufficient
 % background knowledge so that this class does not become too advanced;
-% alternatively, thSection {\tt setjmp/longjmp} taken from is might be
+% alternatively, Section {\tt setjmp/longjmp} taken from this might be
 % added in the next lecture on signals.
 %
 % \verb+http://www.cs.utk.edu/~plank/plank/classes/cs360/360/notes/Setjmp/lecture.html+

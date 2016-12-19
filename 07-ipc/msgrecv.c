@@ -52,9 +52,6 @@ main(int argc, char **argv) {
 		exit(1);
 	}
 
-	/*
-	 * Receive an answer of message type 1.
-	 */
 	if (msgrcv(msqid, &rbuf, MSGSZ, 1, 0) < 0) {
 		perror("msgrcv");
 		exit(EXIT_FAILURE);

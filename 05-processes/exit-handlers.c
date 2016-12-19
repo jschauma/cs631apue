@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 int i;
 
@@ -12,8 +13,19 @@ my_exit1(void) {
 	i++;
 }
 
-void my_exit2(void) {
+void
+my_exit2(void) {
 	printf("second exit handler: %d\n", i);
+}
+
+void
+func(int argc) {
+	printf("In func.\n");
+	if (argc == 2) {
+		exit(0);
+	} else if (argc == 3) {
+		_exit(0);
+	}
 }
 
 
@@ -34,6 +46,8 @@ main(int argc, char **argv) {
 		perror("can't register my_exit1");
 		exit(1);
 	}
+
+	func(argc);
 
 	printf("main is done\n");
 

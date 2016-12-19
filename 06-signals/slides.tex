@@ -11,6 +11,8 @@
 \usepackage{tabularx}
 \usepackage{listings}
 
+\newcommand{\smallish}{\fontsize{18}{18}\selectfont}
+
 \begin{document}
 \setfontphv
 
@@ -37,144 +39,6 @@
 		\verb+http://www.cs.stevens.edu/~jschauma/631/+
 \end{center}
 \vspace*{\fill}
-\subsection{Login Process}
-Let's revisit the process relationships for a login:
-\vspace*{\fill}
-\begin{center}
-\begin{tabular}[width=.75\texwidth]{l c l l}
-kernel & $\Rightarrow$ & init(8) & \# explicit creation\\
-\end{tabular}
-\end{center}
-\vspace*{\fill}
-
-\subsection{Login Process}
-Let's revisit the process relationships for a login:
-\vspace*{\fill}
-\begin{center}
-\begin{tabular}[width=.75\texwidth]{l c l l}
-kernel & $\Rightarrow$ & init(8) & \# explicit creation\\
-\\
-init(8) & $\Rightarrow$ & getty(8) & \# fork(2) \\
-\end{tabular}
-\end{center}
-\vspace*{\fill}
-
-\subsection{Login Process}
-Let's revisit the process relationships for a login:
-\vspace*{\fill}
-\begin{center}
-\begin{tabular}[width=.75\texwidth]{l c l l}
-kernel & $\Rightarrow$ & init(8) & \# explicit creation\\
-\\
-init(8) & $\Rightarrow$ & getty(8) & \# fork(2) \\
-\\
-getty(8) & $\Rightarrow$ & login(1) & \# exec(3) \\
-\end{tabular}
-\end{center}
-\vspace*{\fill}
-
-\subsection{Login Process}
-Let's revisit the process relationships for a login:
-\vspace*{\fill}
-\begin{center}
-\begin{tabular}[width=.75\texwidth]{l c l l}
-kernel & $\Rightarrow$ & init(8) & \# explicit creation\\
-\\
-init(8) & $\Rightarrow$ & getty(8) & \# fork(2) \\
-\\
-getty(8) & $\Rightarrow$ & login(1) & \# exec(3) \\
-\\
-login(1) & $\Rightarrow$ & \verb+$SHELL+ & \# exec(3) \\
-\end{tabular}
-\end{center}
-\vspace*{\fill}
-
-\subsection{Login Process}
-Let's revisit the process relationships for a login:
-\vspace*{\fill}
-\begin{center}
-\begin{tabular}[width=.75\texwidth]{l c l l }
-kernel & $\Rightarrow$ & init(8) & \# explicit creation \\
-\\
-init(8) & $\Rightarrow$ & getty(8) & \# fork(2) \\
-\\
-getty(8) & $\Rightarrow$ & login(1) & \# exec(3) \\
-\\
-login(1) & $\Rightarrow$ & \verb+$SHELL+ & \# exec(3) \\
-\\
-\verb+$SHELL+ & $\Rightarrow$ & ls(1) & \# fork(2) + exec(3) \\
-\end{tabular}
-\end{center}
-\vspace*{\fill}
-
-\subsection{Login Process}
-\vspace*{\fill}
-\begin{center}
-\begin{tabular}[width=.75\texwidth]{l c l}
-init(8) & \# PID 1, PPID 0, EUID 0\\
-\end{tabular}
-\vspace*{\fill}
-\end{center}
-
-\subsection{Login Process}
-\vspace*{\fill}
-\begin{center}
-\begin{tabular}[width=.75\texwidth]{l c l}
-init(8) & \# PID 1, PPID 0, EUID 0\\
-\\
-getty(8) & \# PID {\em N}, PPID 1, EUID 0\\
-\end{tabular}
-\vspace*{\fill}
-\end{center}
-
-\subsection{Login Process}
-\vspace*{\fill}
-\begin{center}
-\begin{tabular}[width=.75\texwidth]{l c l}
-init(8) & \# PID 1, PPID 0, EUID 0\\
-\\
-getty(8) & \# PID {\em N}, PPID 1, EUID 0\\
-\\
-login(1) & \# PID {\em N}, PPID 1, EUID 0\\
-\end{tabular}
-\vspace*{\fill}
-\end{center}
-
-\subsection{Login Process}
-\vspace*{\fill}
-\begin{center}
-\begin{tabular}[width=.75\texwidth]{l c l}
-init(8) & \# PID 1, PPID 0, EUID 0\\
-\\
-getty(8) & \# PID {\em N}, PPID 1, EUID 0\\
-\\
-login(1) & \# PID {\em N}, PPID 1, EUID 0\\
-\\
-\verb+$SHELL+ & \# PID {\em N}, PPID 1, EUID {\em U}\\
-\end{tabular}
-\vspace*{\fill}
-\end{center}
-
-\subsection{Login Process}
-\vspace*{\fill}
-\begin{center}
-\begin{tabular}[width=.75\texwidth]{l c l}
-init(8) & \# PID 1, PPID 0, EUID 0\\
-\\
-getty(8) & \# PID {\em N}, PPID 1, EUID 0\\
-\\
-login(1) & \# PID {\em N}, PPID 1, EUID 0\\
-\\
-\verb+$SHELL+ & \# PID {\em N}, PPID 1, EUID {\em U}\\
-\\
-ls(1) & \# PID {\em M}, PPID {\em N}, EUID {\em U}\\
-\\
-\end{tabular}
-\vspace*{\fill}
-\end{center}
-\begin{center}
-\verb+pstree -hapun | more+
-\end{center}
 
 \subsection{Login Process}
 \begin{itemize}
@@ -345,6 +209,147 @@ ls(1) & \# PID {\em M}, PPID {\em N}, EUID {\em U}\\
 		\end{itemize}
 \end{itemize}
 
+
+
+\subsection{Login Process}
+Let's revisit the process relationships for a login:
+\vspace*{\fill}
+\begin{center}
+\begin{tabular}[width=.75\texwidth]{l c l l}
+kernel & $\Rightarrow$ & init(8) & \# explicit creation\\
+\end{tabular}
+\end{center}
+\vspace*{\fill}
+
+\subsection{Login Process}
+Let's revisit the process relationships for a login:
+\vspace*{\fill}
+\begin{center}
+\begin{tabular}[width=.75\texwidth]{l c l l}
+kernel & $\Rightarrow$ & init(8) & \# explicit creation\\
+\\
+init(8) & $\Rightarrow$ & getty(8) & \# fork(2) \\
+\end{tabular}
+\end{center}
+\vspace*{\fill}
+
+\subsection{Login Process}
+Let's revisit the process relationships for a login:
+\vspace*{\fill}
+\begin{center}
+\begin{tabular}[width=.75\texwidth]{l c l l}
+kernel & $\Rightarrow$ & init(8) & \# explicit creation\\
+\\
+init(8) & $\Rightarrow$ & getty(8) & \# fork(2) \\
+\\
+getty(8) & $\Rightarrow$ & login(1) & \# exec(3) \\
+\end{tabular}
+\end{center}
+\vspace*{\fill}
+
+\subsection{Login Process}
+Let's revisit the process relationships for a login:
+\vspace*{\fill}
+\begin{center}
+\begin{tabular}[width=.75\texwidth]{l c l l}
+kernel & $\Rightarrow$ & init(8) & \# explicit creation\\
+\\
+init(8) & $\Rightarrow$ & getty(8) & \# fork(2) \\
+\\
+getty(8) & $\Rightarrow$ & login(1) & \# exec(3) \\
+\\
+login(1) & $\Rightarrow$ & \verb+$SHELL+ & \# exec(3) \\
+\end{tabular}
+\end{center}
+\vspace*{\fill}
+
+\subsection{Login Process}
+Let's revisit the process relationships for a login:
+\vspace*{\fill}
+\begin{center}
+\begin{tabular}[width=.75\texwidth]{l c l l }
+kernel & $\Rightarrow$ & init(8) & \# explicit creation \\
+\\
+init(8) & $\Rightarrow$ & getty(8) & \# fork(2) \\
+\\
+getty(8) & $\Rightarrow$ & login(1) & \# exec(3) \\
+\\
+login(1) & $\Rightarrow$ & \verb+$SHELL+ & \# exec(3) \\
+\\
+\verb+$SHELL+ & $\Rightarrow$ & ls(1) & \# fork(2) + exec(3) \\
+\end{tabular}
+\end{center}
+\vspace*{\fill}
+
+\subsection{Login Process}
+\vspace*{\fill}
+\begin{center}
+\begin{tabular}[width=.75\texwidth]{l c l}
+init(8) & \# PID 1, PPID 0, EUID 0\\
+\end{tabular}
+\vspace*{\fill}
+\end{center}
+
+\subsection{Login Process}
+\vspace*{\fill}
+\begin{center}
+\begin{tabular}[width=.75\texwidth]{l c l}
+init(8) & \# PID 1, PPID 0, EUID 0\\
+\\
+getty(8) & \# PID {\em N}, PPID 1, EUID 0\\
+\end{tabular}
+\vspace*{\fill}
+\end{center}
+
+\subsection{Login Process}
+\vspace*{\fill}
+\begin{center}
+\begin{tabular}[width=.75\texwidth]{l c l}
+init(8) & \# PID 1, PPID 0, EUID 0\\
+\\
+getty(8) & \# PID {\em N}, PPID 1, EUID 0\\
+\\
+login(1) & \# PID {\em N}, PPID 1, EUID 0\\
+\end{tabular}
+\vspace*{\fill}
+\end{center}
+
+\subsection{Login Process}
+\vspace*{\fill}
+\begin{center}
+\begin{tabular}[width=.75\texwidth]{l c l}
+init(8) & \# PID 1, PPID 0, EUID 0\\
+\\
+getty(8) & \# PID {\em N}, PPID 1, EUID 0\\
+\\
+login(1) & \# PID {\em N}, PPID 1, EUID 0\\
+\\
+\verb+$SHELL+ & \# PID {\em N}, PPID 1, EUID {\em U}\\
+\end{tabular}
+\vspace*{\fill}
+\end{center}
+
+\subsection{Login Process}
+\vspace*{\fill}
+\begin{center}
+\begin{tabular}[width=.75\texwidth]{l c l}
+init(8) & \# PID 1, PPID 0, EUID 0\\
+\\
+getty(8) & \# PID {\em N}, PPID 1, EUID 0\\
+\\
+login(1) & \# PID {\em N}, PPID 1, EUID 0\\
+\\
+\verb+$SHELL+ & \# PID {\em N}, PPID 1, EUID {\em U}\\
+\\
+ls(1) & \# PID {\em M}, PPID {\em N}, EUID {\em U}\\
+\\
+\end{tabular}
+\vspace*{\fill}
+\end{center}
+\begin{center}
+\verb+pstree -hapun | more+
+\end{center}
+
 \subsection{Process Groups}
 \begin{center}
 	\includegraphics[angle=-90,scale=0.8]{pics/session1.eps}
@@ -507,15 +512,15 @@ $
 	\includegraphics[angle=-90,scale=0.75]{pics/jc2.eps}
 \end{center}
 \begin{verbatim}
-$ dd if=/dev/zero of=/dev/null bs=512 count=2048000 >/dev/null 2>&1 &
+$ /bin/sleep 30 &
 [1]	24748
 $ ps -o pid,ppid,pgid,sess,comm
   PID  PPID  PGRP  SESS COMMAND
 24251 24250 24251 24251 ksh
-24748 24251 24748 24251 dd
+24748 24251 24748 24251 sleep
 24750 24251 24750 24251 ps
 $
-[1] +  Done     dd if=/dev/zero of=/dev/null bs=512 count=2048000 >/dev/null 2>&1 &
+[1] +  Done     /bin/sleep 30 &
 $
 \end{verbatim}
 
@@ -798,6 +803,139 @@ $
 $
 \end{verbatim}
 
+\subsection{Program Startup}
+
+When a program is {\tt exec}ed, the status of all signals is either {\em
+default} or {\em ignore}.
+
+\subsection{Program Startup}
+
+When a program is {\tt exec}ed, the status of all signals is either {\em
+default} or {\em ignore}.
+\\
+
+When a process {\tt fork(2)}s, the child inherits the parent's signal
+dispositions.
+
+\subsection{Program Startup}
+
+When a program is {\tt exec}ed, the status of all signals is either {\em
+default} or {\em ignore}.
+\\
+
+When a process {\tt fork(2)}s, the child inherits the parent's signal
+dispositions.
+\\
+
+A limitation of the {\tt signal(3)} function is that we can only determine the
+current disposition of a signal by {\em changing} the disposition.
+
+
+\subsection{About that {\tt timeout(1)} then...}
+\begin{verbatim}
+$ timeout 60 /bin/sh -c "ls | more"
+
+vs
+
+$ /bin/sh -c "timeout 60 /bin/sh -c \"ls | more\""
+\end{verbatim}
+
+\subsection{About that {\tt timeout(1)} then...}
+\smallish
+\begin{verbatim}
+$ timeout 60 /bin/sh -c "ls | more; sleep 60"
+
+$ pstree -hapun
+[...]
+  |   |       `-ksh,10981
+  |   |           `-sh,12044 -c timeout 60 /bin/sh -c "ls | more; sleep 30"
+  |   |               `-timeout,12045 60 /bin/sh -c ls | more; sleep 30
+  |   |                   `-sh,12046 -c ls | more; sleep 30
+  |   |                       `-sleep,12049 30
+[...]
+
+$ ps x -o pid,ppid,pgid,sess,tpgid,stat,comm | egrep -v "(ssh|ps|egrep)"
+  PID  PPID  PGID  SESS TPGID STAT COMMAND
+ 7676  7675  7676  7676  7676 Ss+  ksh
+10981 10980 10981 10981 12044 Ss   ksh
+12044 10981 12044 10981 12044 S+   sh
+12045 12044 12045 10981 12044 S    timeout
+12046 12045 12045 10981 12044 S    sh
+12049 12046 12045 10981 12044 S    sleep
+\end{verbatim}
+
+\subsection{About that {\tt timeout(1)} then...}
+\smallish
+\begin{verbatim}
+$ /bin/sh -c timeout 60 "/bin/sh -c \"ls | more\""
+
+$ pstree -hapun
+[...]
+  |   |       `-ksh,10981
+  |   |           `-sh,12434 -c timeout 60 /bin/sh -c "ls | more"
+  |   |               `-timeout,12435 60 /bin/sh -c ls | more
+  |   |                   `-sh,12436 -c ls | more
+  |   |                       |-ls,12437
+  |   |                       `-more,12438
+[...]
+
+$ ps x -o pid,ppid,pgid,sess,tpgid,stat,comm | egrep -v "(ssh|ps|egrep)"
+  PID  PPID  PGID  SESS TPGID STAT COMMAND
+ 7676  7675  7676  7676  7676 Ss+  ksh
+10981 10980 10981 10981 12434 Ss   ksh
+12434 10981 12434 10981 12434 S+   sh
+12435 12434 12435 10981 12434 S    timeout
+12436 12435 12435 10981 12434 T    sh
+12437 12436 12435 10981 12434 T    ls
+12438 12436 12435 10981 12434 T    more
+\end{verbatim}
+
+\subsection{About that {\tt timeout(1)} then...}
+Use the source, Luke!
+\\
+
+\begin{verbatim}
+coreutils/src/timeout.c
+
+  /* Ensure we're in our own group so all subprocesses can be killed.
+     Note we don't just put the child in a separate group as
+     then we would need to worry about foreground and background groups
+     and propagating signals between them.  */
+  if (!foreground)
+    setpgid (0, 0);
+
+[...]
+
+      signal (SIGTTIN, SIG_DFL);
+      signal (SIGTTOU, SIG_DFL);
+
+      execvp (argv[0], argv);
+\end{verbatim}
+
+\subsection{About that {\tt timeout(1)} then...}
+Use the source, Luke!
+\\
+
+\begin{verbatim}
+util-linux/text-utils/more.c
+
+#define stty(fd,argp)  tcsetattr(fd,TCSANOW,argp)
+
+
+    if (!no_tty) {
+        signal(SIGQUIT, onquit);
+        signal(SIGINT, end_it);
+#ifdef SIGWINCH
+        signal(SIGWINCH, chgwinsz);
+#endif /* SIGWINCH */
+        if (signal (SIGTSTP, SIG_IGN) == SIG_DFL) {
+            signal(SIGTSTP, onsusp);
+            catch_susp++;
+        }
+        stty (fileno(stderr), &otty);
+
+\end{verbatim}
+
 \subsection{{\tt sigaction(2)}}
 \small
 \setlength{\unitlength}{1mm}
@@ -909,33 +1047,6 @@ sig_quit: caught SIGQUIT (4), now sleeping
 sig_quit: exiting (4)
 [...]
 \end{verbatim}
-
-\subsection{Program Startup}
-
-When a program is {\tt exec}ed, the status of all signals is either {\em
-default} or {\em ignore}.
-
-\subsection{Program Startup}
-
-When a program is {\tt exec}ed, the status of all signals is either {\em
-default} or {\em ignore}.
-\\
-
-When a process {\tt fork(2)}s, the child inherits the parent's signal
-dispositions.
-
-\subsection{Program Startup}
-
-When a program is {\tt exec}ed, the status of all signals is either {\em
-default} or {\em ignore}.
-\\
-
-When a process {\tt fork(2)}s, the child inherits the parent's signal
-dispositions.
-\\
-
-A limitation of the {\tt signal(3)} function is that we can only determine the
-current disposition of a signal by {\em changing} the disposition.
 
 \subsection{Interrupted System Calls}
 

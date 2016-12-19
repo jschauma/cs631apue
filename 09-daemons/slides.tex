@@ -36,15 +36,6 @@
 \end{center}
 \vspace*{\fill}
 
-\subsection{Create an ssh key pair.}
-
-\vspace{1in}
-\begin{verbatim}
-$ ssh-keygen -f ~/.ssh/cs631apue -q
-$ mv ~/.ssh/cs631apue.pub ~jschauma/tmp/cs631/${USER}.pub
-$ chmod a+r ~jschauma/tmp/cs631/${USER}.pub
-\end{verbatim}
-
 \subsection{D\ae mon processes}
 So... what's a d\ae mon process anyway?
 \vfill
@@ -136,13 +127,12 @@ daemon(int nochdir, int noclose)
 	\item include a system initialization script (for {\tt /etc/rc.d/} or {\tt
 		/etc/init.d/})
 	\item re-read configuration file upon {\tt SIGHUP}
+	\item relay information via {\em event logging}
 \end{itemize}
 
 \vfill
 \hfill\includegraphics[scale=0.5]{pics/daemon.eps} \\
 
-
-\subsection{Logging}
 
 \subsection{A central logging facility}
 
@@ -185,78 +175,92 @@ There are three ways to generate log messages:
 A {\em priority} is a combination of a {\em facility} (as above) and a {\em level} (such
 as {\tt LOG\_DEBUG}, {\tt LOG\_WARNING} or {\tt LOG\_EMERG}).
 
-\subsection{Let's write a shared library, {\tt libgreet}.}
-\small
+% \subsection{Let's write a shared library, {\tt libgreet}.}
+% \small
+% \begin{verbatim}
+% NAME
+%      greet, hello, getgreeting, setgreeting — hello world library
+%
+% LIBRARY
+%      Greetings Library (libgreet, ‐lgreet)
+%
+% SYNOPSIS
+%      #include <greeting.h>
+%
+%      void greet(void);
+%
+%      void hello(const char * friend, const char * greeting);
+%
+%      char * getgreeting(void);
+%
+%      int setgreeting(const char * greeting);
+%
+% DESCRIPTION
+%      The greet, family of functions allows you to easily greet your users.
+%
+%      The greet() function simply prints the current greeting, followed by a
+%      newline character (\n) to stdout.
+%
+%      The hello() function prints greeting prefixed with friend, a colon (:)
+%      and a space to stdout.
+%
+%      The getgreeting() function returns the current greeting.
+%
+%      The setgreeting() function sets the default greeting to use when calling
+%      greet().
+% \end{verbatim}
+% \Normalsize
+%
+% \subsection{Let's write a shared library, {\tt libgreet}.}
+% \begin{verbatim}
+% #include <greet.h>
+% #include <stdio.h>
+%
+% int main(void) {
+%         greet();
+%         if (setgreeting("Howdy!") != 0) {
+%                 fprintf(stderr, "Unable to set greeting!\n");
+%         }
+%         greet();
+%         hello("world", getgreeting());
+%         return 0;
+% }
+% $ cc -Wall hello.c -lgreet
+% $ ./a.out
+% Hello!
+% Howdy!
+% world: Howdy!
+% \end{verbatim}
+% \Normalsize
+%
+% \subsection{Let's write a shared library, {\tt libgreet}.}
+%
+% \vspace{1in}
+% \verb+https://www.cs.stevens.edu/~jschauma/631/f15-libgreet.html+
+%
+\subsection{Shared Libraries}
 \begin{verbatim}
-NAME
-     greet, hello, getgreeting, setgreeting — hello world library
-
-LIBRARY
-     Greetings Library (libgreet, ‐lgreet)
-
-SYNOPSIS
-     #include <greeting.h>
-
-     void greet(void);
-
-     void hello(const char * friend, const char * greeting);
-
-     char * getgreeting(void);
-
-     int setgreeting(const char * greeting);
-
-DESCRIPTION
-     The greet, family of functions allows you to easily greet your users.
-
-     The greet() function simply prints the current greeting, followed by a
-     newline character (\n) to stdout.
-
-     The hello() function prints greeting prefixed with friend, a colon (:)
-     and a space to stdout.
-
-     The getgreeting() function returns the current greeting.
-
-     The setgreeting() function sets the default greeting to use when calling
-     greet().
-\end{verbatim}
-\Normalsize
-
-\subsection{Let's write a shared library, {\tt libgreet}.}
-\begin{verbatim}
-#include <greet.h>
+$ cat setget.c
+#include <bsd/stdlib.h>
 #include <stdio.h>
 
-int main(void) {
-        greet();
-        if (setgreeting("Howdy!") != 0) {
-                fprintf(stderr, "Unable to set greeting!\n");
-        }
-        greet();
-        hello("world", getgreeting());
-        return 0;
+int
+main(int argc, char **argv) {
+        setprogname("setget");
+        printf("My name is '%s'.\n", getprogname());
+        exit(EXIT_SUCCESS);
 }
-$ cc -Wall hello.c -lgreet
-$ ./a.out
-Hello!
-Howdy!
-world: Howdy!
+$ cc -Wall setget.c
+[...]
+$ cc -Wall setget.c -lbsd
 \end{verbatim}
-\Normalsize
-
-\subsection{Let's write a shared library, {\tt libgreet}.}
-
-\vspace{1in}
-\verb+https://www.cs.stevens.edu/~jschauma/631/f15-libgreet.html+
-
-\subsection{Shared Libraries}
-What is a shared library, anyway?
 
 \subsection{Shared Libraries}
 What is a shared library, anyway?
 \begin{itemize}
-	\item contains a set of callable C functions (ie, implementation
+	\item contains a set of callable C functions (i.e., implementation
 		of function prototypes defined in {\tt .h} header files)
-	\item code is position-independent (ie, code can be executed anywhere
+	\item code is position-independent (i.e., code can be executed anywhere
 		in memory)
 	\item shared libraries can be loaded/unloaded at execution time or at will
 	\item libraries may be {\em static} or {\em dynamic}
@@ -353,8 +357,7 @@ $ ar -vq libldtest.a ldtest1.o ldtest2.o
 $ ar -t libldtest.a
 $ cc -Wall main.c libldtest.a
 
-$ cc -Wall -c main.c
-$ cc main.o -L. -lldtest -o a.out.dyn
+$ cc -Wall main.c -L. -lldtest -o a.out.dyn
 $ cc -static main.o -L. -lldtest -o a.out.static
 $ ls -l a.out.*
 $ ldd a.out.*
@@ -451,7 +454,7 @@ $ cc -shared -Wl,-soname,libldtest.so.1 -o lib3/libldtest.so.1.0 \
 $ export LD_PRELOAD=./lib3/libldtest.so.1.0
 $ ldd a.out
 [...]
-$ ./a.out
+$ ./a.out 2>/dev/null
 [...]
 $
 \end{verbatim}
@@ -466,15 +469,23 @@ $ LD_DEBUG=all ./a.out
 \end{verbatim}
 
 \subsection{Homework}
-Turn your {\tt greet.c} code into a shared library,
-{\tt libgreet.so}, such that you can:
+\verb+https://www.cs.stevens.edu/~jschauma/631/f16-libgreet.html+ \\
 
 \begin{verbatim}
-cc -Wall hello.c -I./libgreet \
-        -L./libgreet -Wl,-rpath,./libgreet -lgreet
-\end{verbatim}
+$ cat hello.c
+#include <stdio.h>
+#include "greet.h"
 
-\vspace{1in}
-And of course: work on your final project.
+int main(void) {
+        greet();
+        if (setgreeting("Howdy!") != 0) {
+                fprintf(stderr, "Unable to set greeting!\n");
+        }
+        greet();
+        hello("world", getgreeting());
+        return 0;
+}
+$ cc -Wall hello.c -I./libgreet -L./libgreet -Wl,-rpath,./libgreet -lgreet
+\end{verbatim}
 
 \end{document}

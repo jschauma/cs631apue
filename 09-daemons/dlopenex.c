@@ -2,7 +2,8 @@
  * dynamic libraries at runtime without actually linking against them.
  *
  * Since (some) Linux versions don't use getprogname(3)/setprogname(3), we
- * extrac these function definitions from the BSD compatibility library.
+ * extract these function definitions from the BSD compatibility library, but
+ * unlike in the 'setget' example, we are _not_ linking against the library.
  *
  * Compile with 'cc -Wall -rdynamic dlopenex.c -dl'; compare with 'cc
  * -Wall setget.c -lbsd'.
@@ -25,7 +26,7 @@ main(int argc, char **argv) {
 		exit(EXIT_FAILURE);
 	}
 
-	dlerror();    /* Clear any existing error */
+	(void)dlerror();
 
 	*(void **) (&setprogname) = dlsym(handle, "setprogname");
 	if ((error = dlerror()) != NULL)  {

@@ -119,6 +119,15 @@ $
 \end{verbatim}
 \Normalsize
 
+\subsection{Programming}
+\begin{center}
+\includegraphics[scale=0.7,angle=-90]{pics/if-programming-languages-were-weapons.eps} \\
+\vspace{.5in}
+\verb+http://is.gd/6aidgb+ \\
+\verb+https://i.imgur.com/ZyeCO.jpg+
+\end{center}
+
+
 \subsection{UNIX Basics: Architecture}
 \begin{center}
 \includegraphics[angle=-90]{pics/unix_architecture.eps}
@@ -296,31 +305,11 @@ Programs executing in memory are called {\em processes}.
 		non-negative integer which identifies a file to the kernel.
 	\item Traditionally, {\tt stdin}, {\tt stdout} and {\tt stderr}
 		are 0, 1 and 2 respectively.
-\end{itemize}
-\includegraphics[scale=0.61,angle=-90]{pics/stdstreams.eps}
-\includegraphics[scale=0.53,angle=-90]{pics/pipeline.eps}
-
-\subsection{File Descriptors}
-\begin{itemize}
-	\item A {\em file descriptor} (or {\em file handle}) is a small,
-		non-negative integer which identifies a file to the kernel.
-	\item Traditionally, {\tt stdin}, {\tt stdout} and {\tt stderr}
-		are 0, 1 and 2 respectively.
 	\item Relying on ``magic numbers'' is Bad\texttrademark.  Use {\tt
 		STDIN\_FILENO}, {\tt STDOUT\_FILENO} and {\tt STDERR\_FILENO}.
 \end{itemize}
-
-\subsection{File Descriptors}
-\begin{itemize}
-	\item A {\em file descriptor} (or {\em file handle}) is a small,
-		non-negative integer which identifies a file to the kernel.
-	\item Traditionally, {\tt stdin}, {\tt stdout} and {\tt stderr}
-		are 0, 1 and 2 respectively.
-	\item Relying on ``magic numbers'' is Bad\texttrademark.  Use {\tt
-		STDIN\_FILENO}, {\tt STDOUT\_FILENO} and {\tt STDERR\_FILENO}.
-\end{itemize}
-\vspace*{\fill}
-See also: \verb+http://en.wikipedia.org/wiki/File_descriptor+
+\includegraphics[scale=0.5,angle=-90]{pics/stdstreams.eps}
+\includegraphics[scale=0.4,angle=-90]{pics/pipeline.eps}
 
 \subsection{Standard I/O}
 Basic File I/O: almost all UNIX file I/O can be
@@ -569,37 +558,6 @@ Knowing this, here's what happens with each of the calls we discussed earlier:
 	\item to {\tt lseek} to the end of a file, just copy current file size into
 		current file offset.
 \end{itemize}
-
-\subsection{Atomic Operations}
-
-In order to ensure consistency across multiple writes, we require {\em
-atomicity} in some operations.
-\\
-
-An operation is atomic if either {\em all} of the steps are performed or
-{\em none} of the steps are performed.
-\\
-
-Suppose UNIX didn't have {\tt O\_APPEND} (early versions didn't). To
-append, you'd have to do this:
-\\
-
-\small
-\begin{verbatim}
-if (lseek(fd, 0L, 2) < 0) {        /* position to EOF */
-    fprintf(stderr, "lseek error\n");
-    exit(1);
-}
-
-if (write(fd, buff, 100) != 100) { /* ...and write */
-    fprintf(stderr, "write error\n");
-    exit(1);
-}
-\end{verbatim}
-
-\Normalsize
-
-What if another process was doing the same thing to the same file?
 
 \subsection{{\tt dup(2)} and {\tt dup2(2)}}
 \small
@@ -862,21 +820,6 @@ Non-superusers can change the {\tt st\_gid} field if both:
   \Normalsize
 \end{center}
 \vspace*{\fill}
-
-\subsection{File Systems}
-\begin{itemize}
-	\item a disk can be divided into logical {\em partitions}
-\end{itemize}
-\includegraphics[angle=-90,scale=0.9]{pics/fs1.eps}
-
-
-\subsection{File Systems}
-\begin{itemize}
-	\item a disk can be divided into logical {\em partitions}
-	\item each logical {\em partition} may be further divided into
-		{\em file systems} containing {\em cylinder groups}
-\end{itemize}
-\includegraphics[angle=-90,scale=0.9]{pics/fs2.eps}
 
 \subsection{File Systems}
 \begin{itemize}
@@ -1537,6 +1480,14 @@ Lastly, there is a {\tt printf(3)} like function for times:
 \end{center}
 \vspace*{\fill}
 
+\subsection{Memory Layout of a C Program}
+{\tt memory-layout.c}
+\begin{center}
+	\includegraphics[angle=-90,scale=0.8]{pics/process9.eps}
+\end{center}
+
+
+
 \subsection{The {\tt main} function}
 \vspace{.25in}
 \small
@@ -1558,6 +1509,45 @@ Lastly, there is a {\tt printf(3)} like function for times:
 	\item {\tt argv} is an array of pointers to the arguments
 	\item it is guaranteed by both ANSI C and POSIX.1 that {\tt argv[argc] == NULL}
 \end{itemize}
+
+\subsection{Process Creation}
+On Linux:
+\begin{verbatim}
+$ cc -Wall entry.c
+$ readelf -h a.out | more
+ELF Header:
+[...]
+  Entry point address:               0x400460
+  Start of program headers:          64 (bytes into file)
+  Start of section headers:          4432 (bytes into file)
+$ objdump -d a.out
+[...]
+0000000000400460 <_start>:
+  400460:       31 ed                   xor    %ebp,%ebp
+  400462:       49 89 d1                mov    %rdx,%r9
+[...]
+$
+\end{verbatim}
+
+\subsection{Process Creation}
+On Linux:
+\begin{verbatim}
+$ cc -e foo entry.c
+$ ./a.out
+Foo for the win!
+Memory fault
+$ cc -e bar entry.c
+$ ./a.out
+bar rules!
+$ echo $?
+1
+$ cc entry.c
+$ ./a.out
+Hooray main!
+$ echo $?
+13
+$
+\end{verbatim}
 
 \subsection{Process Termination}
 There are 8 ways for a process to terminate.
@@ -1662,11 +1652,6 @@ These can also be accessed by:
 	\end{picture}
 \end{center}
 \Normalsize
-
-\subsection{Memory Layout of a C Program}
-\begin{center}
-	\includegraphics[angle=-90,scale=0.8]{pics/process9.eps}
-\end{center}
 
 \subsection{Memory Allocation}
 \small
@@ -1864,41 +1849,6 @@ A parent that calls {\tt wait(2)} or {\tt waitpid(2)} can:
 	\item return immediately with the termination status of a child
 	\item return immediately with an error
 \end{itemize}
-
-\subsection{{\tt wait(2)} and {\tt waitpid(2)}}
-Differences between {\tt wait(2)}, {\tt wait3(2)}, {\tt wait4(2)} and {\tt
-waitpid(2)}:
-
-\begin{itemize}
-	\item {\tt wait(2)} will block until the process terminates, {\tt waitpid(2)}
-		has an option to prevent it from blocking
-	\item {\tt waitpid(2)} can wait for a specific process to finish
-	\item {\tt wait3(2)} and {\tt wait4(2)} allow you to get detailed
-		resource utilization statistics
-	\item {\tt wait3(2)} is the same as {\tt wait4(2)} with a {\em wpid}
-		value of {\tt -1}
-\end{itemize}
-
-\subsection{{\tt wait(2)} and {\tt waitpid(2)}}
-Once we get a termination status back in {\tt status}, we'd like to be able to
-determined how a child died. We do this with the following macros:
-
-\begin{itemize}
-	\item {\tt WIFEXITED(status)} -- true if the child terminated normally.
-		Then execute {\tt WEXITSTATUS(status)} to get the exit status.
-	\item {\tt WIFSIGNALED(status)} -- true if child terminated abnormally
-		(by receiving a signal it didn't catch). The we call:
-		\begin{itemize}
-			\item {\tt WTERMSIG(status)} to retrieve the signal number
-			\item {\tt WCOREDUMP(status)} to see if the child left a core image
-		\end{itemize}
-	\item {\tt WIFSTOPPED(status)} -- true if the child is currently stopped.
-		Call {\tt WSTOPSIG(status)} to determine the signal that caused this.
-\end{itemize}
-
-Additionally, {\tt waitpid}'s behavior can be modified by supplying {\tt
-WNOHANG} as an option, which says that if the requested pid has not
-terminated, return immediately instead of blocking.
 
 \newpage
 \vspace*{\fill}
@@ -2250,81 +2200,6 @@ Once we get a signal, we can do one of several things:
 	\item or the address of a function which should catch or handle a signal
 \end{itemize}
 
-\subsection{Resetting Signal Handlers}
-{\em Note}: on some systems, invocation of the handler {\em resets} the
-disposition to {\tt SIG\_DFL}!
-
-\begin{verbatim}
-$ cc -DSLEEP=3 -Wall pending.c
-$ ./a.out
-=> Establishing initial signal hander via signal(3).
-^\sig_quit: caught SIGQUIT (1), now sleeping
-sig_quit: exiting (1)
-=> Time for a second interruption.
-^\sig_quit: caught SIGQUIT (2), now sleeping
-sig_quit: exiting (2)
-=> Establishing a resetting signal hander via signal(3).
-^\sig_quit_reset: caught SIGQUIT (3), sleeping and resetting.
-sig_quit_reset: restored SIGQUIT handler to default.
-=> Time for a second interruption.
-^\Quit: 3
-$
-\end{verbatim}
-
-\subsection{Signal Queuing}
-Signals arriving while a handler runs are queued.
-\begin{verbatim}
-$ ./a.out >/dev/null
-^\sig_quit: caught SIGQUIT (1), now sleeping
-^\^\^\^\^\^\sig_quit: exiting (1)
-sig_quit: caught SIGQUIT (2), now sleeping
-^\^\^\^\sig_quit: exiting (2)
-sig_quit: caught SIGQUIT (3), now sleeping
-^\sig_quit: exiting (3)
-sig_quit: caught SIGQUIT (4), now sleeping
-sig_quit: exiting (4)
-[...]
-\end{verbatim}
-
-(Note that "simultaneously" delivered signals may be "merged" into one.)
-
-\subsection{Signal Queuing}
-Signals arriving while a handler runs are queued. \\
-Unless they are blocked.
-
-\begin{verbatim}
-$ ./a.out
-[...]
-=> Establishing a resetting signal hander via signal(3).
-^\sig_quit_reset: caught SIGQUIT (1), sleeping and resetting.
-sig_quit_reset: restored SIGQUIT handler to default.
-=> Time for a second interruption.
-=> Blocking delivery of SIGQUIT...
-=> Now going to sleep for 3 seconds...
-^\
-=> Checking if any signals are pending...
-=> Checking if pending signals might be SIGQUIT...
-Pending SIGQUIT found.
-=> Unblocking SIGQUIT...
-Quit: 3
-\end{verbatim}
-
-
-\subsection{Signal Queuing}
-Multiple identical signals are queued, but you can receive a different
-signal {\em while in a signal handler}.
-\begin{verbatim}
-$ ./a.out >/dev/null
-^\sig_quit: caught SIGQUIT (1), now sleeping
-^\^\^\^\^Csig_int: caught SIGINT (2), returning immediately
-sig_quit: exiting (2)
-sig_quit: caught SIGQUIT (3), now sleeping
-^\^\sig_quit: exiting (3)
-sig_quit: caught SIGQUIT (4), now sleeping
-sig_quit: exiting (4)
-[...]
-\end{verbatim}
-
 \subsection{Interrupted System Calls}
 
 Some system calls can block for long periods of time (or forever). These
@@ -2341,33 +2216,6 @@ include things like:
 
 Catching a signal during execution of one of these calls traditionally led
 to the process being aborted with an errno return of {\tt EINTR}.
-
-
-\subsection{Interrupted System Calls}
-Previously necessary code to handle {\tt EINTR}:
-\begin{verbatim}
-again:
-        if ((n = read(fd, buf, BUFFSIZE)) < 0) {
-                if (errno == EINTR)
-                        goto again;  /* just an interrupted system call */
-                /* handle other errors */
-}
-\end{verbatim}
-
-Nowadays, many Unix implementations automatically restart certain system
-calls.  See also: {\tt sigaction(2)}/{\tt SA\_RESTART}
-
-\subsection{Reentrant Functions}
-
-If your process is currently handling a signal, what functions are you allowed
-to use? \\
-
-POSIX lists around 118 reentrant functions.
-
-See p. 306 in Stevens for a list. \\
-
-See also: {\tt
-http://www.ibm.com/developerworks/linux/library/l-reent/index.html}
 
 \newpage
 \vspace*{\fill}
@@ -2592,140 +2440,9 @@ Some of the currently defined types are:
 \vspace*{\fill}
 \begin{center}
   \Hugesize
-	Lecture 09
+	Lecture 08
 	\hspace*{5mm}\blueline\\ [1em]
-	Shared Libraries
-  \Normalsize
-\end{center}
-\vspace*{\fill}
-
-\subsection{Shared Libraries}
-What is a shared library, anyway?
-\begin{itemize}
-	\item contains a set of callable C functions (ie, implementation
-		of function prototypes defined in {\tt .h} header files)
-	\item code is position-independent (ie, code can be executed anywhere
-		in memory)
-	\item shared libraries can be loaded/unloaded at execution time or at will
-	\item libraries may be {\em static} or {\em dynamic}
-\end{itemize}
-\begin{verbatim}
-$ man 3 fprintf
-$ grep " fprintf" /usr/include/stdio.h
-\end{verbatim}
-
-
-\subsection{Shared Libraries}
-How do shared libraries work?
-\begin{itemize}
-	\item contents of {\em static} libraries are pulled into the
-		executable at link time
-	\item contents of {\em dynamic} libraries are used to resolve
-		symbols at {\bf link time}, but loaded at {\bf execution time} by the
-		{\em dynamic linker}
-	\item contents of {\em dynamic} libraries may be loaded at {\bf any
-		time} via explicit calls to the dynamic linking loader interface
-		functions
-\end{itemize}
-
-\subsection{Statically Linked Shared Libraries}
-Static libraries:
-\begin{itemize}
-	\item created by {\tt ar(1)}
-	\item usually end in {\tt .a}
-	\item contain a symbol table within the archive (see {\tt
-		ranlib(1)})
-\end{itemize}
-
-\subsection{Statically Linked Shared Libraries}
-\begin{verbatim}
-$ cc -Wall -c ldtest1.c ldtest2.c
-$ ar -vq libldtest.a ldtest1.o ldtest2.o
-$ ar -t libldtest.a
-$ cc -Wall main.c libldtest.a
-
-$ cc -Wall -c main.c
-$ cc main.o -L. -lldtest -o a.out.dyn
-$ cc -static main.o -L. -lldtest -o a.out.static
-$ ls -l a.out.*
-$ ldd a.out.*
-$ nm a.out.dyn | wc -l
-$ nm a.out.static | wc -l
-\end{verbatim}
-
-\subsection{Dynamically Linked Shared Libraries}
-Dynamic libraries:
-\begin{itemize}
-	\item created by the compiler/linker (ie multiple steps)
-	\item usually end in {\tt .so}
-	\item frequently have multiple levels of symlinks providing
-		backwards compatibility / ABI definitions
-\end{itemize}
-
-\subsection{Dynamically Linked Shared Libraries}
-\begin{verbatim}
-$ rm *.o libldtest*
-$ cc -Wall -c -fPIC ldtest1.c
-$ cc -Wall -c -fPIC ldtest2.c
-$ mkdir lib
-$ cc -shared -Wl,-soname,libldtest.so.1 -o lib/libldtest.so.1.0 ldtest1.o ldtest2.o
-$ ln -s libldtest.so.1.0 lib/libldtest.so.1
-$ ln -s libldtest.so.1.0 lib/libldtest.so
-$ cc -static -Wall main.o -L./lib -lldtest
-[...]
-$ cc -Wall main.o -L./lib -lldtest
-[...]
-$ ./a.out
-[...]
-$ ldd a.out
-[...]
-\end{verbatim}
-
-\subsection{Dynamically Linked Shared Libraries}
-The link loader needs to know where to find all required shared libraries.
-\begin{verbatim}
-$ export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:./lib
-$ ldd a.out
-[...]
-$ ./a.out
-[...]
-$ mkdir lib2
-$ cc -Wall -c -fPIC ldtest1.2.c
-$ cc -shared -Wl,-soname,libldtest.so.1 -o lib2/libldtest.so.1.0 ldtest1.2.o ldtest2.o
-$ ln -s libldtest.so.1.0 lib2/libldtest.so.1
-$ ln -s libldtest.so.1.0 lib2/libldtest.so
-$ export LD_LIBRARY_PATH=./lib2:$LD_LIBRARY_PATH
-$ ldd a.out  # note: no recompiling!
-[...]
-$ ./a.out
-[...]
-\end{verbatim}
-
-\subsection{Dynamically Linked Shared Libraries}
-Avoiding {\tt LD\_LIBRARY\_PATH}:
-\begin{verbatim}
-$ cc -Wall main.o -L./lib -lldtest -Wl,-rpath,./lib
-$ echo $LD_LIBRARY_PATH
-[...]
-$ ldd a.out
-[...]
-$ ./a.out
-[...]
-$ unset LD_LIBRARY_PATH
-$ ldd a.out
-[...]
-$ ./a.out
-[...]
-$
-\end{verbatim}
-
-\newpage
-\vspace*{\fill}
-\begin{center}
-  \Hugesize
-	Lecture 10
-	\hspace*{5mm}\blueline\\ [1em]
-	Unix Development Tools
+	UNIX Tools
   \Normalsize
 \end{center}
 \vspace*{\fill}
@@ -2810,25 +2527,6 @@ $ file a.out
 $ ./a.out
 \end{verbatim}
 
-\subsection{{\tt cc(1)} and {\tt ld(1)}}
-
-The compiler usually performs preprocessing (via {\tt cpp(1)}), compilation
-({\tt cc(1)}), assembly ({\tt as(1)}) and linking ({\tt ld(1)}).
-\\
-
-Different flags can be passed to {\tt cc(1)} to be passed through to each tool
-as well as to affect all tools.  \\
-
-The order of the command line flags {\em may} play a role!
-Directories searched for libraries via {\tt -L} and the resolving of undefined
-symbols via {\tt -l} are examples of position sensitive flags.
-\\
-
-The behavior of the compiler toolchain may be influenced by environment
-variables (eg {\tt TMPDIR}, {\tt SGI\_ABI}) and/or the compilers default
-configuration file (MIPSPro's {\tt /etc/compiler.defaults} or gcc's {\tt
-specs}).
-
 \subsection{{\tt gdb(1)}}
 
 The purpose of a debugger such as {\tt gdb(1)} is to allow you to see what is
@@ -2853,63 +2551,336 @@ Other interesting things you can do:
 	\item examine assembly: {\em disassemble func}
 \end{itemize}
 
-\subsection{{\tt gdb(1)}}
-\begin{verbatim}
-$ cd student
-$ make
-$ ./a.out -lR ~djd >/dev/null
-total 2701553
-[...]
-Memory fault
-$ gdb ./a.out
- run -lR ~djd
-Starting program: /home/jschauma/t/student/a.out -lR ~djd
-total 2701553
-[...]
+\subsection{{\tt make(1)}}
+{\tt make(1)} is a command generator and build utility. Using a
+description file (usually {\em Makefile}) it creates a sequence of
+commands for execution by the shell.
 
-Program received signal SIGSEGV, Segmentation fault.
-0x000000000040214a in print_entries (entryvect=0x6050a0, options=0x605010) at print.c:221
-221	                printf("%10s ", grpentry->gr_name);
+\begin{itemize}
+	\item used to sort out dependency relations among files
+	\item avoids having to rebuild the entire project after modification of a
+		single source file
+	\item performs {\em selective} rebuilds following a {\em dependency graph}
+	\item allows simplification of rules through use of {\em macros} and {\em
+		suffixes}, some of which are internally defined
+	\item different versions of {\tt make(1)} (BSD make, GNU make, Sys V make,
+		...) may differ (among other things) in
+		\begin{itemize}
+			\item variable assignment and expansion/substitution
+			\item including other files
+			\item flow control (for-loops, conditionals etc.)
+		\end{itemize}
+\end{itemize}
+
+\subsection{{\tt diff(1)} and {\tt patch(1)}}
+{\tt diff(1)}:
+\begin{itemize}
+	\item compares files line by line
+	\item output may be used to automatically edit a file
+	\item can produce human ``readable'' output as well as diff entire
+		directory structures
+	\item output called a {\em patch}
+\end{itemize}
+
+{\tt patch(1)}:
+\begin{itemize}
+	\item applies a {\tt diff(1)} file (aka {\em patch}) to an original
+	\item may back up original file
+	\item may guess correct format
+	\item ignores leading or trailing ``garbage''
+	\item allows for reversing the patch
+	\item may even correct context line numbers
+\end{itemize}
+
+\subsection{Revision Control}
+Version control systems allow you to
+
+\begin{itemize}
+	\item collaborate with others
+	\item simultaneously work on a code base
+	\item keep old versions of files
+	\item keep a log of the who, when, what, and why of any changes
+	\item perform release engineering by creating {\em branches}
+\end{itemize}
+
+\newpage
+\vspace*{\fill}
+\begin{center}
+  \Hugesize
+	Lecture 09
+	\hspace*{5mm}\blueline\\ [1em]
+	Shared Libraries
+  \Normalsize
+\end{center}
+\vspace*{\fill}
+
+\subsection{Shared Libraries}
+What is a shared library, anyway?
+\begin{itemize}
+	\item contains a set of callable C functions (ie, implementation
+		of function prototypes defined in {\tt .h} header files)
+	\item code is position-independent (ie, code can be executed anywhere
+		in memory)
+	\item shared libraries can be loaded/unloaded at execution time or at will
+	\item libraries may be {\em static} or {\em dynamic}
+\end{itemize}
+\begin{verbatim}
+$ man 3 fprintf
+$ grep " fprintf" /usr/include/stdio.h
 \end{verbatim}
 
-\subsection{{\tt gdb(1)}}
-\begin{verbatim}
-(gdb) bt
-#0  0x000000000040214a in print_entries (entryvect=0x6050a0, options=0x605010) at print.c:221
-#1  0x0000000000401ad5 in list_dir_contents (path=0x7fffffffec59 "/home/djd", ftsopts=48, options=0x605010, ftscompar=0x400df4 <name_comparator>) at print.c:71
-#2  0x000000000040292e in main (argc=1, argv=0x7fffffffe9e8) at ls.c:57
-(gdb) li
-216	  } else {
-217	      pwentry = getpwuid(myentryp->fts_statp->st_uid);
-218	      printf("%8s ", pwentry->pw_name);
-219
-220	      grpentry = getgrgid(myentryp->fts_statp->st_gid);
-221	      printf("%10s ", grpentry->gr_name);
-222	  }
-223
-224	  // displaying the size
-225	  size = (long long)(myentryp->fts_statp->st_size);
-(gdb) p grpentry
-$1 = (struct group *) 0x0
-\end{verbatim}
 
-\subsection{{\tt gdb(1)}}
+\subsection{Shared Libraries}
+How do shared libraries work?
+\begin{itemize}
+	\item contents of {\em static} libraries are pulled into the
+		executable at link time
+	\item contents of {\em dynamic} libraries are used to resolve
+		symbols at {\bf link time}, but loaded at {\bf execution time} by the
+		{\em dynamic linker}
+	\item contents of {\em dynamic} libraries may be loaded at {\bf any
+		time} via explicit calls to the dynamic linking loader interface
+		functions
+\end{itemize}
+
+\subsection{Shared Libraries}
+Static libraries:
+\begin{itemize}
+	\item created by {\tt ar(1)}
+	\item usually end in {\tt .a}
+	\item contain a symbol table within the archive (see {\tt
+		ranlib(1)})
+\end{itemize}
+
+Dynamic libraries:
+\begin{itemize}
+	\item created by the compiler/linker (ie multiple steps)
+	\item usually end in {\tt .so}
+	\item frequently have multiple levels of symlinks providing
+		backwards compatibility / ABI definitions
+\end{itemize}
+
+\subsection{Dynamically Linked Shared Libraries}
+The link loader needs to know where to find all required shared libraries.
 \begin{verbatim}
-$ cc -g gdb1.c
+$ export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:./lib
+$ ldd a.out
+[...]
 $ ./a.out
 [...]
-$ gdb ./a.out
+$ mkdir lib2
+$ cc -Wall -c -fPIC ldtest1.2.c
+$ cc -shared -Wl,-soname,libldtest.so.1 -o lib2/libldtest.so.1.0 ldtest1.2.o ldtest2.o
+$ ln -s libldtest.so.1.0 lib2/libldtest.so.1
+$ ln -s libldtest.so.1.0 lib2/libldtest.so
+$ export LD_LIBRARY_PATH=./lib2:$LD_LIBRARY_PATH
+$ ldd a.out  # note: no recompiling!
 [...]
-(gdb) break main
-Breakpoint 1 at 0x400603: file gdb1.c, line 10.
-(gdb) run
-Starting program: /home/jschauma/t/gdb-examples/a.out
-
-Breakpoint 1, main (argc=1, argv=0x7fffffffe9e8) at gdb1.c:10
-10		c = fgetc(stdin);
-(gdb) n
-
+$ ./a.out
+[...]
 \end{verbatim}
+
+\subsection{Dynamically Linked Shared Libraries}
+Avoiding {\tt LD\_LIBRARY\_PATH}:
+\begin{verbatim}
+$ cc -Wall main.o -L./lib -lldtest -Wl,-rpath,./lib
+$ echo $LD_LIBRARY_PATH
+[...]
+$ ldd a.out
+[...]
+$ ./a.out
+[...]
+$ unset LD_LIBRARY_PATH
+$ ldd a.out
+[...]
+$ ./a.out
+[...]
+$
+\end{verbatim}
+
+\newpage
+\vspace*{\fill}
+\begin{center}
+  \Hugesize
+	Lecture 10
+	\hspace*{5mm}\blueline\\ [1em]
+	Advanced IO / Encryption in a Nutshell
+  \Normalsize
+\end{center}
+\vspace*{\fill}
+
+\subsection{Nonblocking I/O}
+Recall from our lecture on signals that certain system calls can block forever:
+\begin{itemize}
+	\item {\tt read(2)} from a particular file, if data isn't present (pipes,
+		terminals, network devices)
+	\item {\tt write(2)} to the same kind of file
+	\item {\tt open(2)} of a particular file until a specific condition occurs
+	\item {\tt read(2)} and {\tt write(2)} of files that have mandatory
+		locking enabled
+	\item certain {\tt ioctls(2)}
+	\item some IPC functions (such as {\tt sendto(2)} or {\tt recv(2)})
+\end{itemize}
+\vspace{.25in}
+Nonblocking I/O lets us issue an I/O operation and not have it block forever.
+If the operation cannot be completed, return is made immediately with an error
+noting that the operating would have blocked ({\tt EWOULDBLOCK} or {\tt EAGAIN}).
+
+\subsection{Advisory Locking}
+\small
+\setlength{\unitlength}{1mm}
+\begin{center}
+	\begin{picture}(150,22)
+		\thinlines
+		\put(0,0){\framebox(130,22){}}
+		\put(10,17){{\tt \#include <fcntl.h>}}
+		\put(10,10){{\tt int flock(int {\em fd},int {\em operation});}}
+		\put(80,3){Returns: 0 if OK, -1 otherwise}
+	\end{picture}
+\end{center}
+\Normalsize
+\begin{itemize}
+	\item applies or removes an advisory lock on the file associated with
+		the file descriptor fd
+	\item {\em operation} can be {\tt LOCK\_NB} and any one of:
+		\begin{itemize}
+			\item {\tt LOCK\_SH}
+			\item {\tt LOCK\_EX}
+			\item {\tt LOCK\_UN}
+		\end{itemize}
+	\item locks entire file
+\end{itemize}
+
+\subsection{Advisory ``Record'' locking}
+\small
+\setlength{\unitlength}{1mm}
+\begin{center}
+	\begin{picture}(180,20)
+		\thinlines
+		\put(0,0){\framebox(160,20){}}
+		\put(10,15){{\tt \#include <unistd.h>}}
+		\put(10,7){{\tt int lockf(int {\em fd}, int {\em value}, off\_t {\em size});}}
+		\put(100,3){Returns: 0 on success, -1 on error}
+	\end{picture}
+\end{center}
+\Normalsize
+
+{\em value} can be:
+\begin{itemize}
+	\item {\tt F\_ULOCK} -- unlock locked sections
+	\item {\tt F\_LOCK} -- lock a section for exclusive use
+	\item {\tt F\_TLOCK} -- test and lock a section for exclusive use
+	\item {\tt F\_TEST} -- test a section for locks by other processes
+\end{itemize}
+\begin{center}
+	\includegraphics[angle=-90,scale=0.7]{pics/locking.eps}
+\end{center}
+
+\subsection{Advisory ``Record'' locking}
+Locks are:
+\begin{itemize}
+	\item released if a process terminates
+	\item released if a filedescriptor is closed (!)
+	\item not inherited across {\tt fork(2)}
+	\item inherited across {\tt exec(2)}
+	\item released upon {\tt exec(2)} if close-on-exec is set
+\end{itemize}
+
+\subsection{Memory Mapped I/O}
+\small
+\setlength{\unitlength}{1mm}
+\begin{center}
+	\begin{picture}(180,30)
+		\thinlines
+		\put(0,0){\framebox(160,30){}}
+		\put(10,25){{\tt \#include <sys/types.h>}}
+		\put(10,20){{\tt \#include <sys/mman.h>}}
+		\put(10,12){{\tt void *mmap(void *{\em addr}, size\_t {\em len}, int {\em prot}, int {\em flags}, int {\em fd}, off\_t {\em offset});}}
+		\put(95,3){Returns: pointer to mapped region if OK}
+	\end{picture}
+\end{center}
+\Normalsize
+Protection specified for a region:
+\begin{itemize}
+	\item {\tt PROT\_READ} -- region can be read
+	\item {\tt PROT\_WRITE} -- region can be written
+	\item {\tt PROT\_EXEC} -- region can be executed
+	\item {\tt PROT\_NONE} -- region can not be accessed
+\end{itemize}
+\vspace{.25in}
+{\em flag} needs to be one of
+\begin{itemize}
+	\item {\tt MAP\_SHARED}
+	\item {\tt MAP\_PRIVATE}
+	\item {\tt MAP\_COPY}
+\end{itemize}
+which may be OR'd with other flags (see {\tt mmap(2)} for details).
+
+\subsection{Cryptography}
+Cryptography can provide ``security'' in the areas of:
+\begin{itemize}
+	\item Authenticity
+		\begin{itemize}
+			\item {\em Is the party I'm talking to actually who I {\em think} it is?}
+		\end{itemize}
+	\item Accuracy or Integrity
+		\begin{itemize}
+			\item {\em Is the message I received in fact what was sent?}
+		\end{itemize}
+	\item Secrecy or Confidentiality
+		\begin{itemize}
+			\item {\em Did/could anybody else see (parts of) the message?}
+		\end{itemize}
+\end{itemize}
+
+\subsection{How does encryption work?}
+{\em Secrecy}:  Make sure that the data can only be read by those intended.
+\begin{itemize}
+	\item Alice and Bob agree on a way to transform data
+	\item transformed data is sent over insecure channel
+	\item Alice and Bob are able to get data out of the transformation
+\end{itemize}
+\addvspace{.5in}
+\begin{center}
+	\includegraphics[angle=-90,scale=0.5]{pics/symmetric-key-crypto.eps}
+\end{center}
+
+\subsection{Cipher Modes}
+Encryption entails transformation of input data (``plain''
+or ``clear'' text) into encrypted output data
+(``ciphertext'').  Input data is generally transformed
+in one of two ways:
+\\
+
+{\em Stream Cipher}: each bit on plaintext is combined
+with a pseudo-random cipher digit stream (or {\em keystream})
+\\
+
+{\em Block Cipher}: fixed-length blocks of plaintext
+are transformed into same-sized blocks of ciphertext;
+may require padding
+
+\subsection{HW\#4}
+\begin{verbatim}
+https://www.cs.stevens.edu/~jschauma/631/f16-hw4.html
+\end{verbatim}
+\begin{verbatim}
+
+To encrypt the contents of the file ’file’ and storing the encrypted out-
+put in ’file.enc’:
+
+        aed -e <file >file.enc
+
+To decrypt the contents of that file again:
+
+        aed -d <file.enc
+
+Since aed operates on stdin and stdout, the above two commands could also
+be chained:
+
+        cat file | aed -e | aed -d
+\end{verbatim}
+\Normalsize
 
 \subsection{That's all, folks!}
 

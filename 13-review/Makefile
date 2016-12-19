@@ -10,6 +10,7 @@ PS2PDF	=	ps2pdf
 PDFTOTEXT=	pdftotext
 
 FIGURES=	pics/unix_architecture.eps \
+		pics/if-programming-languages-were-weapons.eps \
 		pics/pipeline.eps pics/process-tree.eps \
 		pics/epoch-fail.eps \
 		pics/stdstreams.eps \
@@ -23,7 +24,8 @@ FIGURES=	pics/unix_architecture.eps \
 		pics/session3.eps pics/session4.eps pics/session5.eps \
 		pics/pscat.eps pics/jc3.eps pics/jc4.eps pics/jc2.eps \
 		pics/jc6.eps  pics/jc5.eps pics/jc1.eps \
-		pics/thats-all-folks.eps
+		pics/locking.eps pics/thats-all-folks.eps \
+		pics/symmetric-key-crypto.eps
 
 
 .SUFFIXES: .tex .dvi .ps .pdf .txt .fig .eps .png .jpg .gif

@@ -12,6 +12,7 @@
 
 #include <sys/wait.h>
 
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -19,7 +20,7 @@
 
 int
 main(int argc, char **argv) {
-	int n, fd[2];
+	int n, r, fd[2];
 	pid_t pid;
 	char line[64];
 
@@ -38,7 +39,9 @@ main(int argc, char **argv) {
 		printf("P=> Sending a message to the child process (pid %d):\n", pid);
 		snprintf(line, 64, "Hello child!  I'm your parent pid %d!\n",
 				getpid());
-		write(fd[1], line, strlen(line));
+		if ((r = write(fd[1], line, strlen(line))) < 0) {
+			fprintf(stderr, "Unable to write to pipe: %s\n", strerror(errno));
+		}
 		close(fd[1]);
 
 	} else {			/* child */
@@ -48,7 +51,9 @@ main(int argc, char **argv) {
 		printf("C=> Reading a message from the parent (pid %d):\n", getppid());
 		n = read(fd[0], line, 64);
 		close(fd[1]);
-		write(STDOUT_FILENO, line, n);
+		if ((r = write(STDOUT_FILENO, line, n)) < 0) {
+			fprintf(stderr, "Unable to write to pipe: %s\n", strerror(errno));
+		}
 	}
 
 	exit(0);

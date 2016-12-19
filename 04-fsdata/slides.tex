@@ -37,28 +37,20 @@
 \end{center}
 \vspace*{\fill}
 
-\subsection{HW\#2 Notes}
-\vspace*{\fill}
-\begin{center}
-\includegraphics[scale=2.0]{pics/tdd.eps} \\
-{\tt https://www.cs.stevens.edu/\~{}jschauma/631/testcp.sh}
-\end{center}
-\vspace*{\fill}
-
 \subsection{HW\#2 Notes: Avoid useless comments}
 \Huge
 \begin{verbatim}
-/* check input size */
-if (argc != 3) {
+//Check if the argc number is right or not
+if ( argc != 3 ){
+
+//a buffer with proper size
+char buf[BUFFSIZE];
 
 // open src file for read only mode
 if ((fd_src= open (src,O_RDONLY)) == -1) {
 
 int   bytes_read; /* The bytes of read() read from stream*/
 int bytes_write;/* The bytes of write() write from stream */
-int fd_source;  /* The file descriptor of source file */
-int     fd_target;   /* The file descriptor of target file */
-
 \end{verbatim}
 \Normalsize
 
@@ -67,140 +59,40 @@ Errors go to \verb+stderr+, please!  Use
 \verb+strerror(3)+/\verb+perror(3)+. \\
 
 \begin{verbatim}
-printf("tcp: missing file operand\n");
-exit(EXIT_FAILURE);
+    fname = (char*)malloc(sizeof(char) * (strlen(argv[2]) + strlen(argv[1]) +2));
+    if(fname == NULL)
+    {
+      printf("malloc failed\n");
+      exit(EXIT_FAILURE);
+    }
+
 \end{verbatim}
-
-\subsection{HW\#2 Notes}
-Errors go to \verb+stderr+, please!  Use
-\verb+strerror(3)+/\verb+perror(3)+. \\
-
-\begin{verbatim}
-printf("tcp: missing file operand\n");
-exit(EXIT_FAILURE);
-\end{verbatim}
-
-Don't generate useless output! \\
-
-\verb+printf(" Open input success\n");+ \\
-
-\subsection{HW\#2 Notes}
-Errors go to \verb+stderr+, please!  Use
-\verb+strerror(3)+/\verb+perror(3)+. \\
-
-\begin{verbatim}
-printf("tcp: missing file operand\n");
-exit(EXIT_FAILURE);
-\end{verbatim}
-
-Don't generate useless output! \\
-
-\verb+printf(" Open input success\n");+ \\
-
-Spell-check your comments / output! \\
-
-\begin{verbatim}
-/*isdir() function is for cheak dir
-
-/*get file addres*/
-file_to = maskDir(argv[2], file_from);
-
-/*check what kina of cy opertion it is*/
-\end{verbatim}
-
-
-\subsection{HW\#2 Notes: Whitespace counts}
-Use spaces or tabs, but be consistent.
-\Huge
-\vspace*{\fill}
-\begin{verbatim}
-    char * target;
-    char * tmp;
-    char * slash="/";
-        char buf[BUFFSIZE];
-    struct stat in_st;
-    if(argc!=3){
-        usage();
-\end{verbatim}
-\vspace*{\fill}
-\Normalsize
-
-\subsection{HW\#2 Notes: Whitespace counts}
-Give your code room to breathe. (Spaces don't cost you anything.)
-\Huge
-\vspace*{\fill}
-\begin{verbatim}
-if(out_opened==0&&(out=open(argv[2], O_DIRECTORY))<0){
-    perror(argv[2]);
-    return OUTPUT_OPEN_FAIL;
-}else{
-    target=(char*)malloc(strlen(argv[2])+strlen(argv[1])+2);
-    strcat(target,argv[2]);
-    strcat(target,slash);
-    tmp=(char*)malloc(strlen(argv[1])+1);
-    strcat(tmp, argv[1]);
-    strcat(target, basename(tmp));
-\end{verbatim}
-\vspace*{\fill}
-\Normalsize
-
-\subsection{HW\#2 Notes: Whitespace counts}
-Avoid waterfall code.
-\vspace*{\fill}
-\begin{verbatim}
-if (condition) {
-        if (condition) {
-                if (condition) {
-                        if (condition) {
-                                if (condition) {
-                                        something
-                                }
-                        }
-                } else {
-                        if (condition) {
-                                something
-                        } else
-                                something
-                }
-\end{verbatim}
-\vspace*{\fill}
-\Normalsize
-
-\subsection{HW\#2 Notes: Whitespace counts}
-\vspace*{\fill}
-\begin{center}
-\includegraphics[scale=0.55]{pics/waterfall.eps}
-\end{center}
-\vspace*{\fill}
 
 \subsection{HW\#2 Notes: Check all return codes!}
 \begin{verbatim}
-new_dest=malloc(strlen(name_src)+strlen(argv[2])+1);
-strncat(new_dest,argv[2],strlen(argv[2]));
-strncat(new_dest,"/",1);
+stat(argv[1], &arg_1_stat);
+if (    1==S_ISDIR(arg_1_stat.st_mode)   )
 
-dst = (char *)malloc(sizeof(argv[2]) + 1 + sizeof(src_fname));
-sprintf(dst, "%s/%s", argv[2], src_fname);
 
-fstat(sfd, &mod);
-if ((tfd = open(tar, O_WRONLY | O_CREAT | O_TRUNC, mod.st_mode)) < 0){
+dest = (char*)malloc(strlen(argv[2]) * sizeof(char));
+strcpy(dest, argv[2]);
+
+
+tmp = malloc(target_len-1 + strlen(basename(source)) +1 );
+strncpy(tmp, target, target_len-1);
+
 \end{verbatim}
 \Normalsize
 
 \subsection{HW\#2 Notes: Don't overflow your buffers!}
-Use of \verb+strcat(3)+ etc. considered harmful.
-\vspace*{\fill}
+Use of \verb+strcat(3)+ etc. considered harmful. \\
+
 \begin{verbatim}
 if(S_ISDIR(statbuf.st_mode))
         argv[2] = strcat(argv[2], basename(argv[1]));
 
 char str[MAX_INPUT];
 strcpy(str, argv[2]);
-
-tar_tmp = argv[2];^M
-char *tar = (char*) malloc ((strlen(src) + strlen(tar_tmp)^M
-      + 1) * sizeof(char*));^M
-strcpy(tar, tar_tmp);^M
 
 char target[200];
 strcpy(target,argv[2]);
@@ -324,13 +216,13 @@ Use \verb+strlcat(3)+/\verb+strlcpy(3)+ etc. instead.
 
 \subsection{Inodes}
 \begin{itemize}
-	\item the {\em inode} contains most of information found in the {\tt stat}
+	\item the {\em inode} contains most of the information found in the {\tt stat}
 		structure.
 \end{itemize}
 
 \subsection{Inodes}
 \begin{itemize}
-	\item the {\em inode} contains most of information found in the {\tt stat}
+	\item the {\em inode} contains most of the information found in the {\tt stat}
 		structure.
 	\item every {\em inode} has a {\em link count} ({\tt st\_nlink}):  it
 		shows how many ``things'' point to this inode.  Only if this
@@ -340,7 +232,7 @@ Use \verb+strlcat(3)+/\verb+strlcpy(3)+ etc. instead.
 
 \subsection{Inodes}
 \begin{itemize}
-	\item the {\em inode} contains most of information found in the {\tt stat}
+	\item the {\em inode} contains most of the information found in the {\tt stat}
 		structure.
 	\item every {\em inode} has a {\em link count} ({\tt st\_nlink}):  it
 		shows how many ``things'' point to this inode.  Only if this
@@ -354,7 +246,7 @@ Use \verb+strlcat(3)+/\verb+strlcpy(3)+ etc. instead.
 
 \subsection{Inodes}
 \begin{itemize}
-	\item the {\em inode} contains most of information found in the {\tt stat}
+	\item the {\em inode} contains most of the information found in the {\tt stat}
 		structure.
 	\item every {\em inode} has a {\em link count} ({\tt st\_nlink}):  it
 		shows how many ``things'' point to this inode.  Only if this
@@ -370,7 +262,7 @@ Use \verb+strlcat(3)+/\verb+strlcpy(3)+ etc. instead.
 
 \subsection{Inodes}
 \begin{itemize}
-	\item the {\em inode} contains most of information found in the {\tt stat}
+	\item the {\em inode} contains most of the information found in the {\tt stat}
 		structure.
 	\item every {\em inode} has a {\em link count} ({\tt st\_nlink}):  it
 		shows how many ``things'' point to this inode.  Only if this
@@ -386,7 +278,7 @@ Use \verb+strlcat(3)+/\verb+strlcpy(3)+ etc. instead.
 
 \subsection{Inodes}
 \begin{itemize}
-	\item the {\em inode} contains most of information found in the {\tt stat}
+	\item the {\em inode} contains most of the information found in the {\tt stat}
 		structure.
 	\item every {\em inode} has a {\em link count} ({\tt st\_nlink}):  it
 		shows how many ``things'' point to this inode.  Only if this

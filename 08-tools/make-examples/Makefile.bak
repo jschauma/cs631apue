@@ -1,0 +1,405 @@
+SRCS = cmp.c ls.c main.c print.c stat_flags.c util.c
+CFLAGS = -Wall -Werror
+
+depend:
+	makedepend -- $(CFLAGS) -- $(SRCS)
+# DO NOT DELETE
+
+cmp.o: /usr/include/sys/cdefs.h /usr/include/sys/_symbol_aliasing.h
+cmp.o: /usr/include/sys/_posix_availability.h /usr/include/sys/types.h
+cmp.o: /usr/include/sys/appleapiopts.h /usr/include/machine/types.h
+cmp.o: /usr/include/i386/types.h /usr/include/i386/_types.h
+cmp.o: /usr/include/sys/_types/_int8_t.h /usr/include/sys/_types/_int16_t.h
+cmp.o: /usr/include/sys/_types/_int32_t.h /usr/include/sys/_types/_int64_t.h
+cmp.o: /usr/include/sys/_types/_intptr_t.h
+cmp.o: /usr/include/sys/_types/_uintptr_t.h /usr/include/sys/_types.h
+cmp.o: /usr/include/machine/_types.h
+cmp.o: /usr/include/sys/_pthread/_pthread_types.h
+cmp.o: /usr/include/machine/endian.h /usr/include/i386/endian.h
+cmp.o: /usr/include/sys/_endian.h /usr/include/libkern/_OSByteOrder.h
+cmp.o: /usr/include/libkern/i386/_OSByteOrder.h
+cmp.o: /usr/include/sys/_types/_dev_t.h /usr/include/sys/_types/_blkcnt_t.h
+cmp.o: /usr/include/sys/_types/_blksize_t.h /usr/include/sys/_types/_gid_t.h
+cmp.o: /usr/include/sys/_types/_in_addr_t.h
+cmp.o: /usr/include/sys/_types/_in_port_t.h /usr/include/sys/_types/_ino_t.h
+cmp.o: /usr/include/sys/_types/_ino64_t.h /usr/include/sys/_types/_key_t.h
+cmp.o: /usr/include/sys/_types/_mode_t.h /usr/include/sys/_types/_nlink_t.h
+cmp.o: /usr/include/sys/_types/_id_t.h /usr/include/sys/_types/_pid_t.h
+cmp.o: /usr/include/sys/_types/_off_t.h /usr/include/sys/_types/_uid_t.h
+cmp.o: /usr/include/sys/_types/_clock_t.h /usr/include/sys/_types/_size_t.h
+cmp.o: /usr/include/sys/_types/_ssize_t.h /usr/include/sys/_types/_time_t.h
+cmp.o: /usr/include/sys/_types/_useconds_t.h
+cmp.o: /usr/include/sys/_types/_suseconds_t.h
+cmp.o: /usr/include/sys/_types/_rsize_t.h /usr/include/sys/_types/_errno_t.h
+cmp.o: /usr/include/sys/_types/_fd_def.h
+cmp.o: /usr/include/sys/_types/_fd_setsize.h
+cmp.o: /usr/include/sys/_types/_fd_set.h /usr/include/sys/_types/_fd_clr.h
+cmp.o: /usr/include/sys/_types/_fd_zero.h /usr/include/sys/_types/_fd_isset.h
+cmp.o: /usr/include/sys/_types/_fd_copy.h
+cmp.o: /usr/include/sys/_pthread/_pthread_attr_t.h
+cmp.o: /usr/include/sys/_pthread/_pthread_cond_t.h
+cmp.o: /usr/include/sys/_pthread/_pthread_condattr_t.h
+cmp.o: /usr/include/sys/_pthread/_pthread_mutex_t.h
+cmp.o: /usr/include/sys/_pthread/_pthread_mutexattr_t.h
+cmp.o: /usr/include/sys/_pthread/_pthread_once_t.h
+cmp.o: /usr/include/sys/_pthread/_pthread_rwlock_t.h
+cmp.o: /usr/include/sys/_pthread/_pthread_rwlockattr_t.h
+cmp.o: /usr/include/sys/_pthread/_pthread_t.h
+cmp.o: /usr/include/sys/_pthread/_pthread_key_t.h
+cmp.o: /usr/include/sys/_types/_fsblkcnt_t.h
+cmp.o: /usr/include/sys/_types/_fsfilcnt_t.h /usr/include/sys/stat.h
+cmp.o: /usr/include/Availability.h /usr/include/AvailabilityInternal.h
+cmp.o: /usr/include/sys/_types/_timespec.h /usr/include/sys/_types/_s_ifmt.h
+cmp.o: /usr/include/sys/_types/_filesec_t.h /usr/include/fts.h
+cmp.o: /usr/include/string.h /usr/include/_types.h
+cmp.o: /usr/include/sys/_types/_null.h /usr/include/strings.h
+cmp.o: /usr/include/secure/_string.h /usr/include/secure/_common.h ls.h
+cmp.o: extern.h stat_flags.h
+ls.o: /usr/include/sys/cdefs.h /usr/include/sys/_symbol_aliasing.h
+ls.o: /usr/include/sys/_posix_availability.h /usr/include/sys/types.h
+ls.o: /usr/include/sys/appleapiopts.h /usr/include/machine/types.h
+ls.o: /usr/include/i386/types.h /usr/include/i386/_types.h
+ls.o: /usr/include/sys/_types/_int8_t.h /usr/include/sys/_types/_int16_t.h
+ls.o: /usr/include/sys/_types/_int32_t.h /usr/include/sys/_types/_int64_t.h
+ls.o: /usr/include/sys/_types/_intptr_t.h
+ls.o: /usr/include/sys/_types/_uintptr_t.h /usr/include/sys/_types.h
+ls.o: /usr/include/machine/_types.h
+ls.o: /usr/include/sys/_pthread/_pthread_types.h
+ls.o: /usr/include/machine/endian.h /usr/include/i386/endian.h
+ls.o: /usr/include/sys/_endian.h /usr/include/libkern/_OSByteOrder.h
+ls.o: /usr/include/libkern/i386/_OSByteOrder.h
+ls.o: /usr/include/sys/_types/_dev_t.h /usr/include/sys/_types/_blkcnt_t.h
+ls.o: /usr/include/sys/_types/_blksize_t.h /usr/include/sys/_types/_gid_t.h
+ls.o: /usr/include/sys/_types/_in_addr_t.h
+ls.o: /usr/include/sys/_types/_in_port_t.h /usr/include/sys/_types/_ino_t.h
+ls.o: /usr/include/sys/_types/_ino64_t.h /usr/include/sys/_types/_key_t.h
+ls.o: /usr/include/sys/_types/_mode_t.h /usr/include/sys/_types/_nlink_t.h
+ls.o: /usr/include/sys/_types/_id_t.h /usr/include/sys/_types/_pid_t.h
+ls.o: /usr/include/sys/_types/_off_t.h /usr/include/sys/_types/_uid_t.h
+ls.o: /usr/include/sys/_types/_clock_t.h /usr/include/sys/_types/_size_t.h
+ls.o: /usr/include/sys/_types/_ssize_t.h /usr/include/sys/_types/_time_t.h
+ls.o: /usr/include/sys/_types/_useconds_t.h
+ls.o: /usr/include/sys/_types/_suseconds_t.h
+ls.o: /usr/include/sys/_types/_rsize_t.h /usr/include/sys/_types/_errno_t.h
+ls.o: /usr/include/sys/_types/_fd_def.h /usr/include/sys/_types/_fd_setsize.h
+ls.o: /usr/include/sys/_types/_fd_set.h /usr/include/sys/_types/_fd_clr.h
+ls.o: /usr/include/sys/_types/_fd_zero.h /usr/include/sys/_types/_fd_isset.h
+ls.o: /usr/include/sys/_types/_fd_copy.h
+ls.o: /usr/include/sys/_pthread/_pthread_attr_t.h
+ls.o: /usr/include/sys/_pthread/_pthread_cond_t.h
+ls.o: /usr/include/sys/_pthread/_pthread_condattr_t.h
+ls.o: /usr/include/sys/_pthread/_pthread_mutex_t.h
+ls.o: /usr/include/sys/_pthread/_pthread_mutexattr_t.h
+ls.o: /usr/include/sys/_pthread/_pthread_once_t.h
+ls.o: /usr/include/sys/_pthread/_pthread_rwlock_t.h
+ls.o: /usr/include/sys/_pthread/_pthread_rwlockattr_t.h
+ls.o: /usr/include/sys/_pthread/_pthread_t.h
+ls.o: /usr/include/sys/_pthread/_pthread_key_t.h
+ls.o: /usr/include/sys/_types/_fsblkcnt_t.h
+ls.o: /usr/include/sys/_types/_fsfilcnt_t.h /usr/include/sys/stat.h
+ls.o: /usr/include/Availability.h /usr/include/AvailabilityInternal.h
+ls.o: /usr/include/sys/_types/_timespec.h /usr/include/sys/_types/_s_ifmt.h
+ls.o: /usr/include/sys/_types/_filesec_t.h /usr/include/sys/ioctl.h
+ls.o: /usr/include/sys/ttycom.h /usr/include/sys/ioccom.h
+ls.o: /usr/include/sys/filio.h /usr/include/sys/sockio.h
+ls.o: /usr/include/dirent.h /usr/include/_types.h /usr/include/sys/dirent.h
+ls.o: /usr/include/err.h /usr/include/errno.h /usr/include/sys/errno.h
+ls.o: /usr/include/fts.h /usr/include/locale.h /usr/include/_locale.h
+ls.o: /usr/include/sys/_types/_null.h /usr/include/stdio.h
+ls.o: /usr/include/sys/_types/_va_list.h /usr/include/sys/stdio.h
+ls.o: /usr/include/secure/_stdio.h /usr/include/secure/_common.h
+ls.o: /usr/include/stdlib.h /usr/include/sys/wait.h /usr/include/sys/signal.h
+ls.o: /usr/include/machine/signal.h /usr/include/i386/signal.h
+ls.o: /usr/include/machine/_mcontext.h /usr/include/i386/_mcontext.h
+ls.o: /usr/include/mach/i386/_structs.h
+ls.o: /usr/include/sys/_types/_sigaltstack.h
+ls.o: /usr/include/sys/_types/_ucontext.h /usr/include/sys/_types/_sigset_t.h
+ls.o: /usr/include/sys/resource.h /usr/include/stdint.h
+ls.o: /usr/include/_types/_uint8_t.h /usr/include/_types/_uint16_t.h
+ls.o: /usr/include/_types/_uint32_t.h /usr/include/_types/_uint64_t.h
+ls.o: /usr/include/_types/_intmax_t.h /usr/include/_types/_uintmax_t.h
+ls.o: /usr/include/sys/_types/_timeval.h /usr/include/alloca.h
+ls.o: /usr/include/sys/_types/_ct_rune_t.h /usr/include/sys/_types/_rune_t.h
+ls.o: /usr/include/sys/_types/_wchar_t.h /usr/include/string.h
+ls.o: /usr/include/strings.h /usr/include/secure/_string.h
+ls.o: /usr/include/unistd.h /usr/include/sys/unistd.h
+ls.o: /usr/include/sys/_types/_posix_vdisable.h
+ls.o: /usr/include/sys/_types/_seek_set.h /usr/include/sys/select.h
+ls.o: /usr/include/sys/_select.h /usr/include/sys/_types/_uuid_t.h
+ls.o: /usr/include/gethostuuid.h /usr/include/termios.h
+ls.o: /usr/include/sys/termios.h /usr/include/sys/ttydefaults.h
+ls.o: /usr/include/pwd.h /usr/include/uuid/uuid.h /usr/include/grp.h ls.h
+ls.o: extern.h stat_flags.h
+main.o: /usr/include/sys/cdefs.h /usr/include/sys/_symbol_aliasing.h
+main.o: /usr/include/sys/_posix_availability.h /usr/include/sys/types.h
+main.o: /usr/include/sys/appleapiopts.h /usr/include/machine/types.h
+main.o: /usr/include/i386/types.h /usr/include/i386/_types.h
+main.o: /usr/include/sys/_types/_int8_t.h /usr/include/sys/_types/_int16_t.h
+main.o: /usr/include/sys/_types/_int32_t.h /usr/include/sys/_types/_int64_t.h
+main.o: /usr/include/sys/_types/_intptr_t.h
+main.o: /usr/include/sys/_types/_uintptr_t.h /usr/include/sys/_types.h
+main.o: /usr/include/machine/_types.h
+main.o: /usr/include/sys/_pthread/_pthread_types.h
+main.o: /usr/include/machine/endian.h /usr/include/i386/endian.h
+main.o: /usr/include/sys/_endian.h /usr/include/libkern/_OSByteOrder.h
+main.o: /usr/include/libkern/i386/_OSByteOrder.h
+main.o: /usr/include/sys/_types/_dev_t.h /usr/include/sys/_types/_blkcnt_t.h
+main.o: /usr/include/sys/_types/_blksize_t.h /usr/include/sys/_types/_gid_t.h
+main.o: /usr/include/sys/_types/_in_addr_t.h
+main.o: /usr/include/sys/_types/_in_port_t.h /usr/include/sys/_types/_ino_t.h
+main.o: /usr/include/sys/_types/_ino64_t.h /usr/include/sys/_types/_key_t.h
+main.o: /usr/include/sys/_types/_mode_t.h /usr/include/sys/_types/_nlink_t.h
+main.o: /usr/include/sys/_types/_id_t.h /usr/include/sys/_types/_pid_t.h
+main.o: /usr/include/sys/_types/_off_t.h /usr/include/sys/_types/_uid_t.h
+main.o: /usr/include/sys/_types/_clock_t.h /usr/include/sys/_types/_size_t.h
+main.o: /usr/include/sys/_types/_ssize_t.h /usr/include/sys/_types/_time_t.h
+main.o: /usr/include/sys/_types/_useconds_t.h
+main.o: /usr/include/sys/_types/_suseconds_t.h
+main.o: /usr/include/sys/_types/_rsize_t.h /usr/include/sys/_types/_errno_t.h
+main.o: /usr/include/sys/_types/_fd_def.h
+main.o: /usr/include/sys/_types/_fd_setsize.h
+main.o: /usr/include/sys/_types/_fd_set.h /usr/include/sys/_types/_fd_clr.h
+main.o: /usr/include/sys/_types/_fd_zero.h
+main.o: /usr/include/sys/_types/_fd_isset.h
+main.o: /usr/include/sys/_types/_fd_copy.h
+main.o: /usr/include/sys/_pthread/_pthread_attr_t.h
+main.o: /usr/include/sys/_pthread/_pthread_cond_t.h
+main.o: /usr/include/sys/_pthread/_pthread_condattr_t.h
+main.o: /usr/include/sys/_pthread/_pthread_mutex_t.h
+main.o: /usr/include/sys/_pthread/_pthread_mutexattr_t.h
+main.o: /usr/include/sys/_pthread/_pthread_once_t.h
+main.o: /usr/include/sys/_pthread/_pthread_rwlock_t.h
+main.o: /usr/include/sys/_pthread/_pthread_rwlockattr_t.h
+main.o: /usr/include/sys/_pthread/_pthread_t.h
+main.o: /usr/include/sys/_pthread/_pthread_key_t.h
+main.o: /usr/include/sys/_types/_fsblkcnt_t.h
+main.o: /usr/include/sys/_types/_fsfilcnt_t.h /usr/include/fts.h
+main.o: /usr/include/Availability.h /usr/include/AvailabilityInternal.h ls.h
+main.o: extern.h stat_flags.h
+print.o: /usr/include/sys/cdefs.h /usr/include/sys/_symbol_aliasing.h
+print.o: /usr/include/sys/_posix_availability.h /usr/include/sys/param.h
+print.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
+print.o: /usr/include/i386/_types.h
+print.o: /usr/include/sys/_pthread/_pthread_types.h
+print.o: /usr/include/sys/_types/_null.h /usr/include/sys/types.h
+print.o: /usr/include/sys/appleapiopts.h /usr/include/machine/types.h
+print.o: /usr/include/i386/types.h /usr/include/sys/_types/_int8_t.h
+print.o: /usr/include/sys/_types/_int16_t.h
+print.o: /usr/include/sys/_types/_int32_t.h
+print.o: /usr/include/sys/_types/_int64_t.h
+print.o: /usr/include/sys/_types/_intptr_t.h
+print.o: /usr/include/sys/_types/_uintptr_t.h /usr/include/machine/endian.h
+print.o: /usr/include/i386/endian.h /usr/include/sys/_endian.h
+print.o: /usr/include/libkern/_OSByteOrder.h
+print.o: /usr/include/libkern/i386/_OSByteOrder.h
+print.o: /usr/include/sys/_types/_dev_t.h /usr/include/sys/_types/_blkcnt_t.h
+print.o: /usr/include/sys/_types/_blksize_t.h
+print.o: /usr/include/sys/_types/_gid_t.h
+print.o: /usr/include/sys/_types/_in_addr_t.h
+print.o: /usr/include/sys/_types/_in_port_t.h
+print.o: /usr/include/sys/_types/_ino_t.h /usr/include/sys/_types/_ino64_t.h
+print.o: /usr/include/sys/_types/_key_t.h /usr/include/sys/_types/_mode_t.h
+print.o: /usr/include/sys/_types/_nlink_t.h /usr/include/sys/_types/_id_t.h
+print.o: /usr/include/sys/_types/_pid_t.h /usr/include/sys/_types/_off_t.h
+print.o: /usr/include/sys/_types/_uid_t.h /usr/include/sys/_types/_clock_t.h
+print.o: /usr/include/sys/_types/_size_t.h /usr/include/sys/_types/_ssize_t.h
+print.o: /usr/include/sys/_types/_time_t.h
+print.o: /usr/include/sys/_types/_useconds_t.h
+print.o: /usr/include/sys/_types/_suseconds_t.h
+print.o: /usr/include/sys/_types/_rsize_t.h
+print.o: /usr/include/sys/_types/_errno_t.h /usr/include/sys/_types/_fd_def.h
+print.o: /usr/include/sys/_types/_fd_setsize.h
+print.o: /usr/include/sys/_types/_fd_set.h /usr/include/sys/_types/_fd_clr.h
+print.o: /usr/include/sys/_types/_fd_zero.h
+print.o: /usr/include/sys/_types/_fd_isset.h
+print.o: /usr/include/sys/_types/_fd_copy.h
+print.o: /usr/include/sys/_pthread/_pthread_attr_t.h
+print.o: /usr/include/sys/_pthread/_pthread_cond_t.h
+print.o: /usr/include/sys/_pthread/_pthread_condattr_t.h
+print.o: /usr/include/sys/_pthread/_pthread_mutex_t.h
+print.o: /usr/include/sys/_pthread/_pthread_mutexattr_t.h
+print.o: /usr/include/sys/_pthread/_pthread_once_t.h
+print.o: /usr/include/sys/_pthread/_pthread_rwlock_t.h
+print.o: /usr/include/sys/_pthread/_pthread_rwlockattr_t.h
+print.o: /usr/include/sys/_pthread/_pthread_t.h
+print.o: /usr/include/sys/_pthread/_pthread_key_t.h
+print.o: /usr/include/sys/_types/_fsblkcnt_t.h
+print.o: /usr/include/sys/_types/_fsfilcnt_t.h /usr/include/sys/syslimits.h
+print.o: /usr/include/machine/param.h /usr/include/i386/param.h
+print.o: /usr/include/i386/_param.h /usr/include/limits.h
+print.o: /usr/include/machine/limits.h /usr/include/i386/limits.h
+print.o: /usr/include/i386/_limits.h /usr/include/sys/signal.h
+print.o: /usr/include/machine/signal.h /usr/include/i386/signal.h
+print.o: /usr/include/machine/_mcontext.h /usr/include/i386/_mcontext.h
+print.o: /usr/include/mach/i386/_structs.h
+print.o: /usr/include/sys/_types/_sigaltstack.h
+print.o: /usr/include/sys/_types/_ucontext.h
+print.o: /usr/include/sys/_types/_sigset_t.h /usr/include/sys/stat.h
+print.o: /usr/include/Availability.h /usr/include/AvailabilityInternal.h
+print.o: /usr/include/sys/_types/_timespec.h
+print.o: /usr/include/sys/_types/_s_ifmt.h
+print.o: /usr/include/sys/_types/_filesec_t.h /usr/include/err.h
+print.o: /usr/include/_types.h /usr/include/errno.h /usr/include/sys/errno.h
+print.o: /usr/include/fts.h /usr/include/grp.h /usr/include/uuid/uuid.h
+print.o: /usr/include/sys/_types/_uuid_t.h /usr/include/pwd.h
+print.o: /usr/include/stdio.h /usr/include/sys/_types/_va_list.h
+print.o: /usr/include/sys/stdio.h /usr/include/secure/_stdio.h
+print.o: /usr/include/secure/_common.h /usr/include/stdlib.h
+print.o: /usr/include/sys/wait.h /usr/include/sys/resource.h
+print.o: /usr/include/stdint.h /usr/include/_types/_uint8_t.h
+print.o: /usr/include/_types/_uint16_t.h /usr/include/_types/_uint32_t.h
+print.o: /usr/include/_types/_uint64_t.h /usr/include/_types/_intmax_t.h
+print.o: /usr/include/_types/_uintmax_t.h /usr/include/sys/_types/_timeval.h
+print.o: /usr/include/alloca.h /usr/include/sys/_types/_ct_rune_t.h
+print.o: /usr/include/sys/_types/_rune_t.h /usr/include/sys/_types/_wchar_t.h
+print.o: /usr/include/string.h /usr/include/strings.h
+print.o: /usr/include/secure/_string.h /usr/include/time.h
+print.o: /usr/include/tzfile.h /usr/include/unistd.h
+print.o: /usr/include/sys/unistd.h /usr/include/sys/_types/_posix_vdisable.h
+print.o: /usr/include/sys/_types/_seek_set.h /usr/include/sys/select.h
+print.o: /usr/include/sys/_select.h /usr/include/gethostuuid.h
+print.o: /usr/include/util.h /usr/include/sys/ttycom.h
+print.o: /usr/include/sys/ioccom.h /usr/include/termios.h
+print.o: /usr/include/sys/termios.h /usr/include/sys/ttydefaults.h
+print.o: /usr/include/utmp.h ls.h extern.h stat_flags.h /usr/include/locale.h
+print.o: /usr/include/_locale.h
+stat_flags.o: /usr/include/sys/cdefs.h /usr/include/sys/_symbol_aliasing.h
+stat_flags.o: /usr/include/sys/_posix_availability.h /usr/include/sys/types.h
+stat_flags.o: /usr/include/sys/appleapiopts.h /usr/include/machine/types.h
+stat_flags.o: /usr/include/i386/types.h /usr/include/i386/_types.h
+stat_flags.o: /usr/include/sys/_types/_int8_t.h
+stat_flags.o: /usr/include/sys/_types/_int16_t.h
+stat_flags.o: /usr/include/sys/_types/_int32_t.h
+stat_flags.o: /usr/include/sys/_types/_int64_t.h
+stat_flags.o: /usr/include/sys/_types/_intptr_t.h
+stat_flags.o: /usr/include/sys/_types/_uintptr_t.h /usr/include/sys/_types.h
+stat_flags.o: /usr/include/machine/_types.h
+stat_flags.o: /usr/include/sys/_pthread/_pthread_types.h
+stat_flags.o: /usr/include/machine/endian.h /usr/include/i386/endian.h
+stat_flags.o: /usr/include/sys/_endian.h /usr/include/libkern/_OSByteOrder.h
+stat_flags.o: /usr/include/libkern/i386/_OSByteOrder.h
+stat_flags.o: /usr/include/sys/_types/_dev_t.h
+stat_flags.o: /usr/include/sys/_types/_blkcnt_t.h
+stat_flags.o: /usr/include/sys/_types/_blksize_t.h
+stat_flags.o: /usr/include/sys/_types/_gid_t.h
+stat_flags.o: /usr/include/sys/_types/_in_addr_t.h
+stat_flags.o: /usr/include/sys/_types/_in_port_t.h
+stat_flags.o: /usr/include/sys/_types/_ino_t.h
+stat_flags.o: /usr/include/sys/_types/_ino64_t.h
+stat_flags.o: /usr/include/sys/_types/_key_t.h
+stat_flags.o: /usr/include/sys/_types/_mode_t.h
+stat_flags.o: /usr/include/sys/_types/_nlink_t.h
+stat_flags.o: /usr/include/sys/_types/_id_t.h
+stat_flags.o: /usr/include/sys/_types/_pid_t.h
+stat_flags.o: /usr/include/sys/_types/_off_t.h
+stat_flags.o: /usr/include/sys/_types/_uid_t.h
+stat_flags.o: /usr/include/sys/_types/_clock_t.h
+stat_flags.o: /usr/include/sys/_types/_size_t.h
+stat_flags.o: /usr/include/sys/_types/_ssize_t.h
+stat_flags.o: /usr/include/sys/_types/_time_t.h
+stat_flags.o: /usr/include/sys/_types/_useconds_t.h
+stat_flags.o: /usr/include/sys/_types/_suseconds_t.h
+stat_flags.o: /usr/include/sys/_types/_rsize_t.h
+stat_flags.o: /usr/include/sys/_types/_errno_t.h
+stat_flags.o: /usr/include/sys/_types/_fd_def.h
+stat_flags.o: /usr/include/sys/_types/_fd_setsize.h
+stat_flags.o: /usr/include/sys/_types/_fd_set.h
+stat_flags.o: /usr/include/sys/_types/_fd_clr.h
+stat_flags.o: /usr/include/sys/_types/_fd_zero.h
+stat_flags.o: /usr/include/sys/_types/_fd_isset.h
+stat_flags.o: /usr/include/sys/_types/_fd_copy.h
+stat_flags.o: /usr/include/sys/_pthread/_pthread_attr_t.h
+stat_flags.o: /usr/include/sys/_pthread/_pthread_cond_t.h
+stat_flags.o: /usr/include/sys/_pthread/_pthread_condattr_t.h
+stat_flags.o: /usr/include/sys/_pthread/_pthread_mutex_t.h
+stat_flags.o: /usr/include/sys/_pthread/_pthread_mutexattr_t.h
+stat_flags.o: /usr/include/sys/_pthread/_pthread_once_t.h
+stat_flags.o: /usr/include/sys/_pthread/_pthread_rwlock_t.h
+stat_flags.o: /usr/include/sys/_pthread/_pthread_rwlockattr_t.h
+stat_flags.o: /usr/include/sys/_pthread/_pthread_t.h
+stat_flags.o: /usr/include/sys/_pthread/_pthread_key_t.h
+stat_flags.o: /usr/include/sys/_types/_fsblkcnt_t.h
+stat_flags.o: /usr/include/sys/_types/_fsfilcnt_t.h /usr/include/sys/stat.h
+stat_flags.o: /usr/include/Availability.h /usr/include/AvailabilityInternal.h
+stat_flags.o: /usr/include/sys/_types/_timespec.h
+stat_flags.o: /usr/include/sys/_types/_s_ifmt.h
+stat_flags.o: /usr/include/sys/_types/_filesec_t.h /usr/include/fts.h
+stat_flags.o: /usr/include/stddef.h /usr/include/_types.h
+stat_flags.o: /usr/include/sys/_types/_null.h
+stat_flags.o: /usr/include/sys/_types/_offsetof.h
+stat_flags.o: /usr/include/sys/_types/_ptrdiff_t.h
+stat_flags.o: /usr/include/sys/_types/_wchar_t.h
+stat_flags.o: /usr/include/sys/_types/_wint_t.h /usr/include/string.h
+stat_flags.o: /usr/include/strings.h /usr/include/secure/_string.h
+stat_flags.o: /usr/include/secure/_common.h stat_flags.h
+util.o: /usr/include/sys/cdefs.h /usr/include/sys/_symbol_aliasing.h
+util.o: /usr/include/sys/_posix_availability.h /usr/include/sys/types.h
+util.o: /usr/include/sys/appleapiopts.h /usr/include/machine/types.h
+util.o: /usr/include/i386/types.h /usr/include/i386/_types.h
+util.o: /usr/include/sys/_types/_int8_t.h /usr/include/sys/_types/_int16_t.h
+util.o: /usr/include/sys/_types/_int32_t.h /usr/include/sys/_types/_int64_t.h
+util.o: /usr/include/sys/_types/_intptr_t.h
+util.o: /usr/include/sys/_types/_uintptr_t.h /usr/include/sys/_types.h
+util.o: /usr/include/machine/_types.h
+util.o: /usr/include/sys/_pthread/_pthread_types.h
+util.o: /usr/include/machine/endian.h /usr/include/i386/endian.h
+util.o: /usr/include/sys/_endian.h /usr/include/libkern/_OSByteOrder.h
+util.o: /usr/include/libkern/i386/_OSByteOrder.h
+util.o: /usr/include/sys/_types/_dev_t.h /usr/include/sys/_types/_blkcnt_t.h
+util.o: /usr/include/sys/_types/_blksize_t.h /usr/include/sys/_types/_gid_t.h
+util.o: /usr/include/sys/_types/_in_addr_t.h
+util.o: /usr/include/sys/_types/_in_port_t.h /usr/include/sys/_types/_ino_t.h
+util.o: /usr/include/sys/_types/_ino64_t.h /usr/include/sys/_types/_key_t.h
+util.o: /usr/include/sys/_types/_mode_t.h /usr/include/sys/_types/_nlink_t.h
+util.o: /usr/include/sys/_types/_id_t.h /usr/include/sys/_types/_pid_t.h
+util.o: /usr/include/sys/_types/_off_t.h /usr/include/sys/_types/_uid_t.h
+util.o: /usr/include/sys/_types/_clock_t.h /usr/include/sys/_types/_size_t.h
+util.o: /usr/include/sys/_types/_ssize_t.h /usr/include/sys/_types/_time_t.h
+util.o: /usr/include/sys/_types/_useconds_t.h
+util.o: /usr/include/sys/_types/_suseconds_t.h
+util.o: /usr/include/sys/_types/_rsize_t.h /usr/include/sys/_types/_errno_t.h
+util.o: /usr/include/sys/_types/_fd_def.h
+util.o: /usr/include/sys/_types/_fd_setsize.h
+util.o: /usr/include/sys/_types/_fd_set.h /usr/include/sys/_types/_fd_clr.h
+util.o: /usr/include/sys/_types/_fd_zero.h
+util.o: /usr/include/sys/_types/_fd_isset.h
+util.o: /usr/include/sys/_types/_fd_copy.h
+util.o: /usr/include/sys/_pthread/_pthread_attr_t.h
+util.o: /usr/include/sys/_pthread/_pthread_cond_t.h
+util.o: /usr/include/sys/_pthread/_pthread_condattr_t.h
+util.o: /usr/include/sys/_pthread/_pthread_mutex_t.h
+util.o: /usr/include/sys/_pthread/_pthread_mutexattr_t.h
+util.o: /usr/include/sys/_pthread/_pthread_once_t.h
+util.o: /usr/include/sys/_pthread/_pthread_rwlock_t.h
+util.o: /usr/include/sys/_pthread/_pthread_rwlockattr_t.h
+util.o: /usr/include/sys/_pthread/_pthread_t.h
+util.o: /usr/include/sys/_pthread/_pthread_key_t.h
+util.o: /usr/include/sys/_types/_fsblkcnt_t.h
+util.o: /usr/include/sys/_types/_fsfilcnt_t.h /usr/include/sys/stat.h
+util.o: /usr/include/Availability.h /usr/include/AvailabilityInternal.h
+util.o: /usr/include/sys/_types/_timespec.h /usr/include/sys/_types/_s_ifmt.h
+util.o: /usr/include/sys/_types/_filesec_t.h /usr/include/ctype.h
+util.o: /usr/include/runetype.h /usr/include/_types.h
+util.o: /usr/include/sys/_types/_ct_rune_t.h
+util.o: /usr/include/sys/_types/_rune_t.h /usr/include/sys/_types/_wchar_t.h
+util.o: /usr/include/sys/_types/_wint_t.h /usr/include/err.h
+util.o: /usr/include/fts.h /usr/include/limits.h
+util.o: /usr/include/machine/limits.h /usr/include/i386/limits.h
+util.o: /usr/include/i386/_limits.h /usr/include/sys/syslimits.h
+util.o: /usr/include/stdio.h /usr/include/sys/_types/_va_list.h
+util.o: /usr/include/sys/_types/_null.h /usr/include/sys/stdio.h
+util.o: /usr/include/secure/_stdio.h /usr/include/secure/_common.h
+util.o: /usr/include/stdlib.h /usr/include/sys/wait.h
+util.o: /usr/include/sys/signal.h /usr/include/machine/signal.h
+util.o: /usr/include/i386/signal.h /usr/include/machine/_mcontext.h
+util.o: /usr/include/i386/_mcontext.h /usr/include/mach/i386/_structs.h
+util.o: /usr/include/sys/_types/_sigaltstack.h
+util.o: /usr/include/sys/_types/_ucontext.h
+util.o: /usr/include/sys/_types/_sigset_t.h /usr/include/sys/resource.h
+util.o: /usr/include/stdint.h /usr/include/_types/_uint8_t.h
+util.o: /usr/include/_types/_uint16_t.h /usr/include/_types/_uint32_t.h
+util.o: /usr/include/_types/_uint64_t.h /usr/include/_types/_intmax_t.h
+util.o: /usr/include/_types/_uintmax_t.h /usr/include/sys/_types/_timeval.h
+util.o: /usr/include/alloca.h /usr/include/string.h /usr/include/strings.h
+util.o: /usr/include/secure/_string.h /usr/include/vis.h ls.h extern.h
+util.o: stat_flags.h
