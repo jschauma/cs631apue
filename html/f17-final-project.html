@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+<HEAD>
+
+  <TITLE>CS631 -- Advanced Programming in the UNIX Environment</TITLE>
+  <STYLE type="text/css">
+  body {
+  background-color: #FFFFFf;
+  }
+  </STYLE>
+  <STYLE type="text/css">
+  li.c1 {list-style: none}
+  </STYLE>
+</HEAD>
+
+<BODY>
+  <TABLE border="1" align="center" cellpadding="15">
+    <TR>
+      <TD valign="top">
+        <H2>CS631 -- Advanced Programming in the UNIX Environment - Final Project</H2>
+
+        <H3>Final Project: Write a simple web server</H3>
+
+        <H4>Summary</H4>
+	<p>The objective of this assignment is for you to write a simple
+	web server that speaks a limited version of HTTP/1.0 as defined in
+	<a href="http://www.ietf.org/rfc/rfc1945.txt">RFC1945</a>.  This
+	gives you occasion to understand the process of reading an RFC and
+	implementing a well-known protocol.
+	</p>
+	<p>You will implement the
+	<tt>sws(1)</tt> command as described in the manual page provided
+	to you <a href="sws.1.pdf">here</a>.
+	</p>
+	<p>
+	As usual, the <a href="hw">general homework guidelines</a> apply.
+	</p>
+	<p>
+	This is a non-trivial programming assignment -- do not postpone
+	starting to work on this!  Try to first get the basics right, then
+	add functionality one by one, always ensuring that the added code
+	did not break any previous functionality.  If you're stuck, describe
+	your problem on the mailing list.
+	</p>
+        <h5>Team work</h5>
+        <p>
+        This assignment will be completed in <a href="f17-groups">groups of 3 members</a>.
+	Your team will use the <tt>git(1)</tt>
+        revision control system to track progress and collaborate.  Please
+        see <a href="git.html">this page</a> for details on setting up
+        your shared repository.
+        </p>
+        <p>
+        Please note that all members of the team are expected to
+        participate and need to contribute in equal parts.  Your git
+        commit log will be part of the final submission, and your
+        collaboration a factor in your grade.  Commit early,
+        commit often.
+        </p>
+	<h5>Additional considerations</h5>
+	<p>
+	Please carefully read <a
+	href="http://www.ietf.org/rfc/rfc1945.txt">RFC1945</a> to understand
+	version 1.0 of the Hyper Text Transfer Protocol.
+	</p>
+	<p>
+	Please carefully read <a href="https://www.ietf.org/rfc/rfc3875">RFC3875</a>
+	to understand the Common Gateway Interface.
+	</p>
+	<p>
+	Your program should behave as one would expect from a regular system
+	daemon. That is, it should detach from the controlling terminal and
+	run in the background, accept multiple simultaneous connections, not
+	generate any messages on stdout unless in debugging mode etc.
+	</p>
+	<p>
+	Your program does have to return normal HTTP/1.0 status codes as
+	described in the RFC.
+	</p>
+	<h4>Deliverables and Due Date</H4>
+	<p>You will submit a tar archive of all your files, including a
+	Makefile.  The tar archive will be named "group<em>N</em>.tar",
+	and extract into a directory named "group<em>N</em>", where
+	<em>N</em> is your group number.
+	</p>
+	<p>
+	Your code needs to compile without any warnings on <em>both</em>
+	a NetBSD 7.x system as well as on
+	<tt>cs631apue.netmeister.org</tt>.
+	</p>
+	<p>
+	You must submit a snapshot of your work in progress by 2017-11-13
+	15:59:59.  By then, your program must be able to accept network
+	connections, read data from the client and validate the
+	request made.  This includes parsing the request method and
+	protocol information as well as identifying supported client
+	headers.  Failure to submit the snapshot will result in a 10%
+	deduction from the final grade.
+	</p>
+        <p>
+        The due date for this assignment is 2017-12-04 15:59:59.  Please
+        attach the file to an email sent from your <tt>@stevens.edu</tt>
+        email address to <a
+        href="mailto:jschauma@stevens.edu?subject=[CS631] final project">jschauma@stevens.edu</a>
+        with a subject of "[CS631] final project".
+        </p>
+        <hr>
+        [<a href="index.html">Course Website</a>]
+</BODY>
+</HTML>

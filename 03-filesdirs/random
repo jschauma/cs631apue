@@ -1,0 +1,1 @@
+ls | grep -n . | grep ^$(( $RANDOM % 7 + 1 ))

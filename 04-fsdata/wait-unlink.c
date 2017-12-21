@@ -70,8 +70,6 @@ main(int argc, char **argv) {
 
 	runDf();
 
-	sleep(3);
-
 	printf("\nOk, now unlinking 'bar'...\n");
 	if (unlink("bar") < 0) {
 		perror("error unlinking");
@@ -83,8 +81,6 @@ main(int argc, char **argv) {
 	(void)system("ls -li foo bar");
 
 	runDf();
-
-	sleep(3);
 
 	/* Closing the file descriptor after having
 	 * unlinked all references to the 500M file

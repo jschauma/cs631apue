@@ -37,41 +37,53 @@
 \end{center}
 \vspace*{\fill}
 
-\subsection{HW\#2 Notes: Avoid useless comments}
-\Huge
+\subsection{HW\#1 Notes: Avoid useless comments}
 \begin{verbatim}
-//Check if the argc number is right or not
-if ( argc != 3 ){
+//check the number of commandline argument
+if(argc != 3)
 
-//a buffer with proper size
-char buf[BUFFSIZE];
+/*Is the vaild input*/
+if(argc!=VALID_INPUT){
 
-// open src file for read only mode
-if ((fd_src= open (src,O_RDONLY)) == -1) {
+/* input argv should be 3 */
+if (argc != 3) {
 
-int   bytes_read; /* The bytes of read() read from stream*/
-int bytes_write;/* The bytes of write() write from stream */
+/* Print the error if the arguments not equal to 3. */
+if (argc != 3) {
+
+/* Buffer size */
+#define BUFSIZE 4096
+
+/* Check if the destination is a directory */
+if(stat(argv[2], &s) != -1 && S_ISDIR(s.st_mode))
 \end{verbatim}
 \Normalsize
 
-\subsection{HW\#2 Notes}
+\subsection{HW\#1 Notes}
 Errors go to \verb+stderr+, please!  Use
 \verb+strerror(3)+/\verb+perror(3)+. \\
 
 \begin{verbatim}
-    fname = (char*)malloc(sizeof(char) * (strlen(argv[2]) + strlen(argv[1]) +2));
-    if(fname == NULL)
-    {
-      printf("malloc failed\n");
-      exit(EXIT_FAILURE);
-    }
+  if(!S_ISREG(src.st_mode) )
+  {
+    printf("Source file is not a regular file\n");^M
+
+
+
+            printf("Unable to read %s\n",input_src
+                   );
 
 \end{verbatim}
 
-\subsection{HW\#2 Notes: Check all return codes!}
+\subsection{HW\#1 Notes: Check all return codes!}
 \begin{verbatim}
-stat(argv[1], &arg_1_stat);
-if (    1==S_ISDIR(arg_1_stat.st_mode)   )
+
+dstPath = (char*)malloc(strlen(argv[2]) + strlen(filename) + 2);
+dstPath = strcpy(dstPath, argv[2]);
+
+
+dir_fd=dirfd(dir);
+dest_file=openat(dir_fd,argv[1],O_WRONLY | O_CREAT , 0641);
 
 
 dest = (char*)malloc(strlen(argv[2]) * sizeof(char));
@@ -80,25 +92,27 @@ strcpy(dest, argv[2]);
 
 tmp = malloc(target_len-1 + strlen(basename(source)) +1 );
 strncpy(tmp, target, target_len-1);
-
 \end{verbatim}
 \Normalsize
 
-\subsection{HW\#2 Notes: Don't overflow your buffers!}
-Use of \verb+strcat(3)+ etc. considered harmful. \\
-
+\subsection{HW\#1 Notes: Don't overflow your buffers!}
+Use of \verb+strcat(3)+ etc. considered harmful.
+Use \verb+strlcat(3)+/\verb+strlcpy(3)+ etc. instead.
 \begin{verbatim}
-if(S_ISDIR(statbuf.st_mode))
-        argv[2] = strcat(argv[2], basename(argv[1]));
-
-char str[MAX_INPUT];
-strcpy(str, argv[2]);
+target = argv[2];
+strcat(target, "/");
 
 char target[200];
 strcpy(target,argv[2]);
-\end{verbatim}
 
-Use \verb+strlcat(3)+/\verb+strlcpy(3)+ etc. instead.
+target_path = (char *)malloc(sizeof(argv[2]) + 2 +
+      sizeof(basename(argv[1])));
+(void)strcat(target_path, basename(argv[1]));
+\end{verbatim}
+\vspace{.25in}
+But beware: \verb+sizeof != strlen(3)+ \\
+
+\verb+sizeof.c+
 \vspace*{\fill}
 
 \pagebreak
@@ -1042,6 +1056,14 @@ Reading:
 	\item Stevens, Chapter 4 and 6
 	\item Falsehoods Programmers believe about time: {\tt http://is.gd/yFSYR0}
 \end{itemize}
+\vspace{.25in}
+Think about code.  You should now be able to
+implement:
+\begin{itemize}
+	\item ln(1), mv(1), rm(1), rmdir(1), stat(1)
+	\item date(1), id(1), touch(1), uname(1)
+\end{itemize}
+\vspace{.25in}
 Other:
 \begin{itemize}
 	\item work on your midterm project!

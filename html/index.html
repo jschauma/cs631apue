@@ -39,7 +39,7 @@
 	of the C programming language, have written non-trivial
 	programs before, and to be able to competently use a Unix
 	system with a command-line shell interface.
-	<em>All coursework will be done exclusively on <a href="linux-lab.html">linux-lab.cs.stevens.edu</a>
+	<em>All coursework will be done exclusively on a Unix system
 	from the command-line.</em>  This is <em>not</em> an
 	introduction to using Unix!</b></P>
 
@@ -58,7 +58,7 @@
 	<tr><td width="50%" valign="top">
 
         <H3><a name="time"></a>Time, Date &amp; Place:</H3>
-	<p><b>Mondays, 18:15 - 20:45, K390</b></p>
+	<p><b>Mondays, 18:15 - 20:45, Edwin A. Stevens Hall 231</b></p>
 
         <H3><a name="instructor"></a>Instructor:</H3><A href=
         "http://www.cs.stevens.edu/~jschauma/">Jan Schaumann</A>
@@ -70,8 +70,8 @@
           or any other non-stevens address.</small></p>
 
 
-        <H3><a name="ta"></a>TA:</h3>
-        Patrick Murray [<a href="mailto:pmurray1@stevens.edu">pmurray1@stevens.edu</a>]
+        <!-- <H3><a name="ta"></a>TA:</h3>
+        Patrick Murray [<a href="mailto:pmurray1@stevens.edu">pmurray1@stevens.edu</a>] -->
 	<hr>
 
         <H3><a name="resources"></a>Resources:</H3>
@@ -108,7 +108,7 @@ list.</em><br>
           <LI><A href="http://pubs.opengroup.org/onlinepubs/9699919799/">Single UNIX Specification</A> (POSIX)</LI>
 	  <LI><a href="https://twitter.com/cs631apue">Class Twitter
 Account</a></li>
-	  <LI><a href="video.html">Lecture recordings</a></li>
+	  <!-- <LI><a href="video.html">Lecture recordings</a></li> -->
 	  <li><a href="https://github.com/jschauma/cs631apue">Raw course
 material on GitHub</a></li>
           <!-- <li><a href="git.html">Using git in this class</a></li> -->
@@ -150,7 +150,7 @@ js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';i
         <UL>
           <LI>
           ``<A href=
-          "http://www.aw-bc.com/catalog/academic/product/0,1144,0201433079,00.html">
+          "http://www.apuebook.com/about3e.html">
           Advanced Programming in the UNIX&#174;
           Environment</A>'', Third Edition<BR>
           W. Richard Stevens, Stephen A. Rago<BR>
@@ -187,13 +187,15 @@ js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';i
 
 	<hr>
 	<H3><a name="systems"></a>Systems Used</H3>
-	<p>All software development will be done on the
-	<tt>linux-lab.cs.stevens-tech.edu</tt>
-	systems.  It is your
-	responsibility to <a href="linux-lab.html">get an account on these systems</a> <b>prior to the start of the class</b>.</p>
-	<p>All grading will be done on these systems.  While you may
+	<p>All software development will be done on a <a
+	href="https://www.netbsd.org">NetBSD</a> system.  It is
+	your responsibility to gain access to such a system <b>prior
+	to the start of the class</b>.  Please see <a href="netbsd.html">this
+	page</a> for more information.</p>
+	<p>
+	<p>All grading will be done on a NetBSD 7.1 system.  While you may
 	choose to develop on your own personal host, you should make sure
-	that your code compiles and runs flawlessly on these systems.</p>
+	that your code compiles and runs flawlessly on this OS version.</p>
 
 	<hr>
         <H3><a name="grading"></a>Grading:</H3>There will most likely be:
@@ -242,38 +244,39 @@ href="https://www.netmeister.org/blog/plagiarism.html">plagiarism</a>, may imply
 	</blockquote>
   Any incidents are reported to the Dean of Graduate
 	Academics, as per the <a
-href="https://www.stevens.edu/sites/provost/files/grad_acad_Graduate-Student-Code-Academic-Integrity.pdf">Graduate
+href="https://www.stevens.edu/sites/stevens_edu/files/Graduate-Student-Code-Academic-Integrity.pdf">Graduate
 Student Code of Academic Conduct</a>.
 
 	<hr>
         <H3><A name="hw">Homework</A> Assignments:</H3>
 	Assignments will be posted as the semester progresses.
 	<ul>
-		<li><a href="intro.html">Intro "test"</a></li>
-		<li><a href="f16-hw1.html">HW#1: read code</a></li>
-		<li><a href="f16-hw2.html">HW#2: trivially copy a file</a></li>
-		<li><a href="f16-hw3.html">HW#3 - sws milestone#1</a></li>
+		<li><a href="f17-hw1.html">HW#1: trivially copy a file</a></li>
+		<li><a href="f17-hw2.html">HW#2: code reading</a></li>
+		<li><a href="f17-hw3.html">HW#3: pipe(2)</a></li>
+		<li><a href="f17-final-project.html">Final project: write a web server</a></li>
+		<li><a href="f17-crysh.html">Final assignment: crysh</a></li>
+<!--
 		<li><a href="f16-hw4.html">HW#4 - Encryption/decryption</a></li>
 		<li><a href="f16-sish.html">Final assignment: write a simple shell</a></li>
-<!--
 		<li><a href="f15-hw3.html">HW#3: webserver framework</a></li>
 		<li><a href="f15-aed.html">"HW#4": write a simple tool to perform encryption/decryption of content</a></li>
 		<li><a href="f14-hw4.html">HW#4: sws, milestone#2</a></li>
-simple shell</a></li> -->
+simple shell</a></li>
+-->
 	</ul>
-
 	<hr>
         <H3><A name="midterm">Midterm</A> Project:</H3>
         <p>Implement the "<a href="ls.pdf">ls(1)</a>" command as
         decribed in the manual page provided to you.
-        See the full <A href="f16-midterm.html">midterm project
+        See the full <A href="f17-midterm.html">midterm project
         description</A> for details.</P>
 
 	<hr>
         <H3><A name="final">Final</A> Project:</H3>
         <p>Implement the "<a href="sws.1.pdf">sws(1)</a>" command as
         decribed in the manual page provided to you.
-        See the full <A href="f16-final-project.html">final project
+        See the full <A href="f17-final-project.html">final project
         description</A> for details.</P>
 
 	<!--
@@ -302,7 +305,7 @@ simple shell</a></li> -->
           </TR>
 
           <TR>
-            <TD>2016-08-29</TD>
+            <TD>2017-08-28</TD>
 
             <TD>Introduction, UNIX history, UNIX Programming
             Basics</TD>
@@ -318,18 +321,18 @@ simple shell</a></li> -->
             <A href="simple-shell.c">simple-shell.c</A><BR>
             <A href="simple-shell2.c">simple-shell2.c</A><br>
             <A href="welcome.c">welcome.c</A><BR><br>
-            <a href="intro.html">Intro</a><br>
-	    <a href="f16-hw1.html">HW#1</a></TD>
-
+<!--            <a href="intro.html">Intro</a><br>
+	    <a href="f16-hw1.html">HW#1</a></TD> -->
+	    </TD>
           </TR>
 
           <TR>
-            <TD>2016-09-05</TD>
+            <TD>2017-09-04</TD>
             <TD colspan="3"><em>Labor Day Holiday</em></TD>
           </TR>
 
           <TR>
-            <TD>2016-09-12</TD>
+            <TD>2017-09-11</TD>
 
             <TD>File I/O, File Sharing</TD>
 
@@ -348,12 +351,12 @@ simple shell</a></li> -->
             <A href="openmax.c">openmax.c</A><BR>
             <A href="rwex.c">rwex.c</A><BR>
             <A href="sync-cat.c">sync-cat.c</A><BR><br>
-            <a href="f16-hw2.html">HW2</a>: <A href="tcp.1.pdf">tcp(1)</A>,<a
+            <a href="f17-hw1.html">HW1</a>: <A href="tcp.1.pdf">tcp(1)</A>,<a
 	    href="tcpm.1.pdf">tcpm(1)</a></td>
           </TR>
 
           <TR>
-            <TD>2016-09-19</TD>
+            <TD>2017-09-18</TD>
 
             <TD>Files and Directories</TD>
 
@@ -361,8 +364,8 @@ simple shell</a></li> -->
 
             <TD width="25%"><A href="lecture03.pdf">Lecture
             Slides</A><BR>
-		<a href="videos/LectureIII-PartI.mov">Video (Part I)</a><br>
-		<a href="videos/LectureIII-PartII.mov">Video (Part II)</a><br>
+		<a href="videos/LectureIII-PartI.mov">Video (Part I)</a> (Fall 2015)<br>
+		<a href="videos/LectureIII-PartII.mov">Video (Part II)</a> (Fall 2015)<br>
             &#160;<BR>
             <A href="access.c">access.c</A><BR>
             <A href="chmod.c">chmod.c</A><BR>
@@ -370,12 +373,13 @@ simple shell</a></li> -->
             <A href="size.c">size.c</A><BR>
             <A href="simple-ls.c">simple-ls.c</A><BR>
             <A href="simple-ls-stat.c">simple-ls-stat.c</A><BR>
-            <A href="umask.c">umask.c</A><BR>
-	    <a href="f16-midterm.html">Midterm Project Assignment</a></TD>
+            <A href="umask.c">umask.c</A><BR><br>
+	    <a href="f17-hw2.html">HW2: Code Reading</a><br>
+	    <a href="f17-midterm.html">Midterm Project Assignment</a></TD>
           </TR>
 
           <TR>
-            <TD>2016-09-26</TD>
+            <TD>2017-09-25</TD>
 
             <TD>Filesystems, System Data Files, Time &amp;
             Date</TD>
@@ -385,22 +389,50 @@ simple shell</a></li> -->
             <TD width="25%"><A href="lecture04.pdf">Lecture
             Slides</A><BR>
             &#160;<BR>
+            <A href="sizeof.c">sizeof.c</A><BR>
             <A href="wait-unlink.c">wait-unlink.c</A><BR>
 	    <a href="cd.c">cd.c</A></TD>
           </TR>
 
           <TR>
-            <TD>2016-10-03</TD>
+            <TD>2017-10-02</TD>
+
+            <TD>UNIX tools: make(1), revision control, diff(1), patch(1), gdb(1)</TD>
+
+            <TD>
+          <A href="http://sourceware.org/gdb/current/onlinedocs/gdb/">
+            Debugging with GDB</A><BR>
+            <A href=
+            "http://heather.cs.ucdavis.edu/~matloff/UnixAndC/CLanguage/Debug.html">
+            Guide to Faster, Less Frustrating Debugging</A><BR>
+            <A href=
+            "http://www.unknownroad.com/rtfm/gdbtut/gdbtoc.html">gdb
+            Tutorial</A><br>
+		<a href="http://git-scm.com/">Git</a></TD>
+            <TD><A href="lecture05.pdf">Lecture Slides</A><BR>
+            <BR>
+	    <A href="compilechain/">compile chain examples</a><br>
+	    <A href="make-examples/">make examples</a><br>
+	    <A href="gdb-examples/">gdb examples</a><br><br>
+          </TR>
+
+          <TR>
+            <TD>2017-10-09</TD>
+            <TD colspan="3"><em>Fall Recess</em></TD>
+          </TR>
+
+          <TR>
+
+            <TD>2017-10-10</TD>
 
             <TD>Process Environment, Process Control</TD>
 
             <TD>Stevens: Chapters 7, 8</TD>
 
             <TD width="25%">
-		<A href="lecture05.pdf">Lecture
+		<A href="lecture06.pdf">Lecture
             Slides</A><BR>
             &#160;<BR>
-            <a href="testcp.sh">testcp.sh</a><BR>
             <!-- <A href="const.c">const.c</A><BR> -->
             <A href="entry.c">entry.c</A><BR>
             <A href="exit-handlers.c">exit-handlers.c</A><BR>
@@ -408,26 +440,23 @@ simple shell</a></li> -->
             <A href="hw.c">hw.c</A><BR>
             <A href="memory-layout.c">memory-layout.c</A><BR>
             <A href="zombies.c">zombies.c</A>
-            <!-- <A href="setjmp1.c">setjmp1.c</A><BR>
+<!--
+            <A href="setjmp1.c">setjmp1.c</A><BR>
             <A href="setjmp2.c">setjmp2.c</A><BR>
-            <A href="setjmp3.c">setjmp3.c</A> --></TD>
-          </TR>
-
-
-          <TR>
-            <TD>2016-10-10</TD>
-            <TD colspan="3"><em>Fall Recess</em></TD>
+            <A href="setjmp3.c">setjmp3.c</A>
+-->
+	    </TD>
           </TR>
 
           <TR>
-            <TD>2015-10-11</TD>
 
+            <TD>2017-10-16</TD>
             <TD>Process Groups, Sessions, Signals</TD>
 
             <TD>Stevens: Chapter 9, 10</TD>
 
             <TD width="25%"><em>Note: Tuesday class</em><br><br>
-		<A href="lecture06.pdf">Lecture
+		<A href="lecture07.pdf">Lecture
             Slides</A><BR>
 		<a
 href="http://www.informit.com/articles/article.aspx?p=366888&seqNum=7">FreeBSD Process Management</a> (from "The Design and Implementation of the FreeBSD Operating System")<BR>
@@ -439,23 +468,14 @@ href="http://www.informit.com/articles/article.aspx?p=366888&seqNum=7">FreeBSD P
           </TR>
 
           <TR>
-            <TD>2016-10-17</TD>
-            <TD>Midterm Project Review / Final Project Discussion</TD>
-            <TD>&nbsp;</TD>
-            <TD><a href="midterm-final.pdf">Lecture slides</a><br>
-			<a href="f16-final-project.html">Final Project</a><br>
-			<a href="git.html">Notes on git</a></TD>
-          </TR>
+            <TD>2017-10-23</TD>
 
-          <TR>
-            <TD>2015-10-24</TD>
-
-            <TD>Interprocess Communication</TD>
+            <TD>Interprocess Communication I</TD>
 
             <TD>Stevens: Chapter 14</TD>
 
             <TD width="25%">
-		<a href="lecture07.pdf">Lecture Slides</A><BR>
+		<a href="lecture08.pdf">Lecture Slides</A><BR>
             <BR>
             <A href="ipctut.pdf">BSD IPC Tutorial</A><BR>
             <A href="ipc.pdf">BSD IPC</A><BR>
@@ -473,6 +493,22 @@ href="http://www.linuxdevcenter.com/pub/a/linux/2007/05/24/semaphores-in-linux.h
             <a href="memory-layout.c">memory-layout.c</a><br>
             <a href="msgsend.c">msgsend.c</a><br>
             <a href="msgrecv.c">msgrecv.c</a><br>
+            <a href="f17-hw3.html">"HW" #3</a>
+            </td>
+          </TR>
+
+          <TR>
+            <TD>2017-10-30</TD>
+
+            <TD>Interprocess Communication II</TD>
+            <TD>Stevens: Chapter 14</TD>
+
+            <TD width="25%">
+		<a href="lecture09.pdf">Lecture Slides</A><BR>
+            <BR>
+            <A href="ipctut.pdf">BSD IPC Tutorial</A><BR>
+            <A href="ipc.pdf">BSD IPC</A><BR>
+            <BR>
             <A href="socketpair.c">socketpair.c</A><BR>
             <A href="udgramread.c">udgramread.c</A><BR>
             <A href="udgramsend.c">udgramsend.c</A><BR>
@@ -481,58 +517,42 @@ href="http://www.linuxdevcenter.com/pub/a/linux/2007/05/24/semaphores-in-linux.h
             <A href="streamread.c">streamread.c</A><BR>
             <A href="streamwrite.c">streamwrite.c</A><BR>
             <A href="strchkread.c">strchkread.c</A><br>
-	    <a href="f16-hw3.html">HW#3 - sws milestone#1</a><br>
+	    <a href="f17-final-project.html">Final Project: write a web server</a><br>
 	    </TD>
           </TR>
 
           <TR>
-            <TD>2016-10-31</TD>
+            <TD>2017-11-06</TD>
 
-            <TD>Code Reading / HTTP Server Implementations</TD>
+            <TD>HTTP / Coding Practices</TD>
 
-            <TD><a href="http://www.eterna.com.au/bozohttpd/">bozohottpd</a><br>
+            <TD>
+		<a href="https://tools.ietf.org/html/rfc1945">RFC1945</a><br>
+		<a href="https://tools.ietf.org/html/rfc2616">RFC2616</a><br>
+		<a href="https://tools.ietf.org/html/rfc2818">RFC2818</a><br>
+		<a href="https://tools.ietf.org/html/rfc3875">RFC3875</a><br>
+		<a href="https://www.netmeister.org/blog/semper-ubi-sub-ubi.html">Things They Don't Teach You In School</a><br>
+		<a href="https://www.netmeister.org/blog/writing-tools.html">Writing Tools</a><br>
+		<a href="https://www.netmeister.org/blog/mktemp.html">Safely Creating And Using Temporary Files</a><br>
+		<!-- <a href="http://www.eterna.com.au/bozohttpd/">bozohottpd</a><br>
 		<a href="http://www.lighttpd.net/download/">lighttpd</a><br>
 		<a href="http://www.acme.com/software/mini_httpd/">mini_httpd</a><br>
 		<a href="http://www.nginx.org/en/download.html">nginx</a><br>
-		<a href="http://tinyhttpd.sourceforge.net/">tinyhttpd</a><br>
+		<a href="http://tinyhttpd.sourceforge.net/">tinyhttpd</a><br> -->
 		</TD>
 
-            <TD><a href="lecture11.pdf">Lecture Slides</a></TD>
+            <TD><a href="lecture10.pdf">Lecture Slides</a></TD>
 
           </TR>
 
           <TR>
-            <TD>2016-11-07</TD>
+            <TD>2017-11-13</TD>
 
-            <TD>UNIX tools: make(1), revision control, diff(1), patch(1), gdb(1)</TD>
-
-            <TD><A href=
-            "http://www.cvshome.org/docs/manual/cvs-1.11.6/cvs.html">
-            CVS Documentation</A>
-          <A href="http://sourceware.org/gdb/current/onlinedocs/gdb/">
-            Debugging with GDB</A><BR>
-            <A href=
-            "http://heather.cs.ucdavis.edu/~matloff/UnixAndC/CLanguage/Debug.html">
-            Guide to Faster, Less Frustrating Debugging</A><BR>
-            <A href=
-            "http://www.unknownroad.com/rtfm/gdbtut/gdbtoc.html">gdb
-            Tutorial</A><br>
-		<a href="http://git-scm.com/">Git</a></TD>
-            <TD><A href="lecture09.pdf">Lecture Slides</A><BR>
-            <BR>
-	    <A href="compilechain/">compile chain examples</a><br>
-	    <A href="make-examples/">make examples</a><br>
-	    <A href="gdb-examples/">gdb examples</a><br><br>
-          </TR>
-
-          <TR>
-            <TD>2016-11-14</TD>
-
-            <TD><a name="daemon"></a>D&aelig;mon Processes, Shared Libraries</TD>
+            <TD><a name="shlibs"></a>Shared Libraries</TD>
 
             <TD>Stevens: Chapter 13</TD>
 
-            <TD width="25%"><a href="lecture10.pdf">Lecture Slides</a><br>
+            <TD width="25%"><a href="lecture11.pdf">Lecture Slides</a><br>
 		<a
 href="http://jvns.ca/blog/2014/09/06/how-to-read-an-executable/">How to read an Executable</a><br>
 		<a href="elf.html">The Executable and Linkable Format (ELF)</a><br><br>
@@ -546,41 +566,49 @@ href="http://jvns.ca/blog/2014/09/06/how-to-read-an-executable/">How to read an 
 		<a href="ldtest2.c">ldtest2.c</a><br>
 		<a href="main.c">main.c</a><br>
 		<a href="setget.c">setget.c</a><br>
-	        <a href="f16-libgreet.html">libgreet exercise</a></td>
+	        <!-- <a href="f16-libgreet.html">libgreet exercise</a> --></td>
           </TR>
           <TR>
-            <TD>2016-11-21</TD>
+            <TD>2017-11-20</TD>
 
-            <TD>Advanced I/O: Nonblocking I/O, Polling, and Record
-            Locking / Encryption in a Nutshell</TD>
+            <TD>Daemon Processes, System Logging, Advanced I/O: Nonblocking I/O, Polling, and Record
+            Locking</TD>
 
             <TD>Stevens: Chapter 14</TD>
 
-            <TD width="25%"><A href="lecture11.pdf">Lecture
+            <TD width="25%"><A href="lecture12.pdf">Lecture
             Slides</A><BR>
             <BR>
             <A href="nonblock.c">nonblock.c</A><br>
             <A href="flock.c">flock.c</A><br><br>
-	    <a href="f16-hw4.html">HW4</a>
+	    <!-- <a href="f16-hw4.html">HW4</a> -->
 	</TD>
           </TR>
 
-
           <TR>
-            <TD>2016-11-28</TD>
-
-            <TD>Review</TD>
-
-            <TD>&nbsp;</TD>
-
-            <TD><A href="lecture12.pdf">Lecture Slides</a></TD>
+            <TD>2017-11-27</TD>
+            <TD>Encryption Basics, Defensive Coding</TD>
+            <TD><a href="http://tldp.org/LDP/LG/issue87/vinayak.html">Encryption using OpenSSL's crypto libraries</a><br><a href="https://docs-old.fedoraproject.org/en-US/Fedora_Security_Team/1/html/Defensive_Coding/index.html">Defensive Coding</a><br>
+		<a href="https://www.owasp.org/index.php/OWASP_Secure_Coding_Practices_Checklist">OWASP Secure Coding Practices Checklist</a><br>
+		<a
+href="https://www.netmeister.org/blog/mktemp.html">https://www.netmeister.org/blog/mktemp.html</a><br>
+		<a
+href="https://www.netmeister.org/blog/threat-model-101.html">Threat Model
+101</a></TD>
+            <TD><a href="lecture13.pdf">Lecture Slides</a><br>
+		<a href="const.c">const.c</a><br>
+		<a href="getpass.c">getpass.c</a><br>
+		<a href="prng.c">prng.c</a><br>
+		<a href="rand.c">rand.c</a></TD>
           </TR>
 
+
           <TR>
-            <TD>2016-12-05</TD>
-            <TD>TBD</TD>
+            <TD>2017-12-04</TD>
+            <TD>Review</TD>
             <TD>&nbsp;</TD>
-            <TD>TBD</TD>
+            <TD><a href="lecture14.pdf">Lecture Slides</a><br>
+		<a href="f17-crysh.html">Final assignment: crysh</a></TD>
           </TR>
 
         </TABLE>

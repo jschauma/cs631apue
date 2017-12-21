@@ -53,7 +53,7 @@ cleanup() {
 }
 
 submitOutput() {
-	mutt -n -s "${USER} completed ${NAME}"	\
+	mutt -s "${USER} completed ${NAME}"	\
 		-a "${SCRIPT_DIR}/${NAME}.1" 	\
 		-a "${SCRIPT_DIR}/${NAME}.2"	\
 		-a "${SCRIPT_DIR}/${NAME}.3"	\

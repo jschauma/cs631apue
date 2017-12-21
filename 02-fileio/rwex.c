@@ -49,3 +49,7 @@ main(int argc, char **argv) {
 	close(fd);
 	return EXIT_SUCCESS;
 }
+
+/* Just another comment. */
+
+/* Just another comment. */

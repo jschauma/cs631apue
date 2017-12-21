@@ -13,6 +13,9 @@
  * sudo chmod 4755 a.out
  * ./a.out /etc/sudoers
  *
+ * Note: after chowning, try to recompile.  Does
+ * your compiler overwrite a.out?  Why/why not?
+ *
  * Note: setuid is not restricted to setuid-0.  Try
  * with another user!
  *
@@ -36,6 +39,8 @@
 #include <string.h>
 #include <unistd.h>
 
+#define UNPRIVILEGED_UID 1
+
 int
 main(int argc, char **argv) {
 	uid_t ruid;
@@ -52,6 +57,24 @@ main(int argc, char **argv) {
 	euid = geteuid();
 
 	printf("Program start: uid %d, euid %d\n", getuid(), geteuid());
+
+	printf("We're privileged; let's set all UIDs to another account.\n");
+	if (seteuid(UNPRIVILEGED_UID) == -1) {
+		fprintf(stderr, "Unable to seteuid: %s\n", strerror(errno));
+		exit(EXIT_FAILURE);
+		/* NOTREACHED */
+	}
+	printf("After seteuid(%d): uid %d, euid %d\n", UNPRIVILEGED_UID, getuid(), geteuid());
+
+	printf("We're unprivileged, but with the help of the saved set-uid, we can regain root privs.\n");
+	if (setuid(euid) == -1) {
+		fprintf(stderr, "Unable to setuid: %s\n", strerror(errno));
+		exit(EXIT_FAILURE);
+		/* NOTREACHED */
+	}
+	printf("After setuid(%d): uid %d, euid %d\n", euid, getuid(), geteuid());
+
+
 
 	/* Immediately drop elevated privileges until
 	 * we actually need them. */
@@ -90,15 +113,15 @@ main(int argc, char **argv) {
 					argv[1], strerror(errno));
 	} else {
 		printf("Opening worked.\n");
-	}
 
-	/* Now we could do stuff with 'fd', if we were
-	 * so inclined.  We're not, though. */
-	(void)close(fd);
+		/* Now we could do stuff with 'fd', if we were
+		 * so inclined.  We're not, though. */
+		(void)close(fd);
+	}
 
 	printf("Alright, we're done using our elevated privileges.  Let's drop them permanently.\n");
 	if (setuid(ruid) == -1) {
-		fprintf(stderr, "Unable to seteuid: %s\n", strerror(errno));
+		fprintf(stderr, "Unable to setuid: %s\n", strerror(errno));
 		exit(EXIT_FAILURE);
 		/* NOTREACHED */
 	}
@@ -110,7 +133,7 @@ main(int argc, char **argv) {
 	/* Trying to gain elevated privileges again
 	 * should fail here, because setuid(2), called
 	 * above, is supposed to set the real and effective
-	 * uid as well as the saved set-user ID..
+	 * uid as well as the saved set-user ID.
 	 *
 	 * However, the results are platform dependent,
 	 * based on whether or not the euid at
@@ -131,6 +154,13 @@ main(int argc, char **argv) {
 	}
 
 	printf("After attempted seteuid(%d): uid %d, euid %d\n", euid, getuid(), geteuid());
+
+	if ((fd = open(argv[1], O_RDONLY)) == -1) {
+		fprintf(stderr, "Unable to open %s: %s\n",
+					argv[1], strerror(errno));
+	} else {
+		(void)close(fd);
+	}
 
 	exit(EXIT_SUCCESS);
 }

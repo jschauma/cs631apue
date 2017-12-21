@@ -873,6 +873,8 @@ Note:
 		\begin{itemize}
 			\item Stevens \# 3.4
 			\item Stevens \# 3.5 (bourne shell syntax ``$>\&$'')
+			\item Use {\tt openat(2)} to protect against TOCTOU issues.
+			\item Confirm that {\tt write(2)} clearing the setuid bit foils your evil attempts to root the system.
 		\end{itemize}
 	\item Coding:
 		\begin{itemize}

@@ -1,0 +1,75 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+<HEAD>
+
+  <TITLE>CS631 -- Advanced Programming in the UNIX Environment</TITLE>
+  <STYLE type="text/css">
+  body {
+  background-color: #FFFFFf;
+  }
+  </STYLE>
+  <STYLE type="text/css">
+  li.c1 {list-style: none}
+  </STYLE>
+
+</HEAD>
+
+<BODY>
+  <TABLE border="1" align="center" cellpadding="15">
+    <TR>
+      <TD valign="top">
+        <H2>CS631 -- Advanced Programming in the UNIX Environment - HW#3</H2>
+
+        <H3>HW#3: implement 'wcl2' (in-class)</H3>
+
+        <H4>Summary</H4>
+	<p>The objective of this assignment is for you apply the first
+	lessons of Interprocess Communication from class and to write a
+	tool that requires communication between two related processes
+	using the <tt>pipe(2)</tt> system call.
+	</p>
+	<h4>Problem assignment</h4>
+	<p>
+Write a tool '<tt>wcl2</tt>' that executes the given command
+with all the args and prints out the total count of
+all lines generated on each stdout and stderr by that
+command.</p>
+<p>
+For example:</p>
+<p><blockquote><pre>$ wcl2 date
+stdout: 1
+stderr: 0
+$ wcl2 ls -l
+stdout: 12
+stderr: 0
+$ wcl2 ls -l /nowhere
+stdout: 0
+stderr: 1
+$ wcl2 ls -l /nowhere .
+stdout: 13
+stderr: 1</pre></blockquote></p>
+
+<p>As usual, your program will be well formatted,
+properly commented (where necessary!), be able to be
+compiled without any warnings using the '-Wall
+-Werror' flags on a NetBSD 7.x system, not generate
+any diagnostic messages or superflous output, generate
+meaningful error messages to stderr, etc. etc.
+</p>
+
+
+	<h4>Deliverables and Due Date</h4>
+	<p>You will submit a single file named "$username-wcl2.c" (where "$username" is your Stevens username).</p>
+           <p>
+             The due date for this assignment is 2017-10-23 20:45:00 EDT.  Please
+             attach the file to an email sent from your <tt>@stevens.edu</tt>
+             email address to <a
+             href="mailto:jschauma@stevens.edu?subject=[CS631] HW3">jschauma@stevens.edu</a>
+             with a subject of "[CS631] HW3".
+           </p>
+
+        <hr>
+        [<a href="index.html">Course Website</a>]
+</BODY>
+</HTML>

@@ -1,0 +1,38 @@
+digraph "make" {
+	"ls" [ color="red"];
+	"cmp.o" -> "ls" [color="red"];
+	"ls.o" -> "ls" [color="red"];
+	"main.o" -> "ls" [color="red"];
+	"print.o" -> "ls" [color="red"];
+	"util.o" -> "ls" [color="red"];
+	"stat_flags.o" -> "ls"
+	"cmp.c" [ color="red" ];
+	"cmp.c" -> "cmp.o" [color="red"];
+	"cmp.o" [ color="red" ];
+	"ls.c" [ color="red" ];
+	"ls.c" -> "ls.o"
+	"ls.o" [ color="red" ];
+	"main.c" [ color="red" ];
+	"main.c" -> "main.o" [color="red"];
+	"main.o" [ color="red" ];
+	"print.c" [ color="red" ];
+	"print.c" -> "print.o" [color="red"];
+	"print.o" [ color="red" ];
+	"stat_flags.c" -> "stat_flags.o"
+	"util.c" [ color="red" ];
+	"util.c" -> "util.o" [color="red"];
+	"util.o" [ color="red" ];
+	"extern.h" -> "cmp.c"
+	"extern.h" -> "ls.c"
+	"extern.h" -> "main.c"
+	"extern.h" -> "print.c"
+	"extern.h" -> "stat_flags.c"
+	"extern.h" -> "util.c"
+	"ls.h" [ color="red" ];
+	"ls.h" -> "cmp.c" [ color="red" ];
+	"ls.h" -> "ls.c" [ color="red" ];
+	"ls.h" -> "main.c" [ color="red"];
+	"ls.h" -> "print.c" [ color="red"];
+	"ls.h" -> "util.c" [ color="red"];
+	"stat_flags.h" -> "stat_flags.c"
+}

@@ -58,8 +58,19 @@ Open your eyes! \\
 \vspace*{\fill}
 \Normalsize
 
+\subsection{About this class}
+The class is called ``Advanced Programming in the UNIX
+Environment''.\\
 
-\subsection{What is this about?}
+It is {\em not}:
+\begin{itemize}
+	\item an introduction to Unix
+	\item an introduction to programming
+	\item an introduction to C
+\end{itemize}
+
+
+\subsection{What is it?}
 \begin{center}
 \includegraphics[scale=0.6,angle=-90]{pics/kernighan-ritchie.eps} \\
 \verb+http://cm.bell-labs.com/who/dmr/chist.html+
@@ -77,10 +88,10 @@ cpio       echo       ln         ps         sh         test
 $
 \end{verbatim}
 
+
 See also:
 \begin{verbatim}
-$ ssh linux-lab.cs.stevens.edu
-$ cd ~jschauma/apue/src/
+https://www.cs.stevens.edu/~jschauma/631/#source-code
 \end{verbatim}
 
 \subsection{In a nutshell: the "what"}
@@ -179,19 +190,18 @@ $
 \end{verbatim}
 
 \subsection{In a nutshell: the "how"}
+\\
+
 \Hugesize
-\vspace*{\fill}
-\begin{center}
-Open your laptops!
-\end{center}
+Open your laptops! \\
+\small
+Ignore Facebook, Twitter, Email, Tinder, ... \\
+
+\Hugesize
+Now compile and run this program: \\
 \begin{verbatim}
-$ ssh linux-lab.cs.stevens.edu
-$ mkdir apue
-$ cp ~jschauma/apue/01/welcome.c apue/
+http://www.cs.stevens.edu/~jschauma/631/welcome.c
 \end{verbatim}
-\vspace{.5in}
-Now compile and run the program.
-\vspace*{\fill}
 \Normalsize
 
 \subsection{In a nutshell: the "how"}
@@ -249,7 +259,7 @@ Loaded symbols for /usr/libexec/ld.elf_so
 \begin{center}
 \includegraphics[scale=0.7,angle=-90]{pics/if-programming-languages-were-weapons.eps} \\
 \vspace{.5in}
-\verb+http://is.gd/6aidgb+ \\
+\verb+https://i.imgur.com/WnpMFjX.jpg+ \\
 \verb+https://i.imgur.com/ZyeCO.jpg+
 \end{center}
 
@@ -270,7 +280,7 @@ Help:
 
 Grading:
 \begin{itemize}
-	\item 5 homework assignments, worth 20 points each
+	\item 4 homework assignments, worth 25 points each
 	\item 1 midterm project, worth 100 points
 	\item 1 final project (group work), worth 200 points
 	\item 1 final programming assignment (individual), worth 100 points
@@ -280,20 +290,19 @@ Grading:
 \subsection{Syllabus}
 %Topics:
 \begin{itemize}
-	\item 08/31: Introduction, UNIX history, UNIX Programming Basics
-	\item 09/14: File I/O, File Sharing
-	\item 09/21: Files and Directories, Filesystems
-	\item 09/28: No Class
-	\item 10/05: System Data Files, Time \& Date, Process Environment
-	\item 10/13: Process Control, Signals
-	\item 10/19: Process Groups, Signals
-	\item 10/26: Interprocess Communication
-	\item 11/02: Advanced I/O: Nonblocking I/O, Polling, and Record Locking
-	\item 11/09: Daemon Processes, final project discussion
-	\item 11/16: UNIX tools: make(1), gdb(1), revision control, etc.
-	\item 11/23: Code reading and discussions
-	\item 11/20: Encryption
-	\item 12/07: Review
+	\item Introduction, UNIX history, UNIX Programming Basics
+	\item File I/O, File Sharing
+	\item Files and Directories
+	\item Filesystems, System Data Files, Time \& Date
+	\item UNIX tools: make(1), gdb(1), revision control, etc.
+	\item Process Environment, Process Control
+	\item Process Groups, Sessions, Signals
+	\item Interprocess Communication
+	\item Daemon Processes, shared libraries
+	\item Advanced I/O: Nonblocking I/O, Polling, and Record Locking
+	\item Encryption
+	\item Code reading, coding style, best practices
+	\item Review
 \end{itemize}
 
 \pagebreak
@@ -868,12 +877,8 @@ Caught SIGINT!
 			\item {\tt https://www.cs.stevens.edu/\~{}jschauma/631/}
 			\item {\tt http://pubs.opengroup.org/onlinepubs/9699919799/}
 		\end{itemize}
-%	\item get the full sources to NetBSD: \\
-%		{\tt ftp://ftp.netbsd.org/pub/NetBSD/NetBSD-5.1/source/sets/}
-	\item ensure you have an account on {\tt linux-lab.cs.stevens.edu}; see \\
-		{\tt https://www.cs.stevens.edu/\~{}jschauma/631/linux-lab.html}
+	\item ensure you have access to a NetBSD system
+		{\tt https://www.cs.stevens.edu/\~{}jschauma/631/netbsd.html}
 	\vspace{.5in}
-	\item {\tt http://www.cs.stevens.edu/\~{}jschauma/631/intro.html}
-	\item {\tt http://www.cs.stevens.edu/\~{}jschauma/631/f15-hw1.html}
 \end{itemize}
 \end{document}

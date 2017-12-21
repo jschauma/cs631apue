@@ -43,7 +43,7 @@
   \Hugesize
 	Code Reading
 	\hspace*{5mm}\blueline\\ [1em]
-	HW\#2
+	HW\#1
   \Normalsize
 \end{center}
 \vspace*{\fill}
@@ -137,20 +137,19 @@ Find out more in {\tt <sys/stat.h>}.
 Let's improve {\tt simple-ls.c}.
 
 \begin{verbatim}
-$ ssh linux-lab
-$ cc -Wall simple-ls.c
-$ ./a.out ~jschauma/apue/03/tmp
+$ cc -Wall -Werror simple-ls.c
+$ ./a.out ~/testdir
 .
 ..
-log
-đev
+empty
+large
 [...]
-$ cc -Wall simple-ls-stat.c
-$ ./a.out ~jschauma/apue/03/tmp
+$ cc -Wall -Werror simple-ls-stat.c
+$ ./a.out ~/testdir
 . (directory - directory)
 .. (directory - directory)
-log (socket - socket)
-dev (directory - symbolic link)
+empty (regular file - regular file)
+large (regular file - regular file)
 [...]
 \end{verbatim}
 
@@ -212,10 +211,6 @@ See also: {\tt getresuid(2)} (if {\tt \_GNU\_SOURCE})
 {\em when needed}.  Note: after using {\tt setuid(2)},
 you {\em cannot} regain elevated privileges.  This is
 by design!
-\\
-
-{\tt setuid.c}
-
 
 \subsection{{\tt access(2)}}
 \small
@@ -245,23 +240,15 @@ The {\tt mode} paramenter can be a bitwise OR of:
 	\item {\tt F\_OK} -- test for existence of file
 \end{itemize}
 
-\subsection{{\tt access(2)}}
+\subsection{{\tt setuid(2)/seteuid(2)} and {\tt access(2)}}
 \begin{verbatim}
-$ cc -Wall access.c
-$ ./a.out /etc/passwd
-access ok for /etc/passwd
-open ok for /etc/passwd
+$ cc -Wall -Werror setuid.c
 $ ./a.out /etc/master.passwd
-access error for /etc/master.passwd
-open error for /etc/master.passwd
+...
 $ sudo chown root a.out
 $ sudo chmod 4755 a.out
-$ ./a.out /etc/passwd
-access ok for /etc/passwd
-open ok for /etc/passwd
 $ ./a.out /etc/master.passwd
-access error for /etc/master.passwd
-open ok for /etc/master.passwd
+...
 $
 \end{verbatim}
 
@@ -643,21 +630,23 @@ $
 \end{verbatim}
 
 \subsection{Homework}
-Reading:
+On your own:
 \begin{itemize}
 	\item manual pages for the functions covered
 	\item Stevens Chap. 4.1 through 4.13
-\end{itemize}
-Playing:
-\begin{itemize}
 	\item in your shell, set your umask to various values and see what
           happens to new files you create (example: Stevens \# 4.3)
 	\item Verify that turning off user-read permission for a file that you own
 		denies you access to the file, even if group- or other permissions
 		allow reading.
 \end{itemize}
+To be submitted:
+\begin{itemize}
+	\item compare the source code for the {\tt stat(1)} command in NetBSD vs. that from GNU coreutils \\
+\verb+https://www.cs.stevens.edu/~jschauma/631/f17-hw2.html+
+\end{itemize}
 \addvspace{.5in}
 Midterm Assignment:
-\verb+https://www.cs.stevens.edu/~jschauma/631/f16-midterm.html+
+\verb+https://www.cs.stevens.edu/~jschauma/631/f17-midterm.html+
 
 \end{document}

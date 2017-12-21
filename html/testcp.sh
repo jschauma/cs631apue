@@ -56,8 +56,7 @@ checkCopyFailures() {
 	done
 
 	cp ${TEST_FILE} file
-	ln file file2
-	cmd="${CP} file file2"
+	cmd="${CP} file file"
 	TOTAL=$(( ${TOTAL} + 1 ))
 	runTest "${cmd}" 1
 	TOTAL=$(( ${TOTAL} + 1 ))
@@ -77,8 +76,8 @@ checkCopySuccesses() {
 
 	prepDir
 	ro_file_to_file="${TEST_FILE} file"
-	rw_file_to_file="${TMPDIR:-/tmp}/f file"
-	file_to_existing="${TEST_FILE} ${TMPDIR:-/tmp}/f"
+	rw_file_to_file="/tmp/f file"
+	file_to_existing="${TEST_FILE} /tmp/f"
 	abs_file_to_dir="${TEST_FILE} ."
 	rel_file_to_dir="g ./sub/dir/."
 	abs_file_to_subdir="${TEST_FILE} ./sub/dir/."
@@ -86,7 +85,7 @@ checkCopySuccesses() {
 	big="big file"
 
 	mkdir -p ./sub/dir
-	cp ${TEST_FILE} ${TMPDIR:-/tmp}/f
+	cp ${TEST_FILE} /tmp/f
 	cp ${TEST_FILE} ./g
 
 	cd ${DIR}
@@ -107,13 +106,6 @@ checkCopySuccesses() {
 			fi
 		fi
 	done
-
-	cp /etc/passwd existing
-	cmd="${CP} small existing"
-	runTest "${cmd}" 0
-	TOTAL=$(( ${TOTAL} + 1 ))
-	# must not truncate/modify existing file
-	compareFiles small existing
 }
 
 # purpose : verify program accepts the correct set of arguments
@@ -183,15 +175,12 @@ prepDir() {
 	touch zero
 
 	verbose "Creating a large file..." 4
-	if [ -f ${TMPDIR:-/tmp}/big ]; then
-		ln ${TMPDIR:-/tmp}/big big
+	if [ -f /tmp/big ]; then
+		ln /tmp/big big
 	else
-		dd if=/dev/zero of=${TMPDIR:-/tmp}/big bs=512k count=4000 >/dev/null 2>&1
-		ln ${TMPDIR:-/tmp}/big big
+		dd if=/dev/zero of=/tmp/big bs=512k count=4000 >/dev/null 2>&1
+		ln /tmp/big big
 	fi
-
-	verbose "Creating a small file..." 4
-	echo "moo" > small
 }
 
 # purpose : run the given command
