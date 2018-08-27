@@ -2,6 +2,7 @@
 #include <unistd.h>
 
 int
-main(int argc, char **argv) {
+main() {
 	printf("Welcome to CS631 Advanced Programming in the UNIX Environment, %s!\n", getlogin());
+	return 0;
 }

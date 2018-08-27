@@ -9,7 +9,7 @@
 #include <unistd.h>
 
 int
-main(int argc, char **argv) {
+main() {
 	int c;
 
 	while ((c = getc(stdin)) != EOF)

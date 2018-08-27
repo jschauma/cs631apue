@@ -10,7 +10,7 @@
 #define BUFFSIZE 32768
 
 int
-main(int argc, char **argv) {
+main() {
 	int n;
 	char buf[BUFFSIZE];
 

@@ -28,7 +28,7 @@ getinput(char *buffer, size_t buflen) {
 }
 
 int
-main(int argc, char **argv) {
+main() {
 	char buf[1024];
 	pid_t pid;
 	int status;

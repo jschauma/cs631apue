@@ -38,7 +38,8 @@ slides:	#example.knuth.eps example.knuth2.eps example.knuth3.eps
 	pngtopnm $< | pnmtops > $@
 
 .jpg.eps:
-	jpegtopnm $< | pnmtops > $@
+	convert $< $@
+	#jpegtopnm $< | pnmtops > $@
 
 .gif.eps:
 	giftopnm $< | pnmtops > $@

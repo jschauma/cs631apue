@@ -1,6 +1,5 @@
 % CS765A Advanced Programming in the UNIX Environment
 % Author: Jan Schaumann <jschauma@netmeister.org>
-% $Id: slides.tex,v 1.6 2005/08/30 21:43:10 jschauma Exp $
 %\special{! TeXDict begin /landplus90{true}store end }
 
 \documentclass[sxga]{xdvislides}
@@ -32,7 +31,7 @@
 		Stevens Institute of Technology\\
 		Jan Schaumann\\
 		\verb+jschauma@stevens.edu+\\
-		\verb+http://www.cs.stevens.edu/~jschauma/631/+
+		\verb+https://www.cs.stevens.edu/~jschauma/631/+
 \end{center}
 \vspace*{\fill}
 
@@ -58,6 +57,19 @@ Open your eyes! \\
 \vspace*{\fill}
 \Normalsize
 
+\newpage
+\vspace*{\fill}
+\begin{center}
+    \Hugesize
+        So far, so good...\\ [1em]
+    \hspace*{5mm}
+    \blueline\\
+    \hspace*{5mm}\\
+	What questions do you have?
+\end{center}
+\vspace*{\fill}
+
+
 \subsection{About this class}
 The class is called ``Advanced Programming in the UNIX
 Environment''.\\
@@ -72,8 +84,8 @@ It is {\em not}:
 
 \subsection{What is it?}
 \begin{center}
-\includegraphics[scale=0.6,angle=-90]{pics/kernighan-ritchie.eps} \\
-\verb+http://cm.bell-labs.com/who/dmr/chist.html+
+\includegraphics[scale=8.0]{pics/kernighan-ritchie.eps} \\
+\verb+https://www.bell-labs.com/usr/dmr/www/chist.html+
 \end{center}
 
 \subsection{In a nutshell: the "what"}
@@ -182,12 +194,37 @@ The "why":
 \subsection{In a nutshell: the "how"}
 \begin{verbatim}
 $ $EDITOR cmd.c
-$ cc -Wall -g -o cmd cmd.c
+\end{verbatim}
+
+\subsection{Writing code}
+Writing code is {\em communication}. \\
+
+Make sure your code is
+\begin{itemize}
+	\item clearly structured
+	\item well-formatted
+	\item uses a consistent coding style (indentation, placement of braces, etc.)
+	\item variables, functions etc. are sensibly named
+	\item comments are used only when necessary, explaining the {\em why}, not the {\em what}
+\end{itemize}
+\addvspace{.5in}
+
+See {\tt https://www.cs.stevens.edu/~jschauma/631/style}.
+
+\subsection{In a nutshell: the "how"}
+\begin{verbatim}
+$ $EDITOR cmd.c
+$ export CFLAGS="-ansi -g -Wall -Werror -Wextra -Wformat=2 -Wjump-misses-init \
+                 -Wlogical-op -Wpedantic -Wshadow"
+$ cc $CFLAGS -g -o cmd cmd.c
 $ ./cmd
 $ echo "Hooray!"
 Hooray!
 $
 \end{verbatim}
+\addvspace{.5in}
+
+{\tt https://kristerw.blogspot.com/2017/09/useful-gcc-warning-options-not-enabled.html}
 
 \subsection{In a nutshell: the "how"}
 \\
@@ -200,14 +237,13 @@ Ignore Facebook, Twitter, Email, Tinder, ... \\
 \Hugesize
 Now compile and run this program: \\
 \begin{verbatim}
-http://www.cs.stevens.edu/~jschauma/631/welcome.c
+https://www.cs.stevens.edu/~jschauma/631/welcome.c
 \end{verbatim}
 \Normalsize
 
 \subsection{In a nutshell: the "how"}
 \begin{verbatim}
-$ $EDITOR cmd.c
-$ cc -Wall -g -o cmd cmd.c
+$ cc $CFLAGS -g -o cmd welcome.c
 $ ./cmd
 $ echo "Hooray!"
 Hooray!
@@ -216,8 +252,8 @@ $
 
 \subsection{In a nutshell: the "how"}
 \begin{verbatim}
-$ $EDITOR cmd.c
-$ cc -Wall -g -o cmd cmd.c
+$ $EDITOR welcome.c
+$ cc $CFLAGS -g -o cmd welcome.c
 cmd.c: In function `main':
 cmd.c:19: error: parse error before "return"
 $
@@ -225,12 +261,12 @@ $
 
 \subsection{In a nutshell: the "how"}
 \begin{verbatim}
-$ $EDITOR cmd.c
-$ cc -Wall -g -o cmd cmd.c
+$ $EDITOR welcome.c
+$ cc -Wall -g -o cmd welcome.c
 cmd.c: In function `main':
 cmd.c:19: error: parse error before "return"
-$ $EDITOR cmd.c
-$ cc -Wall -g -o cmd cmd.c
+$ $EDITOR welcome.c
+$ cc -Wall -g -o cmd welcome.c
 $ ./cmd
 Memory fault (core dumped)
 $
@@ -238,12 +274,12 @@ $
 
 \subsection{In a nutshell: the "how"}
 \begin{verbatim}
-$ $EDITOR cmd.c
-$ cc -Wall -g -o cmd cmd.c
+$ $EDITOR welcome.c
+$ cc -Wall -g -o cmd welcome.c
 cmd.c: In function `main':
 cmd.c:19: error: parse error before "return"
-$ $EDITOR cmd.c
-$ cc -Wall -g -o cmd cmd.c
+$ $EDITOR welcome.c
+$ cc -Wall -g -o cmd welcome.c
 $ ./cmd
 Memory fault (core dumped)
 $ echo "!@#!@!!!??#@!"
@@ -270,22 +306,41 @@ Textbook:
 		W. Richard Stevens, Stephen A. Rago (3rd Edition)
 \end{itemize}
 \addvspace{.25in}
-Help:
-\begin{itemize}
-	\item \verb+http://lists.stevens.edu/cgi-bin/mailman/listinfo/cs631apue+
-	\item IRC: \verb+#cs631apue+ on Freenode
-	\item \verb+https://twitter.com/#!/cs631apue+
-\end{itemize}
-\addvspace{.25in}
 
 Grading:
 \begin{itemize}
-	\item 4 homework assignments, worth 25 points each
+	\item course participation, course notes: 50 points
+	\item 2 homework assignments, worth 25 points each
 	\item 1 midterm project, worth 100 points
 	\item 1 final project (group work), worth 200 points
 	\item 1 final programming assignment (individual), worth 100 points
-	\item no curve
+	\item {\em no curve}
+	\item {\em no late submissions}
+	\item {\em no extra credit}
+	\item {\em no make-up assignments}
 \end{itemize}
+
+\subsection{Course Notes}
+\begin{itemize}
+	\item create a git repository with a single text file for each lecture
+	\item before each lecture, note:
+		\begin{itemize}
+			\item what you read
+			\item what questions you have
+		\end{itemize}
+	\item after each lecture:
+		\begin{itemize}
+			\item answers you've found, or especially interesting new things you learned
+			\item what questions remain
+			\item what new questions arose
+			\item what additional reading might be relevant
+		\end{itemize}
+	\item follow up on unanswered questions in class or on the mailing list
+	\item at the end of the semester, submit all your notes
+\end{itemize}
+
+\verb+https://www.cs.stevens.edu/~jschauma/631/course-notes.html+
+
 
 \subsection{Syllabus}
 %Topics:
@@ -305,7 +360,32 @@ Grading:
 	\item Review
 \end{itemize}
 
+\newpage
+\vspace*{\fill}
+\begin{center}
+    \Hugesize
+        So far, so good...\\ [1em]
+    \hspace*{5mm}
+    \blueline\\
+    \hspace*{5mm}\\
+	What questions do you have?
+\end{center}
+\vspace*{\fill}
+
+\newpage
+\vspace*{\fill}
+\begin{center}
+    \Hugesize
+        Hooray! \\ [1em]
+    \hspace*{5mm}
+    \blueline\\
+    \hspace*{5mm}\\
+        5 Minute Break
+\end{center}
+\vspace*{\fill}
+
 \pagebreak
+
 
 \vspace*{\fill}
 \begin{center}
@@ -388,7 +468,7 @@ More UNIX (some generic, some trademark, some just unix-like):
 \vspace*{\fill}
 \begin{center}
 \begin{verbatim}
-unix.png  : http://www.levenez.com/unix/
+unix.png  : https://www.levenez.com/unix/
 linux.png : http://futurist.se/gldt/
 \end{verbatim}
 \end{center}
@@ -489,10 +569,10 @@ navigation system, thermostat, door lock, etc. all run a Unix-like OS... \\
 What is the longest word found on the ten most
 frequently retrieved English Wikipedia pages?
 \begin{verbatim}
-for f in $(curl -L http://is.gd/c6F2fs | zgrep -i "^en " |
+for f in $(curl -L https://is.gd/c6F2fs | zgrep -i "^en " |
         sort -k3 -n | tail -10 |
         sed -e 's/en \(.*\) [0-9]* [0-9]*/\1/'); do
-        links -dump http://en.wikipedia.org/wiki/${f}
+        links -dump https://en.wikipedia.org/wiki/${f}
 done |
 tr '[:punct:]' ' ' |
 tr '[:space:]' '\n' |
@@ -509,7 +589,7 @@ tail -1
 Say "Thank you, Douglas McIlroy!"
 \begin{center}
 \includegraphics[scale=0.65,angle=-90]{pics/pipeline.eps} \\
-\verb+http://is.gd/vGHO9J+ \\
+\verb+https://is.gd/vGHO9J+ \\
 \end{center}
 
 
@@ -541,17 +621,14 @@ UNIX programs...
 \small
 \begin{verbatim}
 [...]
-total memory = 768 MB
-avail memory = 732 MB
+total memory = 1023 MB
+avail memory = 971 MB
 timecounter: Timecounters tick every 10.000 msec
 mainbus0 (root)
 [...]
-boot device: xbd3
-root on xbd3a dumps on xbd3b
-mountroot: trying lfs...
-mountroot: trying ffs...
+boot device: wd0
+root on wd0a dumps on wd0b
 root file system type: ffs
-init: copying out path `/sbin/init' 11
 [...]
 Starting local daemons:.
 Starting sendmail.
@@ -559,9 +636,9 @@ Starting sshd.
 Starting snmpd.
 Starting cron.
 
-NetBSD/amd64 (panix.netmeister.org) (console)
+NetBSD/amd64 (apue) (console)
 
-login:
+login: jschauma
 \end{verbatim}
 \Normalsize
 
@@ -569,17 +646,14 @@ login:
 \small
 \begin{verbatim}
 [...]
-total memory = 768 MB
-avail memory = 732 MB
+total memory = 1023 MB
+avail memory = 971 MB
 timecounter: Timecounters tick every 10.000 msec
 mainbus0 (root)
 [...]
-boot device: xbd3
-root on xbd3a dumps on xbd3b
-mountroot: trying lfs...
-mountroot: trying ffs...
+boot device: wd0
+root on wd0a dumps on wd0b
 root file system type: ffs
-init: copying out path `/sbin/init' 11
 [...]
 Starting local daemons:.
 Starting sendmail.
@@ -587,7 +661,7 @@ Starting sshd.
 Starting snmpd.
 Starting cron.
 
-NetBSD/amd64 (panix.netmeister.org) (console)
+NetBSD/amd64 (apue) (console)
 
 login: jschauma
 Password:
@@ -599,17 +673,14 @@ Password:
 \small
 \begin{verbatim}
 [...]
-total memory = 768 MB
-avail memory = 732 MB
+total memory = 1023 MB
+avail memory = 971 MB
 timecounter: Timecounters tick every 10.000 msec
 mainbus0 (root)
 [...]
-boot device: xbd3
-root on xbd3a dumps on xbd3b
-mountroot: trying lfs...
-mountroot: trying ffs...
+boot device: wd0
+root on wd0a dumps on wd0b
 root file system type: ffs
-init: copying out path `/sbin/init' 11
 [...]
 Starting local daemons:.
 Starting sendmail.
@@ -617,26 +688,23 @@ Starting sshd.
 Starting snmpd.
 Starting cron.
 
-NetBSD/amd64 (panix.netmeister.org) (console)
+NetBSD/amd64 (apue) (console)
 
 login: jschauma
 Password:
-Last login: Sat Sep 10 14:27:56 2011 on console
-Copyright (c) 1982, 1986, 1989, 1991, 1993
-    The Regents of the University of California.  All rights reserved.
-
-NetBSD 5.0.2 (PANIX-VC) #2: Tue Oct 19 16:30:57 EDT 2010
+Last login: Mon Aug 27 01:57:11 2018 from 10.0.2.2
+NetBSD 8.0 (GENERIC) #0: Tue Jul 17 14:59:51 UTC 2018
 
 Welcome to NetBSD!
 
-$
+apue$
 \end{verbatim}
 \Normalsize
 
 \subsection{Soooo... what exactly is a "shell"?}
 \vspace*{\fill}
 \begin{verbatim}
-$ wget http://www.cs.stevens.edu/~jschauma/631/simple-shell.c
+$ wget https://www.cs.stevens.edu/~jschauma/631/simple-shell.c
 $ more simple-shell.c
 $ cc -Wall -o mysh simple-shell.c
 $ ./mysh
@@ -685,7 +753,7 @@ $
 \subsection{Listing files in a directory}
 \vspace*{\fill}
 \begin{verbatim}
-$ wget http://www.cs.stevens.edu/~jschauma/631/simple-ls.c
+$ wget https://www.cs.stevens.edu/~jschauma/631/simple-ls.c
 $ more simple-ls.c
 $ cc -Wall -o myls simple-ls.c
 $ ./myls .
@@ -754,8 +822,8 @@ $ time grep -r _POSIX_SOURCE /usr/include >/dev/null
 \end{itemize}
 \vspace*{\fill}
 \begin{verbatim}
-$ wget http://www.cs.stevens.edu/~jschauma/631/simple-cat.c
-$ wget http://www.cs.stevens.edu/~jschauma/631/simple-cat2.c
+$ wget https://www.cs.stevens.edu/~jschauma/631/simple-cat.c
+$ wget https://www.cs.stevens.edu/~jschauma/631/simple-cat2.c
 $ diff -bu simple-cat*.c
 [...]
 $
@@ -776,7 +844,7 @@ Programs executing in memory are called {\em processes}.
 \end{itemize}
 \vspace*{\fill}
 \begin{verbatim}
-$ wget http://www.cs.stevens.edu/~jschauma/631/pid.c
+$ wget https://www.cs.stevens.edu/~jschauma/631/pid.c
 $ more pid.c
 $ cc -Wall -o mypid pid.c
 $ ./mypid .
@@ -790,7 +858,7 @@ $ echo $$
 \vspace*{\fill}
 \Huge
 \begin{center}
-	{\tt \$ pstree -hapun | more}
+	{\tt \$ pstree | more}
 \end{center}
 \Normalsize
 \vspace*{\fill}
@@ -801,17 +869,14 @@ $ echo $$
 \small
 \begin{verbatim}
 [...]
-total memory = 768 MB
-avail memory = 732 MB
+total memory = 1023 MB
+avail memory = 971 MB
 timecounter: Timecounters tick every 10.000 msec
 mainbus0 (root)
 [...]
-boot device: xbd3
-root on xbd3a dumps on xbd3b
-mountroot: trying lfs...
-mountroot: trying ffs...
+boot device: wd0
+root on wd0a dumps on wd0b
 root file system type: ffs
-init: copying out path `/sbin/init' 11
 [...]
 Starting local daemons:.
 Starting sendmail.
@@ -819,19 +884,16 @@ Starting sshd.
 Starting snmpd.
 Starting cron.
 
-NetBSD/amd64 (panix.netmeister.org) (console)
+NetBSD/amd64 (apue) (console)
 
 login: jschauma
 Password:
-Last login: Sat Sep 10 14:27:56 2011 on console
-Copyright (c) 1982, 1986, 1989, 1991, 1993
-    The Regents of the University of California.  All rights reserved.
-
-NetBSD 5.0.2 (PANIX-VC) #2: Tue Oct 19 16:30:57 EDT 2010
+Last login: Mon Aug 27 01:57:11 2018 from 10.0.2.2
+NetBSD 8.0 (GENERIC) #0: Tue Jul 17 14:59:51 UTC 2018
 
 Welcome to NetBSD!
 
-$
+apue$
 \end{verbatim}
 \Normalsize
 
@@ -839,7 +901,7 @@ $
 
 \subsection{Processes}
 \begin{center}
-\includegraphics[scale=0.75]{pics/process-tree.eps} \\
+\includegraphics[scale=0.7]{pics/process-tree.eps} \\
 \end{center}
 
 \subsection{Signals}
@@ -855,7 +917,7 @@ $
 \vspace*{\fill}
 \begin{center}
 \begin{verbatim}
-$ wget http://www.cs.stevens.edu/~jschauma/631/simple-shell2.c
+$ wget https://www.cs.stevens.edu/~jschauma/631/simple-shell2.c
 $ more simple-shell2.c
 $ cc -Wall -o mysh simple-shell2.c
 $ ./mysh
@@ -867,18 +929,69 @@ Caught SIGINT!
 \end{center}
 \vspace*{\fill}
 
-\subsection{Homework}
+\subsection{Code requirements}
+For {\em all} code assignments, create a plain ASCII file
+named {\tt checklist}.  In it, answer the following
+questions:
 \begin{itemize}
+	\item Does my code follow the style guide?
+	\item Does my code compile without warnings or errors on a NetBSD 8.x system?
+	\item Did I provide a {\tt Makefile}?
+	\item Did I provide a {\tt README} to explain any problems or issues I encountered?
+	\item Did I check the return value of all function calls?
+	\item Did I send error messages to {\tt stderr}?
+	\item Did I use only {\em meaningful} and {\em necessary} comments?
+	\item Does my program return zero on success, non-zero otherwise?
+	\item Did I make sure that my {\tt .h} files only include function forward declarations, macros, etc.?
+\end{itemize}
+
+{\tt https://www.cs.stevens.edu/\~{}jschauma/631/checklist}
+
+\subsection{Homework}
+Before every lecture:
+\begin{itemize}
+	\item re-read the previous week's slides and notes
+	\item follow up with questions on the course mailing list or in class
+	\item prepare for class by reading the assigned chapters and slides
+	\item come to class prepared with questions
+	\item update your class notes
+\end{itemize}
+\addvspace{.5in}
+
+After every lecture:
+\begin{itemize}
+	\item run all examples from the lecture
+	\item update your class notes
+\end{itemize}
+
+\subsection{Homework}
+This week:
+\begin{itemize}
+	\item set up your class notes
 	\item read {\tt intro(2)}, Stevens 1 \& 2
-	\item follow, test and understand all examples from this lecture
-	\item ask questions on the course mailing list and IRC channel
 	\item bookmark these websites:
 		\begin{itemize}
 			\item {\tt https://www.cs.stevens.edu/\~{}jschauma/631/}
 			\item {\tt http://pubs.opengroup.org/onlinepubs/9699919799/}
 		\end{itemize}
+	\item ensure you are subscribed to the class mailing list: \\
+		{\tt https://lists.stevens.edu/cgi-bin/mailman/listinfo/cs631apue}
 	\item ensure you have access to a NetBSD system
 		{\tt https://www.cs.stevens.edu/\~{}jschauma/631/netbsd.html}
 	\vspace{.5in}
 \end{itemize}
+
+\newpage
+\vspace*{\fill}
+\begin{center}
+    \Hugesize
+        So far, so good...\\ [1em]
+    \hspace*{5mm}
+    \blueline\\
+    \hspace*{5mm}\\
+	What questions do you have?
+\end{center}
+\vspace*{\fill}
+
+
 \end{document}
