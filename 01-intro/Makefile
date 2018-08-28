@@ -9,7 +9,7 @@ DVIPS	=	dvips -o
 PS2PDF	=	ps2pdf
 PDFTOTEXT=	pdftotext
 
-FIGURES=	pics/if-programming-languages-were-weapons.eps \
+FIGURES=	pics/c-programming.eps \
 		pics/kernighan-ritchie.eps pics/unix_architecture.eps \
 		pics/pipeline.eps pics/process-tree.eps \
 		pics/epoch-fail.eps

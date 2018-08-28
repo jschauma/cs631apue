@@ -74,11 +74,11 @@ Open your eyes! \\
 The class is called ``Advanced Programming in the UNIX
 Environment''.\\
 
-It is {\em not}:
+It is {\em not} called:
 \begin{itemize}
-	\item an introduction to Unix
-	\item an introduction to programming
-	\item an introduction to C
+	\item ``An Introduction to Unix''
+	\item ``An Introduction to Programming''
+	\item ``An introduction to C''
 \end{itemize}
 
 
@@ -99,7 +99,7 @@ cp         domainname ksh        pax        rmdir      tar
 cpio       echo       ln         ps         sh         test
 $
 \end{verbatim}
-
+\addvspace{.5in}
 
 See also:
 \begin{verbatim}
@@ -209,22 +209,7 @@ Make sure your code is
 \end{itemize}
 \addvspace{.5in}
 
-See {\tt https://www.cs.stevens.edu/~jschauma/631/style}.
-
-\subsection{In a nutshell: the "how"}
-\begin{verbatim}
-$ $EDITOR cmd.c
-$ export CFLAGS="-ansi -g -Wall -Werror -Wextra -Wformat=2 -Wjump-misses-init \
-                 -Wlogical-op -Wpedantic -Wshadow"
-$ cc $CFLAGS -g -o cmd cmd.c
-$ ./cmd
-$ echo "Hooray!"
-Hooray!
-$
-\end{verbatim}
-\addvspace{.5in}
-
-{\tt https://kristerw.blogspot.com/2017/09/useful-gcc-warning-options-not-enabled.html}
+See {\tt https://www.cs.stevens.edu/\~{}jschauma/631/style}.
 
 \subsection{In a nutshell: the "how"}
 \\
@@ -233,18 +218,16 @@ $
 Open your laptops! \\
 \small
 Ignore Facebook, Twitter, Email, Tinder, ... \\
+\vspace{.25in}
 
 \Hugesize
 Now compile and run this program: \\
-\begin{verbatim}
-https://www.cs.stevens.edu/~jschauma/631/welcome.c
-\end{verbatim}
 \Normalsize
 
-\subsection{In a nutshell: the "how"}
 \begin{verbatim}
-$ cc $CFLAGS -g -o cmd welcome.c
-$ ./cmd
+$ ftp https://www.cs.stevens.edu/~jschauma/631/welcome.c
+$ cc welcome.c
+$ ./a.out
 $ echo "Hooray!"
 Hooray!
 $
@@ -253,51 +236,69 @@ $
 \subsection{In a nutshell: the "how"}
 \begin{verbatim}
 $ $EDITOR welcome.c
-$ cc $CFLAGS -g -o cmd welcome.c
-cmd.c: In function `main':
-cmd.c:19: error: parse error before "return"
+$ cc welcome.c
+welcome.c: In function 'main':
+welcome.c:5:81: warning: implicit declaration of function 'getlogin' [-Wimplicit-function-declaration]
+  printf("Welcome to CS631 Advanced Programming in the UNIX Environment, %s!\n", getlogin())
+                                                                                 ^
+welcome.c:6:1: error: expected ';' before '}' token
+ }
+ ^
 $
 \end{verbatim}
 
 \subsection{In a nutshell: the "how"}
 \begin{verbatim}
 $ $EDITOR welcome.c
-$ cc -Wall -g -o cmd welcome.c
-cmd.c: In function `main':
-cmd.c:19: error: parse error before "return"
-$ $EDITOR welcome.c
-$ cc -Wall -g -o cmd welcome.c
-$ ./cmd
+$ cc welcome.c
+welcome.c: In function 'main':
+welcome.c:5:81: warning: implicit declaration of function 'getlogin' [-Wimplicit-function-declaration]
+  printf("Welcome to CS631 Advanced Programming in the UNIX Environment, %s!\n", getlogin())
+$ ./a.out
 Memory fault (core dumped)
 $
-\end{verbatim}
-
-\subsection{In a nutshell: the "how"}
-\begin{verbatim}
-$ $EDITOR welcome.c
-$ cc -Wall -g -o cmd welcome.c
-cmd.c: In function `main':
-cmd.c:19: error: parse error before "return"
-$ $EDITOR welcome.c
-$ cc -Wall -g -o cmd welcome.c
-$ ./cmd
-Memory fault (core dumped)
-$ echo "!@#!@!!!??#@!"
-!@#!@!!!??#@!
-$ gdb ./cmd cmd.core
-Program terminated with signal 11, Segmentation fault.
-Loaded symbols for /usr/libexec/ld.elf_so
-#0  0xbbbc676a in __findenv () from /usr/lib/libc.so.12
-(gdb)
 \end{verbatim}
 
 \subsection{Programming}
 \begin{center}
-\includegraphics[scale=0.7,angle=-90]{pics/if-programming-languages-were-weapons.eps} \\
+\includegraphics[scale=0.7]{pics/c-programming.eps} \\
 \vspace{.5in}
 \verb+https://i.imgur.com/WnpMFjX.jpg+ \\
 \verb+https://i.imgur.com/ZyeCO.jpg+
 \end{center}
+
+\subsection{In a nutshell: the "how"}
+{\tt https://kristerw.blogspot.com/2017/09/useful-gcc-warning-options-not-enabled.html}
+
+\small
+\begin{verbatim}
+$ export CFLAGS="-ansi -g -Wall -Werror -Wextra -Wformat=2 -Wjump-misses-init \
+                 -Wlogical-op -Wpedantic -Wshadow"
+$ cc $CFLAGS welcome.c
+welcome.c: In function 'main':
+welcome.c:5:81: error: implicit declaration of function 'getlogin' [-Werror=implicit-function-declaration]
+  printf("Welcome to CS631 Advanced Programming in the UNIX Environment, %s!\n", getlogin());
+                                                                                 ^
+welcome.c:5:9: error: format '%s' expects argument of type 'char *', but argument 2 has type 'int' [-Werror=format=]
+  printf("Welcome to CS631 Advanced Programming in the UNIX Environment, %s!\n", getlogin());
+         ^
+welcome.c:5:9: error: format '%s' expects argument of type 'char *', but argument 2 has type 'int' [-Werror=format=]
+welcome.c:4:10: error: unused parameter 'argc' [-Werror=unused-parameter]
+ main(int argc, char **argv) {
+          ^
+welcome.c:4:23: error: unused parameter 'argv' [-Werror=unused-parameter]
+ main(int argc, char **argv) {
+                       ^
+welcome.c:6:1: error: control reaches end of non-void function [-Werror=return-type]
+ }
+ ^
+cc1: all warnings being treated as errors
+$ $EDITOR welcome.c
+$ cc $CFLAGS welcome.c
+$ ./a.out
+Welcome to CS631 Advanced Programming in the UNIX Environment, jschauma!
+\end{verbatim}
+\Normalsize
 
 \subsection{About this class}
 Textbook:
@@ -704,9 +705,9 @@ apue$
 \subsection{Soooo... what exactly is a "shell"?}
 \vspace*{\fill}
 \begin{verbatim}
-$ wget https://www.cs.stevens.edu/~jschauma/631/simple-shell.c
+$ ftp https://www.cs.stevens.edu/~jschauma/631/simple-shell.c
 $ more simple-shell.c
-$ cc -Wall -o mysh simple-shell.c
+$ cc $CFLAGS -o mysh simple-shell.c
 $ ./mysh
 $$ /bin/ls
 [...]
@@ -753,9 +754,9 @@ $
 \subsection{Listing files in a directory}
 \vspace*{\fill}
 \begin{verbatim}
-$ wget https://www.cs.stevens.edu/~jschauma/631/simple-ls.c
+$ ftp https://www.cs.stevens.edu/~jschauma/631/simple-ls.c
 $ more simple-ls.c
-$ cc -Wall -o myls simple-ls.c
+$ cc $CFLAGS -o myls simple-ls.c
 $ ./myls .
 [...]
 $
@@ -822,8 +823,8 @@ $ time grep -r _POSIX_SOURCE /usr/include >/dev/null
 \end{itemize}
 \vspace*{\fill}
 \begin{verbatim}
-$ wget https://www.cs.stevens.edu/~jschauma/631/simple-cat.c
-$ wget https://www.cs.stevens.edu/~jschauma/631/simple-cat2.c
+$ ftp https://www.cs.stevens.edu/~jschauma/631/simple-cat.c
+$ ftp https://www.cs.stevens.edu/~jschauma/631/simple-cat2.c
 $ diff -bu simple-cat*.c
 [...]
 $
@@ -844,9 +845,9 @@ Programs executing in memory are called {\em processes}.
 \end{itemize}
 \vspace*{\fill}
 \begin{verbatim}
-$ wget https://www.cs.stevens.edu/~jschauma/631/pid.c
+$ ftp https://www.cs.stevens.edu/~jschauma/631/pid.c
 $ more pid.c
-$ cc -Wall -o mypid pid.c
+$ cc $CFLAGS -o mypid pid.c
 $ ./mypid .
 [...]
 $ echo $$
@@ -917,9 +918,9 @@ apue$
 \vspace*{\fill}
 \begin{center}
 \begin{verbatim}
-$ wget https://www.cs.stevens.edu/~jschauma/631/simple-shell2.c
+$ ftp https://www.cs.stevens.edu/~jschauma/631/simple-shell2.c
 $ more simple-shell2.c
-$ cc -Wall -o mysh simple-shell2.c
+$ cc $CFLAGS -o mysh simple-shell2.c
 $ ./mysh
 $$ /bin/ls
 [...]
@@ -934,10 +935,10 @@ For {\em all} code assignments, create a plain ASCII file
 named {\tt checklist}.  In it, answer the following
 questions:
 \begin{itemize}
+	\item Did I write all the code myself?
 	\item Does my code follow the style guide?
 	\item Does my code compile without warnings or errors on a NetBSD 8.x system?
-	\item Did I provide a {\tt Makefile}?
-	\item Did I provide a {\tt README} to explain any problems or issues I encountered?
+	\item Did I provide a {\tt Makefile} and a {\tt README} to explain any problems or issues I encountered?
 	\item Did I check the return value of all function calls?
 	\item Did I send error messages to {\tt stderr}?
 	\item Did I use only {\em meaningful} and {\em necessary} comments?
@@ -985,7 +986,7 @@ This week:
 \vspace*{\fill}
 \begin{center}
     \Hugesize
-        So far, so good...\\ [1em]
+        Just one more thing...\\ [1em]
     \hspace*{5mm}
     \blueline\\
     \hspace*{5mm}\\
