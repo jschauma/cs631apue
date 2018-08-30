@@ -1,4 +1,4 @@
-.Dd October 22, 2012
+.Dd December 19, 2012
 .Dt SWS 1
 .Os
 .Sh NAME
@@ -11,7 +11,6 @@
 .Op Fl i Ar address
 .Op Fl l Ar file
 .Op Fl p Ar port
-.Op Fl s Ar dir Fl k Ar key
 .Ar dir
 .Sh DESCRIPTION
 .Nm
@@ -25,10 +24,9 @@ That is, any requests for documents is resolved relative to this directory
 .Sh OPTIONS
 The following options are supported by
 .Nm :
-.Bl -tag -width s_dir__k_key_
+.Bl -tag -width i_address__
 .It Fl c Ar dir
-Allow execution of CGIs from the given directory (relative to the document
-root).
+Allow execution of CGIs from the given directory.
 See
 .Xr CGIs
 for details.
@@ -53,18 +51,12 @@ Listen on the given port.
 If not provided,
 .Nm
 will listen on port 8080.
-.It Fl s Ar dir Fl k Ar key
-Enable "secure" mode for the given directory.
-That is, encrypt all content from this directory with the given key.
-See
-.Xr ENCRYPTION
-for details.
 .El
 .Sh DETAILS
 .Nm
 speaks a crippled dialect of HTTP/1.0:
-it responds to GET and HEAD requests according to RFC1945, but may not
-support POST requests and only supports the If-Modified-Since Request-Header.
+it responds to GET and HEAD requests according to RFC1945, and only
+supports the If-Modified-Since Request-Header.
 .Pp
 When a connection is made,
 .Nm
@@ -79,8 +71,10 @@ A string identifying this server and version.
 The timestamp in GMT of the file's last modification date.
 .It Content-Type
 .Ar text/html
-or
-.Ar x-blowfish
+or, optionally, the correct content-type for the file in question as
+determined via
+.Xr magic 5
+patterns.
 .It Content-Length
 The size in bytes of the data returned.
 .El
@@ -108,21 +102,14 @@ slash is translated into that user's
 .Nm
 directory (ie
 .Ar /home/<user>/sws/ Ns ).
-.It Encrypted Content
-If the
-.Fl s
-and
-.Fl k
-flags were specified, then
-.Nm
-will encrypt the contents of the given directory before returning them to the
-client.
 .El
 .Sh CGIs
-Instead of returning the contents of each file under the directory specified
-via the
+If a URI begins with the string "/cgi-bin", and the
 .Fl c
-flag, they are executed and any output generated is returned instead.
+flag was specified, then the remainder of the resource path will be
+resolved relative to the directory specified using this flag.
+The resulting file will then be executed and any output generated is
+returned instead.
 Execution of CGIs follows the specification in RFC3875.
 .Sh LOGGING
 Per default,
@@ -152,33 +139,10 @@ Ie, "Content-Length".
 All lines will be appended to the given file unless
 .Fl d
 was given, in which case all lines will be printed to stdout.
-.Sh ENCRYPTION
-.Nm
-allows for a given directory to be only served encrypted if the
-.Fl s Ar dir
-flag was specified.
-(This flag turns off directory indexing for the given directory as well.)
-.Pp
-The contents of any file under this directory are encrypted using
-OpenSSL's blowfish algorithm (see
-.Xr BF_cbc_encrypt 3 Ns ).
-The key to encrypt the data is provided via the
-.Fl k Ar key
-flag.
-.Nm
-prevents leaking of the key into the process table.
-.Pp
-For files served from this directory,
-.Nm
-will set the
-.Ar Content-Type
-header to "x-blowfish".
 .Sh EXIT STATUS
-.Ex -std
+.Ex -std 
 .Sh SEE ALSO
-.Xr RFC1945 ,
-.Xr BF_cbc_encrypt 3 ,
-.Xr setproctitle 3
+.Xr RFC1945
 .Sh HISTORY
 A simple http server has been a frequent final project assignment for the
 class

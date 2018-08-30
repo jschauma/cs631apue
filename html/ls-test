@@ -35,7 +35,7 @@ IFS="
 
 for c in ${COMMANDS}; do
 	echo ${c}
-	timeout 60 sh -c "eval ${c}" || echo timed out
+	timeout --foreground 60 sh -c "eval ${c}" || echo timed out
 done
 
 echo "./ls -lR /"

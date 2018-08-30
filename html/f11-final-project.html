@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+<HEAD>
+
+  <TITLE>CS631 -- Advanced Programming in the UNIX Environment</TITLE>
+  <STYLE type="text/css">
+  body {
+  background-color: #FFFFFf;
+  }
+  </STYLE>
+  <STYLE type="text/css">
+  li.c1 {list-style: none}
+  </STYLE>
+
+</HEAD>
+
+<BODY>
+  <TABLE border="1" align="center" cellpadding="15">
+    <TR>
+      <TD valign="top">
+        <H2>CS631 -- Advanced Programming in the UNIX Environment - Fall 2011 - Final Project</H2>
+
+        <H3>Final Project: Write a simple web server</H3>
+
+        <H4>Summary</H4>
+	<p>The objective of this assignment is for you to write a simple
+	web server that speaks a limited version of HTTP/1.0 as defined in
+	<a href="http://www.ietf.org/rfc/rfc1945.txt">RFC1945</a>.  This
+	gives you occasion to understand the process of reading an RFC and
+	implementing a well-known protocol.  Furthermore, your
+	implementation will be in two parts: the simple main eventloop,
+	already implemented in <a href="f11-hw4.html">HW#4</a> and a
+	shared library.  This gives you opportunity to understand the
+	difference between writing your own program and implementing an API.
+	</p>
+	<p>
+	At the end, your <a href="f11-hw4.html">HW#4</a> submission should
+	be able to be linked against any other student's final project
+	library and vice versa.
+	</p>
+	<h4>Problem assignment</h4>
+	<p>Download all files in <a href="final/">this directory</a>.
+	Replace the file <tt>main.c</tt> with your <a
+	href="f11-hw4.html">HW#4</a> submission, then implement and extend
+	the <tt>libsws.so</tt> library as needed.  You may add additional
+	files to build the library or add code in the existing files, but you
+	may <em>not</em> extend the file <tt>sws.h</tt> (as it defines the
+	API all students follow).
+	</p>
+	<p>As you fill in the library, you will implement the
+	<tt>sws(1)</tt> command as described in the manual page provided
+	to you <a href="final/sws.1.pdf">here</a>.
+	</p>
+	<p>
+	As usual, the <a href="hw">general homework guidelines</a> apply.
+	</p>
+	<p>
+	This is a non-trivial programming assignment -- do not postpone
+	starting to work on this!  Try to first get the basics right, then
+	add functionality one by one, always ensuring that the added code
+	did not break any previous functionality.  If you're stuck, describe
+	your problem on the mailing list.
+	</p>
+	<h5>Additional considerations</h5>
+	<p>
+	Please carefully read <a
+	href="http://www.ietf.org/rfc/rfc1945.txt">RFC1945</a> to understand
+	version 1.0 of the Hyper Text Transfer Protocol.
+	</p>
+	<p>
+	Please carefully read <a href="http://en.wikipedia.org/wiki/Common_Gateway_Interface">http://en.wikipedia.org/wiki/Common_Gateway_Interface</a>
+	to understand the Common Gateway Interface.
+	</p>
+	<p>
+	Your program should behave as one would expect from a regular system
+	daemon. That is, it should detach from the controlling terminal and
+	run in the background, accept multiple simultaneous connections, not
+	generate any messages on stdout unless in debugging mode etc.
+	</p>
+	<p>
+	Your program does have to return normal HTTP/1.0 status codes as
+	described in the RFC.
+	</p>
+	<p>Your program does NOT <em>need</em> to support IPv6.</p>
+	<p>Your program does NOT <em>need</em> to support the POST method.</p>
+	<p>Your program does NOT <em>need</em> to support the "-s dir -k key" options.</p>
+	<p>Your program does NOT <em>need</em> to support logging.</p>
+	<h5>Extra Credit</h5>
+	<p>The following are ways to gain extra-credit.  Please only start
+	working on these features if you are satisfied with the basic
+	functionality.</p>
+	<p>
+	<ul>
+	  <li>Implementing support for IPv6: +10</li>
+	  <li>Implementing support for logging: +10</li>
+	  <li>Implementing support for POST: +30</li>
+	  <li>Implementing support for encrypted content: +50</li>
+	</ul>
+	</p>
+	<h4>Deliverables and Due Date</H4>
+	<p>You will submit a tar archive of all your files, including the
+	provided Makefile (updated if you added new files).
+        <p>
+        The due date for this assignment is 2011-12-20 10:59:59.  Please
+        attach the file to an email sent from your <tt>@stevens.edu</tt>
+        email address to <a
+        href="mailto:jschauma@stevens.edu?subject=[CS631] final proejct">jschauma@stevens.edu</a>
+        with a subject of "[CS631] final project".
+        </p>
+        <hr>
+        [<a href="index.html">Course Website</a>]
+</BODY>
+</HTML>

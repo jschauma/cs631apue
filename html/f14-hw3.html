@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+<HEAD>
+
+  <TITLE>CS631 -- Advanced Programming in the UNIX Environment</TITLE>
+  <STYLE type="text/css">
+  body {
+  background-color: #FFFFFf;
+  }
+  </STYLE>
+  <STYLE type="text/css">
+  li.c1 {list-style: none}
+  </STYLE>
+
+</HEAD>
+
+<BODY>
+  <TABLE border="1" align="center" cellpadding="15">
+    <TR>
+      <TD valign="top">
+        <H2>CS631 -- Advanced Programming in the UNIX Environment - HW#3</H2>
+
+        <H3>HW#3: webserver framework</H3>
+
+        <H4>Summary</H4>
+	<p>The objective of this assignment is for you to lay down the
+	very basic framework for your <a href="f14-final-project.html">final
+ 	project</a>.  This ensures that you are not beginning too late in
+	the semester to work on the project and that all of you can make
+	the same progress.</p>
+
+	<p>In particular, you are to write the following portions of your
+	final project:
+	<ul>
+	<li>the <tt>main</tt> function, parsing all command-line options
+	and setting all flags</li>
+	<li>the basic code to listen on the given network address and
+	port, accept connections</li>
+	</ul>
+	Your rudimentary server will read one line of text from any
+	connecting client and print out on stdout that line prefixed with
+	the remote client's IP address.
+	</p>
+	<p>
+        <em>Note:</em> even though the final project is a group
+        assignment, <em>this</em> homework is individual work.
+	</p>
+
+	<h4>Deliverables and Due Date</H4>
+	<p>You will submit at least three files:
+	<ul>
+	<li><tt>main.c</tt> - containing the basic functionality</li>
+	<li><tt>net.c</tt> - containig any network related functionality</li>
+	<li><tt>Makefile</tt></li>
+	</ul>
+	</p>
+	<p>You will submit a single <tt>tar</tt> archive named
+	<em>username</em>-hw3.tar that will extract
+	into a directory named after your username.
+	</p>
+	<p>
+	For example, I would submit the file <tt>jschauma-hw3.tar</tt>
+	which might extract the files and let me run the program as follows:
+	</p>
+	<p>
+	<verbatim><tt><pre>
+$ tar xvf jschauma-hw3.tar
+jschauma
+jschauma/main.c
+jschauma/net.c
+jschauma/Makefile
+jschauma/README
+$ 
+	</pre></tt></verbatim></p>
+	<p>
+       	The due date for this assignment is 2014-11-03 16:00.  Please
+	attach the file to an email sent from your <tt>@stevens.edu</tt>
+	email address to <a
+	href="mailto:jschauma@stevens.edu?subject=[CS631] HW3">jschauma@stevens.edu</a>
+	with a subject of "[CS631] HW3".
+	</p>
+        <hr>
+        [<a href="index.html">Course Website</a>]
+</BODY>
+</HTML>

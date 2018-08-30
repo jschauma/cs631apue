@@ -1,0 +1,13 @@
+# $Id: Makefile.2,v 1.1 2004/08/15 22:30:10 jschauma Exp $
+PROG=	ls
+OBJS=	cmp.o ls.o main.o print.o stat_flags.o util.o
+CFLAGS=	-Werror
+
+all: ${PROG}
+
+${PROG}: ${OBJS}
+	@echo $@ depends on $?
+	${CC} ${CFLAGS} ${LDFLAGS} ${OBJS} -o ${PROG}
+
+clean:
+	rm -f ls *.o

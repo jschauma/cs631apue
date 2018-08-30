@@ -3,7 +3,7 @@
 <HTML>
 <HEAD>
 
-  <TITLE>CS631 -- Advanced Programming in the UNIX Environment</TITLE>
+  <TITLE>Advanced Programming in the UNIX Environment</TITLE>
   <STYLE type="text/css">
   body {
   background-color: #FFFFFf;
@@ -18,7 +18,7 @@
   <TABLE border="1" align="center" cellpadding="15">
     <TR>
       <TD valign="top">
-        <H2>CS631 -- Advanced Programming in the UNIX Environment</H2>
+        <H2>Advanced Programming in the UNIX Environment</H2>
 
         <H3>Using <tt>git(1)</tt></H3>
 
@@ -33,45 +33,23 @@
         <p>
         Note: <tt>git(1)</tt> can be used without and independent of <a
         href="https://github.com/">GitHub</a>!  In this class, we will use
-        <tt>git(1)</tt> on <tt>cs631apue.netmeister.org</tt> for your
-        final project.
-        </p>
-<!--
-        <h4>Unix groups</h4>
-        <p>
-        In order to be able to share a repository hosted on
-        <tt>cs631apue.netmeister.org</tt>, all your team members need to
-        be in a shared Unix group.  This group needs to be created by the
-        system administrators.  To have this group created, send an email
-        to <a href="mailto:jschauma@stevens.edu">jschauma@stevens.edu</a>
-        telling me the name of your team as well as the usernames of all
-        your team's members.  The earlier you do this, the better.
-        </p>
--->
-        <h4>Accessing the repository</h4>
-        <p>
-        Your instructor will set up the repository for your group.  You
-        will then access the repository via <tt>ssh(1)</tt> under the path
-        <tt>cs631apue.netmeister.org:/usr/local/apue/$team</tt> (where
-        <tt>$team</tt> is the name of your team).
+        <tt>git(1)</tt> for your <a href="course-notes.html">course notes</a>,
+	although you are of course free to also use <tt>git(1)</tt> for
+	any other assignments.
         </p>
         <p>
-        For example, if your username on <tt>cs631apue.netmeister.org</tt>
-        was 'jdoe' and you were a member of the team 'hyper', you would
-        check out the repository using the following commands:
-        <blockquote><tt><pre>$ git clone jdoe@cs631apue.netmeister.org:/usr/local/apue/hyper</pre></tt></blockquote>
-        </p>
+	You can create a repository on any Unix system you have access to,
+	or even use a public repository such as on GitHub.
         <h4>Working with git</h4>
         <p>
         You should make it a habit to begin your working session by
         updating your copy of the repository and ending it by committing
-        your changes.  If you are ready to push your changes to make them
-        available to your team mates, you would then push them to the
-        repository:
-        <blockquote><tt><pre>$ cd hyper
+        your changes.  If you are ready to push your changes, you would
+	then push them to the repository:
+        <blockquote><tt><pre>$ cd group1
 $ git pull
-$ $EDITOR http.c
-[edit, debug]
+$ $EDITOR notes
+[edit]
 $ git commit
 $ git push</pre></tt></blockquote>
         </p>

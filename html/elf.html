@@ -1,0 +1,2498 @@
+<html><head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>Executable and Linkable Format (ELF)</title>
+</head>
+
+<body alink="#FF6600" bgcolor="#000000" link="#00FFFF" text="#EEEEEE" vlink="#00FFFF">
+
+<p>This page is a copy of the <a
+href="https://web.archive.org/web/20120922073347/http://www.acsu.buffalo.edu/~charngda/elf.html">Archive.org</a>
+copy of the now no longer availabel <a
+href="http://www.acsu.buffalo.edu/~charngda/elf.html">http://www.acsu.buffalo.edu/~charngda/elf.html</a>.
+It is kept here online as a reference only.</p>
+
+<hr>
+
+<h2>Acronyms relevant to Executable and Linkable Format (ELF)</h2>
+
+<table border="">
+<tbody><tr><td><a href="http://www.wikipedia.org/wiki/Application_binary_interface">ABI</a></td><td>Application  binary interface</td></tr>
+<tr><td><a href="http://www.wikipedia.org/wiki/A.out">a.out</a></td><td>Assembler output file format</td></tr>
+<tr><td><a href="http://www.wikipedia.org/wiki/.bss">BSS</a></td><td>Block started by symbol. The uninitialized data segment containing statically-allocated variables.</td></tr>
+<tr><td><a href="http://www.wikipedia.org/wiki/COFF">COFF</a></td><td>Common object file format</td></tr>
+<tr><td>DTV</td><td>Dynamic thread vector (for TLS)</td></tr>
+<tr><td><a href="http://www.wikipedia.org/wiki/DWARF">DWARF</a></td><td>A standardized debugging data format</td></tr>
+<tr><td>GD</td><td>Global Dynamic (dynamic TLS) One of the <a href="http://download.oracle.com/docs/cd/E19963-01/html/819-0690/chapter8-1.html">Thread-Local Storage access models</a>.</td></tr>
+<tr><td>GOT</td><td>Global offset table</td></tr>
+<tr><td>IE</td><td>Initial Executable (static TLS with assigned offsets) One of the <a href="http://download.oracle.com/docs/cd/E19963-01/html/819-0690/chapter8-1.html">Thread-Local Storage access models</a>.</td></tr>
+<tr><td>LD</td><td>Local Dynamic (dynamic TLS of local symbols) One of the <a href="http://download.oracle.com/docs/cd/E19963-01/html/819-0690/chapter8-1.html">Thread-Local Storage access models</a>.</td></tr>
+<tr><td>LE</td><td>Local Executable (static TLS) One of the <a href="http://download.oracle.com/docs/cd/E19963-01/html/819-0690/chapter8-1.html">Thread-Local Storage access models</a>.</td></tr>
+<tr><td><a href="http://www.wikipedia.org/wiki/Mach-O">Mach-O</a></td><td>Mach object file format</td></tr>
+<tr><td>PC</td><td>Program counter. On x86, this is the same as IP (Instruction Pointer) register.</td></tr>
+<tr><td><a href="http://www.wikipedia.org/wiki/Portable_Executable">PE</a></td><td>Portable executable</td></tr>
+<tr><td>PHT</td><td>Program header table</td></tr>
+<tr><td><a href="http://www.wikipedia.org/wiki/Position_independent_code">PIC</a></td><td>Position independent code</td></tr>
+<tr><td><a href="http://www.wikipedia.org/wiki/Position_independent_code">PIE</a></td><td>Position independent executable</td></tr>
+<tr><td>PLT</td><td>Procedure linkage table</td></tr>
+<tr><td>REL<br>RELA</td><td>Relocation</td></tr>
+<tr><td>RVA</td><td>Relative virtual address</td></tr>
+<tr><td>SHF</td><td>Section header flag</td></tr>
+<tr><td>SHT</td><td>Section header table</td></tr>
+<tr><td>SO</td><td>Shared object (another name for dynamic link library)</td></tr>
+<tr><td>VMA</td><td>Virtual memory area/address</td></tr>
+</tbody></table>
+
+<h2>Useful books and references</h2>
+<a href="http://manpages.courier-mta.org/htmlman5/elf.5.html">ELF man page</a><a>
+</a><p><a>
+</a><a href="http://www.sco.com/developers/gabi/latest/contents.html">System V Application Binary Interface</a><a>
+</a></p><p><a>
+</a><a href="http://www.x86-64.org/documentation/abi.pdf">AMD64 System V Application Binary Interface</a>
+</p><p>
+<a href="http://homepage.ntlworld.com/jonathan.deboynepollard/FGA/function-calling-conventions.html">The gen on function calling conventions</a>
+</p><p>
+Section II of <a href="http://refspecs.freestandards.org/LSB_4.0.0/LSB-Core-generic/LSB-Core-generic/book1.html">Linux Standard Base 4.0 Core Specification</a>
+</p><p>
+<i>Self-Service Linux: Mastering the Art of Problem Determination</i> by Mark Wilding and Dan Behman
+</p><p>
+<a href="http://download.oracle.com/docs/cd/E19963-01/html/819-0690/">Solaris Linker and Libraries Guide</a>
+</p><p>
+<a href="http://www.iecc.com/linker">Linkers and Loaders</a> by John Levine
+</p><p>
+<a href="http://s.eresi-project.org/inc/articles/elf-rtld.txt">Understanding Linux ELF RTLD internals</a> by mayhem (this article gives
+you an idea how the runtime linker <tt>ld.so</tt> works)
+</p><p>
+<a href="http://manpages.courier-mta.org/htmlman8/ld.so.8.html"><tt>ld.so</tt> man page</a>
+</p><p>
+<a href="http://www.wikipedia.org/wiki/Prelink">Prelink</a> by Jakub Jelinek (and <a href="http://linux.die.net/man/8/prelink">prelink man page</a>)
+
+</p><h2>Executable and Linkable Format</h2>
+An ELF executable binary contains at least two kinds of headers: ELF file header
+(see <tt>struct Elf32_Ehdr</tt>/<tt>struct Elf64_Ehdr</tt> in <tt><a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=elf/elf.h">/usr/include/elf.h</a></tt>)
+and one or more Program Headers (see <tt>struct Elf32_Phdr</tt>/<tt>struct Elf64_Phdr</tt> in <tt><a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=elf/elf.h">/usr/include/elf.h</a></tt>)
+<p>
+Usually there is another kind of header called Section Header, which describe
+attributes of an ELF section (e.g. <tt>.text</tt>,  <tt>.data</tt>,
+<tt>.bss</tt>, etc) The Section Header is
+described by <tt>struct Elf32_Shdr</tt>/<tt>struct Elf64_Shdr</tt> in <tt><a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=elf/elf.h">/usr/include/elf.h</a></tt>
+</p><p>
+The Program Headers are used during execution (ELF's "<b>execution view</b>"); it tells the kernel or the runtime linker
+<tt>ld.so</tt> what to load into memory and how to find dynamic linking information.
+</p><p>
+The Section Headers are used during compile-time linking (ELF's "<b>linking view</b>"); it tells the link editor <tt>ld</tt>
+how to resolve symbols, and how to group similar byte streams from different ELF binary
+objects.
+</p><p>
+Conceptually, the two ELF's "views" are as follows (borrowed from Shaun Clowes's <i>Fixing/Making Holes in Binaries</i> slides):
+</p><pre>              +-----------------+
+         +----| ELF File Header |----+
+         |    +-----------------+    |
+         v                           v
+ +-----------------+      +-----------------+
+ | Program Headers |      | Section Headers |
+ +-----------------+      +-----------------+
+      ||                               ||
+      ||                               ||
+      ||                               ||
+      ||   +------------------------+  ||
+      +--&gt; | Contents (Byte Stream) |&lt;--+
+           +------------------------+
+</pre>
+<p>
+In reality, the layout of a typical ELF executable binary on a disk file is like this:
+</p><pre>    +-------------------------------+
+    | ELF File Header               |
+    +-------------------------------+
+    | Program Header for segment #1 |
+    +-------------------------------+
+    | Program Header for segment #2 |
+    +-------------------------------+
+    | ...                           |
+    +-------------------------------+
+    | Contents (Byte Stream)        |
+    | ...                           |
+    +-------------------------------+
+    | Section Header for section #1 |
+    +-------------------------------+
+    | Section Header for section #2 |
+    +-------------------------------+
+    | ...                           |
+    +-------------------------------+
+    | ".shstrtab" section           |
+    +-------------------------------+
+    | ".symtab"   section           |
+    +-------------------------------+
+    | ".strtab"   section           |
+    +-------------------------------+
+</pre>
+The ELF File Header contains the file offsets of the first Program Header,
+the first Section Header, and <tt>.shstrtab</tt> section which contains
+the section names (a series of NULL-terminated strings)
+<p>
+The ELF File Header also contains the number of Program Headers
+and the number of Section Headers.
+</p><p>
+Each Program Header describes a "segment": It contains the permissions (Readable, Writeable, or Executable)
+, offset of the "segment" (which is just a byte stream) into the file, and the size of the
+"segment". The following table shows the purposes of special segments.
+Some information
+can be found in GNU Binutil's source file <a href="http://sourceware.org/git/?p=binutils.git;a=blob_plain;f=include/elf/common.h"><tt>include/elf/common.h</tt></a>:
+</p><p>
+<table border="">
+<tbody><tr>
+ <th>ELF Segment</th>
+ <th>Purpose</th>
+</tr>
+<tr>
+ <td><tt>DYNAMIC</tt></td>
+ <td>For dynamic binaries, this segment hold dynamic linking information and is usually
+    the same as <tt>.dynamic</tt> section in ELF's linking view. See paragraph below.
+ </td>
+</tr>
+
+<tr>
+ <td><tt>GNU_EH_FRAME</tt></td>
+ <td>Frame unwind information (EH = Exception Handling). This segment is usually the same as <tt>.eh_frame_hdr</tt> section in ELF's linking view.
+ </td>
+</tr>
+
+<tr>
+ <td><tt>GNU_RELRO</tt></td>
+ <td>This segment indicates the memory region which should be made Read-Only after relocation is done.
+    This segment usually appears in a dynamic link library and it
+    contains <tt>.ctors</tt>, <tt>.dtors</tt>, <tt>.dynamic</tt>, <tt>.got</tt>
+    sections. See paragraph below.
+ </td>
+</tr>
+<tr>
+ <td><tt>GNU_STACK</tt></td>
+ <td>The permission flag of this segment indicates whether the
+    <a href="http://www.gentoo.org/proj/en/hardened/gnu-stack.xml">stack is executable or not</a>.
+    This segment does not have any content; it is just an indicator.
+ </td>
+</tr>
+<tr>
+ <td><tt>INTERP</tt></td>
+ <td>For dynamic binaries, this holds the full pathname of runtime linker <tt>ld.so</tt><p>
+    This segement is the same as <tt>.interp</tt> section in ELF's linking view.
+  </p></td>
+</tr>
+<tr>
+ <td><tt>LOAD</tt></td>
+ <td><b>Loadable program segment. Only segments of this type are loaded into memory during execution.</b></td>
+</tr>
+<tr>
+ <td><tt>NOTE</tt></td>
+ <td>Auxiliary information.<p>For core dumps, this segment contains the status of the process (when the core dump is created),
+ such as the signal (the process received and caused it to dump core), pending &amp; held signals,
+ process ID, parent process ID, user ID, nice value,
+ cumulative user &amp; system time, values of registers (including the program counter!)</p><p>For more info, see
+ <tt>struct elf_prstatus</tt> and <tt>struct elf_prpsinfo</tt> in Linux kernel source file
+ <a href="http://lxr.linux.no/linux/include/linux/elfcore.h"><tt>include/linux/elfcore.h</tt></a>
+ and <tt>struct user_regs_struct</tt> in
+ <a href="http://lxr.linux.no/linux/arch/x86/include/asm/user_64.h"><tt>arch/x86/include/asm/user_64.h</tt></a></p></td>
+</tr>
+<tr>
+ <td><tt>TLS</tt></td>
+ <td>Thread-Local Storage</td>
+</tr>
+</tbody></table>
+</p><p>
+Likewise, each Section Header contains the file offset of its corresponding "content"
+and the size of the "content".
+The following table shows the purposes of some special sections. Most  information
+here comes from <a href="http://refspecs.freestandards.org/LSB_4.0.0/LSB-Core-generic/LSB-Core-generic/specialsections.html">LSB specification</a>.
+Some information can be found in GNU Binutil's source file
+<a href="http://sourceware.org/git/?p=binutils.git;a=blob_plain;f=bfd/elf.c"><tt>bfd/elf.c</tt></a> (look for
+<tt>bfd_elf_special_section</tt>)
+and <a href="http://sourceware.org/git/?p=binutils.git;a=blob_plain;f=bfd/elflink.c"><tt>bfd/elflink.c</tt></a> (look for
+double-quoted section names such as <tt>".got.plt"</tt>)
+</p><p>
+<table border="">
+<tbody><tr>
+ <th>ELF Section</th>
+ <th>Purpose</th>
+</tr>
+<tr>
+ <td><tt>.bss</tt></td>
+ <td>Uninitialized global data ("Block Started by Symbol").
+    <p>Depending on the compilers, uninitialized global variables could
+    be stored in a nameness section called <tt>COMMON</tt> (named after
+    Fortran 77's "common blocks".) To wit, consider
+    the following code:
+    </p><pre>    int globalVar;
+    static int globalStaticVar;
+    void dummy() {
+       static int localStaticVar;
+    }
+    </pre>
+    Compile with <tt>gcc -c</tt>, then on x86_64, the resulting object file has the
+    following structure:
+    <pre>    $ objdump -t foo.o
+
+    SYMBOL TABLE:
+     ....
+    0000000000000000 l     O .bss   0000000000000004 globalStaticVar
+    0000000000000004 l     O .bss   0000000000000004 localStaticVar.1619
+     ....
+    0000000000000004       O *COM*  0000000000000004 globalVar
+    </pre>
+    so only the file-scope and local-scope global variables are in
+    the <tt>.bss</tt> section.
+    <p>
+    If one wants <tt>globalVar</tt> to reside in the <tt>.bss</tt> section,
+    use the <font color="LightGreen"><tt>-fno-common</tt></font>
+    compiler command-line option. Using <font color="LightGreen"><tt>-fno-common</tt></font>
+    is encouraged, as the following example shows:
+    </p><pre>    $ cat foo.c
+    int globalVar;
+    $ cat bar.c
+    double globalVar;
+    int main(){}
+    $ gcc foo.c bar.c
+    </pre>
+    Not only there is no error message about redefinition of the same symbol
+    in both source files (notice we did not use the <tt>extern</tt> keyword here),
+    there is no complaint about their different data
+    types and sizes either. However, if one uses <font color="LightGreen"><tt>-fno-common</tt></font>,
+    the compiler will complain:
+    <pre>    /tmp/ccM71JR7.o:(.bss+0x0): <font color="Red">multiple definition</font> of `globalVar'
+    /tmp/ccIbS5MO.o:(.bss+0x0): first defined here
+    ld: Warning: <font color="Red">size of symbol</font> `globalVar' changed from 8 in /tmp/ccIbS5MO.o to 4 in /tmp/ccM71JR7.o
+    </pre>
+    </td>
+</tr>
+<tr>
+ <td><tt>.comment</tt></td>
+ <td>A series of NULL-terminated strings containing compiler information.</td>
+</tr>
+<tr>
+ <td><tt>.ctors</tt></td>
+ <td><b>Pointers</b> to functions which are marked as
+    <tt>__attribute__ ((constructor))</tt> as well as static C++ objects' constructors.
+    They will be used by <tt>__libc_global_ctors</tt> function.<p>
+    See paragraphs below.
+ </p></td>
+</tr>
+
+<tr>
+ <td><tt>.data</tt></td>
+ <td>Initialized data.</td>
+</tr>
+
+<tr>
+ <td><tt>.data.rel.ro</tt></td>
+ <td>Similar to <tt>.data</tt> section, but this section
+    should be made Read-Only after relocation is done.
+ </td>
+</tr>
+
+<tr>
+ <td><tt>.debug_XXX</tt></td>
+ <td>Debugging information (for the programs which are compiled with <tt>-g</tt> option)
+    which is in the DWARF 2.0 format.
+   <p>
+   See <a href="http://dwarfstd.org/">here</a> for DWARF debugging format.
+ </p></td>
+</tr>
+<tr>
+ <td><tt>.dtors</tt></td>
+ <td><b>Pointers</b> to functions which are marked as
+    <tt>__attribute__ ((destructor))</tt> as well as static C++ objects' destructors.
+   <p>
+    See paragraphs below.
+ </p></td>
+</tr>
+<tr>
+ <td><tt>.dynamic</tt></td>
+ <td>For dynamic binaries, this section holds dynamic linking information used by <tt>ld.so</tt>.
+    See paragraphs below.</td>
+</tr>
+<tr>
+ <td><tt>.dynstr</tt></td>
+ <td>NULL-terminated strings of names of symbols in <tt>.dynsym</tt> section.
+   <p>One can use commands such as <tt>readelf -p .dynstr a.out</tt> to see these strings.
+ </p></td>
+</tr>
+<tr>
+ <td><tt>.dynsym</tt></td>
+ <td><b>Runtime</b>/Dynamic symbol table. For dynamic binaries, this section is the symbol table of
+    globally visible symbols. For example, if a dynamic link library wants to export
+    its symbols, these symbols will be stored here. On the other hand, if
+    a dynamic executable binary uses symbols from a dynamic link library,
+    then these symbols are stored here too.
+    <p>
+    The symbol names (as NULL-terminated strings) are stored in <tt>.dynstr</tt> section.
+  </p></td>
+</tr>
+<tr>
+ <td><tt>.eh_frame</tt><br><tt>.eh_frame_hdr</tt></td>
+ <td>Frame unwind information (EH = Exception Handling).
+    <p>
+    See <a href="http://refspecs.freestandards.org/LSB_4.0.0/LSB-Core-generic/LSB-Core-generic/ehframechpt.html">here</a>
+    for details.
+    </p><p>To see the content of <tt>.eh_frame</tt> section, use
+         </p><pre>readelf --debug-dump=frames-interp a.out</pre>
+ </td>
+</tr>
+
+<tr>
+ <td><tt>.fini</tt></td>
+ <td>Code which will be executed when program exits normally. See paragraphs below.</td>
+</tr>
+<tr>
+ <td><tt>.fini_array</tt></td>
+ <td><b>Pointers</b> to functions which will be executed when program exits normally. See paragraphs below.</td>
+</tr>
+<tr>
+ <td><tt>.GCC.command.line</tt></td>
+ <td>A series of NULL-terminated strings containing
+ GCC command-line (that is used to compile the code) options.<p>This feature is supported since GCC 4.5
+ and the program must be compiled with <tt>-frecord-gcc-switches</tt> option.
+ </p></td>
+</tr>
+
+<tr>
+ <td><tt>.gnu.hash</tt></td>
+ <td>GNU's extension to hash table for symbols.<p>
+    See <a href="http://blogs.sun.com/ali/entry/gnu_hash_elf_sections">here</a> for its structure and the hash algorithm.
+    </p><p>
+    The link editor <tt>ld</tt> calls <tt>bfd_elf_gnu_hash</tt> in
+    in GNU Binutil's source file <a href="http://sourceware.org/git/?p=binutils.git;a=blob_plain;f=bfd/elf.c"><tt>bfd/elf.c</tt></a>
+    to compute the hash value.
+    </p><p>
+    The runtime linker <tt>ld.so</tt> calls <tt>do_lookup_x</tt> in
+    <a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=elf/dl-lookup.c"><tt>elf/dl-lookup.c</tt></a>
+    to do the symbol look-up. The hash computing function here is <tt>dl_new_hash</tt>.
+ </p></td>
+</tr>
+<tr>
+ <td><tt>.gnu.linkonceXXX</tt></td>
+ <td>GNU's extension. It means only a single copy of the section will be used in linking.
+    This is used to by g++.  g++ will emit each template expansion in its own section.
+    The symbols will be defined as weak, so that multiple definitions
+    are permitted.
+ </td>
+</tr>
+<tr>
+ <td><tt>.gnu.version</tt></td>
+ <td>Versions of symbols.
+    <p>See <a href="http://refspecs.freestandards.org/LSB_4.0.0/LSB-Core-generic/LSB-Core-generic/symversion.html">here</a>,
+        <a href="http://docs.redhat.com/docs/en-US/Red_Hat_Enterprise_Linux/4/html/Using_ld_the_GNU_Linker/version.html">here</a>,
+        <a href="http://download.oracle.com/docs/cd/E19963-01/html/819-0690/appendixb-45356.html">here</a>,
+        and
+        <a href="http://people.redhat.com/drepper/symbol-versioning">here</a>
+        for details of symbol versioning.
+ </p></td>
+</tr>
+<tr>
+ <td><tt>.gnu.version_d</tt></td>
+ <td>Version definitions of symbols.</td>
+</tr>
+<tr>
+ <td><tt>.gnu.version_r</tt></td>
+ <td>Version references (version needs) of symbols.</td>
+</tr>
+<tr>
+ <td><tt>.got</tt></td>
+ <td>For dynamic binaries, this Global Offset Table holds the addresses of variables which are
+    relocated upon loading. See paragraphs below.
+ </td>
+</tr>
+<tr>
+ <td><tt>.got.plt</tt></td>
+ <td>For dynamic binaries, this Global Offset Table holds the addresses of functions in dynamic libraries.
+    They are used by trampoline code in <tt>.plt</tt> section.
+    If <tt>.got.plt</tt> section is present, it contains at least three entries, which
+    have special meanings. See paragraphs below.
+ </td>
+</tr>
+<tr>
+ <td><tt>.hash</tt></td>
+ <td>Hash table for symbols.<p>
+    See <a href="http://www.sco.com/developers/gabi/latest/ch5.dynamic.html#hash">here</a> for its structure and the hash algorithm.
+    </p><p>
+    The link editor <tt>ld</tt> calls <tt>bfd_elf_hash</tt> in
+    in GNU Binutil's source file <a href="http://sourceware.org/git/?p=binutils.git;a=blob_plain;f=bfd/elf.c"><tt>bfd/elf.c</tt></a>
+    to compute the hash value.
+    </p><p>
+    The runtime linker <tt>ld.so</tt> calls <tt>do_lookup_x</tt> in
+    <a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=elf/dl-lookup.c"><tt>elf/dl-lookup.c</tt></a>
+    to do the symbol look-up. The hash computing function here is <tt>_dl_elf_hash</tt>.
+ </p></td>
+</tr>
+<tr>
+ <td><tt>.init</tt></td>
+ <td>Code which will be executed when program initializes. See paragraphs below.</td>
+</tr>
+<tr>
+ <td><tt>.init_array</tt></td>
+ <td><b>Pointers</b> to functions which will be executed when program starts. See paragraphs below.</td>
+</tr>
+<tr>
+ <td><tt>.interp</tt></td>
+ <td>For dynamic binaries, this holds the full pathname of runtime linker <tt>ld.so</tt></td>
+</tr>
+
+<tr>
+ <td><tt>.jcr</tt></td>
+ <td>Java class registration information.<p>
+    Like <tt>.ctors</tt> section, it contains a list of addresses
+    which will be used by <tt>_Jv_RegisterClasses</tt> function
+    in CRT (C Runtime) startup files (see <a href="http://gcc.gnu.org/viewcvs/trunk/gcc/crtstuff.c?view=markup"><tt>gcc/crtstuff.c</tt></a>
+    in GCC's source tree)
+</p></td>
+</tr>
+<tr>
+ <td><tt>.note.ABI-tag</tt></td>
+ <td>This Linux-specific section is structured as a <a href="http://www.sco.com/developers/gabi/latest/ch5.pheader.html#note_section">note</a>
+    section in ELF specification. Its content is mandated
+    <a href="http://refspecs.freestandards.org/LSB_4.0.0/LSB-Core-generic/LSB-Core-generic/noteabitag.html">here</a>.
+  </td>
+</tr>
+<tr>
+ <td><tt>.note.gnu.build-id</tt></td>
+ <td>A unique build ID. See <a href="http://fedoraproject.org/wiki/RolandMcGrath/BuildID">here</a> and
+    <a href="http://fedoraproject.org/wiki/Releases/FeatureBuildId">here</a>
+  </td>
+</tr>
+
+<tr>
+ <td><tt>.note.GNU-stack</tt></td>
+ <td>See <a href="http://www.airs.com/blog/archives/518">here</a>
+  </td>
+</tr>
+
+
+<tr>
+ <td><tt>.nvFatBinSegment</tt></td>
+ <td>This segment contains information of nVidia's CUDA fat binary container. Its format
+    is described by <tt>struct __cudaFatCudaBinaryRec</tt> in <tt>__cudaFatFormat.h</tt>
+  </td>
+</tr>
+
+<tr>
+ <td><tt>.plt</tt></td>
+ <td>For dynamic binaries, this Procedure Linkage Table holds the trampoline/linkage code. See paragraphs below.</td>
+</tr>
+<tr>
+ <td><tt>.preinit_array</tt></td>
+ <td>Similar to <tt>.init_array</tt> section. See paragraphs below.</td>
+</tr>
+
+<tr>
+ <td><tt>.rela.dyn</tt></td>
+ <td><b>Runtime</b>/Dynamic relocation table.
+    <p>
+    For dynamic binaries, this relocation table holds information of variables which
+    must be relocated upon loading. Each entry in this table is a
+    <tt>struct Elf64_Rela</tt> (see <tt><a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=elf/elf.h">/usr/include/elf.h</a></tt>) which
+    has only three members:
+    </p><ul>
+     <li><tt>offset</tt> (the variable's [usually position-independent] virtual memory address
+         which holds the "patched" value during the relocation process)
+     </li><li><tt>info</tt> (Index into <tt>.dynsym</tt> section and Relocation Type)
+     </li><li><tt>addend</tt>
+    </li></ul>
+    See paragraphs below for details about runtime relocation.
+  </td>
+</tr>
+
+<tr>
+ <td><tt>.rela.plt</tt></td>
+ <td><b>Runtime</b>/Dynamic relocation table.
+    <p>
+    This relocation table is similar to the one in <tt>.rela.dyn</tt> section;
+    the difference is this one is for functions, not variables.
+    </p><p>The relocation type of entries in this table is
+     <tt>R_386_JMP_SLOT</tt> or <tt>R_X86_64_JUMP_SLOT</tt> and
+     the "offset" refers to memory addresses which are
+     inside <tt>.got.plt</tt> section.
+    </p><p>Simply put, this table holds information to relocate entries in
+    <tt>.got.plt</tt> section.
+  </p></td>
+</tr>
+
+<tr>
+ <td><tt>.rel.text</tt><br><tt>.rela.text</tt></td>
+ <td><b>Compile-time</b>/Static relocation table.
+    <p>For programs compiled with <tt>-c</tt> option,
+    this section provides information to the link editor <tt>ld</tt>
+    where and how to "patch" executable code in <tt>.text</tt> section.
+    </p><p>The difference between <tt>.rel.text</tt> and <tt>.rela.text</tt>
+    is entries in the former does not have <tt>addend</tt> member.
+    (Compare <tt>struct Elf64_Rel</tt> with <tt>struct Elf64_Rela</tt> in <tt>/usr/include/elf.h</tt>)
+    Instead, the addend is taken from the memory location
+    described by <tt>offset</tt> member.
+    </p><p>
+    Whether to use <tt>.rel</tt> or <tt>.rela</tt> is platform-dependent.
+    For x86_32, it is <tt>.rel</tt> and for x86_64, <tt>.rela</tt>
+  </p></td>
+</tr>
+
+<tr>
+ <td><tt>.rel.XXX</tt><br><tt>.rela.XXX</tt></td>
+ <td>Compile-time/Static relocation table for other sections. For example,
+    <tt>.rela.init_array</tt> is the relocation table for <tt>.init_array</tt>
+    section.
+  </td>
+</tr>
+
+<tr>
+ <td><tt>.rodata</tt></td>
+ <td>Read-only data.</td>
+</tr>
+<tr>
+ <td><tt>.shstrtab</tt></td>
+ <td>NULL-terminated strings of section names.
+ <p>One can use commands such as <tt>readelf -p .shstrtab a.out</tt> to see these strings.
+ </p></td>
+</tr>
+<tr>
+ <td><tt>.strtab</tt></td>
+ <td>NULL-terminated strings of names of symbols in <tt>.symtab</tt> section.
+ <p>One can use commands such as <tt>readelf -p .strtab a.out</tt> to see these strings.
+ </p></td>
+</tr>
+<tr>
+ <td><tt>.symtab</tt></td>
+ <td><b>Compile-time</b>/Static symbol table.
+   <p>This is the main symbol table used in compile-time linking
+   or runtime debugging.
+   </p><p>
+   The symbol names (as NULL-terminated strings) are stored in <tt>.strtab</tt> section.
+   </p><p>Both <tt>.symtab</tt> and <tt>.symtab</tt> can be stripped away by the <tt>strip</tt>
+   command.
+ </p></td>
+</tr>
+<tr>
+ <td><tt>.tbss</tt></td>
+ <td>Similar to <tt>.bss</tt> section, but for <i>Thread-Local data</i>. See paragraphs below.</td>
+</tr>
+<tr>
+ <td><tt>.tdata</tt></td>
+ <td>Similar to <tt>.data</tt> section, but for <i>Thread-Local data</i>. See paragraphs below.</td>
+</tr>
+<tr>
+ <td><tt>.text</tt></td>
+ <td>User's executable code</td>
+</tr>
+
+</tbody></table>
+
+</p><h2>How is an executable binary in Linux being executed ?</h2>
+First, the operating system must recognize executable binaries. For example,
+<tt>zcat /proc/config.gz | grep <a href="http://cateee.net/lkddb/web-lkddb/BINFMT_ELF.html">CONFIG_BINFMT_ELF</a></tt> can show whether the Linux kernel is compiled
+to support ELF executable binary format (if <tt>/proc/config.gz</tt> does not exist, try
+<tt>/lib/modules/`uname -r`/build/.config</tt>)
+<p>
+When the shell makes an <tt>execvc</tt> system call to run an executable binary, the Linux kernel responds as
+follows (see <a href="http://asm.sourceforge.net/articles/startup.html">here</a> and
+<a href="http://s.eresi-project.org/inc/articles/elf-rtld.txt">here</a> for more details) in sequence:
+</p><ol>
+<li><a href="http://lxr.linux.no/linux/arch/x86/kernel/process.c#L301"><tt>sys_execve</tt></a> function (in <tt>arch/x86/kernel/process.c</tt>) handles the <tt>execvc</tt> system call
+    from user space. It calls <tt>do_execve</tt> function.
+</li><li><tt>do_execve</tt> function (in <tt>fs/exec.c</tt>) opens the executable binary file and does some preparation.
+    It calls <tt>search_binary_handler</tt> function.
+</li><li><a href="http://lxr.linux.no/linux/fs/exec.c#L1240"><tt>search_binary_handler</tt></a> function (in <tt>fs/exec.c</tt>) finds out the type of executable binary
+    and calls the corresponding handler, which in our case, is <tt>load_elf_binary</tt> function.
+</li><li><a href="http://lxr.linux.no/linux/fs/binfmt_elf.c#L564"><tt>load_elf_binary</tt></a> (in <tt>fs/binfmt_elf.c</tt>) loads the user's executable binary file into memory.
+    It allocates memory segments and zeros out the BSS section by calling the <tt>padzero</tt> function.
+    <p><tt>load_elf_binary</tt> also examines
+    whether the user's executable binary contains an <tt>INTERP</tt> segment or not.
+
+</p></li><li>If the executable binary is dynamically linked, then the compiler will usually creates an
+    <tt>INTERP</tt> segment (which is usually the same as <tt>.interp</tt> section in
+    ELF's "linking view"), which  contains the full pathname of an "interpreter", usually
+    is the Glibc runtime linker <a href="http://linux.die.net/man/8/ld-linux">ld.so</a>.
+    <p>To see this, use command <tt>readelf -p .interp a.out</tt>
+    </p><p>According to <a href="http://www.x86-64.org/documentation/abi.pdf">AMD64 System V Application Binary Interface</a>,
+    the only valid interpreter for programs conforming to AMD64 ABI is <tt>/lib/ld64.so.1</tt>
+    and on Linux, GCC usually uses <tt>/lib64/ld-linux-x86-64.so.2</tt>
+    or <tt>/lib/ld-linux-x86-64.so.2</tt> instead:
+</p><pre>$ gcc -dumpspecs
+....
+
+*link:
+...
+  %{!m32:%{!dynamic-linker:-dynamic-linker %{muclibc:%{mglibc:%e-mglibc and -muclibc used
+together}/lib/ld64-uClibc.so.0;:<font color="LightGreen">/lib/ld-linux-x86-64.so.2</font>}}}}
+...
+</pre>
+    <p>To change the runtime linker, compile the program using something like </p><pre>gcc foo.c -Wl,-I/my/own/ld.so</pre>
+    <p>The <a href="http://www.sco.com/developers/gabi/latest/ch5.dynamic.html">System V Application Binary Interface</a>
+    specifies, the operating system, instead of running the user's executable binary, should run this
+    "interpreter". This interpreter should complete the binding of user's executable binary
+    to its dependencies.
+
+</p></li><li>Thus, if the ELF executable binary file contains an <tt>INTERP</tt> segment, <tt>load_elf_binary</tt> will
+    call <a href="http://lxr.linux.no/linux/fs/binfmt_elf.c#L383"><tt>load_elf_interp</tt></a> function to load the image of this interpreter as well.
+</li><li>Finally, <tt>load_elf_binary</tt> calls <tt>start_thread</tt> (in <tt>arch/x86/kernel/process_64.c</tt>)
+     and passes control to either the interpreter or the user program.
+</li></ol>
+
+<h2>What about <tt>ld.so</tt> ?</h2>
+<tt>ld.so</tt> is the runtime linker/loader (the compile-time linker <tt>ld</tt> is formally called "link editor")
+for dynamic executables. It provides the <a href="http://download.oracle.com/docs/cd/E19963-01/html/819-0690/chapter3-1.html">following services</a>:
+<ul>
+  <li>Analyzes the user's executable binary's <tt>DYNAMIC</tt> segment and determines what
+    dependencies are required. (See below)
+  </li><li>Locates and loads these dependencies, analyzes their <tt>DYNAMIC</tt> segments
+    to determine if more dependencies are required.
+  </li><li>Performs any necessary relocations to bind these objects.
+  </li><li>Calls any initialization functions (see below) provided by these dependencies.
+  </li><li>Passes control to user's executable binary.
+</li></ul>
+
+<h2>Compile your own <tt>ld.so</tt> </h2>
+The internal working of <tt>ld.so</tt> is complex, so you might want to compile and experiment your
+own <tt>ld.so</tt>.
+The source code of <tt>ld.so</tt> can be found in <font color="lightgreen">Glibc</font>. The main files are
+<a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=elf/rtld.c"><tt>elf/rtld.c</tt></a>,
+<a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=elf/dl-reloc.c"><tt>elf/dl-reloc.c</tt></a>, and
+<a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=sysdeps/x86_64/dl-machine.h"><tt>sysdeps/x86_64/dl-machine.h</tt></a>.
+<p>
+<a href="http://www.linuxfromscratch.org/lfs/view/development/chapter05/glibc.html">This link</a>
+provides general tips for building Glibc. Glibc's own
+<a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=INSTALL">INSTALL</a> and
+<a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=FAQ">FAQ</a> documents
+are useful too.
+</p><p>
+To compile Glibc (<font color="lightgreen"><tt>ld.so</tt> cannot be compiled independently</font>) download and unpack Glibc source tarball.
+</p><ul>
+<li>Make sure the version of Glibc you downloaded is the same as the system's current one.
+</li><li>Make sure the environmental variable <tt>LD_RUN_PATH</tt> is not set.
+</li><li>Read the <a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=INSTALL">INSTALL</a> and make sure all necessary tool chains (Make, Binutils, etc)
+are up-to-date.
+</li><li>Make sure the file system you are doing the compilation is <font color="lightgreen">case sensitive</font>, or
+you will see <a href="http://crossgcc.rts-software.org/doku.php?id=i386linuxgccformac">weird errors</a> like
+<pre>/scratch/elf/librtld.os: In function `process_envvars':
+/tmp/glibc-2.x.y/elf/rtld.c:2718: undefined reference to `__open'
+...
+</pre>
+
+</li><li><tt>ld.so</tt> should be compiled with the <font color="lightgreen">optimization flag on</font>
+(<tt>-O2</tt> is the default). Failing to do so will end up with weird errors (see Question 1.23 in
+<a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=FAQ">FAQ</a>)
+</li><li>Suppose Glibc is unpacked at <pre>/tmp/glibc-2.x.y/</pre>
+Then edit <tt>/tmp/glibc-2.x.y/Makefile.in</tt>: Un-comment the line <pre># PARALLELMFLAGS = -j 4</pre> and
+change 4 to an appropriate number.<p>
+</p></li><li>Since we are only interested in <tt>ld.so</tt> and not the whole Glibc,
+we only want to build the essential source files needed by <tt>ld.so</tt>.
+To do so, edit <tt>/tmp/glibc-2.x.y/Makeconfig</tt>: Find the line started with
+<pre>all-subdirs = csu assert ctype locale intl catgets math setjmp signal \
+  ...
+</pre>
+and change it to
+<pre>all-subdirs = csu elf gmon io misc posix setjmp signal stdlib string time
+</pre>
+
+</li><li>Find a scratch directory, say <tt>/scratch</tt>. Then
+<pre>$ cd /scratch
+$ /tmp/glibc-2.x.y/configure --prefix=/scratch --disable-profile
+$ gmake
+</pre>
+
+</li><li>Since we are not building the entire Glibc, when the <tt>gmake</tt>
+stops (probably with some errors), check if <tt>/scratch/elf/ld.so</tt> exists
+or not.
+
+</li><li><tt>ld.so</tt> is a static binary, which means it has its own
+implementation of standard C routines (e.g. <tt>memcpy</tt>, <tt>strcmp</tt>, etc)
+It has its own <tt>printf</tt>-like routine called <tt>_dl_debug_printf</tt>.
+<p>
+<a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=elf/dl-misc.c"><tt>_dl_debug_printf</tt></a>
+is not the full-blown <tt>printf</tt> and has very limited capabilities.
+For example, to print the address, one would need to use
+</p><pre>_dl_debug_printf("0x%0*lx\n", (int)sizeof (void*)*2, &amp;foo);
+</pre>
+</li></ul>
+
+<h2>How does <tt>ld.so</tt> work ?</h2>
+
+<tt>ld.so</tt>, by its nature, cannot be a dynamic executable itself. The
+entry point of <tt>ld.so</tt> is <tt>_start</tt> defined in
+the macro <tt>RTLD_START</tt> (in <a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=sysdeps/x86_64/dl-machine.h"><tt>sysdeps/x86_64/dl-machine.h</tt></a>).
+<tt>_start</tt> is placed at the beginning of <tt>.text</tt> section, and
+the default <tt>ld</tt> script specifies
+"Entry point address" (in ELF header, use <tt>readelf -h ld.so|grep Entry</tt> command to see)
+to be the address of <tt>_start</tt> (use <tt>ld -verbose | grep ENTRY</tt> command to see). One
+can set the entry point to a different address at compile time
+by <a href="http://sourceware.org/binutils/docs/ld/Entry-Point.html"><tt>-e</tt> option</a>)
+so <tt>ld.so</tt> is executed from here. The very first thing it does is to call <tt>_dl_start</tt> of
+<tt>elf/rtld.c</tt>. To see this, run gdb on some ELF executable binary, and do
+<pre>(gdb) break _dl_start
+Function "_dl_start" not defined.
+Make breakpoint pending on future shared library load? (y or [n]) y
+Breakpoint 1 (_dl_start) pending.
+(gdb) run
+Starting program: a.out
+
+Breakpoint 1, 0x0000003433e00fa0 in _dl_start () from /lib64/ld-linux-x86-64.so.2
+(gdb) bt
+#0  0x0000003433e00fa0 in <font color="lightgreen">_dl_start</font> () from /lib64/ld-linux-x86-64.so.2
+#1  0x0000003433e00a78 in <font color="lightgreen">_start</font> () from /lib64/ld-linux-x86-64.so.2
+#2  0x0000000000000001 in ?? ()
+#3  0x00007fffffffe4f2 in ?? ()
+#4  0x0000000000000000 in ?? ()
+...
+(gdb) x/10i $pc
+   0x3433e00a70 &lt;_start&gt;:       mov    %rsp,%rdi
+   0x3433e00a73 &lt;_start+3&gt;:     callq  0x3433e00fa0 &lt;<font color="lightgreen">_dl_start</font>&gt;
+   0x3433e00a78 &lt;_dl_start_user&gt;:       mov    %rax,%r12
+   0x3433e00a7b &lt;_dl_start_user+3&gt;:     mov    0x21b30b(%rip),%eax        # 0x343401bd8c &lt;_dl_skip_args&gt;
+...
+</pre>
+At this breakpoint, we can use <tt>pmap</tt> to see the memory map of a.out, which would
+look like this:
+<pre>0000000000400000      8K r-x--  a.out
+0000000000601000      4K rw---  a.out
+0000003433e00000    112K r-x--  /lib64/ld-2.5.so
+000000343401b000      8K rw---  /lib64/ld-2.5.so
+00007ffffffea000     84K rw---    [ stack ]
+ffffffffff600000   8192K -----    [ anon ]
+ total             8408K
+</pre>
+The memory segment of <tt>/lib64/ld-2.5.so</tt> indeed starts at 3433e00000 (page aligned) and
+this can be verified by running <tt>readelf -t /lib64/ld-2.5.so</tt>.
+<p>
+If we put another breakpoint at <tt>main</tt> and continue, then when it stops, the memory
+map would change to this:
+</p><pre>0000000000400000      8K r-x--  a.out
+0000000000601000      4K rw---  a.out
+0000003433e00000    112K r-x--  /lib64/ld-2.5.so
+000000343401b000      4K r----  /lib64/ld-2.5.so
+000000343401c000      4K rw---  /lib64/ld-2.5.so
+<font color="lightgreen">0000003434200000   1336K r-x--  /lib64/libc-2.5.so     &lt;-- The first "LOAD" segment, which contains .text and .rodata sections
+000000343434e000   2044K -----  /lib64/libc-2.5.so     &lt;-- "Hole"
+000000343454d000     16K r----  /lib64/libc-2.5.so     &lt;-- Relocation (GNU_RELRO) info  -+---- The second "LOAD" segment
+0000003434551000      4K rw---  /lib64/libc-2.5.so     &lt;-- .got.plt .data sections      -+
+0000003434552000     20K rw---    [ anon ]             &lt;-- The remaining zero-filled sections (e.g. .bss)
+0000003434e00000     88K r-x--  /lib64/libpthread-2.5.so     &lt;-- The first "LOAD" segment, which contains .text and .rodata sections
+0000003434e16000   2044K -----  /lib64/libpthread-2.5.so     &lt;-- "Hole"
+0000003435015000      4K r----  /lib64/libpthread-2.5.so     &lt;-- Relocation (GNU_RELRO) info  -+---- The second "LOAD" segment
+0000003435016000      4K rw---  /lib64/libpthread-2.5.so     &lt;-- .got.plt .data sections      -+
+0000003435017000     16K rw---    [ anon ]                   &lt;-- The remaining zero-filled sections (e.g. .bss)
+00002aaaaaaab000      4K rw---    [ anon ]
+00002aaaaaac6000     12K rw---    [ anon ]</font>
+00007ffffffea000     84K rw---    [ stack ]
+ffffffffff600000   8192K -----    [ anon ]
+ total            14000K
+</pre>
+Indeed, <tt>ld.so</tt> has brought in all the required dynamic libraries.<p>Note that there
+are two memory regions of 2044KB with <font color="lightgreen">null permissions</font>.
+As mentioned earlier, the ELF's 'execution view' is concerned with how to load an executable
+binary into memory. When <tt>ld.so</tt> brings in the  dynamic libraries, it looks at the segments labelled
+as <tt>LOAD</tt> (look at "Program Headers" and "Section to Segment mapping"
+from <tt>readelf -a xxx.so</tt> command.) Usually there are two <tt>LOAD</tt> segments, and
+there is a "hole" between the two segments (look at the VirtAddr and MemSiz of these
+two segments), so <tt>ld.so</tt> will
+make this hole inaccessible deliberately: Look for the <tt>PROT_NONE</tt> symbol in
+<tt>_dl_map_object_from_fd</tt> in <a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=elf/dl-load.c"><tt>elf/dl-load.c</tt></a>
+</p><p>
+Also note that each of
+<tt>libc-2.5.so</tt> and <tt>libpthread-2.5.so</tt> has a read-only memory region
+(at 0x343454d000 and 0x3435015000, respectively). This is a for
+<a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=elf/dl-reloc.c"><tt>elf/dl-reloc.c</tt></a>.
+The <tt>GNU_RELRO</tt> segment is contained in the the second <tt>LOAD</tt> segment, which
+contains the following sections (look at "Program Headers" and "Section to Segment mapping"
+from <tt>readelf -l xxx.so</tt> command):
+<tt>.tdata</tt>, <tt>.fini_array</tt>, <tt>.ctors</tt>, <tt>.dtors</tt>, <tt>__libc_subfreeres</tt>,
+<tt>__libc_atexit</tt>, <tt>__libc_thread_subfreeres</tt>, <tt>.data.rel.ro</tt>, <tt>.dynamic</tt>,
+<tt>.got</tt>, <tt>.got.plt</tt>, <tt>.data</tt>, and <tt>.bss</tt>. Except for
+<tt>.got.plt</tt>, <tt>.data</tt>, and <tt>.bss</tt>, all sections in  the the second <tt>LOAD</tt> segment
+are also in the <tt>GNU_RELRO</tt> segment, and they are thus made read-only.
+</p><p>
+The two <tt>[anon]</tt> memory segments at 0x3434552000 and 0x3435017000 are for sections which do not take space in the ELF
+binary files. For example,  <tt>readelf -t xxx.so</tt> will show that <tt>.bss</tt> section
+has <tt>NOBITS</tt> flag, which means that section takes no disk space. When segments
+containing  <tt>NOBITS</tt> sections are mapped into memory, <tt>ld.so</tt> allocates
+extra memory pages to accomodate these <tt>NOBITS</tt> sections. A <tt>LOAD</tt>
+segment is usually structured as a series of <b>contiguous</b> sections, and if
+a segment contains <tt>NOBITS</tt> sections, these <tt>NOBITS</tt> sections will
+be grouped together and placed at the tail of the segment.
+</p><p>
+So what does <tt>_dl_start</tt> do ?
+</p><ul>
+<li>Allocate the initial TLS block and initialize the Thread Pointer if needed (these are for <tt>ld.so</tt>'s own, not for the user program)
+</li><li>Call <tt>_dl_sysdep_start</tt>, which will call <tt>dl_main</tt>
+</li><li><tt>dl_main</tt> does the majority of the hard work, for example:<p>
+    It calls <tt>process_envvars</tt> to handle these <tt>LD_</tt> prefix environmental
+    variables such as <tt>LD_PRELOAD</tt>, <tt>LD_LIBRARY_PATH</tt>.</p><p>
+    It examines the <tt>NEEDED</tt> field(s) in the user executable binary's <tt>DYNAMIC</tt> segment
+    section (see below) to determine the dependencies.</p><p>
+    It calls <tt>_dl_init_paths</tt> (in <a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=elf/dl-load.c"><tt>elf/dl-load.c</tt></a>)
+    to initialize the dynamic libraries search paths.
+    According to <a href="http://manpages.courier-mta.org/htmlman8/ld.so.8.html"><tt>ld.so</tt> man page</a>
+    and <a href="http://blog.lxgcc.net/?tag=dt_runpath">this page</a>,
+    the dynamic libraries are searched in the following order:
+    </p><p>
+    </p><ol>
+      <li>The <tt>RPATH</tt> in the <tt>DYNAMIC</tt> segment if there is no
+        <tt>RUNPATH</tt> in the <tt>DYNAMIC</tt> segment.
+        <p><tt>RPATH</tt> can be specified when
+        the code is compiled with <tt>gcc -Wl,-rpath=...</tt>
+        </p><p><font color="red">Use of <tt>RPATH</tt> is deprecated</font>
+        because it has an obvious drawback: There is no way to override
+        it except using <tt>LD_PRELOAD</tt> environmental variable
+        or removing it from the <tt>DYNAMIC</tt> segment.
+        </p><p>Both <tt>RPATH</tt> and <tt>RUNPATH</tt> can
+        contain <font color="LightGreen"><tt>$ORIGIN</tt></font>
+        (or equivalently <font color="LightGreen"><tt>${ORIGIN}</tt></font>), which will be
+        expanded to the value of environmental variable <tt>LD_ORIGIN_PATH</tt>
+        or the full path of the loaded object
+        (unless the programs use <tt>setuid</tt> or <tt>setgid</tt>)
+        </p><p>
+      </p></li><li>The <tt>LD_LIBRARY_PATH</tt> environmental variable (unless
+        the programs use <tt>setuid</tt> or <tt>setgid</tt>)
+      </li><li>The <tt>RUNPATH</tt> in the <tt>DYNAMIC</tt> segment.<br><tt>RUNPATH</tt> can be specified when
+        the code is compiled with <tt>gcc -Wl,-rpath=...<font color="LightGreen">,--enable-new-dtags</font></tt>
+        <br>
+        One can use <a href="http://linux.die.net/man/1/chrpath">chrpath</a>
+        tool to manipulate <tt>RPATH</tt> and <tt>RUNPATH</tt> settings.
+      </li><li><a href="http://manpages.courier-mta.org/htmlman8/ldconfig.8.html"><tt>/etc/ld.so.cache</tt></a>
+      </li><li><tt>/lib</tt>
+      </li><li><tt>/usr/lib</tt>
+    </li></ol>
+    <p>
+    It calls <tt>_dl_map_object_from_fd</tt> (in <a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=elf/dl-load.c"><tt>elf/dl-load.c</tt></a>)
+    to load the dynamic libraries, sets up the right read/write/execute permissions for the memory segments,
+    (within <tt>_dl_map_object_from_fd</tt>, look at calls to <tt>mmap</tt>, <tt>mprotect</tt> and symbols such as
+    <tt>PROT_READ</tt>, <tt>PROT_WRITE</tt>, <tt>PROT_EXEC</tt>, <tt>PROT_NONE</tt>),
+    <b>zeroes out BSS sections of dynamic libraries</b> (inside <tt>_dl_map_object_from_fd</tt> function, look at calls to <tt>memset</tt>),
+    updates the link map, and performs relocations.</p><p>
+    It calls <tt>_dl_relocate_object</tt> (in <a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=elf/dl-reloc.c"><tt>elf/dl-reloc.c</tt></a>) to perform <b>runtime relocations</b> (see details below).
+    </p><p>
+
+</p></li><li>When <tt>_dl_start</tt> returns, it continues to execute
+    code in <tt>_dl_start_user</tt> (see <a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=sysdeps/x86_64/dl-machine.h"><tt>sysdeps/x86_64/dl-machine.h</tt></a>)
+
+</li><li><tt>_dl_start_user</tt> will call <tt>_dl_init_internal</tt>, which will call <tt>call_init</tt>
+    to invoke initialization function of each dynamic library loaded.
+    <p>Note that <tt>_dl_init_internal</tt> is defined in <a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=elf/dl-init.c"><tt>elf/dl-init.c</tt></a> as:
+</p><pre>void
+internal_function
+_dl_init (struct link_map *main_map, int argc, char **argv, char **env)
+</pre>
+    <tt>call_init</tt> is also in <a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=elf/dl-init.c"><tt>elf/dl-init.c</tt></a><p>
+
+</p></li><li>The initialization function of a dynamic library, say <tt>libfoo.so</tt>, is located at the
+     address marked with type "<tt>INIT</tt>" in the output of <tt>readelf -d libfoo.so</tt>
+    <font color="lightgreen">For Glibc, its initialization function is named <tt>_init</tt></font> (not to be confused with the <tt>_init</tt>
+    inside the user's executable binary) and its source code is in
+    <a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=sysdeps/unix/sysv/linux/x86_64/init-first.c"><tt>sysdeps/unix/sysv/linux/x86_64/init-first.c</tt></a>.
+    <p><tt>_init</tt> will do the following things:
+    </p><ul>
+       <li>Save <tt>argc</tt>, <tt>argv</tt>, <tt>envp</tt> to hidden variables
+          <tt>__libc_argc</tt>, <tt>__libc_argv</tt>, <tt>__environ</tt>
+       </li><li>Call <tt>VDSO_SETUP</tt> to set up Virtaul Dynamic Shared Objects (see <a href="http://www.acsu.buffalo.edu/%7Echarngda/x86assembly.html">here</a>)
+        <tt>VDSO_SETUP</tt> is a platform-dependent macro. For x86_64, this macro is defined as
+        <tt>_libc_vdso_platform_setup</tt> in <a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=sysdeps/unix/sysv/linux/x86_64/init-first.c"><tt>sysdeps/unix/sysv/linux/x86_64/init-first.c</tt></a>
+       </li><li>Call <tt>__init_misc</tt> (in
+        <a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=misc/init-misc.c"><tt>misc/init-misc.c</tt></a>) which saves <tt>argv[0]</tt>
+        to two global variables: <tt>program_invocation_name</tt> and <tt>program_invocation_short_name</tt>
+       </li><li>Call <tt>__libc_global_ctors</tt> (in <a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=elf/soinit.c"><tt>elf/soinit.c</tt></a>) to invoke each function listed in
+        the <tt>.ctors</tt> section (see below).<p>
+        For x86_64, <tt>.ctors</tt> section contains only one function: <tt>init_cacheinfo</tt></p><p>
+    </p></li></ul>
+
+</li><li>At the end of <tt>_dl_start_user</tt>, the control  transfers to user program's entry point address (use <tt>readelf -h a.out|grep Entry</tt> to see)
+    which is usually the initial address of <tt>.text</tt> section and contains
+    the entry of a function named <tt>_start</tt>, and in the control transfer, the finalizer function
+    <tt>_dl_fini</tt> is passed as an argument,
+    and the stack frames are completely clobbered, as if the user program
+    is run without any <tt>ld.so</tt> intervention. The latter is done by manipulating the stack (see the
+    <a href="http://articles.manugarg.com/aboutelfauxiliaryvectors.html">on-stack auxiliary vector</a> adjustment
+    code and <tt>HAVE_AUX_VECTOR</tt> in <tt>dl_main</tt>)
+</li></ul>
+<p>
+</p><center><h1>Here is the <a href="http://www.acsu.buffalo.edu/%7Echarngda/code/gdb_callgraph/examples/callgraphLDSO.gif">call graph</a>,
+which is worth a thousand words</h1> and see <a href="http://www.acsu.buffalo.edu/%7Echarngda/callgraph.html">here</a>
+on how it is generated.</center>
+<p>
+<font color="lightgreen">To see <tt>ld.so</tt> in action, set the environmental
+variable <tt>LD_DEBUG</tt> to <tt>all</tt></font> and then run a user program.
+</p><p>The above debugging information does not show <tt>mmap</tt> and <tt>mprotect</tt> calls.
+However, we can use <tt>strace</tt>. If we run the user program again with
+</p><pre>strace -e trace=mmap,mprotect,munmap,open a.out</pre> we should see something like the
+following:
+<pre>mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x2ae62c0d1000
+
+  .... (a lot of failed attempts to open 'libpthread.so.0' using LD_LIBRARY_PATH)
+
+<font color="LightBlue">open("/etc/ld.so.cache", O_RDONLY) = 3
+mmap(NULL, 104801, PROT_READ, MAP_PRIVATE, 3, 0) = 0x2ae62c0d2000</font>
+<font color="LightCoral">open("/lib64/libpthread.so.0", O_RDONLY) = 3</font>
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x2ae62c0ec000
+<font color="LightCoral">mmap(0x3434e00000, 2204528, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x3434e00000     &lt;-- Bring in the first "LOAD" segment
+mprotect(0x3434e16000, 2093056, PROT_NONE) = 0     &lt;-- Make the "hole" inaccessible
+mmap(0x3435015000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x15000) = 0x3435015000     &lt;-- Bring in the second "LOAD" segment
+mmap(0x3435017000, 13168, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x3435017000</font>
+       (note: 0x3435017000 is the [anon] part which follows immediately after libpthread-2.5.so)
+  ...
+  .... (a lot of failed attempts to open 'libc.so.6' using LD_LIBRARY_PATH)
+
+<font color="Orange">open("/lib64/libc.so.6", O_RDONLY) = 3
+mmap(0x3434200000, 3498328, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x3434200000     &lt;-- Bring in the first "LOAD" segment
+mprotect(0x343434e000, 2093056, PROT_NONE) = 0     &lt;-- Make the "hole" inaccessible
+mmap(0x343454d000, 20480, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x14d000) = 0x343454d000     &lt;-- Bring in the second "LOAD" segment
+mmap(0x3434552000, 16728, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x3434552000</font>
+       (note: 0x3434552000 is the [anon] part which follows immediately after libc-2.5.so)
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x2ae62c0ed000
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x2ae62c0ee000
+<font color="Orange">mprotect(0x343454d000, 16384, PROT_READ) = 0</font>    &lt;-- Make the GNU_RELRO segment read-only
+<font color="LightCoral">mprotect(0x3435015000, 4096, PROT_READ) = 0</font>     &lt;-- Make the GNU_RELRO segment read-only
+mprotect(0x343401b000, 4096, PROT_READ) = 0
+<font color="LightBlue">munmap(0x2ae62c0d2000, 104801)= 0</font>
+mmap(NULL, 10489856, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_32BIT, -1, 0) = 0x40dc7000
+mprotect(0x40dc7000, 4096, PROT_NONE)   = 0
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x2aaaaaaab000
+</pre>
+
+<h2><tt>.plt</tt> section</h2>
+This section contains trampolines for functions defined in dynamic libraries.
+A sample disassembly (run the command <tt>objdump -M intel -dj .plt a.out</tt>) will show the following:
+<pre>4003c0 &lt;<font color="lightgreen">printf@plt-0x10</font>&gt;:
+  4003c0: push   QWORD PTR [RIP+0x2004d2]        # 600898 &lt;_GLOBAL_OFFSET_TABLE_+0x8&gt;
+  4003c6: jmp    QWORD PTR [RIP+0x2004d4]        # 6008a0 &lt;_GLOBAL_OFFSET_TABLE_+0x10&gt;
+  4003cc: nop    DWORD PTR [RAX+0x0]
+
+4003d0 &lt;printf@plt&gt;:
+  4003d0: jmp    QWORD PTR [RIP+0x2004d2]        # <font color="lightgreen">6008a8</font> &lt;_GLOBAL_OFFSET_TABLE_+0x18&gt;
+  4003d6: push   0
+  4003db: jmp    4003c0 &lt;<font color="lightgreen">printf@plt-0x10</font>&gt;
+
+4003e0 &lt;__libc_start_main@plt&gt;:
+  4003e0: jmp    QWORD PTR [RIP+0x2004ca]        # 6008b0 &lt;_GLOBAL_OFFSET_TABLE_+0x20&gt;
+  4003e6: push   1
+  4003eb: jmp    4003c0 &lt;<font color="lightgreen">printf@plt-0x10</font>&gt;
+</pre>
+
+The <tt>_GLOBAL_OFFSET_TABLE_</tt> (labeled as <tt>R_X86_64_JUMP_SLOT</tt> and starts at address 0x600890) is located in
+<tt>.got.plt</tt> section (to see this, run the command  <tt>objdump -h a.out |grep -A 1 600890</tt>
+or the command <tt>readelf -r a.out</tt>)
+The data in <tt>.got.plt</tt> section look like the following <font color="lightgreen">during runtime</font>
+(use gdb to see them)
+<pre>(gdb) b *0x4003d0
+(gdb) run
+(gdb) x/6a 0x600890
+0x600890: 0x6006e8 &lt;_DYNAMIC&gt;     0x32696159a8
+0x6008a0: 0x326950aa20 &lt;_dl_runtime_resolve&gt;     <font color="lightgreen">0x4003d6</font> &lt;printf@plt+6&gt;
+0x6008b0: 0x326971c3f0 &lt;__libc_start_main&gt;       0x0
+</pre>
+When <tt>printf</tt> is called the first time in the user program, the
+jump at 4003d0 will jump to <font color="lightgreen">4003d6</font>, which is just the next instruction (<tt>push 0</tt>)
+The it jumps to 4003c0, which does not have a function  name (so it is
+shown as <tt>&lt;printf@plt-0x10&gt;</tt>). At 4003c6, it will jumps
+to <tt>_dl_runtime_resolve</tt>. This function (in Glibc's source file
+<a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=sysdeps/x86_64/dl-trampoline.S"><tt>sysdeps/x86_64/dl-trampoline.S</tt></a>)
+is a trampoline to <tt>_dl_fixup</tt> (in Glibc's source file
+<a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=elf/dl-runtime.c"><tt>elf/dl-runtime.c</tt></a>).
+<tt>_dl_fixup</tt> again, is part of Glibc runtime linker <tt>ld.so</tt>. In particular, <font color="lightgreen">it will change
+the address stored at 6008a8 to the actual
+address of <tt>printf</tt> in <tt>libc.so.6</tt></font>. To see this, set up a
+hardware watchpoint
+<pre>(gdb) watch *0x6008a8
+(gdb) cont
+Continuing.
+Hardware watchpoint 2: *0x6008a8
+
+Old value = 4195286
+New value = 1769244016
+0x000000326950abc2 in fixup () from /lib64/ld-linux-x86-64.so.2
+</pre>
+If we continue execution, <tt>printf</tt> will be called, as
+expected. When <tt>printf</tt> is called again in the user program, the
+jump at 4003d0 will bounce directly to <tt>printf</tt>:
+<pre>(gdb) x/6a 0x600890
+0x600890: 0x6006e8 &lt;_DYNAMIC&gt;     0x32696159a8
+0x6008a0: 0x326950aa20 &lt;_dl_runtime_resolve&gt;     <font color="lightgreen">0x3269748570</font> &lt;printf&gt;
+0x6008b0: 0x326971c3f0 &lt;__libc_start_main&gt;       0x0
+</pre>
+
+<h2><tt>.init</tt>, <tt>.fini</tt>, <tt>.preinit_array</tt>, <tt>.init_array</tt> and <tt>.fini_array</tt> sections</h2>
+<tt>.init</tt> and <tt>.fini</tt> sections contain code to do
+<a href="http://download.oracle.com/docs/cd/E19963-01/html/819-0690/chapter3-8.html">initialization and termination</a>, as
+specified by the <a href="http://www.sco.com/developers/gabi/latest/ch4.sheader.html#special_sections">System V Application Binary Interface</a>.
+If the code is compiled by GCC, then one will see the following code in
+<tt>.init</tt> and <tt>.fini</tt>  sections, respectively:
+<pre>4003a8 &lt;_init&gt;:
+  4003a8: sub    RSP, 8
+  4003ac: call   call_gmon_start
+  4003b1: call   frame_dummy
+  4003b6: call   __do_global_ctors_aux
+  4003bb: add    RSP, 8
+  4003bf: ret
+
+400618 &lt;_fini&gt;:
+  400618: sub    RSP, 8
+  40061c: call   __do_global_dtors_aux
+  400621: add    RSP, 8
+  400625: ret
+</pre>
+
+There is only one function: <tt>_init</tt>, in <tt>.init</tt> section, and
+likewise, only one function: <tt>_fini</tt> in <tt>.fini</tt> section.
+Both <tt>_init</tt> and <tt>_fini</tt> are <b>synthesized</b> at compile time
+by the compiler/linker. Glibc
+provides its own prolog and epilog for <tt>_init</tt> and <tt>_fini</tt>, but
+the compiler is free to choose how to use them and add more code into <tt>_init</tt>
+and <tt>_fini</tt>.
+<p>
+In Glibc, the source file <a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=sysdeps/generic/initfini.c"><tt>sysdeps/generic/initfini.c</tt></a>
+(and some system dependent ones, such as <a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=sysdeps/x86_64/elf/initfini.c"><tt>sysdeps/x86_64/elf/initfini.c</tt></a>)
+is compiled into two files: <tt>/usr/lib64/crti.o</tt> for prolog
+and <tt>/usr/lib64/crtn.o</tt> for epilog.
+</p><p>
+For the compiler part, GCC uses different prolog and epilog files, depending
+on the compiler command-line options. To see them, execute <tt>gcc -dumpspec</tt>,
+and one can see
+</p><pre>...
+
+*endfile:
+  %{ffast-math|funsafe-math-optimizations:crtfastmath.o%s}
+  %{mpc32:crtprec32.o%s}
+  %{mpc64:crtprec64.o%s}
+  %{mpc80:crtprec80.o%s}
+  %{shared|pie:crtendS.o%s;:crtend.o%s}
+  crtn.o%s
+
+...
+
+*startfile:
+  %{!shared: %{pg|p|profile:gcrt1.o%s;pie:Scrt1.o%s;:crt1.o%s}}
+  crti.o%s
+  %{static:crtbeginT.o%s;shared|pie:crtbeginS.o%s;:crtbegin.o%s}
+
+...
+</pre>
+The detailed explanation of GCC spec file is <a href="http://gcc.gnu.org/onlinedocs/gcc/Spec-Files.html">here</a>.
+For above snippet, it means, for example, if compiler command-line
+option <tt>-ffast-math</tt> is used, include GCC's <tt>crtfastmath.o</tt>
+file (this file can be found under <tt>/usr/lib/gcc/&lt;arch&gt;/&lt;version&gt;/</tt>)
+at the end of the linking process. Glibc's <tt>crtn.o</tt> is always
+included at the end of linking. The <tt>%s</tt> means this preceding file is a startup file. (GCC allows
+to skip startup files during linking using <tt>-nostartfiles</tt> compiler option)
+<p>Similarly, if <tt>-shared</tt> compiler command-line option is not used,
+then always include  Glibc's <tt>crt1.o</tt> at the start of the linking process.
+<tt>crt1.o</tt> contains the function <tt>_start</tt> in <tt>.text</tt> section (not <tt>.init</tt> section!)
+<tt>_start</tt> is the <font color="lightgreen">function that is executed before anything else</font>... see below.
+Next, include Glibc's <tt>crti.o</tt> in the linking. Finally, include either
+<tt>crtbeginT.o</tt>, <tt>crtbeginS.o</tt>, or <tt>crtbegin.o</tt> (both are part of GCC, of course), depending on
+whether <tt>-static</tt> or <tt>-shared</tt> (or neither) is used.
+</p><p>
+So, for example, if a program is compiled using dynamic linking (which is default), no profiling, no fast
+math optimizations, then the linking will include the following files in the following order:
+</p><ol>
+<li><tt>crt1.o</tt> (part of Glibc)
+</li><li><tt>crti.o</tt> (part of Glibc and contributes the code at 4003a8, 4003ac, 400618, and the body of <tt>call_gmon_start</tt>)
+</li><li><tt>crtbegin.o</tt> (part of GCC and contributes the code at 4003b1 and 40061c, and the body of <tt>frame_dummy</tt> and <tt>__do_global_dtors_aux</tt>)
+</li><li>user's code
+</li><li><tt>crtend.o</tt> (part of GCC and contributes the code at 4003b6 and the body of <tt>__do_global_ctors_aux</tt>)
+</li><li><tt>crtn.o</tt> (part of Glibc and contributes the code at 4003bb, 4003bf, 400621, 400625)
+</li></ol>
+Why <tt>__do_global_ctors_aux</tt> is in <tt>crtend*.o</tt> and <tt>__do_global_dtors_aux</tt>
+is in <tt>crtbegin*.o</tt>  ? Recall the order of invocation of destructors should be the reverse order
+of invocation of constructors. Therefore, GCC doing so will ensure  <tt>__do_global_ctors_aux</tt> is called
+as late as possible in <tt>.init</tt> section and <tt>__do_global_dtors_aux</tt> is called
+as early as possible in <tt>.fini</tt> section.
+<p>
+Now back to the <tt>4003a8 &lt;_init&gt;</tt>.
+</p><p>
+<tt>call_gmon_start</tt> is part of the Glibc prolog <tt>/usr/lib64/crti.o</tt>.
+It initializes <a href="http://sourceware.org/binutils/docs/gprof/">gprof</a> related
+data structures.
+</p><p>
+<tt>frame_dummy</tt> is in GCC code <a href="http://gcc.gnu.org/viewcvs/trunk/gcc/crtstuff.c?view=markup"><tt>gcc/crtstuff.c</tt></a> and it
+is used to set up excepion handling and Java class registration (JCR) information.
+</p><p>
+The most interesting code is <tt>__do_global_ctors_aux</tt> (in
+GCC's <a href="http://gcc.gnu.org/viewcvs/trunk/gcc/crtstuff.c?view=markup"><tt>gcc/crtstuff.c</tt></a> and
+<a href="http://gcc.gnu.org/viewcvs/trunk/gcc/gbl-ctors.h?view=markup"><tt>gcc/gbl-ctors.h</tt></a>) What it does
+is to call functions which are marked as
+<tt>__attribute__ ((constructor))</tt> (and static C++ objects' constructors) one by one:
+</p><pre>  __SIZE_TYPE__ nptrs = (__SIZE_TYPE__) __CTOR_LIST__[0];
+  unsigned i;
+
+  if (nptrs == (__SIZE_TYPE__)-1)
+    for (nptrs = 0; __CTOR_LIST__[nptrs + 1] != 0; nptrs++);
+
+  for (i = nptrs; i &gt;= 1; i--)
+    __CTOR_LIST__[i] ();
+</pre>
+The array <tt>__CTOR_LIST__</tt> is stored in a special section called <tt>.ctors</tt>.
+Suppose a function called <tt>foo</tt> is marked as <tt>__attribute__ ((constructor))</tt>,
+then the runtime call stack trace would be
+<pre>(gdb) break foo
+(gdb) run
+(gdb) bt
+#0  0x00000000004004d8 in foo ()
+#1  0x0000000000400606 in __do_global_ctors_aux ()
+#2  0x00000000004003bb in _init ()
+#3  0x00000000004005a0 in ?? ()
+#4  0x0000000000400561 in <font color="lightgreen">__libc_csu_init</font> ()
+#5  0x000000326971c46f in __libc_start_main ()
+#6  0x000000000040041a in _start ()
+</pre>
+Similarly, the <tt>__do_global_dtors_aux</tt> in <tt>_fini</tt> function
+will invoke all functions which are marked as
+<tt>__attribute__ ((destructor))</tt>. <tt>__do_global_dtors_aux</tt> code is also
+in GCC's source tree at <a href="http://gcc.gnu.org/viewcvs/trunk/gcc/crtstuff.c?view=markup"><tt>gcc/crtstuff.c</tt></a>. If
+a function called <tt>foo</tt> is marked as <tt>__attribute__ ((destructor))</tt>
+(and static C++ objects' destructors), then the runtime call stack trace would be
+<pre>(gdb) bt
+#0  0x0000000000400518 in foo ()
+#1  0x00000000004004ca in __do_global_dtors_aux ()
+#2  0x0000000000400641 in _fini ()
+#3  0x00000032699367e8 in ?? () from /lib64/tls/libc.so.6
+#4  0x0000003269730c95 in exit () from /lib64/tls/libc.so.6
+#5  0x000000326971c4d2 in __libc_start_main () from /lib64/tls/libc.so.6
+#6  0x000000000040045a in _start ()
+</pre>
+The array <tt>__DTOR_LIST__</tt> contains the addresses of these destructors
+and it is  stored in a special section called <tt>.dtors</tt>.
+
+<h2>What user functions will be executed before <tt>main</tt> and at program exit? </h2>
+As above call strack trace shows, <tt>_init</tt> is NOT the only function to be called before <tt>main</tt>.
+It is <tt>__libc_csu_init</tt> function (in Glibc's source file <a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=csu/elf-init.c"><tt>csu/elf-init.c</tt></a>)
+that determines what functions to be run before <tt>main</tt>
+and the order of running them. Its code is like this
+<pre>   void __libc_csu_init (int argc, char **argv, char **envp)
+   {
+   #ifndef LIBC_NONSHARED
+     {
+       const size_t size = __preinit_array_end - __preinit_array_start;
+       size_t i;
+       for (i = 0; i &lt; size; i++)
+         <font color="lightgreen">(*__preinit_array_start [i]) (argc, argv, envp)</font>;
+     }
+   #endif
+
+     <font color="lightgreen">_init ()</font>;
+
+     const size_t size = __init_array_end - __init_array_start;
+     for (size_t i = 0; i &lt; size; i++)
+         <font color="lightgreen">(*__init_array_start [i]) (argc, argv, envp)</font>;
+   }
+</pre>
+(Symbols such as <tt>__preinit_array_start</tt>, <tt>__preinit_array_end</tt>, <tt>__init_array_start</tt>,
+<tt>__init_array_end</tt> are defined by the default <tt>ld</tt> script;
+look for <a href="http://sourceware.org/binutils/docs/ld/PROVIDE.html"><tt>PROVIDE</tt>
+and <tt>PROVIDE_HIDDEN</tt> keywords</a> in the output of <tt>ld -verbose</tt> command.)
+<p>
+The <tt>__libc_csu_fini</tt> function has similar code, but what
+functions to be executed at program exit are actually determined by <tt>exit</tt>:
+</p><pre>    void __libc_csu_fini (void)
+    {
+    #ifndef LIBC_NONSHARED
+      size_t i = __fini_array_end - __fini_array_start;
+      while (i-- &gt; 0)
+        (*__fini_array_start [i]) ();
+
+      <font color="lightgreen">_fini ()</font>;
+    #endif
+    }
+</pre>
+<p>
+To see what's going on, consider the following C code example:
+</p><pre>   #include &lt;stdio.h&gt;
+   #include &lt;stdlib.h&gt;
+
+   void preinit(<font color="lightgreen">int argc, char **argv, char **envp</font>) {
+     printf("%s\n", __FUNCTION__);
+   }
+
+   void init(<font color="lightgreen">int argc, char **argv, char **envp</font>) {
+     printf("%s\n", __FUNCTION__);
+   }
+
+   void fini() {
+     printf("%s\n", __FUNCTION__);
+   }
+
+   <font color="lightgreen">__attribute__((section(".init_array")))</font> typeof(init) *__init = init;
+   <font color="lightgreen">__attribute__((section(".preinit_array")))</font> typeof(preinit) *__preinit = preinit;
+   <font color="lightgreen">__attribute__((section(".fini_array")))</font> typeof(fini) *__fini = fini;
+
+   void  <font color="lightgreen">__attribute__ ((constructor))</font> constructor() {
+     printf("%s\n", __FUNCTION__);
+   }
+
+   void <font color="lightgreen">__attribute__ ((destructor))</font> destructor() {
+     printf("%s\n", __FUNCTION__);
+   }
+
+   void <font color="lightgreen">my_atexit</font>() {
+     printf("%s\n", __FUNCTION__);
+   }
+
+   void <font color="lightgreen">my_atexit2</font>() {
+     printf("%s\n", __FUNCTION__);
+   }
+
+   int main() {
+     <font color="lightgreen">atexit(my_atexit)</font>;
+     <font color="lightgreen">atexit(my_atexit2)</font>;
+   }
+</pre>
+The output will be
+<pre>   preinit
+   constructor
+   init
+   my_atexit2
+   my_atexit
+   fini
+   destructor
+</pre>
+The <tt>.preinit_array</tt> and <tt>.init_array</tt> sections must contain
+<b>function pointers</b> (NOT code!) The prototype of these functions must be <pre>void func(int argc,char** argv,char** envp)</pre>
+<tt>__libc_csu_init</tt> execute them in the following order:
+<ol>
+<li>Function pointers in <tt>.preinit_array</tt> section
+</li><li>Functions marked as <tt>__attribute__ ((constructor))</tt>, via <tt>_init</tt>
+</li><li>Function pointers in <tt>.init_array</tt> section
+</li></ol>
+
+The <tt>.fini_array</tt>  section must also contain <b>function pointers</b>
+and the prototype is like the destructor, i.e. taking no arguments and returning void. If the program exits <b>normally</b>, then
+the <tt>exit</tt> function (Glibc source file <a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=stdlib/exit.c"><tt>stdlib/exit.c</tt></a>) is called and it
+will do the following:
+<ol>
+<li>In reverse order, functions registered via <tt>atexit</tt> or <tt>on_exit</tt>
+</li><li>Function pointers in <tt>.fini_array</tt> section, via <tt>__libc_csu_fini</tt>
+</li><li>Functions marked as <tt>__attribute__ ((destructor))</tt>, via <tt>__libc_csu_fini</tt> (which calls <tt>_fini</tt> after Step 2)
+</li><li>stdio cleanup functions
+</li></ol>
+<p>
+It is <font color="lightgreen">not advisable</font> to put a code in <tt>.init</tt> section, e.g.
+</p><pre>void __attribute__((section(".init"))) foo() {
+  ...
+}
+</pre>
+because doing so will cause <tt>__do_global_ctors_aux</tt> NOT to be called. The <tt>.init</tt>
+section will now look like this:
+<pre>4003a0 &lt;_init&gt;:
+  4003a0: sub    RSP, 8
+  4003a4: call   call_gmon_start
+  4003a9: call   frame_dummy
+
+4003ae &lt;foo&gt;:
+  4003ae: push   RBP
+  4003af: mov    RBP, RSP
+
+     ....  (foo's body)
+
+  4003b2: leave
+  4003b3: <font color="lightgreen">ret</font>
+  4003b4: call   __do_global_ctors_aux
+  4003b9: add    RSP, 8
+  4003bd: ret
+</pre>
+<p>
+Now <tt>.init</tt> section contains more than one function, but the
+epilog of <tt>_init</tt> is distorted by the insertion of <tt>foo</tt>
+</p><p>
+Similarly, it is <font color="lightgreen">not advisable</font> to put a code in <tt>.fini</tt> section,
+because  otherwise the code will look like this:
+</p><pre>4006d8 &lt;_fini&gt;:
+  4006d8: sub    RSP, 8
+  4006dc: call   __do_global_dtors_aux
+
+4006e1 &lt;foo&gt;:
+  4006e1: push   RBP
+  4006e2: mov    RBP, RSP
+
+     ....  (foo's body)
+
+  4006ef: leave
+  4006f0: <font color="lightgreen">ret</font>
+  4006f1: add    RSP, 8
+  4006f5: ret
+</pre>
+Now the epilog of <tt>_fini</tt> is distorted by the insertion of <tt>foo</tt>, so
+the stack frame pointer will not be adjusted (<tt>add RSP, 8</tt> is not executed),
+causing segmentation fault.
+
+<h2>What do <tt>_start</tt> and <tt>__libc_start_main</tt> do? </h2>
+The above call stack traces show that
+<tt>_start</tt> calls <tt>__libc_start_main</tt>, which runs
+all of the code before <tt>main</tt>.
+<p>
+<tt>_start</tt> is part of Glibc code, as in <a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=sysdeps/x86_64/elf/start.S"><tt>sysdeps/x86_64/elf/start.S</tt></a>.
+As mentioned earlier, it is compiled as <tt>/usr/lib64/crt1.o</tt> and is statically linked to
+user's executable binary during compilation. To see this, run gcc with <tt>-v</tt> command, and
+the last line would be something like:
+</p><pre>.../collect2 ... /usr/lib64/crt1.o /usr/lib64/crti.o ...  /usr/lib64/crtn.o
+</pre>
+<tt>_start</tt> is always placed  <font color="lightgreen">at the beginning of <tt>.text</tt> section, and
+the default <tt>ld</tt> script specifies
+"Entry point address" (in ELF header, use <tt>readelf -h ld.so|grep Entry</tt> command to see)
+to be the address of <tt>_start</tt> (use <tt>ld -verbose | grep ENTRY</tt> command to see), so
+<tt>_start</tt> is guaranteed to
+be run before anything else</font>. (This is changeable, however,  at compile time
+one can specify a different initial address
+by <a href="http://sourceware.org/binutils/docs/ld/Entry-Point.html"><tt>-e</tt> option</a>)
+<p>
+<tt>_start</tt> does only one thing: It sets up the arguments needed by
+<tt>__libc_start_main</tt> and then call it.
+
+<tt>__libc_start_main</tt>'s source code is <a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=csu/libc-start.c"><tt>csu/libc-start.c</tt></a>
+and its function prototype is:
+</p><pre>__libc_start_main (int (*main) (int, char **, char **),
+                   int argc,
+                   char *argv,
+                   int  (*init) (int, char **, char **),
+                   void (*fini) (void),
+                   void (*rtld_fini) (void),
+                   void *stack_end)
+                  )
+</pre>
+<tt>__libc_start_main</tt> does quite a lot of work in
+addition to kicking off <tt>__libc_csu_init</tt>:
+<ol>
+<li>Set up <tt>argv</tt> and <tt>envp</tt>
+<!--
+<li>Set up dynamic linker's flags (<tt>_dl_aux_init</tt> in <tt>elf/dl-support.c</tt>)
+-->
+</li><li>Initialize the thread local storage by calling <tt>__pthread_initialize_minimal</tt> (which
+    only calls <tt>__libc_setup_tls</tt>).<p><tt>__libc_setup_tls</tt> will initialize Thread Control Block
+        and Dynamic Thread Vector.
+</p></li><li>Set up the thread stack guard
+</li><li>Register the destructor (i.e. the <tt>rtld_fini</tt> argument passed to <tt>__libc_start_main</tt>)
+    of the dynamic linker (by calling <tt>__cxa_atexit</tt>) if there is any
+</li><li>Initialize Glibc inself by calling <tt>__libc_init_first</tt>
+</li><li>Register <tt>__libc_csu_fini</tt> (i.e. the <tt>fini</tt> argument passed to <tt>__libc_start_main</tt>)
+    using <tt>__cxa_atexit</tt>
+</li><li><font color="lightgreen">Call <tt>__libc_csu_init</tt></font> (i.e. the <tt>init</tt> argument
+passed to <tt>__libc_start_main</tt>)
+  <ol>
+    <li>Call function pointers in <tt>.preinit_array</tt> section
+    </li><li>Execute the code in <tt>.init</tt> section, which is usually <tt>_init</tt> function.
+        What <tt>_init</tt> function does is <font color="lightgreen">compiler-specific</font>.
+        For GCC, <tt>_init</tt> executes user functions marked as <tt>__attribute__ ((constructor))</tt>
+        (in <tt>__do_global_dtors_aux</tt>)
+    </li><li>Call function pointers in <tt>.init_array</tt> section
+  </li></ol>
+</li><li>Set up  data structures needed for thread unwinding/cancellation
+</li><li><font color="lightgreen">Call <tt>main</tt></font> of user's program.
+</li><li><font color="lightgreen">Call <tt>exit</tt></font>
+</li></ol>
+
+So if the last line of user program's <tt>main</tt> is <tt>return XX</tt>,
+then the <tt>XX</tt> will be passed to <tt>exit</tt> at Step #11 above. If
+the last line is not <tt>return XX</tt> or is simply <tt>return</tt>, then
+the value passed to <tt>exit</tt> would be undefined.<p>Of course, if
+the user program calls <tt>exit</tt> or <tt>abort</tt>, then <tt>exit</tt>
+will gets called.
+</p><center><h1>Here is the <a href="http://www.acsu.buffalo.edu/%7Echarngda/code/gdb_callgraph/examples/callgraphEmpty.gif">call graph</a>,
+which is worth a thousand words</h1> and see <a href="http://www.acsu.buffalo.edu/%7Echarngda/callgraph.html">here</a>
+on how it is generated.</center>
+<p>
+If one tries to build a program which does not contain <tt>main</tt>, then one should see the following error:
+</p><pre>/usr/lib/crt1.o: In function `_start': (<font color="lightgreen">.text+0x20</font>): undefined reference to `main'
+collect2: ld returned 1 exit status
+</pre>
+As mentioned earlier, <tt>crt1.o</tt> (part of Glibc) contains the function
+<tt>_start</tt>, which will call
+<tt>__libc_start_main</tt> and pass <tt>main</tt> (a function pointer) as one of the arguments.
+If one uses
+<pre>nm -u /usr/lib/crt1.o
+</pre>
+then it will show <tt>main</tt> is a undefined symbol in <tt>crt1.o</tt>. Now let's disassemble
+<tt>crt1.o</tt>:
+<pre>$ objdump -M intel -dj .text /usr/lib/crt1.o
+
+crt1.o:     file format elf64-x86-64
+
+Disassembly of section .text:
+
+0000000000000000 &lt;_start&gt;:
+   0:   31 ed                   xor    ebp,ebp
+   2:   49 89 d1                mov    r9,rdx
+   5:   5e                      pop    rsi
+   6:   48 89 e2                mov    rdx,rsp
+   9:   48 83 e4 f0             and    rsp,0xfffffffffffffff0
+   d:   50                      push   rax
+   e:   54                      push   rsp
+   f:   49 c7 c0 00 00 00 00    mov    r8,0x0
+  16:   48 c7 c1 00 00 00 00    mov    rcx,0x0
+  1d:   48 c7 c7 <font color="lightgreen">00 00 00 00</font>    mov    rdi,0x0
+  24:   e8 00 00 00 00          call   29 &lt;_start+0x29&gt;
+  29:   f4                      hlt
+  ...
+</pre>
+Above shows <font color="lightgreen">.text+0x20</font> refers to
+the 4 bytes of an <tt>mov</tt> instruction. This means during the
+linking, the address of <tt>main</tt> should be resolved
+and then inserted at the right memory location: .text+0x20. Now let's cross reference
+the relocation table:
+<pre>$ readelf -p /usr/lib/crt1.o
+
+Relocation section '.rela.text' at offset 0x410 contains 4 entries:
+  Offset          Info           Type           Sym. Value    Sym. Name + Addend
+000000000012  00090000000b R_X86_64_32S      0000000000000000 __libc_csu_fini + 0
+000000000019  000b0000000b R_X86_64_32S      0000000000000000 __libc_csu_init + 0
+<font color="lightgreen">000000000020</font>  000c0000000b R_X86_64_32S      0000000000000000 main + 0
+000000000025  000f00000002 R_X86_64_PC32     0000000000000000 __libc_start_main - 4
+</pre>
+Above shows where <font color="lightgreen">0x20</font> comes from.
+
+<h2>How to find the address of <tt>main</tt> of an executable binary ?</h2>
+When an ELF executable binary is stripped off symbolic information, it
+is not clear where the <tt>main</tt> is located.
+<p>
+From above analysis, it's possible to find out the address of <tt>main</tt> (which is
+NOT the "Entry point address" seen from the output of <tt>readelf -h a.out | grep Entry</tt>
+command. "Entry point address" is the address of <tt>_start</tt>)
+</p><p>
+Since the address of <tt>main</tt> is the first argument to the call
+to <tt>__libc_start_main</tt>, we can extract the value of the first
+argument as follows.
+</p><p>
+On <font color="LightGreen">64-bit x86</font>, the <a href="http://www.acsu.buffalo.edu/%7Echarngda/x86assembly.html">calling convention</a>
+requires that the first argument
+goes to <font color="LightGreen"><tt>RDI</tt> register</font>, so the
+address can be extracted by
+</p><pre>objdump -j .text -d a.out | grep -B5 'call.*__libc_start_main' | awk '/mov.*%rdi/ { print $NF }'
+</pre>
+On <font color="LightGreen">32-bit x86</font>, the C calling
+convention ("<a href="http://www.wikipedia.org/wiki/X86_calling_conventions#cdecl">cdecl</a>") is that the first argument
+is the <font color="LightGreen">last item to be pushed onto the stack</font>
+before the call, so the
+address can be extracted by
+<pre>objdump -j .text -d a.out | grep -B2 'call.*__libc_start_main' | awk '/push.*0x/ { print $NF }'
+</pre>
+
+<h2>PIC, TLS, and AMD64 code models</h2>
+Relocation is the process of connecting symbolic references with symbolic definitions.
+The runtime relocation is done by <tt>ld.so</tt>, as in <tt>elf_machine_rela</tt> function
+in Glibc's source file <a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=sysdeps/x86_64/dl-machine.h"><tt>sysdeps/x86_64/dl-machine.h</tt></a>.
+The link-time relocation is done by the link-editor <tt>ld</tt>, which uses the relocation
+table in the object file (<tt>.rela.text</tt> section). Each symbolic reference has an entry
+in the relocation table, and
+each entry contains three fields: offset, info (relocation type, symbol table index), and addend.
+The relocation types are:
+<p>
+<table border="">
+ <tbody><tr>
+  <th>Relocation type</th>
+  <th>Meaning</th>
+  <th>Used when</th>
+ </tr>
+ <tr>
+  <td><tt>R_X86_64_16</tt></td>
+  <td>Direct 16 bit zero extended</td>
+  <td></td>
+ </tr>
+ <tr>
+  <td><tt>R_X86_64_32</tt></td>
+  <td>Direct 32 bit zero extended</td>
+  <td></td>
+ </tr>
+ <tr>
+  <td><tt>R_X86_64_32S</tt></td>
+  <td>Direct 32 bit
+  sign extended<span></span></td>
+  <td></td>
+ </tr>
+ <tr>
+  <td><tt>R_X86_64_64</tt></td>
+  <td>Direct 64 bit</td>
+  <td>Large code model</td>
+ </tr>
+ <tr>
+  <td><tt>R_X86_64_8</tt></td>
+  <td>Direct 8 bit sign extended</td>
+  <td></td>
+ </tr>
+ <tr>
+  <td><tt>R_X86_64_COPY</tt></td>
+  <td>Copy symbol at runtime</td>
+  <td></td>
+ </tr>
+ <tr>
+  <td><tt>R_X86_64_DTPMOD64</tt></td>
+  <td>ID of module containing symbol</td>
+  <td>TLS</td>
+ </tr>
+ <tr>
+  <td><tt>R_X86_64_DTPOFF32</tt></td>
+  <td>Offset in TLS block</td>
+  <td>TLS</td>
+ </tr>
+ <tr>
+  <td><tt>R_X86_64_DTPOFF64</tt></td>
+  <td>Offset in module's TLS block</td>
+  <td>TLS</td>
+ </tr>
+ <tr>
+  <td><tt>R_X86_64_GLOB_DAT</tt></td>
+  <td><tt>.got</tt> section, which contains addresses to the actual functions in DLL</td>
+  <td></td>
+ </tr>
+ <tr>
+  <td><tt>R_X86_64_GOT32</tt></td>
+  <td>32 bit GOT entry</td>
+  <td></td>
+ </tr>
+ <tr>
+  <td><tt>R_X86_64_GOT64</tt></td>
+  <td>64-bit GOT entry offset</td>
+  <td>PIC &amp; Large code model</td>
+ </tr>
+ <tr>
+  <td><tt>R_X86_64_GOTOFF64</tt></td>
+  <td>64-bit GOT offset</td>
+  <td>PIC &amp; Large code model</td>
+ </tr>
+ <tr>
+  <td><tt>R_X86_64_GOTPC32</tt></td>
+  <td>32-bit PC relative offset to GOT</td>
+  <td></td>
+ </tr>
+ <tr>
+  <td><tt>R_X86_64_GOTPC32_TLSDESC</tt></td>
+  <td>32-bit PC relative to TLS descriptor in GOT</td>
+  <td>TLS</td>
+ </tr>
+ <tr>
+  <td><tt>R_X86_64_GOTPC64</tt></td>
+  <td>64-bit PC relative offset to GOT</td>
+  <td>PIC &amp; Large code model</td>
+ </tr>
+ <tr>
+  <td><tt>R_X86_64_GOTPCREL</tt></td>
+  <td>32 bit signed PC relative offset to GOT</td>
+  <td>PIC</td>
+ </tr>
+ <tr>
+  <td><tt>R_X86_64_GOTPCREL64</tt></td>
+  <td>64-bit PC relative offset to GOT entry</td>
+  <td>PIC &amp; Large code model</td>
+ </tr>
+ <tr>
+  <td><tt>R_X86_64_GOTPLT64</tt></td>
+  <td>Like GOT64, indicates that PLT entry needed</td>
+  <td>PIC &amp; Large code model</td>
+ </tr>
+ <tr>
+  <td><tt>R_X86_64_GOTTPOFF</tt></td>
+  <td>32 bit signed PC relative offset to GOT entry for IE symbol</td>
+  <td>TLS</td>
+ </tr>
+ <tr>
+  <td><tt>R_X86_64_JUMP_SLOT</tt></td>
+  <td><tt>.got.plt</tt> section, which contains addresses to the actual functions in DLL</td>
+  <td>DLL</td>
+ </tr>
+ <tr>
+  <td><tt>R_X86_64_PC16</tt></td>
+  <td>16 bit sign extended PC relative</td>
+  <td></td>
+ </tr>
+ <tr>
+  <td><tt>R_X86_64_PC32</tt></td>
+  <td>PC relative 32 bit signed</td>
+  <td></td>
+ </tr>
+ <tr>
+  <td><tt>R_X86_64_PC64</tt></td>
+  <td>64-bit PC relative</td>
+  <td>Large code model</td>
+ </tr>
+ <tr>
+  <td><tt>R_X86_64_PC8</tt></td>
+  <td>8 bit sign extended PC relative</td>
+  <td></td>
+ </tr>
+ <tr>
+  <td><tt>R_X86_64_PLT32</tt></td>
+  <td>32 bit PLT address</td>
+  <td></td>
+ </tr>
+ <tr>
+  <td><tt>R_X86_64_PLTOFF64</tt></td>
+  <td>64-bit GOT relative offset to PLT entry</td>
+  <td>PIC &amp; Large code model</td>
+ </tr>
+ <tr>
+  <td><tt>R_X86_64_RELATIVE</tt></td>
+  <td>Adjust by program base</td>
+  <td></td>
+ </tr>
+ <tr>
+  <td><tt>R_X86_64_SIZE32</tt></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr>
+  <td><tt>R_X86_64_SIZE64</tt></td>
+  <td></td>
+  <td></td>
+ </tr>
+ <tr>
+  <td><tt>R_X86_64_TLSDESC</tt></td>
+  <td>2 by 64-bit TLS descriptor</td>
+  <td>TLS</td>
+ </tr>
+ <tr>
+  <td><tt>R_X86_64_TLSDESC_CALL</tt></td>
+  <td>Relaxable call through TLS descriptor</td>
+  <td>TLS</td>
+ </tr>
+ <tr>
+  <td><tt>R_X86_64_TLSGD</tt></td>
+  <td>32 bit signed PC relative offset to two GOT entries for GD symbol</td>
+  <td>TLS &amp; PIC</td>
+ </tr>
+ <tr>
+  <td><tt>R_X86_64_TLSLD</tt></td>
+  <td>32 bit signed PC relative offset to two GOT entries for LD symbol</td>
+  <td>TLS</td>
+ </tr>
+ <tr>
+  <td><tt>R_X86_64_TPOFF32</tt></td>
+  <td>Offset in initial TLS block</td>
+  <td>TLS</td>
+ </tr>
+ <tr>
+  <td><tt>R_X86_64_TPOFF64</tt></td>
+  <td>Offset in initial TLS block<span></span></td>
+  <td>TLS &amp; Large code model</td>
+ </tr>
+</tbody></table>
+</p><p>
+According to Chapter 3.5 of <a href="http://www.x86-64.org/documentation/abi.pdf">AMD64 System V Application Binary Interface</a>,
+there are four code models and they differ in addressing modes (absolute versus relative):
+</p><ul>
+<li><b>Small</b>: All compile- and link-time addresses and symbols are assumed to fit
+in 32-bit immediate operands. This model restricts code and global data to the low
+2 GB of the address space (to be exact, between 0x0 and 0x7eff ffff, which is 2031 MB)
+<p>The compiler can encode symbolic references
+    </p><ul>
+        <li>In sign-extended immediate operands for offsets in the range of 0x8000 0000 (-2<sup>31</sup>)
+            to 0x100 0000 (2<sup>24</sup>)
+        </li><li>In zero-extended immediate operands for offsets in the range of 0x0
+            to 0x7f00 0000 (2<sup>31</sup> - 2<sup>24</sup>)
+        </li><li>In <a href="http://www.tortall.net/projects/yasm/manual/html/nasm-effaddr.html">RIP relative addressing mode</a>
+            for offsets in the range 0xff00 0000 (-2<sup>24</sup> = -16 MB) to 0x100 0000 (2<sup>24</sup> = 16 MB)
+    </li></ul>
+ <p>This mode is the default mode for most compilers.</p><p>
+
+</p></li><li><b>Large</b>: No restrictions are placed on the size or placement of code and data.
+  The max virtual memory space is 48 bits (256 TB).
+
+</li><li><b>Medium</b>: Like the Small code model, except the data sections are split into two parts, e.g.
+    instead of having just <tt>.data</tt>, <tt>.rodata</tt>, <tt>.bss</tt> sections, there would also be
+    <tt>.ldata</tt>, <tt>.lrodata</tt>, <tt>.lbss</tt> sections. The smaller <tt>.data</tt>, etc
+    are still the same as in the Small code model, and the larger <tt>.ldata</tt>, etc
+    are  as in the Large code model.
+
+</li><li><b>Kernel</b>: Like the Small code model, but the 2 GB address space spans
+    from 0xffff ffff 8000 0000 (2<sup>64</sup>-2<sup>31</sup>)
+    to 0xffff ffff ff00 0000 (2<sup>64</sup>-2<sup>24</sup>) Because of this, the
+    offsets which can be encoded using sign-extended and zero-extended immediate operands
+    change.
+</li></ul>
+
+Now consider the following C code
+<pre>extern int esrc[100];
+       int gsrc[100];
+static int ssrc[100];
+
+void foo() {
+  int k;
+  k = esrc[5];
+  k = gsrc[5];
+  k = ssrc[5];
+}
+</pre>
+
+<ul>
+<li><b>Small</b> code model, no PIC (i.e. compiled with just <tt>gcc -c</tt>):
+<pre>k = esrc[5];     mov EAX, DWORD PTR[RIP+0x0]
+                 mov DWORD PTR[RBP-0x4], EAX
+k = gsrc[5];     mov EAX, DWORD PTR[RIP+0x0]
+                 mov DWORD PTR[RBP-0x4], EAX
+k = ssrc[5];     mov EAX, DWORD PTR[RIP+0x0]
+                 mov DWORD PTR[RBP-0x4], EAX
+</pre>
+and the relocation table is (use <tt>readelf -r foo.o</tt> command)
+<pre>type           Sym. Name + Addend
+R_X86_64_PC32  esrc + 10
+R_X86_64_PC32  gsrc + 10
+R_X86_64_PC32  .bss + 10
+</pre>
+All of the 0x0's in the generated assembly will be filled at link-time
+with their relative offsets in respective sections, as indicated by the relocation table.
+<p>
+</p></li><li><b>Large</b> code model, no PIC (i.e. compiled with <tt>gcc -c -mcmodel=large</tt>)
+<pre>k = esrc[5];     mov RAX, 0x0
+                 mov EAX, DWORD PTR[RAX+0x10]
+                 mov DWORD PTR[RBP-0x4], EAX
+k = gsrc[5];     mov RAX, 0x0
+                 mov EAX, DWORD PTR[RAX+0x10]
+                 mov DWORD PTR[RBP-0x4], EAX
+k = ssrc[5];     mov RAX, 0x0
+                 mov EAX, DWORD PTR[RAX+0x10]
+                 mov DWORD PTR[RBP-0x4], EAX
+</pre>
+and the relocation table is:
+<pre>type         Sym. Name + Addend
+R_X86_64_64  esrc + 0
+R_X86_64_64  gsrc + 0
+R_X86_64_64  .bss + 0
+</pre>
+All of the 0x0's in the generated assembly will be filled at link-time
+with their (64-bit) absolute addresses.
+<p>
+</p></li><li><b>Small</b> code model, PIC (i.e. compiled with <tt>gcc -c -fPIC</tt>. Note that adding <tt>-shared</tt> or not will not affect the generated code)
+<pre>k = esrc[5];     mov RAX, QWORD PTR[RIP+0x0]
+                 mov EAX, DWORD PTR[RAX+0x10]
+                 mov DWORD PTR[RBP-0x4], EAX
+k = gsrc[5];     mov RAX, QWORD PTR[RIP+0x0]
+                 mov EAX, DWORD PTR[RAX+0x10]
+                 mov DWORD PTR[RBP-0x4], EAX
+k = ssrc[5];     mov EAX, DWORD PTR[RIP+0x0]
+                 mov DWORD PTR[RBP-0x4], EAX
+</pre>
+and the relocation table is:
+<pre>type              Sym. Name + Addend
+R_X86_64_GOTPCREL esrc - 4
+R_X86_64_GOTPCREL gsrc - 4
+R_X86_64_PC32     .bss + 10
+</pre>
+The first two 0x0's in the generated assembly will be filled with the relative
+offset of <tt>_GLOBAL_OFFSET_TABLE_</tt> (i.e. the <tt>.got.plt</tt> section)
+<p>
+</p></li><li><b>Large</b> code model, PIC (i.e. compiled with <tt>gcc -c -fPIC -mcmodel=large</tt>)
+<pre>                 lea RBX, [RIP-0x7]
+                 mov R11, 0x0
+                 add RBX, R11
+k = esrc[5];     mov RAX, 0x0
+                 mov RAX, QWORD PTR[RBX+RAX*1]
+                 mov EAX, DWORD PTR[RAX+0x10]
+                 mov DWORD PTR[RBP-0x4], EAX
+k = gsrc[5];     mov RAX, 0x0
+                 mov RAX, QWORD PTR[RBX+RAX*1]
+                 mov EAX, DWORD PTR[RAX+0x10]
+                 mov DWORD PTR[RBP-0x4], EAX
+k = ssrc[5];     mov RAX, 0x0
+                 mov RAX, QWORD PTR[RBX+RAX*1]
+                 mov EAX, DWORD PTR[RAX+0x10]
+                 mov DWORD PTR[RBP-0x4], EAX
+</pre>
+The first 0x0 is in the generated assembly will be filled with the absolute
+address of <tt>_GLOBAL_OFFSET_TABLE_</tt>
+</li></ul>
+
+<h2><tt>_GLOBAL_OFFSET_TABLE_</tt>, <tt>.got.plt</tt> section, and <tt>DYNAMIC</tt> segment</h2>
+Earlier we see that the <tt>_GLOBAL_OFFSET_TABLE_</tt>  is located in <tt>.got.plt</tt> section:
+<pre>(gdb) b *0x4003d0
+(gdb) run
+(gdb) x/6a 0x600890
+0x600890: 0x6006e8 &lt;_DYNAMIC&gt;     0x32696159a8
+0x6008a0: 0x326950aa20 &lt;_dl_runtime_resolve&gt;     <font color="lightgreen">0x4003d6</font> &lt;printf@plt+6&gt;
+0x6008b0: 0x326971c3f0 &lt;__libc_start_main&gt;       0x0
+</pre>
+According to Chapter 5.2 of <a href="http://www.x86-64.org/documentation/abi.pdf">AMD64 System V Application Binary Interface</a>,
+the first 3 entries of this table are reserved for special purposes.
+The first entry is set up during compilation by the link editor <tt>ld</tt>.
+The second and third entries are set up during runtime by the runtime linker <tt>ld.so</tt>
+(see function <tt>_dl_relocate_object</tt> in Glibc source file <a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=elf/dl-reloc.c"><tt>elf/dl-reloc.c</tt></a>
+and in particular, notice the <tt>ELF_DYNAMIC_RELOCATE</tt> macro,
+which calls function <tt>elf_machine_runtime_setup</tt> in <a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=sysdeps/x86_64/dl-machine.h"><tt>sysdeps/x86_64/dl-machine.h</tt></a>)
+<p>
+The first entry <tt>_DYNAMIC</tt> has value 6006e8, and this is exactly
+the starting address of <tt>.dynamic</tt> section (or <tt>DYNAMIC</tt> segment, in ELF's "execution view".)
+The runtime linker <tt>ld.so</tt> uses this section to find the all necessary
+information needed for runtime relocation and dynamic linking.
+</p><p>
+To see <tt>DYNAMIC</tt> segment's content, use <tt>readelf -d a.out</tt> command, or
+<tt>objdump -x a.out</tt>, or just use <tt>x/50a 0x6006e8</tt> in gdb.
+The <tt>readelf -d a.out</tt> command will show something like this:
+</p><pre>Dynamic section at offset 0x6e8 contains 21 entries:
+  Tag        Type                 Name/Value
+ 0x0000000000000001 (NEEDED)     Shared library: [libc.so.6]  &lt;-- dependent dynamic library name
+ 0x000000000000000c (INIT)       0x4003a8     &lt;-- address of .init section
+ 0x000000000000000d (FINI)       0x400618     &lt;-- address of .fini section
+ 0x0000000000000004 (HASH)       0x400240     &lt;-- address of .hash section
+ 0x000000006ffffef5 (GNU_HASH)   0x400268     &lt;-- address of .gnu.hash section
+ 0x0000000000000005 (STRTAB)     0x4002e8     &lt;-- address of .strtab section
+ 0x0000000000000006 (SYMTAB)     0x400288     &lt;-- address of .symtab section
+ 0x000000000000000a (STRSZ)      63 (bytes)   &lt;-- size of .strtab section
+ 0x000000000000000b (SYMENT)     24 (bytes)   &lt;-- size of an entry in .symtab section
+ 0x0000000000000015 (DEBUG)      0x0          &lt;-- see below
+ 0x0000000000000003 (PLTGOT)     0x600860     &lt;-- address of .got.plt section
+ 0x0000000000000002 (PLTRELSZ)   48 (bytes)   &lt;-- total size of .rela.plt section
+ 0x0000000000000014 (PLTREL)     RELA         &lt;-- RELA or REL ?
+ 0x0000000000000017 (JMPREL)     0x400368     &lt;-- address of .rela.plt section
+ 0x0000000000000007 (RELA)       0x400350     &lt;-- address of .rela.dyn section
+ 0x0000000000000008 (RELASZ)     24 (bytes)   &lt;-- total size of .rela.dyn section
+ 0x0000000000000009 (RELAENT)    24 (bytes)   &lt;-- size of an entry in .rela.dyn section
+ 0x000000006ffffffe (VERNEED)    0x400330     &lt;-- address of .gnu.version_r section
+ 0x000000006fffffff (VERNEEDNUM) 1            &lt;-- number of needed versions
+ 0x000000006ffffff0 (VERSYM)     0x400328     &lt;-- address of .gnu.version section
+ 0x0000000000000000 (NULL)       0x0          &lt;-- marks the end of .dynamic section
+</pre>
+Each entry in <tt>DYNAMIC</tt> segment is a struct of only two members:
+"tag" and "value". The <tt>NEEDED</tt>, <tt>INIT</tt> ... above
+are "tags" (see <tt><a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=elf/elf.h">/usr/include/elf.h</a></tt>)
+<p>Other tags of interest are:
+</p><pre>BIND_NOW           The same as BIND_NOW in FLAGS. This has been superseded by
+                   BIND_NOW in FLAGS
+
+CHECKSUM           The checksum value used by <a href="http://www.wikipedia.org/wiki/Prelink">prelink</a>.
+
+DEBUG              At runtime ld.so will fill its value with the runtime
+                   address of r_debug structure (see elf/rtld.c)
+                   and this info is used by GDB (see elf_locate_base function
+                   in GDB's source tree).
+
+FINI               Address of .fini section
+FINI_ARRAY         Address of .fini_array section
+FINI_ARRAYSZ       Size of .fini_array section
+
+FLAGS              Additional flags, such as BIND_NOW, STATIC_TLS, TEXTREL..
+
+FLAGS_1            Additional flags used by Solaris, such as NOW (the same as BIND_NOW), INTERPOSE..
+
+GNU_PRELINKED      The timestamp string when the binary object is last <a href="http://www.wikipedia.org/wiki/Prelink">prelinked</a>.
+
+INIT               Address of .init section
+INIT_ARRAY         Address of .init_array section
+INIT_ARRAYSZ       Size of .init_array section
+
+INTERP             Address of .interp section
+
+PREINIT_ARRAY      Address of .preinit_array section
+PREINIT_ARRAYSZ    Size of .preinit_array section
+
+RELACOUNT          Number of R_X86_64_RELATIVE entries in RELA segment (.rela.dyn
+                   section)
+
+RPATH              Dynamic library search path, which has higher precendence than
+                   LD_LIBRARY_PATH. RPATH is ignored if RUNPATH is present.
+
+                   <font color="red">Use of RPATH is deprecated</font>.
+
+                   When one uses "gcc -Wl,-rpath=... " to build binaries, the info
+                   is stored here.
+
+RUNPATH            Dynamic library search path, which has lower precendence than
+                   LD_LIBRARY_PATH.
+
+                   When one uses "gcc -Wl,-rpath=...<font color="LightGreen">,--enable-new-dtags</font>"
+                   to build binaries, the info is stored here.
+                   (See <a href="http://blog.lxgcc.net/?tag=dt_runpath">here</a> for details.)
+
+                   One can use <a href="http://linux.die.net/man/1/chrpath">chrpath</a>
+                   tool to manipulate RPATH and RUNPATH settings.
+
+
+SONAME             Shared object (i.e. dynamic library) name. When one uses
+                   "gcc -Wl,-soname=... " to build binaries, the info is
+                   stored here.
+
+TEXTREL            Relocation might modify .text section.
+
+VERDEF             Address of .gnu.version_d section
+VERDEFNUM          Number of version definitions.
+</pre>
+
+<h2>Runtime Relocation</h2>
+After exploring <tt>DYNAMIC</tt> segment, we can explain how <tt>ld.so</tt> performs
+runtime relocation.
+<p>
+First, before <tt>ld.so</tt> loads all dependent libraries of a dynamic executable,
+it needs to run its own relocation! Even if <tt>ld.so</tt> is a statically-linked binary,
+it also has a <tt>DYNAMIC</tt> segment and thus <tt>PLTREL</tt> (<tt>.rela.dyn</tt> section)
+and <tt>JMPREL</tt> (<tt>.rela.plt</tt> section) tags:
+</p><pre>$ readelf -a `readelf -p .interp /bin/sh | awk '/ld/ {print $3}'`
+
+ ....
+
+Dynamic section at offset 0x14e18 contains 22 entries:
+  Tag        Type                         Name/Value
+ 0x000000000000000e (SONAME)             Library soname: [ld-linux-x86-64.so.2]
+ 0x0000000000000004 (HASH)               0x3269500190
+ 0x0000000000000005 (STRTAB)             0x3269500578
+ 0x0000000000000006 (SYMTAB)             0x3269500260
+ 0x000000000000000a (STRSZ)              388 (bytes)
+ 0x000000000000000b (SYMENT)             24 (bytes)
+ 0x0000000000000003 (PLTGOT)             0x3269614f98
+ 0x0000000000000002 (PLTRELSZ)           120 (bytes)
+ 0x0000000000000014 (PLTREL)             RELA
+ 0x0000000000000017 (JMPREL)             0x32695009a0
+ 0x0000000000000007 (RELA)               0x32695007c0
+ 0x0000000000000008 (RELASZ)             480 (bytes)
+ 0x0000000000000009 (RELAENT)            24 (bytes)
+ 0x000000006ffffffc (VERDEF)             0x3269500740
+ 0x000000006ffffffd (VERDEFNUM)          4
+ 0x0000000000000018 (BIND_NOW)
+ 0x000000006ffffffb (FLAGS_1)            Flags: NOW
+ 0x000000006ffffff0 (VERSYM)             0x32695006fc
+ 0x000000006ffffff9 (RELACOUNT)          19
+ 0x000000006ffffdf8 (CHECKSUM)           0x4c4e099e
+ 0x000000006ffffdf5 (<font color="Orange">GNU_PRELINKED</font>)      2010-08-26T08:13:28
+ 0x0000000000000000 (NULL)               0x0
+
+Relocation section '.rela.dyn' at offset 0x7c0 contains 20 entries:
+  Offset          Info           Type           Sym. Value    Sym. Name + Addend
+003269614cf0  000000000008 R_X86_64_RELATIVE                    000000326950dd80
+  ....
+003269615820  000000000008 R_X86_64_RELATIVE                    0000003269501140
+003269614fe0  001e00000006 R_X86_64_GLOB_DAT 0000003269615980 _r_debug + 0
+
+Relocation section '.rela.plt' at offset 0x9a0 contains 5 entries:
+  Offset          Info           Type           Sym. Value    Sym. Name + Addend
+003269614fb0  000b00000007 R_X86_64_JUMP_SLO 000000326950f1b0 <font color="LightGreen">__libc_memalign</font> + 0
+003269614fb8  000c00000007 R_X86_64_JUMP_SLO 000000326950f2b0 <font color="LightGreen">malloc</font> + 0
+003269614fc0  001200000007 R_X86_64_JUMP_SLO 000000326950f2c0 <font color="LightGreen">calloc</font> + 0
+003269614fc8  001800000007 R_X86_64_JUMP_SLO 000000326950f340 <font color="LightGreen">realloc</font> + 0
+003269614fd0  002000000007 R_X86_64_JUMP_SLO 000000326950f300 <font color="LightGreen">free</font> + 0
+</pre>
+Note that the <tt>ld.so</tt> is <font color="Orange">prelinked</font>. On Fedora and Red Hat Enterprise Linux
+(RHEL) systems, <a href="http://lwn.net/Articles/341244/">prelink is run every two weeks</a>.
+To see if your Linux has similar setup, check <tt>/etc/sysconfig/prelink</tt>
+and <tt>/etc/prelink.conf</tt>
+<p>
+<b>What does this prelink do</b>? It changes the base address of a dynamic library
+to the actual address in the user program's address space when it is loaded into memory.
+Of course, <tt>ld.so</tt> recognizes <font color="Orange"><tt>GNU_PRELINKED</tt></font>
+tag and will load a dynamic library to its this base address (recall the first argument of
+<tt>mmap</tt> is the preferred address; of course, this is subject to the operating system.)
+</p><p>Normally, a  dynamic library
+is built as <a href="http://www.wikipedia.org/wiki/Position_independent_code">position independent code</a>,
+i.e. the <tt>-fPIC</tt> compiler command-line option, and thus the base address is
+0. For example, a normal libc.so has ELF program header as follows (<tt>readelf -l</tt> command):
+</p><pre>Program Headers:
+  Type  Offset             VirtAddr           PhysAddr
+        FileSiz            MemSiz              Flags  Align
+  LOAD  0x0000000000000000 <font color="Orange">0x0000000000000000</font> 0x0000000000000000
+        0x0000000000179058 0x0000000000179058  R E    200000
+  LOAD  0x0000000000179730 0x0000000000379730 0x0000000000379730
+        0x0000000000004668 0x00000000000090f8  RW     200000
+   ....
+</pre>
+And when calling <tt>mmap</tt> with address 0 (i.e. NULL)
+the operating system can choose any address it feels appropriate.
+<p>
+A prelinked one, on the other hand, has its ELF program header as follows:
+</p><pre>Program Headers:
+  Type Offset             VirtAddr           PhysAddr
+       FileSiz            MemSiz              Flags  Align
+  LOAD 0x0000000000000000 <font color="Orange">0x0000003433e00000</font> 0x0000003433e00000
+       0x000000000001bb80 0x000000000001bb80  R E    200000
+  LOAD 0x000000000001bb90 0x000000343401bb90 0x000000343401bb90
+       0x0000000000000f58 0x00000000000010f8  RW     200000
+</pre>
+
+<b>What is the advantage of prelinking</b>?
+<tt>ld.so</tt> will not process <tt>R_X86_64_RELATIVE</tt> relocation types
+since they are already in the "right" place in user program's address space.
+The extra benefit of this is the memory regions which
+<tt>ld.so</tt> would have written to (if  <tt>R_X86_64_RELATIVE</tt> needs
+processing) will not incur any Copy-On-Writes and thus can be made Read-Only.<p>
+According to <a href="http://lwn.net/Articles/341309/">this post</a>, for GUI
+programs, which tend to link against dozens  of dynamic libraries and use lengthy
+C++ demangled names, the speed up can be  an order of magnitude.
+</p><p>
+<b>How to disable prelinking at runtime</b>?
+Run the user program with <tt>LD_USE_LOAD_BIAS</tt> environmental
+variable set to 0.
+</p><p>
+<b>How does <tt>ld.so</tt> process its own relocation</b>?
+</p><p>
+The relocation is done by <tt>_dl_relocate_object</tt> function
+in Glibc's <a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=elf/dl-reloc.c"><tt>elf/dl-reloc.c</tt></a>, which will call
+<tt>elf_machine_rela</tt> function in <a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=sysdeps/x86_64/dl-machine.h"><tt>sysdeps/x86_64/dl-machine.h</tt></a>
+to do the majority of work.
+</p><p>
+First to be processed is the <tt>.rela.dyn</tt> relocation table,
+which contains a bunch of <tt>R_X86_64_RELATIVE</tt> types
+and one <tt>R_X86_64_GLOB_DAT</tt> type (the variable <tt>_r_debug</tt>)
+</p><p>
+If prelink is used, i.e. <tt>ld.so</tt> is indeed loaded
+to the desired address, then <tt>R_X86_64_RELATIVE</tt>
+relocation types will be ignored. If not,
+then the address calculation for <tt>R_X86_64_RELATIVE</tt> types
+is
+</p><pre>Base Address + Value Stored at [Base Address + Offset]
+</pre>
+For example, in <tt>ld.so</tt>'s case, its base address
+is 2a95556000 (can be obtained from <tt>pmap</tt> command; inside <tt>ld.so</tt>,
+it calls <tt>elf_machine_load_address</tt> function to get this value)
+<pre>0000400000    4K r-x--  /tmp/a.out
+0000500000    4K rw---  /tmp/a.out
+<font color="lightgreen">2a95556000</font>   92K r-x--  /lib64/ld.so
+2a9556d000    8K rw---  [ anon ]
+2a95599000    4K rw---  [ anon ]
+2a9566c000    4K r----  /lib64/ld.so
+2a9566d000    4K rw---  /lib64/ld.so
+3269700000 1216K r-x--  /lib64/libc-2.3.4.so
+...
+</pre>
+And  <tt>ld.so</tt>'s <tt>.rela.dyn</tt> relocation table is (<font color="red">no prelinked</font>!
+If <tt>ld.so</tt> is prelinked, the offset will be in a much higher address)
+<pre>Relocation section '.rela.dyn' at offset 0x7c0 contains 20 entries:
+  Offset          Info           Type           Sym. Value    Sym. Name + Addend
+000000116d50  000000000008 R_X86_64_RELATIVE                    000000000000e250
+...
+</pre>
+so the relocation for 000000116d50 is processed as
+<pre><font color="lightgreen">0x2a95556000</font> + *(0x116d50+<font color="lightgreen">0x2a95556000</font>)
+</pre>
+and this new value is stored at 0x2a9566cd50 (=0x116d50+0x2a95556000)
+
+<p>As <tt>R_X86_64_RELATIVE</tt> types do not require symbol lookups,
+they are handled in a tight loop in
+<tt>elf_machine_rela_relative</tt> function in
+<a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=sysdeps/x86_64/dl-machine.h"><tt>sysdeps/x86_64/dl-machine.h</tt></a>
+</p><p>
+<b>Any relocation types other than <tt>R_X86_64_RELATIVE</tt> need to go
+through symbol resolution first.</b>
+</p><p>
+So what about <tt>R_X86_64_GLOB_DAT</tt> relocation type in <tt>ld.so</tt> ?
+First, <tt>RESOLVE_MAP</tt> (a macro defined within <a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=elf/dl-reloc.c"><tt>elf/dl-reloc.c</tt></a>)
+is called (with r_type = <tt>R_X86_64_GLOB_DAT</tt>)
+to find out which ELF binary (could be the user's program or its dependent
+dynamic libraries)
+contains this symbol. Then
+<tt>R_X86_64_GLOB_DAT</tt> relocation type is calculated as
+</p><pre>Base Address + Symbol Value + Addend
+</pre>
+where <tt>Base Address</tt> is the base address
+of ELF binary which contains the symbol, and
+<tt>Symbol Value</tt> is the symbol value from
+the symbol table of ELF binary which contains the symbol.
+<p>
+So for <tt>ld.so</tt>,
+</p><pre>Relocation section '.rela.dyn' at offset 0x7c0 contains 20 entries:
+  Offset          Info           Type           Sym. Value    Sym. Name + Addend
+  ....
+000000116fe0  001e00000006 R_X86_64_GLOB_DAT <font color="SkyBlue">00000000001179c0</font> _r_debug + <font color="MediumOrchid">0</font>
+</pre>
+The relocation for 000000116fe0 is processed as
+<pre><font color="lightgreen">0x2a95556000</font> + <font color="SkyBlue">0x1179c0</font> + <font color="MediumOrchid">0</font>
+</pre>
+because <tt>ld.so</tt> determines <tt>_r_debug</tt>
+can be found from itself. The calculated value is stored at 0x2a9566cfe0 (=0x116fe0+0x2a95556000).
+<p>
+The next to be processed by <tt>ld.so</tt>
+is its own <tt>.rela.plt</tt> relocation table,
+which contains a bunch of <tt>R_X86_64_JUMP_SLOT</tt> types.
+This reloction type is handled exactly the same way as <tt>R_X86_64_GLOB_DAT</tt>.
+</p><p>
+After <tt>ld.so</tt> finishes its own relocation, it loads user program's
+dependent libraries and process their relocations one by one.
+First, <tt>ld.so</tt> handles <tt>libc.so</tt>'s relocation.
+<tt>libc.so</tt> has two relocation types we have not covered so far:
+<tt>R_X86_64_64</tt> and <tt>R_X86_64_TPOFF64</tt>.
+</p><p>
+<tt>R_X86_64_64</tt> relocation type is processed by first looking
+up the symbol's runtime <b>absolute</b> address, and then
+calculating
+</p><pre>Absolute Address + Addend
+</pre>
+And the <tt>R_X86_64_TPOFF64</tt> relocation type is calculated as
+<pre>Symbol Value + Addend - TLS Offset
+</pre>
+which  usually results in a negative value.
+
+<h2><tt>R_X86_64_COPY</tt> relocation type</h2>
+<tt>R_X86_64_COPY</tt> relocation type is used when a dynamic binary refers
+to an <b>initialized</b> global variable (not a function!) defined in a dynamic link library. Unlike
+functions, <font color="Yellow">for variables, there is no lazy binding, and
+the trampoline trick used in <tt>.plt</tt> section
+does not work.</font>  Instead, the global variable will actually be allocated
+in dynamic binary's <font color="Yellow"><tt>.bss</tt> section</font>.
+<p>
+To see how <tt>R_X86_64_COPY</tt> relocation type works, consider the following two code:
+</p><pre>foo.c
+
+    int foo=4;
+
+    void foo_access() {
+      foo=5;
+    }
+
+bar.c
+
+    #include &lt;stdio.h&gt;
+    extern int foo;
+
+    int main() {
+       printf("foo=%d\n",foo);
+    }
+</pre>
+Now compile them as follows:
+<pre>$ gcc -shared -fPIC -Wl,-soname=libfoo.so foo.c -o /tmp/libfoo.so
+$ gcc bar.c -o bar -L/tmp -lfoo
+</pre>
+And run them as
+<pre>$ LD_PRELOAD=/tmp/libfoo.so ./bar
+</pre>
+Before explaining what happened during runtime, we need to examine
+the binaries first.
+<p>
+The <tt>foo_access</tt> in <tt>libfoo.so</tt> is like this:
+</p><pre>69c &lt;foo_access&gt;:
+ 69c:  push   rbp
+ 69d:  mov    rbp,rsp
+ 6a0:  mov    rax,QWORD PTR [rip+0x100269]  # <font color="lightgreen">100910</font> &lt;_DYNAMIC+0x198&gt;
+ 6a7:  mov    DWORD PTR [rax],0x5
+ 6ad:  leave
+ 6ae:  ret
+</pre>
+So for <tt>libfoo.so</tt>, the <b>address</b> of variable <tt>foo</tt> is
+in its <tt>.got</tt> section, not <tt>.data</tt> section:
+<pre>$ readelf -a /tmp/libfoo.so
+
+Section Headers:
+  [Nr] Name              Type             Address           Offset
+       Size              EntSize          Flags  Link  Info  Align
+...
+  [18] .got              PROGBITS         <font color="lightgreen">0000000000100908</font>  00000908
+       0000000000000020  0000000000000008  WA       0     0     8
+  [19] .got.plt          PROGBITS         0000000000100928  00000928
+       0000000000000020  0000000000000008  WA       0     0     8
+...
+  [20] .data             PROGBITS         <font color="lightblue">0000000000100948</font>  00000948
+       0000000000000014  0000000000000000  WA       0     0     8
+...
+
+Relocation section '.rela.dyn' at offset 0x520 contains 6 entries:
+  Offset          Info           Type           Sym. Value    Sym. Name + Addend
+000000100948  000000000008 R_X86_64_RELATIVE                    0000000000100948
+000000100950  000000000008 R_X86_64_RELATIVE                    0000000000100768
+000000100908  000f00000006 R_X86_64_GLOB_DAT 0000000000000000 __cxa_finalize + 0
+000000100910  001100000006 R_X86_64_GLOB_DAT <font color="lightblue">0000000000100958</font> foo + 0
+....
+</pre>
+But what about the address <font color="lightblue">0x100958</font> ? This address
+is in <tt>libfoo.so</tt>'s <tt>.data</tt> section! Well, <font color="lightblue">0x100958</font>
+has the initial value of <tt>foo</tt> (in our example, 4) At runtime, <tt>ld.so</tt>
+will copy this value to <tt>bar</tt>'s <tt>.bss</tt> section:
+<pre>$ objdump -sj .data libfoo.so
+
+libfoo.so:     file format elf64-x86-64
+
+Contents of section .data:
+ 100948 48091000 00000000 68071000 00000000  H.......h.......
+ <font color="lightblue">100958 04000000</font>                             ....
+</pre>
+<p>
+Next, disassemble the <tt>main</tt> function of <tt>bar</tt>:
+</p><pre>4005f8 &lt;main&gt;:
+  4005f8:  push   rbp
+  4005f9:  mov    rbp,rsp
+  4005fc:  mov    esi,DWORD PTR [rip+0x1003de] # <font color="lightgreen">5009e0</font> &lt;__bss_start&gt;
+  400602:  mov    edi,0x40070c
+  400607:  mov    eax,0x0
+  40060c:  call   400528 &lt;printf@plt&gt;
+  400611:  leave
+  400612:  ret
+</pre>
+So the variable <tt>foo</tt> is indeed located in
+<tt>bar</tt>'s <tt>.bss</tt> section. Let's double check with <tt>nm</tt>:
+<pre>$ nm -n bar | grep 5009e0
+
+00000000005009e0 A __bss_start
+00000000005009e0 A _edata
+00000000005009e0 B <font color="lightgreen">foo</font>
+</pre>
+(Symbols such as <tt>__bss_start</tt> and  <tt>_edata</tt> are defined by the default <tt>ld</tt> script;
+one can search them in the output of <tt>ld -verbose</tt> command.)
+<p>
+The dynamic relocation table of <tt>bar</tt> is:
+</p><pre>Relocation section '<font color="lightgreen">.rela.dyn</font>' at offset 0x490 contains 2 entries:
+  Offset          Info           Type           Sym. Value    Sym. Name + Addend
+000000500998  000c00000006 R_X86_64_GLOB_DAT 0000000000000000 __gmon_start__ + 0
+0000005009e0  000700000005 <font color="lightgreen">R_X86_64_COPY     00000000005009e0</font> foo + 0
+</pre>
+<b>Now what happens during runtime is this</b>: After <tt>ld.so</tt> loads all dependent
+dynamic libraries, it starts processing their relocations.
+When it sees <tt>foo</tt> of <tt>libfoo.so</tt>, it
+calls <tt>RESOLVE_MAP</tt> with r_type = <tt>R_X86_64_GLOB_DAT</tt> to get
+the Base Address, which is 0, and Symbol Value, which is
+<font color="lightgreen">5009e0</font>. Next it
+sees <tt>foo</tt> of <tt>libfoo.so</tt> has
+<tt>R_X86_64_GLOB_DAT</tt> relocation type,
+so it calculates the new address as 5009e0 = 0 + 5009e0 + 0 (addend)
+and stores the result somewhere inside <tt>.got</tt> section.
+<p>
+After <tt>ld.so</tt> has processed relocations of all
+dynamic libraries, it starts processing the relocation table
+of <tt>bar</tt>. When it sees <tt>foo</tt> of <tt>bar</tt>, it
+calls <tt>RESOLVE_MAP</tt> again, but with r_type = <tt>R_X86_64_COPY</tt>. This time, the address returned is
+the runtime address of <font color="lightblue"><tt>foo</tt> in <tt>libfoo.so</tt>'s
+<tt>.data</tt> section</font>. As mentioned earlier, this
+address holds the initial value of <tt>foo</tt>.
+Next it sees <tt>foo</tt> of <tt>bar</tt> has <font color="lightgreen"><tt>R_X86_64_COPY</tt></font>
+relocation type, so it uses <tt>memcpy</tt>
+to copy data to <font color="lightgreen">5009e0</font>
+(see the <tt>Sym. Value</tt> of <tt>.rela.dyn</tt> section of <tt>bar</tt> above)
+from the runtime address of <font color="lightblue"><tt>foo</tt> in <tt>libfoo.so</tt>'s
+<tt>.data</tt> section</font> (see Glibc source file <a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=sysdeps/x86_64/dl-machine.h"><tt>sysdeps/x86_64/dl-machine.h</tt></a>)
+</p><p>
+The above example also illustrates <font color="Yellow">the difference
+between <tt>.got</tt> section and <tt>.got.plt</tt> section.</font>
+For the runtime linker <tt>ld.so</tt>, all it knows is
+entries in <tt>PLTREL</tt> segment, i.e. <tt>.rela.dyn</tt> section,
+(which corresponds to <tt>.got</tt> section)
+must be <font color="Yellow">resolved/relocated immediately</font>, while entries in
+<tt>JMPREL</tt> segment, i.e. <tt>.rela.plt</tt> section,
+(which corresponds to <tt>.got.plt</tt> section) can use
+<font color="Yellow">lazy binding</font>. For x86_64 architecture, the relocation is actually not
+needed for <tt>R_X86_64_JUMP_SLOT</tt> relocation types (albeit the
+symbol resolution is still needed)
+
+
+</p><h2>PIC or no PIC</h2>
+When building a dynamic library, we are told to <b>always</b> compile the code with <tt>-fPIC</tt>
+option.
+<p>
+<b>What's the difference then</b> ?
+</p><p>
+Consider the following simple code:
+</p><pre>#include &lt;stdio.h&gt;
+int bar;
+
+void foo() {
+  printf("%d\n",bar);
+}
+</pre>
+Compile the above code in 32-bit mode with and without <tt>-fPIC</tt>:
+<pre>$ gcc -shared -m32 foo.c -o nopic.so
+$ gcc -shared -m32 -fPIC foo.c -o pic.so
+</pre>
+(If you try to compile the above in 64-bit mode, <font color="red">GCC will
+stop and insist you should compile with <tt>-fPIC</tt> option</font>, i.e. you are going to 
+see error message such as 
+<tt>relocation R_X86_64_PC32 against symbol `XXXYYY' can not be used when making a shared object; recompile with -fPIC</tt>)
+
+The sections and relocation tables of <font color="Orange"><tt>nopic.so</tt></font>
+and <font color="LightCoral"><tt>pic.so</tt></font>
+are shown at left and right hand side, respectively:
+<pre>Section Headers:                                                 Section Headers:
+[Nr] Name           Type     Addr                                [Nr] Name              Type     Addr
+[ 0]                NULL     0000                                [ 0]                   NULL     0000
+  ...                                                              ...
+[ 8] .init          PROGBITS 02f8                                [ 8] .init             PROGBITS 02f0
+[ 9] .plt           PROGBITS 0310                                [ 9] .plt              PROGBITS 0308
+<font color="Orange">[10] .text          PROGBITS 0340</font>                                [10] .text             PROGBITS 0350
+[11] .fini          PROGBITS 0488                                [11] .fini             PROGBITS 04a8
+[12] .rodata        PROGBITS 04a4                                [12] .rodata           PROGBITS 04c4
+  ...                                                              ...
+[17] .dynamic       DYNAMIC  14c0                                [17] .dynamic          DYNAMIC  14e0
+[18] .got           PROGBITS 1590                                <font color="LightCoral">[18] .got              PROGBITS 15a8</font>
+[19] .got.plt       PROGBITS 159c                                <font color="LightCoral">[19] .got.plt          PROGBITS 15b8</font>
+<font color="Orange">[20] .data          PROGBITS 15b0</font>                                [20] .data             PROGBITS 15d0
+
+  ...                                                              ...
+
+Relocation section '.rel.dyn' at offset 0x2b0                    Relocation section '.rel.dyn' at offset 0x2b0
+contains 7 entries:                                              contains 5 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name         Offset     Info    Type            Sym.Value  Sym. Name
+<font color="Orange">00000439  00000008 R_386_RELATIVE</font>                                000015d0  00000008 R_386_RELATIVE
+<font color="Orange">000015b0  00000008 R_386_RELATIVE</font>                                <font color="LightCoral">000015a8  00000106 R_386_GLOB_DAT    000015dc   bar</font>
+<font color="Orange">00000434  00000101 R_386_32          000015bc   bar</font>                     ...
+<font color="Orange">00000445  00000602 R_386_PC32        00000000   printf</font>
+ ...
+
+Relocation section '.rel.plt' at offset 0x2e8:                   Relocation section '.rel.plt' at offset 0x2d8
+contains 2 entries:                                              contains 3 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name         Offset     Info    Type            Sym.Value  Sym. Name
+000015a8  00000207 R_386_JUMP_SLOT   00000000   __gmon_start__   000015c4  00000207 R_386_JUMP_SLOT   00000000   __gmon_start__
+000015ac  00000a07 R_386_JUMP_SLOT   00000000   __cxa_finalize   <font color="LightCoral">000015c8  00000607 R_386_JUMP_SLOT   00000000   printf</font>
+                                                                      ...
+</pre>
+When we compile with <tt>-fPIC</tt> we can see the variable <tt>bar</tt>
+has the right relocation type (<tt>R_386_GLOB_DAT</tt>)
+and the relocation takes place in the right section (<tt>.got</tt>) The same for
+<tt>printf</tt>.
+<p>
+Without <tt>-fPIC</tt>, the relocations of the format string "\n", <tt>bar</tt>
+and <tt>printf</tt> all take place inside the <tt>.text</tt> section!
+But we know <tt>.text</tt> section is in a Read-Only <tt>LOAD</tt>
+segment, so what <tt>ld.so</tt> would do ?
+</p><p>
+As expected, <tt>ld.so</tt> will make <tt>.text</tt> section
+writeable, patch the bytes, and make it Read-Only again. Since the
+relocation of both <tt>bar</tt> and <tt>printf</tt> are
+in <tt>.rel.dyn</tt>, their relocations are performed immediately
+(no lazy binding), so this approach is feasible.
+</p><p>
+So how does <tt>ld.so</tt> handle
+<font color="Orange"><tt>R_386_RELATIVE</tt></font>,
+<font color="Orange"><tt>R_386_32</tt></font>
+and <font color="Orange"><tt>R_386_PC32</tt></font> relocation types ?
+</p><p>
+Let's look at the disassembly:
+</p><pre>0000042c &lt;foo&gt;:
+ 42c: 55                push   ebp
+ 42d: 89 e5             mov    ebp,esp
+ 42f: 83 ec 18          sub    esp,0x18
+ 432: 8b 15 <font color="Orange">00 00 00 00</font> mov    edx,DWORD PTR ds:0x0   &lt;-- reference to bar
+ 438: b8 <font color="Orange">a4 04 00 00</font>    mov    eax,0x4a4              &lt;-- reference to "%d\n" format string in .rodata
+ 43d: 89 54 24 04       mov    DWORD PTR [esp+0x4],edx
+ 441: 89 04 24          mov    DWORD PTR [esp],eax
+ 444: e8 <font color="Orange">fc ff ff ff</font>    call   445 &lt;foo+0x19&gt;  &lt;-- reference to printf
+ 449: c9                leave
+ 44a: c3                ret
+</pre>
+How would the 4 bytes starting at 445 (<tt>R_386_PC32</tt> type)
+ be patched ? Suppose at runtime, our
+<font color="Orange"><tt>nopic.so</tt></font> is loaded
+into memory with base address 8000, and the 4 bytes
+to be patched are now at 8000 + 445 = 8445.
+Furthermore, suppose <tt>ld.so</tt> has determined
+the entry address of <tt>printf</tt> to be 10000, then
+<tt>ld.so</tt> calculates the <b>relative</b> offset as follows:
+<pre>10000 - 8445 + fffffffc = 7bb7
+</pre>
+(fffffffc is -4) so <tt>ld.so</tt> replaces <font color="Orange"><tt>fc ff ff ff</tt></font>
+with <font color="Orange"><tt>b7 7b 00 00</tt></font>
+<p>
+To patch the 4 bytes starting at 434 (<tt>R_386_32</tt> type) is simpler.
+<tt>ld.so</tt> will simply overwrite the 4 bytes with the runtime <b>absolute</b>
+address of <tt>bar</tt>.
+</p><p>
+To patch the 4 bytes starting at 439 (<tt>R_386_RELATIVE</tt> type)
+<tt>ld.so</tt> calculates the address as
+</p><pre>10000 + 4a4 = 104a4
+</pre>
+so <tt>ld.so</tt> replaces <font color="Orange"><tt>a4 04 00 00</tt></font>
+with <font color="Orange"><tt>a4 04 01 00</tt></font>
+<p>
+Finally, what about the <tt>R_386_RELATIVE</tt> relocation at <font color="Orange">15b0</font> ?
+15b0 is the starting address of <tt>.data</tt> section, and the first 4 bytes
+of <tt>.data</tt> section stores its own address, 15b0. So it has to be
+relocated and patched as <tt>115b0</tt>.
+</p><p>
+In conclusion, <tt>R_386_RELATIVE</tt> means "32-bit relative to base address",
+<tt>R_386_PC32</tt> means the "32-bit IP-relative offset"
+and <tt>R_386_32</tt> means the "32-bit absolute."
+
+</p><h2>Troubleshooting <tt>ld.so</tt></h2>
+<h3>What is "<font color="red">error while loading shared libraries: requires glibc 2.5 or later dynamic linker</font>" ?</h3>
+The cause of this error is the dynamic binary (or one of its dependent shared libraries)
+you want to run only has <tt>.gnu.hash</tt> section, but the <tt>ld.so</tt> on the target machine
+is too old to recognize <tt>.gnu.hash</tt>; it only recognizes the old-school <tt>.hash</tt> section.
+<p>
+This usually happens when the dynamic binary in question is built using newer version of GCC.
+The solution is to recompile the code with either <tt>-static</tt> compiler command-line option
+(to create a static binary), or the following option:
+</p><pre>-Wl,--hash-style=both
+</pre>
+This tells the link editor <tt>ld</tt> to create both <tt>.gnu.hash</tt> and <tt>.hash</tt> sections.
+<p>According to <tt>ld</tt> documentation <a href="http://sourceware.org/binutils/docs/ld/Options.html">here</a>,
+the old-school <tt>.hash</tt> section is the default, but the compiler can override it. For example,
+the GCC (which is version 4.1.2) on RHEL (Red Hat Enterprise Linux) Server release 5.5 has
+this line:
+</p><pre>$ gcc -dumpspecs
+....
+*link:
+%{!static:--eh-frame-hdr} %{!m32:-m elf_x86_64} %{m32:-m elf_i386} <font color="LightGreen">--hash-style=gnu</font>   %{shared:-shared}   ....
+...
+</pre>
+
+<p>For more information, see <a href="http://crtags.blogspot.com/2010/11/elf-elf-elf-dont-do-it.html">here</a>.
+
+</p><h3>What is "<font color="red">Floating point exception</font>" ?</h3>
+The cause of this error is the same as the previous question. On certain systems, e.g. RHEL, the old version <tt>ld.so</tt>
+is <a href="http://www.wikipedia.org/wiki/Backporting">backported</a> to emit "error while loading shared libraries: requires glibc 2.5 or later dynamic linker", but
+this is not always the case, and you will see this error instead.
+
+<h3>What is "<font color="red">.../libc.so.6: version `GLIBC_2.4' not found </font>" ?</h3>
+As the error message says, some of the symbols need Glibc version 2.4 or higher. This can also be
+seen by
+<pre>$ objdump -x foo | grep 'Version References' -A10
+
+Version References:
+  required from libc.so.6:
+    0x0d696914 0x00 03 GLIBC_2.4
+    0x09691a75 0x00 02 GLIBC_2.2.5
+
+...
+</pre>
+The fix is to recompile the code with <tt>-static</tt> compiler command-line option.
+
+<h3>What is "<font color="red">FATAL: kernel too old</font>" ?</h3>
+Even if you recompile the code with <tt>-static</tt> compiler command-line option to avoid
+any dependency on the dynamic Glibc library, you could still encounter the error
+in question, and your code will exit with Segmentation Fault error.
+<p>
+This kernel version check is done by <tt>DL_SYSDEP_OSCHECK</tt> macro in Glibc's
+<a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=sysdeps/unix/sysv/linux/dl-osinfo.h"><tt>sysdeps/unix/sysv/linux/dl-osinfo.h</tt></a>
+It calls <tt>_dl_discover_osversion</tt> to get current kernel's version.
+</p><p>
+To wit, run your code (suppose it is not stripped) inside gdb,
+</p><pre>(gdb) <font color="LightGreen">run</font>
+Starting program: foo
+FATAL: kernel too old
+
+Program received signal SIGSEGV, Segmentation fault.
+0x00000000004324a9 in ptmalloc_init ()
+(gdb) <font color="LightGreen">call _dl_discover_osversion()</font>
+$1 = 132617
+(gdb) <font color="LightGreen">p/x $1</font>
+$2 = 0x20609
+(gdb)
+</pre>
+Here <tt>0x20609</tt> means the current kernel version is 2.6.9.
+<p>
+The fix (or hack) is to add the following function in your code:
+</p><pre>int _dl_discover_osversion() { return 0xffffff; }
+</pre>
+and compile your code  with <tt>-static</tt> compiler command-line option.
+
+<h2>Exploring Glibc's <tt>pthread_t</tt></h2>
+When one creates a thread using the Pthread API, one will get a <tt>pthread_t</tt> object as a handle.
+In Glibc, <tt>pthread_t</tt> is actually a pointer pointing to a <tt>pthread</tt>
+struct, which is opaque. Its definition can be found in Glibc's source tree at
+<a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=nptl/descr.h"><tt>nptl/descr.h</tt></a>. The first member of <tt>pthread</tt> struct is yet
+another struct called <tt>tcbhead_t</tt> defined in
+system-dependent header files such as
+<a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=nptl/sysdeps/x86_64/tls.h"><tt>nptl/sysdeps/x86_64/tls.h</tt></a>. It holds TLS related
+information. It contains at least an integer member called <tt>multiple_threads</tt> which
+indicates if the process is running in multi-thread mode.
+<p>
+The second member of <tt>pthread</tt> struct is also
+a struct called <tt>list_t</tt> defined in
+<a href="http://sourceware.org/git/?p=glibc.git;a=blob_plain;f=nptl/sysdeps/pthread/list.h"><tt>nptl/sysdeps/pthread/list.h</tt></a>.
+</p><p>
+The third and fourth members of <tt>pthread</tt> struct are thread ID and thread
+group ID (both are of <tt>pid_t</tt> type).
+</p><p>
+Other members of <tt>pthread</tt> struct which are of interest: <tt>int cancelhandling</tt> for
+cancellation information, <tt>int flags</tt> for thread attributes,
+<tt>start_routine</tt> for start position of the code to be executed for the thread,
+<tt>void *arg</tt> for the argument to <tt>start_routine</tt>
+<tt>void *stackblock</tt> and <tt>size_t stackblock_size</tt> for thread-specific
+stack information.
+</p><p>
+Since <tt>pthread</tt> struct is opaque, how can one obtain the above information,
+or more precisely, how can one obtain the offsets of these members within the
+<tt>pthread</tt> struct ? We can use the known information and search
+for the memory region pointed by <tt>pthread_t</tt>, as in this <a href="http://www.acsu.buffalo.edu/%7Echarngda/code/tcb.c">code snippet</a>.
+
+
+
+
+
+
+
+
+</p></body></html>
+<!--
+     FILE ARCHIVED ON 7:33:47 Sep 22, 2012 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 14:44:12 Oct 28, 2013.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+-->

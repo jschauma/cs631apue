@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+<HEAD>
+
+  <TITLE>CS631 -- Advanced Programming in the UNIX Environment</TITLE>
+  <STYLE type="text/css">
+  body {
+  background-color: #FFFFFf;
+  }
+  </STYLE>
+  <STYLE type="text/css">
+  li.c1 {list-style: none}
+  </STYLE>
+</HEAD>
+
+<BODY>
+  <TABLE border="1" align="center" cellpadding="15">
+    <TR>
+      <TD valign="top">
+        <H2>CS631 -- Advanced Programming in the UNIX Environment - Exercise</H2>
+
+        <H3>Implement the 'libgreet' library.</H3>
+
+<h4>Summary</h4>
+
+<p>In this assignment you will write a simplistic shared library.  The
+functionality it provides is defined in the <a
+href="greet.3.txt">greet(3)</a> manual page.  Sample usage might look like
+so:</p>
+
+<p><blockquote><pre><tt>
+$ cat hello.c
+#include &lt;stdio.h&gt;
+
+#include "greet.h"
+
+int main(void) {
+	greet();
+	if (setgreeting("Howdy!") != 0) {
+		fprintf(stderr, "Unable to set greeting!\n");
+	}
+	greet();
+	hello("world", getgreeting());
+	return 0;
+}
+$ cc -Wall hello.c -lgreet
+$ ./a.out
+Hello!
+Howdy!
+world: Howdy!
+$ </tt></pre></blockquote></p>
+
+<p>Create a directory for your library, say "libgreet".  In it,
+begin by creating a header file <tt>greet.h</tt>, which includes the
+forward declarations of the functions provided in the library.  With that
+in place, you can already compile (although not link) your main program,
+e.g.:
+<tt>cc -Wall -c hello.c -I/home/${USER}/libgreet</tt>.</p>
+
+<p>Next, create the file <tt>greet.c</tt>, which implements the
+functionality of the library.  With that in place, you should be able to
+compile your program all in one go (i.e. <em>not</em> using your code as a
+shared library):</p>
+
+<p><blockquote><pre><tt>
+$ cc -Wall -c libgreet/greet.c -o libgreet/greet.o
+$ cc -Wall -c hello.c -I./libgreet
+$ cc hello.o libgreet/greet.o
+$ ./a.out
+Hello!
+Howdy!
+world: Howdy!
+$ </tt></pre></blockquote></p>
+
+<p>Finally, use what you learned in class in <a
+href="lecture10.pdf">lecture 10</a> to build a shared library
+<tt>libgreet.so</tt> so that you then can compile your program like
+this:</p>
+
+<p><blockquote><pre><tt>
+$ cc -Wall hello.c -I./libgreet -L./libgreet -lgreet
+</tt></pre></blockquote></p>
+
+        <hr>
+        [<a href="index.html">Course Website</a>]
+</BODY>
+</HTML>

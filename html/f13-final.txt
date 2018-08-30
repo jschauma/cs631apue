@@ -213,7 +213,7 @@ Example execution:
 07  $ cat file | tail -n 2
 08  This is the second-to-last line.
 09  This is the last line.
-10  $
+10  $ 
 
 Line 01 - 02: We have a file with 15 lines.
 Line 03 - 04: The program displays the last ten lines by default.
@@ -235,15 +235,15 @@ killed by someone with the appropriate permission.
 Example execution:
 
 01   $ lock
-02   Key:
+02   Key:	
 03   Again:
 04   lock: timeout in 15 minutes
 05   time now is Sun Dec  4 00:20:27 EST 2005
-06   Key:
+06   Key: 
 07   Key:
-08   Key: lock: type in the unlock key. timeout in 14:28 minutes
-09   Key:
-10   $
+08   Key: lock: type in the unlock key. timeout in 14:28 minutes 
+09   Key: 
+10   $ 
 
 
 Line 01: The program is started without any command line arguments.

@@ -3,19 +3,24 @@ Did I write all the code myself?
      classmates, sample solutions, or anywhere else.
      Review https://www.cs.stevens.edu/~jschauma/631/#plagiarism
 
+
 Does my code follow the style guide?
    - Code is communication.  Make sure your code is
      readable, well-structured, properly indented,
      with sensibily named variables and functions.
 
+
 Does my code compile without warnings or errors on a
 NetBSD 8.x system?
-  - Always use 'cc -ansi -g -Wall -Werror -Wextra -Wformat=2 -Wjump-misses-init -Wlogical-op -Wpedantic -Wshadow'.
+  - Always use *at least* 'cc -Wall -Werror -Wextra',
+    possibly
+    'cc -ansi -g -Wall -Werror -Wextra -Wformat=2 -Wjump-misses-init -Wlogical-op -Wpedantic -Wshadow'.
 
 
 Did I provide a Makefile?
   - 'make' should use the above CFLAGS and produce an
     executable
+
 
 Did I provide a README to explain any problems or
 issues I encountered?

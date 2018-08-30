@@ -1,0 +1,15 @@
+# $Id: Makefile.2,v 1.1 2004/08/15 22:30:10 jschauma Exp $
+PROG=	ls
+OBJS=	cmp.bar ls.bar main.bar print.bar stat_flags.bar util.bar
+
+# This variable *will* be used!
+#CFLAGS=	-Wall -g
+
+all: ${PROG}
+
+${PROG}: ${OBJS}
+	@echo $@ depends on $?
+	${CC} ${LDFLAGS} ${OBJS} -o ${PROG}
+
+clean:
+	rm -f ls *.o

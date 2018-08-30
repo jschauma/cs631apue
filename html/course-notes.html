@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+<HEAD>
+
+  <TITLE>Advanced Programming in the UNIX Environment</TITLE>
+  <STYLE type="text/css">
+  body {
+  background-color: #FFFFFf;
+  }
+  </STYLE>
+  <STYLE type="text/css">
+  li.c1 {list-style: none}
+  </STYLE>
+
+
+</HEAD>
+
+<BODY>
+  <TABLE border="1" align="center" cellpadding="15">
+    <TR>
+      <TD valign="top">
+        <H2>Advanced Programming in the UNIX Environment</H2>
+
+	<h3>Objective</h3>
+        <p>
+	  In order to get the most our of this class, it is useful to
+	  read up on the topic of the lectures <em>before</em> class
+	  as well as to revisit the material <em>after</em> the lecture.
+	</p>
+	<p>
+	  Doing this will be part of the requirements of this class.
+	  The format will be the course notes described here:
+	</p>
+	<p>
+	  <em>Prior</em> to each class, please review the linked reading
+	  material and any other related documents you might find
+	  on your own.  Make a note of any concepts or topics that
+	  are unclear to you, or for which you'd like to see
+	  clarification or further information.
+	</p>
+	<p>
+	  <em>After</em> each class, please revisit your notes and
+	  assess your understanding.  Did your questions get answered?
+	  Did new ones arise?  What did you learn?  Was there anything
+	  of particular interest that you came across?  Share your
+	  questions or findings on the class mailing list!
+	</p>
+	<p>
+
+	<h3>File format and submission</h3> 
+	<p>
+	  Create a <a href="git.html">git</a> repository for your class notes.
+	  In it, create a <em>plain ascii text file</em> for each lecture.
+	  Update this file twice: once <em>before</em> the class, and
+	  once <em>after</em> the class.  Make sure to <tt>git commit</tt>.
+	</p>
+	<p>
+	  At the end of the semester, <tt>tar</tt> up the directory,
+	  including the <tt>.git</tt> files and submit the resulting
+	  file via email to <a href="mailto:jschauma@stevens.edu?subject=[CS631] class notes">jschauma@stevens.edu</a>.
+	</p>
+	<p>
+	 The folllowing is an example sequence of commands to create a valid
+	 submission:
+<pre>
+mkdir $USER-notes
+cd $USER-notes
+git init
+vi 01.txt
+git commit .
+vi 02.txt
+git commit .
+...
+cd ..
+tar cf $USER-notes.tar $USER-notes
+</pre>
+       </p>
+      <hr>
+      [<a href="index.html">Course Website</a>]
+</BODY>
+</HTML>

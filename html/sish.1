@@ -2,7 +2,7 @@
 .\"   CS631 Advanced Programming in the UNIX Environment
 .\"   https://www.cs.stevens.edu/~jschauma/631/
 .\"
-.Dd November 29, 2015
+.Dd November 30, 2016
 .Dt SISH 1
 .Os
 .Sh NAME
@@ -117,7 +117,7 @@ the path of the executable of
 .Sh EXAMPLES
 The following sequence of commands shows common usage of
 .Nm :
-.Bd -literal
+.Bd -literal 
 $ sish
 sish$ echo $$
 6465
@@ -128,8 +128,8 @@ sish$ ls | wc -l
 sish$ echo $?
 0
 sish$ find / >/dev/null &
-sish$
-sish$ aed -e -p passin <file >file.enc
+sish$ 
+sish$ aed -e <file >file.enc
 sish$ cmd | sort | uniq -c | sort -n
  121 foo
  304 bar
@@ -164,7 +164,7 @@ sish$ pwd
 /home/jschauma
 sish$ exit
 + exit
-$
+$ 
 .Ed
 .Sh EXIT STATUS
 .Nm

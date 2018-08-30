@@ -1,0 +1,102 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+<HEAD>
+
+  <TITLE>CS810 -- Advanced Programming in the UNIX Environment</TITLE>
+  <STYLE type="text/css">
+  body {
+  background-color: #FFFFFf;
+  }
+  </STYLE>
+  <STYLE type="text/css">
+  li.c1 {list-style: none}
+  </STYLE>
+
+</HEAD>
+
+<BODY>
+  <TABLE border="1" align="center" cellpadding="15">
+    <TR>
+      <TD valign="top">
+        <H2>CS810 -- Advanced Programming in the UNIX Environment - Fall 2010 - Midterm Assignment</H2>
+
+        <H3>Midterm Assignment: Implement ls(1)</H3>
+
+        <H4>Summary</H4>
+	<p>The objective of this assignment is for you to write a
+        significant system tool from scratch.  In doing so, you will learn
+        many details of the UNIX filesystem and the general system
+        concepts we have covered in class.
+	</p>
+	<h4>Problem assignment</h4>
+	<p>
+	Implement the ls(1) command as described in the manual page provided to
+	you <a href="ls.pdf">here</a>.
+	</p>
+	<P>
+	Please note that this manual page describes a subset of the options
+	available on most systems, so please make sure to consult only this page
+	as reference.
+	</p>
+	<P>
+	Your program must follow the <a href="hw">general homework guidelines</a>.
+	</p>
+	<P>
+	Your code should be easily readable and contain comments <b>where
+	necessary</b>.
+	You may wish to take a look at <a href="style">this file</a> for
+	for examples of good coding style.  Often it makes sense to split
+	functionality across separate files.
+	</p>
+	<h4>Deliverables and Due Date</H4>
+	<h5>Snapshot</H5>
+	<p>
+	You must submit a compilable and working snapshot of
+	your project by 2010-10-12, at 23:59:59.  By then, you should have
+	implemented some basic functionality and some of the command-line
+	options.  It does not need to work without errors or bugs, but it
+	shouldn't segfault either; it should just show that you are making progress.
+	Failure to submit the snapshot on time will result in a 10% deduction
+	from the grade for the midterm project.
+	</p>
+
+	<h5>Final submission</h5>
+	<p>You will submit a single <tt>tar</tt> archive named
+	<em>username</em>-midterm.tar that will extract
+	into a directory named after your username.  In that directory
+	will be at least a file named <tt>ls.c</tt> and an optional Makefile.
+	If you have any commentary on your
+	submission, include it in a file called <tt>README</tt>.
+	</p>
+	<p>
+	For example, I would submit the file <tt>jschauma-midterm.tar</tt>
+	which might and compile as follows:
+	</p>
+	<p>
+	<verbatim><tt><pre>
+$ tar xvf jschauma-midterm.tar
+jschauma
+jschauma/Makefile
+jschauma/README
+jschauma/cmp.c
+jschauma/ls.h
+jschauma/ls.c
+jschauma/print.h
+jschauma/print.c
+$ cd jschauma
+$ make
+$ 
+	</pre></tt></verbatim></p>
+           <p>
+             The due date for this assignment is 2010-11-01 18:15.  Please
+             attach the file to an email sent from your <tt>@stevens.edu</tt>
+             email address to <a
+             href="mailto:jschauma@cs.stevens.edu?subject=[CS810] midterm">jschauma@cs.stevens.edu</a>
+             with a subject of "[CS810] midterm".
+           </p>
+
+        <hr>
+        [<a href="index.html">Course Website</a>]
+</BODY>
+</HTML>
