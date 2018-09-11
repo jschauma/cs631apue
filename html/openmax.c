@@ -42,7 +42,7 @@ open_max(void) {
 }
 
 int
-main(int argc, char **argv) {
+main() {
 	struct rlimit rlp;
 	if (getrlimit(RLIMIT_NOFILE, &rlp) != 0) {
 		fprintf(stderr, "Unable to get per process rlimit: %s\n", strerror(errno));

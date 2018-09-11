@@ -4,7 +4,7 @@
  *
  * See also:
  * http://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html
- * https://wpollock.com/ShScript/CmdLineProcessing.htm
+ * http://content.hccfl.edu/pollock/ShScript/CmdLineProcessing.htm
  *
  * Examples:
  * ./a.out

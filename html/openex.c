@@ -23,6 +23,8 @@ void
 createFile() {
 	int fd;
 
+	printf("Trying to create './newfile' with O_RDONLY | O_CREAT...\n");
+
 	if ((fd = open("./newfile", O_RDONLY | O_CREAT,
 					S_IRUSR | S_IWUSR)) == -1) {
 		fprintf(stderr, "Unable to create './newfile': %s\n",
@@ -41,6 +43,8 @@ void
 failExclFileCreation() {
 	int fd;
 
+	printf("Trying to create './newfile' with O_RDONLY | O_CREAT | O_EXCL...\n");
+
 	if ((fd = open("./newfile", O_RDONLY | O_CREAT | O_EXCL,
 					S_IRUSR | S_IWUSR)) == -1) {
 		fprintf(stderr, "Unable to create './newfile': %s\n",
@@ -58,6 +62,8 @@ void
 failOpenNonexistingFile() {
 	int fd;
 
+	printf("Trying to open (non-existant) './nosuchfile' with O_RDONLY...\n");
+
 	if ((fd = open("./nosuchfile", O_RDONLY)) == -1) {
 		fprintf(stderr, "Unable to open './nosuchfile': %s\n",
 				strerror(errno));
@@ -70,6 +76,8 @@ failOpenNonexistingFile() {
 void
 openFile() {
 	int fd;
+
+	printf("Trying to open './openex.c' with O_RDONLY...\n");
 
 	if ((fd = open("./openex.c", O_RDONLY)) == -1) {
 		fprintf(stderr, "Unable to open './openex.c': %s\n",
@@ -87,6 +95,8 @@ void
 truncateFile() {
 	int fd;
 
+	printf("Trying to open './newfile  with O_RDONLY | O_TRUNC...\n");
+
 	if ((fd = open("./newfile", O_RDONLY | O_TRUNC)) == -1) {
 		fprintf(stderr, "Unable to open './newfile': %s\n",
 				strerror(errno));
@@ -94,7 +104,7 @@ truncateFile() {
 	}
 
 	printf("'./newfile' opened. File descriptor is: %d\n", fd);
-	printf("'./newfile' truncated -- see 'ls -l openex'\n");
+	printf("'./newfile' truncated -- see 'ls -l newfile'\n");
 
 	(void)close(fd);
 }
@@ -102,7 +112,7 @@ truncateFile() {
 
 
 int
-main(int argc, char **argv) {
+main() {
 	createFile();
 	system("ls -l newfile");
 	printf("\n");

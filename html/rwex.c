@@ -18,7 +18,7 @@
 #define SOURCE 		"./rwex.c"
 
 int
-main(int argc, char **argv) {
+main() {
 	int fd, n;
 	int len;
 	char buf[BUFFSIZE];
