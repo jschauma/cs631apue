@@ -1,6 +1,3 @@
-% CS631 Advanced Programming in the UNIX Environment
-% Author: Jan Schaumann <jschauma@netmeister.org>
-% $Id: slides.tex,v 1.5 2005/09/13 03:13:26 jschauma Exp $
 \special{! TeXDict begin /landplus90{true}store end }
 
 \documentclass[xga]{xdvislides}
@@ -32,7 +29,7 @@
 		Stevens Institute of Technology\\
 		Jan Schaumann\\
 		\verb+jschauma@stevens.edu+\\
-		\verb+https://www.cs.stevens.edu/~jschauma/631/+
+		\verb+https://stevens.netmeister.org/631/+
 \end{center}
 \vspace*{\fill}
 
@@ -589,43 +586,42 @@ Non-superusers can change the {\tt st\_gid} field if both:
 
 \subsection{Directory sizes (on a system using UFS)}
 \begin{verbatim}
-$ cd /tmp
 $ mkdir -p /tmp/d
-$ ls -ld /tmp/d
-drwxr-xr-x  2 jschauma  wheel  512 Sep 26 19:35 /tmp/d
-$ touch d/a d/b d/c d/d d/e d/f d/g
-$ ls -ld /tmp/d
-drwxr-xr-x  2 jschauma  wheel  512 Sep 26 19:35 /tmp/d
-$ touch d/$(jot -b a 255 | tr -d '[:space:]')
-$ ls -ld /tmp/d
-drwxr-xr-x  2 jschauma  wheel  512 Sep 26 19:35 /tmp/d
-$ touch d/$(jot -b b 255 | tr -d '[:space:]')
-$ ls -ld /tmp/d
-drwxr-xr-x  2 jschauma  wheel  1024 Sep 26 19:37 /tmp/d
-$ rm /tmp/d/a*
-$ ls -ld /tmp/d
-drwxr-xr-x  2 jschauma  wheel  1024 Sep 26 19:37 /tmp/d
+$ cd /tmp/d
+$ ls -ld
+drwxr-xr-x  2 jschauma  wheel  512 Sep 26 19:35 .
+$ touch a b c d e f g
+$ ls -ld
+drwxr-xr-x  2 jschauma  wheel  512 Sep 26 19:35 .
+$ touch d/$(yes a | head -255 | tr -d '[:space:]')
+$ ls -ld
+drwxr-xr-x  2 jschauma  wheel  512 Sep 26 19:35 .
+$ touch d/$(yes b | head -255 | tr -d '[:space:]')
+$ ls -ld
+drwxr-xr-x  2 jschauma  wheel  1024 Sep 26 19:37 .
+$ rm a*
+$ ls -ld
+drwxr-xr-x  2 jschauma  wheel  1024 Sep 26 19:37 .
 $
 \end{verbatim}
 
 \subsection{Directory sizes (on a system using HFS+)}
 \begin{verbatim}
-$ cd /tmp
 $ mkdir -p /tmp/d
 $ cd /tmp/d
 $ ls -ld
-drwxr-xr-x  2 jschauma  wheel  68 Sep 24 18:52 .
+drwx------  2 jans  wheel  64 Sep 17 12:56 .
 $ touch a
 $ ls -ld
-drwxr-xr-x  3 jschauma  wheel  102 Sep 24 18:52 .
-$ echo $((102 / 3))
-34
-$ touch c
+drwx------  3 jans  wheel  96 Sep 17 12:56 .
+$ echo $((96 / 3))
+32
+$ touch b
 $ ls -ld
-drwxr-xr-x  4 jschauma  wheel  136 Sep 24 18:52 .
-$ rm c
+drwx------  4 jans  wheel  128 Sep 17 12:57 .
+$ rm b
 $ ls -ld
-drwxr-xr-x  3 jschauma  wheel  102 Sep 24 18:52 .
+drwx------  3 jans  wheel  96 Sep 17 12:57 .
 $
 \end{verbatim}
 
@@ -640,13 +636,12 @@ On your own:
 		denies you access to the file, even if group- or other permissions
 		allow reading.
 \end{itemize}
-To be submitted:
+Recommended code reading:
 \begin{itemize}
-	\item compare the source code for the {\tt stat(1)} command in NetBSD vs. that from GNU coreutils \\
-\verb+https://www.cs.stevens.edu/~jschauma/631/f17-hw2.html+
+	\item compare the source code for the {\tt stat(1)} command in NetBSD vs. that from GNU coreutils
 \end{itemize}
 \addvspace{.5in}
 Midterm Assignment:
-\verb+https://www.cs.stevens.edu/~jschauma/631/f17-midterm.html+
+\verb+https://stevens.netmeister.org/631/f18-midterm.html+
 
 \end{document}

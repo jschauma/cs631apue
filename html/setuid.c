@@ -13,6 +13,9 @@
  * sudo chmod 4755 a.out
  * ./a.out /etc/sudoers
  *
+ * Note: after chowning, try to recompile.  Does
+ * your compiler overwrite a.out?  Why/why not?
+ *
  * Note: setuid is not restricted to setuid-0.  Try
  * with another user!
  *
@@ -36,10 +39,71 @@
 #include <string.h>
 #include <unistd.h>
 
+#define UNPRIVILEGED_UID 1
+
+char buf[BUFSIZ];
+
+uid_t ruid;
+uid_t euid;
+uid_t suid;
+
+void myseteuid(int);
+void printUids(const char *);
+
+/* We're using this wrapper function, because the behavior
+ * of seteuid(2) with respect to the saved-set-uid is inconsistent
+ * across platforms.  On e.g. NetBSD, the POSIX.1-2017 mandated
+ * behavior is not implemented; see the note in the manual page
+ * as well as in <unistd.h>. */
+void
+myseteuid(int myeuid) {
+	char *func = "seteuid(";
+#ifdef _POSIX_SAVED_IDS
+	if (seteuid(myeuid) == -1) {
+		fprintf(stderr, "Unable to seteuid(%d): %s\n", euid, strerror(errno));
+		exit(EXIT_FAILURE);
+		/* NOTREACHED */
+	}
+#else
+	if (setreuid(-1, myeuid) == -1) {
+		fprintf(stderr, "Unable to setreuid(-1, %d): %s\n", myeuid, strerror(errno));
+		exit(EXIT_FAILURE);
+		/* NOTREACHED */
+	}
+	func ="setreuid(-1, ";
+#endif
+	if (snprintf(buf, BUFSIZ, "After %s%d)", func, myeuid) < 0) {
+		fprintf(stderr, "Unable to snprintf: %s\n", strerror(errno));
+		exit(EXIT_FAILURE);
+		/* NOTREACHED */
+	}
+	printUids(buf);
+}
+
+/* On e.g. Linux, we can get the saved set-uid
+ * via getresuid(2); not all systems support
+ * this, however.  On those that do not,
+ * we use the suid value initialized at program
+ * startup.
+ */
+void
+printUids(const char *msg) {
+	ruid = getuid();
+	euid = geteuid();
+
+#ifdef _GNU_SOURCE
+	if (getresuid(&ruid, &euid, &suid) < 0) {
+		fprintf(stderr, "Unable to getresuid: %s\n", strerror(errno));
+		exit(EXIT_FAILURE);
+		/* NOTREACHED */
+	}
+#endif
+	printf("%s: ruid %d, euid %d, suid %d\n", msg, ruid, euid, suid);
+
+}
+
 int
 main(int argc, char **argv) {
-	uid_t ruid;
-	uid_t euid;
 	int fd;
 
 	if (argc != 2) {
@@ -50,67 +114,63 @@ main(int argc, char **argv) {
 
 	ruid = getuid();
 	euid = geteuid();
+	/* fake saved-setuid */
+	suid = geteuid();
 
-	printf("Program start: uid %d, euid %d\n", getuid(), geteuid());
+	printUids("Program start");
 
-	/* Immediately drop elevated privileges until
-	 * we actually need them. */
-	if (seteuid(ruid) == -1) {
-		fprintf(stderr, "Unable to seteuid: %s\n", strerror(errno));
-		exit(EXIT_FAILURE);
-		/* NOTREACHED */
-	}
+	printf("We're privileged; let's set all UIDs to another account.\n");
+	myseteuid(UNPRIVILEGED_UID);
 
-	printf("We dropped suid, now using: uid %d, euid %d\n", getuid(), geteuid());
+	printf("We're unprivileged, but with the help of the saved set-uid, we can regain initial setuid (%d) privs.\n", suid);
+
+	printf("But let's drop them again via seteuid(%d)...\n", ruid);
+	myseteuid(ruid);
+
 	printf("Trying to open a privileged file...\n");
-
 	if ((fd = open(argv[1], O_RDONLY)) == -1) {
 		fprintf(stderr, "Unable to open %s: %s\n",
 					argv[1], strerror(errno));
 	}
-
-	/* We don't really do anything with the file
-	 * handle, so let's just close it right away.
-	 * We're once again willfully ignoring the
-	 * error. */
+	/* We don't do anything with the file, we just demonstrated
+	 * that we were unable to open it. */
 	(void)close(fd);
 
 	printf("Ok, let's try with elevated privileges.\n");
-
-	if (seteuid(euid) == -1) {
-		fprintf(stderr, "Unable to seteuid: %s\n", strerror(errno));
-		exit(EXIT_FAILURE);
-		/* NOTREACHED */
-	}
-
-	printf("After seteuid(%d): uid %d, euid %d\n", euid, getuid(), geteuid());
+	myseteuid(suid);
 
 	if ((fd = open(argv[1], O_RDONLY)) == -1) {
 		fprintf(stderr, "Unable to open %s: %s\n",
 					argv[1], strerror(errno));
+		exit(EXIT_FAILURE);
+		/* NOTREACHED */
 	} else {
 		printf("Opening worked.\n");
-	}
 
-	/* Now we could do stuff with 'fd', if we were
-	 * so inclined.  We're not, though. */
-	(void)close(fd);
+		/* Now we could do stuff with 'fd', if we were
+		 * so inclined.  We're not, though. */
+		(void)close(fd);
+	}
 
 	printf("Alright, we're done using our elevated privileges.  Let's drop them permanently.\n");
 	if (setuid(ruid) == -1) {
-		fprintf(stderr, "Unable to seteuid: %s\n", strerror(errno));
+		fprintf(stderr, "Unable to setuid: %s\n", strerror(errno));
 		exit(EXIT_FAILURE);
 		/* NOTREACHED */
 	}
 
-	printf("After setuid(%d): uid %d, euid %d\n", ruid, getuid(), geteuid());
-
+	if (snprintf(buf, BUFSIZ, "After setuid(%d)", ruid) < 0) {
+		fprintf(stderr, "Unable to snprintf: %s\n", strerror(errno));
+		exit(EXIT_FAILURE);
+		/* NOTREACHED */
+	}
+	printUids(buf);
 	printf("Now trying to gain elevated privileges again.\n");
 
 	/* Trying to gain elevated privileges again
 	 * should fail here, because setuid(2), called
 	 * above, is supposed to set the real and effective
-	 * uid as well as the saved set-user ID..
+	 * uid as well as the saved set-user ID.
 	 *
 	 * However, the results are platform dependent,
 	 * based on whether or not the euid at
@@ -123,14 +183,32 @@ main(int argc, char **argv) {
 	 * - OS X and Linux do NOT set the saved set-user-ID
 	 *   in setuid(2) IF the euid was non-zero
 	 */
-	if (seteuid(euid) != -1) {
-#ifndef _POSIX_SAVED_IDS
-		if (euid == 0)
+	if (seteuid(suid) != -1) {
+#ifdef _POSIX_SAVED_IDS
+		if (euid == 0) {
+			fprintf(stderr, "seteuid(%d) should not have succeeded!\n", euid);
+		}
 #endif
-			fprintf(stderr, "seteuid(0) should not have succeeded!\n");
 	}
 
-	printf("After attempted seteuid(%d): uid %d, euid %d\n", euid, getuid(), geteuid());
+	if (snprintf(buf, BUFSIZ, "After attempted seteuid(%d)", suid) < 0) {
+		fprintf(stderr, "Unable to snprintf: %s\n", strerror(errno));
+		exit(EXIT_FAILURE);
+		/* NOTREACHED */
+	}
+	printUids(buf);
+
+	printf("(We expect the following call to open(2) to fail if setuid was 0 initially.)\n");
+
+	if ((fd = open(argv[1], O_RDONLY)) == -1) {
+		fprintf(stderr, "Unable to open %s: %s\n",
+					argv[1], strerror(errno));
+	} else {
+		if (euid == 0) {
+			printf("Wait, what? This shouldn't have worked!\n");
+		}
+		(void)close(fd);
+	}
 
 	exit(EXIT_SUCCESS);
 }
