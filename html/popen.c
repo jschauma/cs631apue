@@ -18,12 +18,12 @@
 int
 main(int argc, char **argv) {
 	FILE *pipe;
-	char line[128], *pager;
+	char line[BUFSIZ], *pager;
 	FILE *fp;
 
 	if (argc != 2) {
 		perror("usage: a.out <pathname>");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 
 	if ((pager = getenv("PAGER")) == NULL)
@@ -32,26 +32,26 @@ main(int argc, char **argv) {
 	if ((pipe = popen(pager, "w")) == NULL) {
 		fprintf(stderr,"Unable to open pipe to %s: %s\n",
 				pager, strerror(errno));
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 
 	if ((fp = fopen(argv[1], "r")) == NULL) {
 		fprintf(stderr, "can't open %s\n", argv[1]);
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 
-	while (fgets(line, 128, fp) != NULL) {
+	while (fgets(line, BUFSIZ, fp) != NULL) {
 		fprintf(pipe, "==> %s", line);
 	}
 
 	if (ferror(fp)) {
 		perror("fgets error");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 
 	if (pclose(pipe) == -1) {
 		perror("pclose error");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 
 	return 0;

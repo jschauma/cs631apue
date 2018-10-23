@@ -1,4 +1,5 @@
 /* A simple program to illustrate the use of Message Queues.
+ *
  * Note that message queues continue to exist after all processes have
  * terminated; messages continue to remain in the queues as well.  This is
  * desired, but requires that processes clean up after themselves when
@@ -8,12 +9,13 @@
  * ftok(2).
  *
  * Use msgsend.c to create/send messages, then run this tool to retrieve
- * them (in order).
+ * them (in order).  Note that msgrecv will block if no messages are in
+ * the queue.
  *
  * Use ipcs(1) to inspect the usage.
  *
  * Derived from:
- * http://www.cs.cf.ac.uk/Dave/C/node25.html
+ * https://users.cs.cf.ac.uk/Dave.Marshall/C/node25.html
  */
 #include <sys/ipc.h>
 #include <sys/msg.h>

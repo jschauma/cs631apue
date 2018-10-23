@@ -255,6 +255,7 @@ Student Code of Academic Conduct</a>.
 	Assignments will be posted as the semester progresses.
 	<ul>
 		<li><a href="f18-hw1.html">HW#1: trivially copy a file</a></li>
+		<li><a href="f18-hw2.html">HW#2: implement 'command(3)'</a></li>
 <!--
 		<li><a href="intro.html">Intro "test"</a></li>
 		<li><a href="f16-hw1.html">HW#1: read code</a></li>
@@ -386,9 +387,9 @@ simple shell</a></li>
             <TD width="25%"><A href="lecture04.pdf">Lecture
             Slides</A><BR>
             &#160;<BR>
-	    <a href="cd.c">cd.c</A></TD>
+	    <a href="cd.c">cd.c</A><BR>
             <A href="wait-unlink.c">wait-unlink.c</A><BR>
-            <A href="sizeof.c">sizeof.c</A><BR>
+            <A href="sizeof.c">sizeof.c</A><BR></TD>
           </TR>
 
           <TR>
@@ -408,7 +409,7 @@ simple shell</a></li>
             "http://www.unknownroad.com/rtfm/gdbtut/gdbtoc.html">gdb
             Tutorial</A><br>
 		<a href="http://git-scm.com/">Git</a></TD>
-            <TD><A href="lecture09.pdf">Lecture Slides</A><BR>
+            <TD><A href="lecture05.pdf">Lecture Slides</A><BR>
             <BR>
 	    <A href="compilechain/">compile chain examples</a><br>
 	    <A href="make-examples/">make examples</a><br>
@@ -426,23 +427,29 @@ simple shell</a></li>
 
             <TD>Process Environment, Process Control</TD>
 
-            <TD>Stevens: Chapters 7, 8</TD>
+            <TD>Stevens: Chapters 7, 8<br>
+		<a
+href="https://insecure.org/stf/smashstack.html">Smashing The Stack For Fun And Profit</a><br>
+		<a
+href="http://dbp-consulting.com/tutorials/debugging/linuxProgramStartup.html">Linux x86 Program Start Up</a></TD>
 
-            <TD width="25%">
-		<A href="lecture05.pdf">Lecture
+            <TD width="25%"><em>Note: Tuesday class</em><br><br>
+		<A href="lecture06.pdf">Lecture
             Slides</A><BR>
             &#160;<BR>
             <a href="testcp.sh">testcp.sh</a><BR>
-            <!-- <A href="const.c">const.c</A><BR> -->
+            <A href="const.c">const.c</A><BR>
             <A href="entry.c">entry.c</A><BR>
             <A href="exit-handlers.c">exit-handlers.c</A><BR>
             <A href="forkflush.c">forkflush.c</A><BR>
             <A href="hw.c">hw.c</A><BR>
             <A href="memory-layout.c">memory-layout.c</A><BR>
-            <A href="zombies.c">zombies.c</A>
-            <A href="setjmp1.c">setjmp1.c</A><BR>
+            <A href="zombies.c">zombies.c</A><br><br>
+	    <a
+href="http://cvsweb.netbsd.org/bsdweb.cgi/src/lib/csu/common/crt0-common.c?rev=HEAD&content-type=text/x-cvsweb-markup">NetBSD crt0-common.c</a><br>
+            <!-- <A href="setjmp1.c">setjmp1.c</A><BR>
             <A href="setjmp2.c">setjmp2.c</A><BR>
-            <A href="setjmp3.c">setjmp3.c</A></TD>
+            <A href="setjmp3.c">setjmp3.c</A> --></TD>
           </TR>
 
           <TR>
@@ -452,8 +459,8 @@ simple shell</a></li>
 
             <TD>Stevens: Chapter 9, 10</TD>
 
-            <TD width="25%"><em>Note: Tuesday class</em><br><br>
-		<A href="lecture06.pdf">Lecture
+            <TD width="25%">
+		<A href="lecture07.pdf">Lecture
             Slides</A><BR>
 		<a
 href="http://www.informit.com/articles/article.aspx?p=366888&seqNum=7">FreeBSD Process Management</a> (from "The Design and Implementation of the FreeBSD Operating System")<BR>
@@ -466,39 +473,51 @@ href="http://www.informit.com/articles/article.aspx?p=366888&seqNum=7">FreeBSD P
 
           <TR>
             <TD>2018-10-22</TD>
-            <TD>Midterm Project Review / Final Project Discussion</TD>
-            <TD>&nbsp;</TD>
-            <TD><a href="midterm-final.pdf">Lecture slides</a><br>
-		<!--	<a href="f16-final-project.html">Final Project</a><br> -->
-			<a href="git.html">Notes on git</a></TD>
+            <TD>Interprocess Communication I</TD>
+            <TD>Stevens: Chapter 14</TD>
+            <TD width="25%">
+		<a href="lecture08.pdf">Lecture Slides</A><BR>
+            <BR>
+            <A href="ipctut.pdf">BSD IPC Tutorial</A><BR>
+		<a
+href="https://beej.us/guide/bgipc/html/single/bgipc.html">Beej's
+Guide to Unix IPC</a><br>
+            <A
+href="https://web.archive.org/web/20160507131726/http://www.kohala.com/start/unpv22e/unpv22e.chap12.pdf">Shared Memory Introduction</A><BR>
+		<a
+href="https://web.archive.org/web/20180316204322/http://www.linuxdevcenter.com/pub/a/linux/2007/05/24/semaphores-in-linux.html">Semaphores
+in Linux</a><br>
+		<a
+href="https://www.softprayog.in/programming/interprocess-communication-using-posix-message-queues-in-linux">Interprocess
+communication using POSIX message queues in
+Linux</a><br>
+            <BR>
+            <a href="memory-layout.c">memory-layout.c</a><br>
+            <a href="mqrecv.c">mqrecv.c</a><br>
+            <a href="mqsend.c">mqsend.c</a><br>
+            <a href="msgrecv.c">msgrecv.c</a><br>
+            <A href="pipe1.c">pipe1.c</A><BR>
+            <A href="pipe2.c">pipe2.c</A><BR>
+            <a href="popen.c">popen.c</a><br>
+            <a href="semdemo.c">semdemo.c</a><br>
+            <a href="shmdemo.c">shmdemo.c</a><br>
+	<br>
+	<a href="f18-hw2.html">HW#2: implement 'command(3)'</a><br>
+		</TD>
           </TR>
 
           <TR>
             <TD>2018-10-29</TD>
 
-            <TD>Interprocess Communication</TD>
+            <TD>Interprocess Communication II</TD>
 
             <TD>Stevens: Chapter 14</TD>
 
             <TD width="25%">
 		<a href="lecture07.pdf">Lecture Slides</A><BR>
             <BR>
-            <A href="ipctut.pdf">BSD IPC Tutorial</A><BR>
             <A href="ipc.pdf">BSD IPC</A><BR>
             <BR>
-            <A
-href="https://web.archive.org/web/20160507131726/http://www.kohala.com/start/unpv22e/unpv22e.chap12.pdf">Shared Memory Introduction</A><BR>
-            <A
-href="http://www.linuxdevcenter.com/pub/a/linux/2007/05/24/semaphores-in-linux.html?page=1">Semaphores in Linux</A><BR>
-            <BR>
-            <A href="pipe1.c">pipe1.c</A><BR>
-            <A href="pipe2.c">pipe2.c</A><BR>
-            <a href="popen.c">popen.c</a><br>
-            <a href="semdemo.c">semdemo.c</a><br>
-            <a href="shmdemo.c">shmdemo.c</a><br>
-            <a href="memory-layout.c">memory-layout.c</a><br>
-            <a href="msgsend.c">msgsend.c</a><br>
-            <a href="msgrecv.c">msgrecv.c</a><br>
             <A href="socketpair.c">socketpair.c</A><BR>
             <A href="udgramread.c">udgramread.c</A><BR>
             <A href="udgramsend.c">udgramsend.c</A><BR>
@@ -507,6 +526,7 @@ href="http://www.linuxdevcenter.com/pub/a/linux/2007/05/24/semaphores-in-linux.h
             <A href="streamread.c">streamread.c</A><BR>
             <A href="streamwrite.c">streamwrite.c</A><BR>
             <A href="strchkread.c">strchkread.c</A><br>
+
 	    <!-- <a href="f16-hw3.html">HW#3 - sws milestone#1</a><br> -->
 	    </TD>
           </TR>

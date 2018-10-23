@@ -1,5 +1,5 @@
 /* A simple program to illustrate the use of semaphores.  Derived from:
- * http://www.beej.us/guide/bgipc/output/html/multipage/semaphores.html
+ * https://www.beej.us/guide/bgipc/html/multi/semaphores.html
  *
  * Run in parallel in multiple processes to illustrate the blocking as
  * another process holds a lock.
@@ -41,14 +41,14 @@ initsem(key_t key) {
 	arg.buf = &buf;
 
 	semid = semget(key, 1, IPC_CREAT | IPC_EXCL | 0666);
-	if (semid >= 0) { /* we got it first */
+	if (semid >= 0) {       /* we got it first */
 		sb.sem_num = 0; /* operate on the first semaphore in the set */
 		sb.sem_op  = 1; /* "free" the semaphore */
 		sb.sem_flg = 0; /* no flags are set */
 
 		/* "Free" the semaphore.
 		 * Note: since this semget, semop sequence is non-atomic,
-		 * it poses a possible race condition where by this
+		 * it poses a possible race condition whereby this
 		 * process that created the semaphore might be suspended
 		 * prior to freeing it.  In that case, the second process
 		 * in the 'EEXIST' block below...
@@ -119,6 +119,10 @@ main(void) {
 		exit(1);
 	}
 
+	/* What happens if you don't use ftok(3)?  Give it a try.
+	key = IPC_PRIVATE;
+	*/
+
 	if ((semid = initsem(key)) == -1) {
 		perror("initsem");
 		exit(1);
@@ -145,7 +149,7 @@ main(void) {
 	 * However, just as with cleaning up file descriptors and other
 	 * resources, it's a good idea to be explicit and free the
 	 * resource on exit.*/
-	sb.sem_op = 1; /* free resource */
+	sb.sem_op = 1;
 	if (semop(semid, &sb, 1) == -1) {
 		perror("semop");
 		exit(1);
