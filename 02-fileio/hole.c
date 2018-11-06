@@ -27,7 +27,14 @@ main(void) {
 		return EXIT_FAILURE;
 	}
 
-	if (write(fd, buf1, strlen(buf1)) != strlen(buf1)) {
+	/* Note: we're comparing a signed to an unsigned size_t;
+	 * without the cast, your compiler would warn you about this.
+	 * See e.g. https://is.gd/RCpnlr for a discussion of why this
+	 * warning is needed.  In _this_ case, we happen to know
+	 * that the length of the buffer is never larger than the
+	 * max value of a size_t, so we can safely cast it.  This
+	 * is not always the case! */
+	if (write(fd, buf1, strlen(buf1)) != (ssize_t)strlen(buf1)) {
 		perror("error writing buf1");
 		return EXIT_FAILURE;
 	}
@@ -37,7 +44,7 @@ main(void) {
 		return EXIT_FAILURE;
 	}
 
-	if (write(fd, buf2, strlen(buf2)) != strlen(buf2)) {
+	if (write(fd, buf2, strlen(buf2)) != (ssize_t)strlen(buf2)) {
 		perror("error writing buf2");
 		return EXIT_FAILURE;
 	}

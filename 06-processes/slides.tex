@@ -34,7 +34,7 @@
 		Stevens Institute of Technology\\
 		Jan Schaumann\\
 		\verb+jschauma@stevens.edu+\\
-		\verb+https://www.cs.stevens.edu/~jschauma/631/+
+		\verb+https://stevens.netmeister.org/631/+
 \end{center}
 \vspace*{\fill}
 
@@ -124,7 +124,7 @@ See also: \\
 Obligatory "Smashing The Stack For Fun And Profit"
 links: \\
 
-\verb+http://insecure.org/stf/smashstack.html+
+\verb+https://insecure.org/stf/smashstack.html+
 
 \subsection{The {\tt main} function}
 \vspace{.25in}
@@ -181,7 +181,7 @@ $
 \end{verbatim}
 
 \subsection{Process Creation}
-\verb+glibc/sysdeps/x86_64/start.S+
+Linux: \verb+glibc/sysdeps/x86_64/start.S+
 
 \begin{verbatim}
 0000000000401058 <_start>:
@@ -202,7 +202,9 @@ $
 \end{verbatim}
 
 \subsection{Process Creation}
-\verb+glibc/csu/libc-start.c+
+NetBSD: \verb+/usr/src/lib/csu/common/crt0-common.c+ \\
+
+Linux: \verb+glibc/csu/libc-start.c+
 
 \begin{verbatim}
 STATIC int
@@ -220,7 +222,6 @@ LIBC_START_MAIN (int (*main) (int, char **, char ** MAIN_AUXVEC_DECL),
 \end{verbatim}
 
 \subsection{Process Creation}
-On Linux:
 \begin{verbatim}
 $ cc -Wall entry.c
 $ readelf -h a.out | more
@@ -243,7 +244,6 @@ $
 
 
 \subsection{Process Creation}
-On Linux:
 \begin{verbatim}
 $ cc -e foo entry.c
 $ ./a.out
@@ -254,7 +254,7 @@ $ ./a.out
 bar rules!
 $ echo $?
 1
-$ cc entry.c
+$ cc --std=c89 entry.c
 $ ./a.out
 Hooray main!
 $ echo $?
@@ -382,7 +382,7 @@ Abnormal termination:
 
 \subsection{Exit codes}
 \begin{verbatim}
-$ cc -Wall hw.c
+$ cc -Wall --std=c89 hw.c
 hw.c: In function 'main':
 hw.c:7: warning: control reaches end of non-void function
 $ ./a.out
@@ -394,7 +394,7 @@ $
 
 \subsection{Exit codes}
 \begin{verbatim}
-$ cc -Wall hw.c
+$ cc -Wall --std=c89 hw.c
 hw.c: In function 'main':
 hw.c:7: warning: control reaches end of non-void function
 $ ./a.out
@@ -504,6 +504,44 @@ program...
 \begin{center}
 	\includegraphics[angle=-90,scale=0.8]{pics/process9.eps}
 \end{center}
+
+\subsection{Memory Layout of a C Program}
+\small
+\begin{verbatim}
+argc at                                                 7F7FFFA3624C
+argv at                                                 7F7FFFA36240
+extern char **environ at                                      601C38
+envp at                                                 7F7FFFA36238
+_=./a.out from environ at                               7F7FFFA40478
+main (function) at                                            400B6B
+func (function) at                                            400B40
+func2 (function) at                                           400F07
+
+num (initialized global int) at                               601A58
+num2 (uninitialized global int) at                            601C48
+string (initialized global char *) at                         601A50
+string2 (uninitialized global char *) at                      601C40
+
+array[] (uninitialized, fixed-size char[] on BSS) from:       601C60
+array[] ends at                                               60B8A0
+stack (first variable inside main) begins around        7F7FFFA3FE94
+func_array[] (like 'array[]', but on stack) from:       7F7FFFA36250
+func_array[] ends at                                    7F7FFFA3FE90
+malloced area begins at                                 740460F02000
+malloced area ends at                                   740460F1A6A0
+
+*environ[0] itself at                                   7F7FFFA3FEF8
+environ[0] (_=./a.out) at                               7F7FFFA40478
+getenv("_") at                                          7F7FFFA4047A
+getenv("USER") = jschauma at                            7F7FFFA40598
+getenv("USER") = root, after setenv                     740460F020A6
+
+func: stack frame around                                7F7FFFA3621C
+func2 (from func): stack frame around                   7F7FFFA361FC
+func popped off
+func2 (from main): stack frame around                   7F7FFFA3621C
+\end{verbatim}
+\Normalsize
 
 \subsection{Memory Layout of a C Program}
 On NetBSD:
@@ -1051,10 +1089,13 @@ Thinking:
 	\item compare return codes on NetBSD of {\tt
 		printf(3)} vs {\tt write(2)}; explain
 		the difference
+	\item Can you overflow the stack by setting many environment variables?
+	\item What is the maximum size an environment variable can be? What happens when you set one larger than that (by e.g. manipulating {\tt envp} directly)?
 \end{itemize}
 \vspace{.5in}
 Other:
 \begin{itemize}
+	\item update {\tt memory-layout.c} to match the output on slide 35; play with {\tt envp}, {\tt environ}, {\tt setenv(3)} etc. and see where things end up
 	\item work on your midterm project!
 \end{itemize}
 

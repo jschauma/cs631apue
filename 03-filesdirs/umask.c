@@ -32,7 +32,7 @@ myOpen(const char *path) {
 }
 
 int
-main(int argc, char **argv) {
+main() {
 	myOpen("foo1");
 
 	umask(0);

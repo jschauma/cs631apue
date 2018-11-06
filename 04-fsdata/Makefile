@@ -22,7 +22,8 @@ FIGURES=	pics/fs1.eps		\
 		pics/subdirs3.eps 	\
 		pics/tdd.eps		\
 		pics/strftime.eps	\
-		pics/waterfall.eps
+		pics/waterfall.eps	\
+		pics/whitespace.eps
 
 .SUFFIXES: .tex .dvi .ps .pdf .txt .fig .eps .gif .jpg .png
 

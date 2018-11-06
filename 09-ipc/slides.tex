@@ -32,9 +32,10 @@
 		Stevens Institute of Technology\\
 		Jan Schaumann\\
 		\verb+jschauma@cs.stevens.edu+\\
-		\verb+https://www.cs.stevens.edu/~jschauma/631/+
+		\verb+https://stevens.netmeister.org/631/+
 \end{center}
 \vspace*{\fill}
+
 
 \subsection{Pipes: {\tt pipe(2)}}
 \small
@@ -90,13 +91,13 @@ Behavior after closing one end:
 		\thinlines
 		\put(0,0){\framebox(130,22){}}
 		\put(10,17){{\tt \#include <sys/socket.h>}}
-		\put(10,10){{\tt int socketpair(int {\em d}, int {\em type}, int {\em protocol}, int *{\em sv});}}
+		\put(10,10){{\tt int socketpair(int {\em domain}, int {\em type}, int {\em protocol}, int *{\em sv});}}
 	\end{picture}
 \end{center}
 \Normalsize
 
 The {\tt socketpair(2)} call creates an unnamed pair of connected sockets in
-the specified domain {\tt d}, of the specified {\em type}, and using the
+the specified domain {\tt domain}, of the specified {\em type}, and using the
 optionally specified {\em protocol}.
 \\
 
@@ -224,6 +225,7 @@ udp4       0      0  *.64293                *.*
 1$
 \end{verbatim}
 \vfill
+(Compare observed packets via {\tt tcpdump(8)}.)
 %\hfill \includegraphics[angle=-90,scale=0.9]{pics/j8.eps}
 
 \subsection{Sockets: Datagrams in the Internet Domain}
@@ -357,7 +359,7 @@ upon return)
 	\item {\tt poll(2)} provides a conceptually similar interface
 \end{itemize}
 \vspace{.5in}
-See also: \verb+http://daniel.haxx.se/docs/poll-vs-select.html+
+See also: \verb+https://daniel.haxx.se/docs/poll-vs-select.html+
 
 \subsection{Sockets: Connections using stream sockets}
 \begin{verbatim}
@@ -420,20 +422,15 @@ To manipulate the options associated with a socket, use {\tt setsockopt(2)}:
 \subsection{Final Project}
 
 Write a simple web server. \\
-\verb+https://www.cs.stevens.edu/~jschauma/631/f17-final-project.html+
-
-\vspace{.5in}
-Generate an SSH key pair and send the {\em public key
-only} to me.
-
+\verb+https://stevens.netmeister.org/631/f18-final-project.html+
 
 \subsection{More Information}
+Reading:
 \begin{itemize}
-	\item \verb+http://www.cs.stevens.edu/~jschauma/631/ipctut.pdf+
-	\item \verb+http://www.cs.stevens.edu/~jschauma/631/ipc.pdf+
-	\item \verb+http://www.cs.cf.ac.uk/Dave/C/node25.html+
-	\item \verb+http://kohala.com/start/unpv22e/unpv22e.chap12.pdf+
-	\item \verb+http://beej.us/guide/bgipc/output/html/singlepage/bgipc.html+
+	\item \verb+https://stevens.netmeister.org/ipc.pdf+
+	\item \verb+https://ops.tips/blog/how-linux-creates-sockets/+
+	\item \verb+https://ops.tips/blog/how-linux-tcp-introspection/+
+	\item \verb+https://beej.us/guide/bgipc/html/single/bgipc.html+
 \end{itemize}
 \vspace{.5in}
 
@@ -443,5 +440,18 @@ only} to me.
 %\vspace{\fill}
 %\small
 %\hfill ...And they call him, Sandy... Clawssss...!
+
+Exercises:
+\begin{itemize}
+	\item Revisit HW2; try to implement it using a
+		{\tt socketpair(2)}
+	\item What happens if you change the {\tt
+domain}, {\tt type}, and {\tt protocol} arguments to
+{\tt socketpair(2)}?
+	\item Even though communications via {\tt
+localhost} work just fine, make sure to verify network
+communications across the internet.
+\end{itemize}
+
 
 \end{document}

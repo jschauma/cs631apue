@@ -38,7 +38,7 @@ slides:	#example.knuth.eps example.knuth2.eps example.knuth3.eps
 	pngtopnm $< | pnmtops > $@
 
 .jpg.eps:
-	jpegtopnm $< | pnmtops > $@
+	convert $< $@
 
 .gif.eps:
 	giftopnm $< | pnmtops > $@
@@ -89,11 +89,15 @@ rwex: rwex.c
 hole: hole.c
 	cc -Wall $< -o $@
 
-catio: tmpfiles ../01-intro/simple-cat.c
+catio: tmpfiles simple-cat.c
 	for n in 1048576 32768 16384 4096 512 256 128 64 1 ; do		\
 		echo "BUFFSIZE = $$n";					\
-		cc -Wall -DBUFFSIZE=$$n ../01-intro/simple-cat.c;	\
+		cc -Wall -DBUFFSIZE=$$n simple-cat.c;	\
 		i=$$(( $$i + 1 ));					\
+		/usr/bin/time -p ./a.out <tmp/file$$i >tmp/file$$i.copy;\
+		echo "Again!";						\
+		/usr/bin/time -p ./a.out <tmp/file$$i >tmp/file$$i.copy;\
+		echo "Again!";						\
 		/usr/bin/time -p ./a.out <tmp/file$$i >tmp/file$$i.copy;\
 		echo;							\
 	done;

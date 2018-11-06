@@ -57,27 +57,25 @@ main(int argc, char **argv) {
 
 	while ((dirp = readdir(dp)) != NULL) {
 		struct stat sb;
+		printf("%s (", dirp->d_name);
 		if (stat(dirp->d_name, &sb) == -1) {
 			fprintf(stderr, "Can't stat %s: %s\n", dirp->d_name,
 						strerror(errno));
 
-			if (lstat(dirp->d_name, &sb) == -1) {
-				fprintf(stderr,"Can't stat %s: %s\n", dirp->d_name,
-						strerror(errno));
-				continue;
-			}
+			printf("unknown");
+		} else {
+			printType(sb);
 		}
-
-		printf("%s (", dirp->d_name);
-		printType(sb);
 		printf(" - ");
 
 		if (lstat(dirp->d_name, &sb) == -1) {
+			printf("unknown");
 			fprintf(stderr,"Can't stat %s: %s\n", dirp->d_name,
 						strerror(errno));
 			continue;
+		} else {
+			printType(sb);
 		}
-		printType(sb);
 		printf(")\n");
 	}
 

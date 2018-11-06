@@ -33,7 +33,7 @@
 		Stevens Institute of Technology\\
 		Jan Schaumann\\
 		\verb+jschauma@stevens.edu+\\
-		\verb+http://www.cs.stevens.edu/~jschauma/631/+
+		\verb+https://stevens.netmeister.org/631/+
 \end{center}
 \vspace*{\fill}
 
@@ -63,6 +63,90 @@ The most important tools are:
 	\item {\tt cvs(1)}, {\tt svn(1)}, {\tt git(1)} etc. -- distributed project management,
 		 version control
 \end{itemize}
+
+\subsection{EDITOR}
+Know your \verb+$EDITOR+.  Core functionality:
+\begin{itemize}
+\item syntax highlighting
+\item efficient keyboard maneuvering
+\item setting markers, using buffers
+\item copy, yank, fold e.g. blocks
+\item search and replace
+\item window splitting
+\item autocompletion
+\item jump to definition / manual page
+\item applying external commands and filters
+\end{itemize}
+
+\subsection{EDITOR}
+Examples given using {\tt vim(1)}. \\
+
+Efficient keyboard maneuvering:
+
+\begin{itemize}
+	\item h, j, k, l
+	\item w, b, e
+	\item /, ?, \verb+^+, \verb+$+
+	\item \verb+^+D, \verb+^+B
+	\item zz, zt, zb
+	\item \verb+%+, \verb+]}+, \verb+[{+
+	\item :n, :prev, :rew
+\end{itemize}
+
+\subsection{EDITOR}
+Examples given using {\tt vim(1)}. \\
+
+Copy, yank, fold, markers, buffers etc.:
+\begin{itemize}
+	\item m \verb+[+a-zA-Z\verb+]+
+	\item :marks
+	\item v, V
+	\item =
+	\item d, y, "xy, "xp
+	\item zf, zA
+\end{itemize}
+
+\subsection{EDITOR}
+Examples given using {\tt vim(1)}. \\
+
+Look-ups:
+\begin{itemize}
+	\item \verb+find /usr/src -name '*[ch]' -print | exec ctags -f ~/.ctgs+
+	\item \verb|echo "set tags+=~/.ctags" >> ~/.vimrc|
+	\item Ctrl+], Ctrl+t -- jump to definition and back
+	\item K -- jump to manual page
+	\item Ctrl+N -- autocomplete
+\end{itemize}
+
+\subsection{EDITOR}
+Examples given using {\tt vim(1)}. \\
+
+Integration with compiler, debugger, \verb+make(1)+
+etc.
+
+\begin{verbatim}
+vim welcome.c
+:make
+Ctrl+]
+:cnext
+...
+\end{verbatim}
+\vspace{.5in}
+
+Finally, two of your most powerful Unix IDE
+integrations are a terminal multiplexer (e.g.
+\verb+screen(1)+ or \verb+tmux(1)+) and copious use
+of Ctrl+Z (i.e., the shell's job control mechanisms).
+
+\subsection{EDITOR}
+Examples given using {\tt vim(1)}. \\
+
+\begin{center}
+	\includegraphics[scale=0.4]{pics/vim.eps} \\
+	\verb|https://duckduckgo.com/?q=vim+tutorial|
+\end{center}
+
+
 
 %\subsection{Compilers}
 %
@@ -148,7 +232,7 @@ preprocessing (e.g. via {\tt cpp(1)}), compilation
 
 \begin{verbatim}
 $ more hello.i
-$ cc -v -S hello.i > hello.s
+$ cc -v -S hello.i
 $ file hello.s
 $ more hello.s
 \end{verbatim}
@@ -302,7 +386,7 @@ Other interesting things you can do:
 \subsection{{\tt gdb(1)}}
 \begin{verbatim}
 $ cd gdb-examples/ls
-$ ./a.out ~/tmp
+$ ./a.out
 Memory fault (core dumped)
 $ gdb ./a.out
 (gdb) run ~/tmp
@@ -314,11 +398,8 @@ Program received signal SIGSEGV, Segmentation fault.
 497             strcpy(new_node->owner_name, password->pw_name);
 
 (gdb) bt
-[...]
 (gdb) frame 0
-[...]
 (gdb) li
-[...]
 (gdb) print password
 \end{verbatim}
 

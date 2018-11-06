@@ -11,7 +11,7 @@
 #include <unistd.h>
 
 int
-main(int argc, char **argv) {
+main() {
 	int fd1, fd2, fd3;
 	FILE *f;
 

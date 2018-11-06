@@ -82,6 +82,8 @@ main(int argc, char **argv) {
 		else
 			argv0 = pager;
 
+		/* We can of course lie about our name: */
+		argv0 = "/bin/sh (not really)";
 		execlp(pager, argv0, (char *) 0);
 		fprintf(stderr,"execl error for %s\n", pager);
 		exit(1);

@@ -1,6 +1,5 @@
 % CS631 Advanced Programming in the UNIX Environment
 % Author: Jan Schaumann <jschauma@netmeister.org>
-% $Id: slides.tex,v 1.5 2004/08/04 03:03:44 jschauma Exp $
 
 \documentclass[xga]{xdvislides}
 \usepackage[landscape]{geometry}
@@ -15,7 +14,7 @@
 \lhead{\slidetitle}
 \chead{CS631 - Advanced Programming in the UNIX Environment}
 \rhead{Slide \thepage}
-\lfoot{\Gray{Lecture 07: Interprocess Communication}}
+\lfoot{\Gray{Lecture 08: Interprocess Communication I}}
 \cfoot{\relax}
 \rfoot{\Gray{\today}}
 
@@ -24,7 +23,7 @@
 	\Hugesize
 		CS631 - Advanced Programming in the UNIX Environment\\
 		%\vspace{.1in}\includegraphics[scale=0.5]{pics/j1.eps} \\
-		Interprocess Communication \\
+		Interprocess Communication I\\
 	\hspace*{5mm}\blueline\\ [1em]
 
 	\Normalsize
@@ -32,12 +31,12 @@
 		Stevens Institute of Technology\\
 		Jan Schaumann\\
 		\verb+jschauma@cs.stevens.edu+\\
-		\verb+https://www.cs.stevens.edu/~jschauma/631/+
+		\verb+https://stevens.netmeister.org/631/+
 \end{center}
 \vspace*{\fill}
 
 \subsection{System V IPC}
-Three types of IPC originating from System V:
+Three types of {\em asynchronous} IPC originating from System V:
 \begin{itemize}
 	\item Semaphores
 	\item Shared Memory
@@ -155,15 +154,15 @@ The message itself is contained in a user-defined structure such as
 \begin{verbatim}
 $ cc -Wall msgsend.c -o msgsend
 $ cc -Wall msgrecv.c -o msgrecv
-$ ipcs -q
-$ ./msgsend 1
-$ ipcs -q
-$ ./msgsend 1
-$ ipcs -q
+$ ipcs -qo
+$ ./msgsend 1 'Hello!'
+$ ipcs -qo
+$ ./msgsend 1 'How are you?'
+$ ipcs -qo
 $ ./msgrecv 1
-$ ipcs -q
+$ ipcs -qo
 $ ./msgrecv 1
-$ ipcs -q
+$ ipcs -qo
 $ ./msgrecv 1
 ^C
 $ ipcs -q
@@ -171,7 +170,42 @@ $ ./msgsend 2
 $ ipcrm -q <msqid>
 \end{verbatim}
 
+\subsection{POSIX Message Queues}
+{\tt mq(3)} provides an real-time IPC interface
+similar to System V message queues.  Notably:
 
+\begin{itemize}
+	\item message queues are identified by a named
+identifier (no {\tt ftok(3)} needed); may or may not
+be exposed in the file system (e.g. {\tt /dev/mqueue})
+	\item {\tt mq\_send(3)} and {\tt
+mq\_receive(3)} allow both blocking and non-blocking
+calls
+	\item {\tt
+mq\_send(3)} lets you specify a priority; equal
+priority messages are queued as a FIFO, but higher
+priority messages are inserted before those of a lower
+priority
+	\item {\tt mq(3)} provides an asynchronous
+notification mechanism: {\tt mq\_notify(3)}
+\end{itemize}
+
+\subsection{POSIX Message Queues}
+\begin{verbatim}
+$ cc $CFLAGS mqrecv.c -o mqrecv -lrt
+$ cc $CFLAGS -DWAIT mqsend.c -o mqsend
+$ ./mqrecv
+
+$ ./mqsend bacon avocado
+
+$ ./mqrecv wait
+
+$ ./mqsend bacon avocado
+
+$ cc $CFLAGS mqsend.c -o mqsend
+
+$ ./mqsend bacon avocado
+\end{verbatim}
 
 \subsection{Pipes: {\tt pipe(2)}}
 \small
@@ -258,11 +292,11 @@ $ echo $PAGER
 $ ./a.out pipe2.c
 [...]
 ^Z
-$ ps -o pid,ppid,command
+$ ps -o pid,ppid,comm
   PID  PPID COMMAND
 22306 26650 ./a.out pipe2.c
 22307 22306 more
-23198 26650 ps -o pid,ppid,command
+23198 26650 ps -o pid,ppid,comm
 26650 26641 -ksh
 $ fg
 $ env PAGER=/bin/cat ./a.out pipe2.c
@@ -402,20 +436,17 @@ $ gzcat file.gz | tee fifo | grep -v pattern > nomatch
 %\hfill \includegraphics[scale=0.9]{pics/j5.eps}
 
 \subsection{In-class coding exercise}
-Implement the 'wcl2' command: \\
+Implement the 'command' function: \\
 
 \vspace{1in}
-\verb+https://www.cs.stevens.edu/~jschauma/f17-hw3.html+
+\verb+https://stevens.netmeister.org/631/f18-hw2.html+
 
-\subsection{Reading / Exercises}
+\subsection{Reading}
 \begin{itemize}
-	\item \verb+if ((key = ftok("semdemo.c", 'J')) == -1) {+ \\
-		-- why do we use 'J' here?
-	\item \verb+if ((key = ftok("shmdemo.c", 'R')) == -1) {+ \\
-		-- why 'R'?
-	\item verify that the permissions / protections on SysV IPC work as expected
-	\item all resources are finite -- how does this limit SysV IPC?
-	\item what happens if you remove the IPC structures while a process operating on them is still running?
+	\item \verb+https://stevens.netmeister.org/631/ipctut.pdf+
+	\item \verb+https://stevens.netmeister.org/ipc.pdf+
+	\item \verb+https://beej.us/guide/bgipc/html/single/bgipc.html+
+	\item \verb+https://is.gd/M2dkju+
 \end{itemize}
 
 \end{document}

@@ -33,23 +33,23 @@
 		Stevens Institute of Technology\\
 		Jan Schaumann\\
 		\verb+jschauma@stevens.edu+\\
-		\verb+https://www.cs.stevens.edu/~jschauma/631/+
+		\verb+https://stevens.netmeister.org/631/+
 \end{center}
 \vspace*{\fill}
 
 \subsection{HW\#1 Notes: Avoid useless comments}
 \begin{verbatim}
+/* open the source file */
+if((fd_src = open(argv[1],O_RDONLY)) == -1){
+
 //check the number of commandline argument
 if(argc != 3)
 
-/*Is the vaild input*/
-if(argc!=VALID_INPUT){
+//output the usage of this app.^M
+if(argc != 3){^M
+        (void)fprintf(stderr,^M
+                "Usage: %s [file1] [file2]\n\^M
 
-/* input argv should be 3 */
-if (argc != 3) {
-
-/* Print the error if the arguments not equal to 3. */
-if (argc != 3) {
 
 /* Buffer size */
 #define BUFSIZE 4096
@@ -64,6 +64,11 @@ Errors go to \verb+stderr+, please!  Use
 \verb+strerror(3)+/\verb+perror(3)+. \\
 
 \begin{verbatim}
+printf("malloc failed\n");
+
+printf("Cannot read your source file.\n");
+
+
   if(!S_ISREG(src.st_mode) )
   {
     printf("Source file is not a regular file\n");^M
@@ -77,43 +82,98 @@ Errors go to \verb+stderr+, please!  Use
 
 \subsection{HW\#1 Notes: Check all return codes!}
 \begin{verbatim}
+file_in_dir = calloc(len, 1);
+snprintf(file_in_dir, len, "%s/%s", argv[2], basename);
+
+int isDirectory(char* testString) {^M
+        struct stat dir;^M
+        if(stat(testString, &dir) >= 0) {^M
+                if(S_ISDIR(dir.st_mode))^M
+                        return 1;^M
+        }^M
+        return 0;^M
+}^M
 
 dstPath = (char*)malloc(strlen(argv[2]) + strlen(filename) + 2);
 dstPath = strcpy(dstPath, argv[2]);
 
-
 dir_fd=dirfd(dir);
 dest_file=openat(dir_fd,argv[1],O_WRONLY | O_CREAT , 0641);
-
-
-dest = (char*)malloc(strlen(argv[2]) * sizeof(char));
-strcpy(dest, argv[2]);
-
-
-tmp = malloc(target_len-1 + strlen(basename(source)) +1 );
-strncpy(tmp, target, target_len-1);
 \end{verbatim}
 \Normalsize
 
 \subsection{HW\#1 Notes: Don't overflow your buffers!}
 Use of \verb+strcat(3)+ etc. considered harmful.
 Use \verb+strlcat(3)+/\verb+strlcpy(3)+ etc. instead.
+Know your buffer boundaries!
 \begin{verbatim}
-target = argv[2];
-strcat(target, "/");
+char *writePath = argv[2]
+bname = basename(readPath);
+strcat(writePath,"/");
+strcat(writePath,bname);
 
-char target[200];
-strcpy(target,argv[2]);
+char filename[100] = "";
+strcat(filename, argv[2]);
+strcat(filename, "/");
+strcat(filename, getFilename(argv[1]));
 
 target_path = (char *)malloc(sizeof(argv[2]) + 2 +
       sizeof(basename(argv[1])));
 (void)strcat(target_path, basename(argv[1]));
 \end{verbatim}
-\vspace{.25in}
-But beware: \verb+sizeof != strlen(3)+ \\
-
-\verb+sizeof.c+
+\vspace{.15in}
+But beware: \verb+sizeof != strlen(3)+ See: \verb+sizeof.c+
 \vspace*{\fill}
+
+\subsection{HW\#1 Notes: Goldilocks Whitespace}
+\begin{verbatim}
+if((sourceFile=(char*)calloc(strlen(argv[1])+1,sizeof(char)))!=NULL)^M
+  strcpy(sourceFile,argv[1]);^M
+\end{verbatim}
+\begin{center}
+\includegraphics[scale=0.5]{pics/whitespace.eps}
+\end{center}
+
+\subsection{HW\#1 Notes: Flow}
+\begin{tabular}{l | l}
+\begin{minipage}{4in}
+\begin{verbatim}
+
+if (condition) {
+        some
+        long
+        block
+        here
+        with
+        if (condition) {
+                nested
+        } else {
+                conditions
+        }
+} else {
+        error
+}
+\end{verbatim}
+\end{minipage} & \begin{minipage}{4in}
+\begin{verbatim}
+
+    if (!condition) {
+            error
+    }
+
+    some
+    long
+    block
+    here
+    with
+    if (condition) {
+            nested
+    } else {
+            conditions
+    }
+\end{verbatim}
+\end{minipage}
+\end{tabular}
 
 \pagebreak
 
@@ -753,7 +813,7 @@ the password file contains the following fields:
 	{\bf Description} & {\bf {\tt struct passwd} member} & {\bf POSIX.1} \\
 	\hline
 	username & {\tt char *pw\_name} & x \\
-	encrypted passwd & {\tt char *pw\_passwd} & \\
+	hashed passwd & {\tt char *pw\_passwd} & \\
 	numerical user id & {\tt uid\_t pw\_uid} & x \\
 	numerical group id & {\tt gid\_t pw\_gid} & x \\
 	comment field & {\tt char *pw\_gecos} & \\
@@ -762,7 +822,7 @@ the password file contains the following fields:
 \end{tabular}
 \vspace{.25in}
 
-Encrypted password field is a one-way hash of the users password.
+Password field is a one-way hash of the users password.
 
 Some fields can be empty:
 
@@ -834,7 +894,7 @@ the group file contains the following fields:
 	{\bf Description} & {\bf {\tt struct group} member} & {\bf POSIX.1} \\
 	\hline
 	groupname & {\tt char *gr\_name} & x \\
-	encrypted passwd & {\tt char *gr\_passwd} & \\
+	hashed passwd & {\tt char *gr\_passwd} & \\
 	numerical group id & {\tt uid\_t gr\_uid} & x \\
 	array of pointers to user names & {\tt char **gr\_mem} & x \\
 \end{tabular}

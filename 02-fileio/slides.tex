@@ -1,6 +1,5 @@
-% CS631D Advanced Programming in the UNIX Environment
+% CS631 Advanced Programming in the UNIX Environment
 % Author: Jan Schaumann <jschauma@netmeister.org>
-% $Id: slides.tex,v 1.6 2004/07/16 01:56:50 jschauma Exp $
 \special{! TeXDict begin /landplus90{true}store end }
 
 \documentclass[xga]{xdvislides}
@@ -31,7 +30,7 @@
 		Stevens Institute of Technology\\
 		Jan Schaumann\\
 		\verb+jschauma@stevens.edu+\\
-		\verb+http://www.cs.stevens.edu/~jschauma/631/+
+		\verb+https://stevens.netmeister.org/631/+
 \end{center}
 \vspace*{\fill}
 
@@ -160,6 +159,19 @@ What results do you expect?
 		are 0, 1 and 2 respectively.
 	\item Relying on ``magic numbers'' is Bad\texttrademark.  Use {\tt
 		STDIN\_FILENO}, {\tt STDOUT\_FILENO} and {\tt STDERR\_FILENO}.
+	\item All resources are finite.  So are file descriptors.  So... how many can you have?
+\end{itemize}
+
+
+\subsection{File Descriptors}
+\begin{itemize}
+	\item A {\em file descriptor} (or {\em file handle}) is a small,
+		non-negative integer which identifies a file to the kernel.
+	\item Traditionally, {\tt stdin}, {\tt stdout} and {\tt stderr}
+		are 0, 1 and 2 respectively.
+	\item Relying on ``magic numbers'' is Bad\texttrademark.  Use {\tt
+		STDIN\_FILENO}, {\tt STDOUT\_FILENO} and {\tt STDERR\_FILENO}.
+	\item All resources are finite.  So are file descriptors.  So... how many can you have?
 \end{itemize}
 
 \addvspace{.5in}
@@ -194,18 +206,18 @@ Processes may want to share recources.  This requires us to look at:
 \small
 \setlength{\unitlength}{1mm}
 \begin{center}
-	\begin{picture}(200,25)
+	\begin{picture}(230,25)
 		\thinlines
-		\put(0,0){\framebox(180,25){}}
+		\put(0,0){\framebox(210,25){}}
 		\put(10,20){{\tt \#include <fcntl.h>}}
 		\put(10,10){{\tt int creat(const char *{\em pathname}, mode\_t {\em mode});}}
-		\put(115,3){Returns:  file descriptor if OK, -1 on error}
+		\put(145,3){Returns:  file descriptor if OK, -1 on error}
 	\end{picture}
 \end{center}
 \begin{center}
-\includegraphics[scale=0.8,angle=-90]{pics/creation.eps} \\
+\includegraphics[width=540px]{pics/creation.eps} \\
 \small
-\verb+http://is.gd/x4KPa2+
+\verb+https://is.gd/x4KPa2+
 \end{center}
 \Normalsize
 
@@ -213,12 +225,12 @@ Processes may want to share recources.  This requires us to look at:
 \small
 \setlength{\unitlength}{1mm}
 \begin{center}
-	\begin{picture}(200,25)
+	\begin{picture}(230,25)
 		\thinlines
-		\put(0,0){\framebox(180,25){}}
+		\put(0,0){\framebox(210,25){}}
 		\put(10,20){{\tt \#include <fcntl.h>}}
 		\put(10,10){{\tt int creat(const char *{\em pathname}, mode\_t {\em mode});}}
-		\put(115,3){Returns:  file descriptor if OK, -1 on error}
+		\put(145,3){Returns:  file descriptor if OK, -1 on error}
 	\end{picture}
 \end{center}
 \Normalsize
@@ -229,12 +241,12 @@ Processes may want to share recources.  This requires us to look at:
 \small
 \setlength{\unitlength}{1mm}
 \begin{center}
-	\begin{picture}(200,25)
+	\begin{picture}(230,25)
 		\thinlines
-		\put(0,0){\framebox(180,25){}}
+		\put(0,0){\framebox(210,25){}}
 		\put(10,20){{\tt \#include <fcntl.h>}}
 		\put(10,12){{\tt int open(const char *{\em pathname}, int {\em oflag}, ... /* mode\_t {\em mode} */ );}}
-		\put(115,3){Returns:  file descriptor if OK, -1 on error}
+		\put(145,3){Returns:  file descriptor if OK, -1 on error}
 	\end{picture}
 \end{center}
 \vspace{.25in}
@@ -269,22 +281,18 @@ and may be OR'd with any of these:
 \small
 \setlength{\unitlength}{1mm}
 \begin{center}
-	\begin{picture}(200,28)
+	\begin{picture}(230,28)
 		\thinlines
-		\put(0,0){\framebox(180,28){}}
+		\put(0,0){\framebox(210,28){}}
 		\put(10,23){{\tt \#include <fcntl.h>}}
 		\put(10,15){{\tt int open(const char *{\em pathname}, int {\em oflag}, ... /* mode\_t {\em mode} */ );}}
 		\put(10,10){{\tt int openat(int {\em dirfd}, const char *{\em pathname}, int {\em oflag}, ... /* mode\_t {\em mode} */ );}}
-		\put(115,3){Returns:  file descriptor if OK, -1 on error}
+		\put(145,3){Returns:  file descriptor if OK, -1 on error}
 	\end{picture}
 \end{center}
 \Normalsize
-{\tt openat(2)} is used to handle relative pathnames from different
-working directories in an atomic fashion. % TOCTOU - time of check - time of use
-
-\vspace{.3in}
 On some platforms additional {\em oflag}s may be supported:
-\vspace{.25in}
+\vspace{.2in}
 \small
 \begin{itemize}
 	\item {\tt O\_EXEC} -- Open for execute only
@@ -295,7 +303,10 @@ file attributes
 	\item {\tt O\_RSYNC} -- Block read operations on any pending writes.
 	\item {\tt O\_PATH} -- Obtain a file descriptor purely for fd-level operations. (Linux $>$2.6.36 only)
 \end{itemize}
+\vspace{.3in}
 \Normalsize
+{\tt openat(2)} is used to handle relative pathnames from different
+working directories in an atomic fashion. % TOCTOU - time of check - time of use
 
 \subsection{{\tt openat(2)}}
 POSIX ({\tt https://is.gd/3hZ4EZ}) says: \\
@@ -321,12 +332,12 @@ illustrate.
 \small
 \setlength{\unitlength}{1mm}
 \begin{center}
-	\begin{picture}(200,25)
+	\begin{picture}(230,25)
 		\thinlines
-		\put(0,0){\framebox(180,25){}}
+		\put(0,0){\framebox(210,25){}}
 		\put(10,20){{\tt \#include <unistd.h>}}
 		\put(10,10){{\tt int close(int {\em fd});}}
-		\put(115,3){Returns:  0 if OK, -1 on error}
+		\put(145,3){Returns:  0 if OK, -1 on error}
 	\end{picture}
 \end{center}
 \Normalsize
@@ -344,9 +355,7 @@ illustrate.
 \begin{center}
 \Huge
 \begin{verbatim}
-$ make code-clean
-$ make openex
-$ ./openex
+openex.c
 \end{verbatim}
 \normalsize
 \end{center}
@@ -356,19 +365,19 @@ $ ./openex
 \small
 \setlength{\unitlength}{1mm}
 \begin{center}
-	\begin{picture}(200,25)
+	\begin{picture}(230,25)
 		\thinlines
-		\put(0,0){\framebox(180,25){}}
+		\put(0,0){\framebox(210,25){}}
 		\put(10,20){{\tt \#include <unistd.h>}}
 		\put(10,12){{\tt ssize\_t read(int {\em filedes}, void *{\em buff}, size\_t {\em nbytes} );}}
-		\put(85,3){Returns:  number of bytes read, 0 if end of file, -1 on error}
+		\put(115,3){Returns:  number of bytes read, 0 if end of file, -1 on error}
 	\end{picture}
 \end{center}
 \Normalsize
 \begin{center}
-\includegraphics[scale=0.4,angle=-90]{pics/reading.eps} \\
+\includegraphics[scale=0.6]{pics/reading.eps} \\
 \small
-\verb+http://is.gd/qI5r8E+
+\verb+https://is.gd/qI5r8E+
 \end{center}
 \Normalsize
 
@@ -377,9 +386,9 @@ $ ./openex
 \small
 \setlength{\unitlength}{1mm}
 \begin{center}
-	\begin{picture}(200,25)
+	\begin{picture}(230,25)
 		\thinlines
-		\put(0,0){\framebox(180,25){}}
+		\put(0,0){\framebox(210,25){}}
 		\put(10,20){{\tt \#include <unistd.h>}}
 		\put(10,12){{\tt ssize\_t read(int {\em filedes}, void *{\em buff}, size\_t {\em nbytes} );}}
 		\put(85,3){Returns:  number of bytes read, 0 if end of file, -1 on error}
@@ -406,9 +415,9 @@ by the number of bytes actually read.
 \small
 \setlength{\unitlength}{1mm}
 \begin{center}
-	\begin{picture}(200,25)
+	\begin{picture}(230,25)
 		\thinlines
-		\put(0,0){\framebox(180,25){}}
+		\put(0,0){\framebox(210,25){}}
 		\put(10,20){{\tt \#include <unistd.h>}}
 		\put(10,12){{\tt ssize\_t write(int {\em filedes}, void *{\em buff}, size\_t {\em nbytes} );}}
 		\put(85,3){Returns:  number of bytes written if OK, -1 on error}
@@ -443,10 +452,7 @@ bit, then verify that your evil plan will be foiled.
 \begin{center}
 \Huge
 \begin{verbatim}
-$ make code-clean
-$ make rwex
-$ ./rwex
-$ tail rwex.c
+rwex.c
 \end{verbatim}
 \normalsize
 \end{center}
@@ -455,18 +461,18 @@ $ tail rwex.c
 \small
 \setlength{\unitlength}{1mm}
 \begin{center}
-	\begin{picture}(200,30)
+	\begin{picture}(230,30)
 		\thinlines
-		\put(0,0){\framebox(180,30){}}
+		\put(0,0){\framebox(210,30){}}
 		\put(10,25){{\tt \#include <sys/types.h>}}
 		\put(10,20){{\tt \#include <fcntl.h>}}
 		\put(10,12){{\tt off\_t lseek(int {\em filedes}, off\_t {\em offset}, int {\em whence} );}}
-		\put(115,3){Returns:  new file offset if OK, -1 on error}
+		\put(145,3){Returns:  new file offset if OK, -1 on error}
 	\end{picture}
 \end{center}
 \Normalsize
 \begin{center}
-\includegraphics[scale=0.9,angle=-90]{pics/tape.eps} \\
+\includegraphics[scale=1.2]{pics/tape.eps} \\
 \small
 \verb+http://is.gd/3fp5Vx+
 \end{center}
@@ -477,13 +483,13 @@ $ tail rwex.c
 \small
 \setlength{\unitlength}{1mm}
 \begin{center}
-	\begin{picture}(200,30)
+	\begin{picture}(230,30)
 		\thinlines
-		\put(0,0){\framebox(180,30){}}
+		\put(0,0){\framebox(210,30){}}
 		\put(10,25){{\tt \#include <sys/types.h>}}
 		\put(10,20){{\tt \#include <fcntl.h>}}
 		\put(10,12){{\tt off\_t lseek(int {\em filedes}, off\_t {\em offset}, int {\em whence} );}}
-		\put(115,3){Returns:  new file offset if OK, -1 on error}
+		\put(145,3){Returns:  new file offset if OK, -1 on error}
 	\end{picture}
 \end{center}
 \Normalsize
@@ -541,14 +547,14 @@ $ ls -ls file.*
 
 
 \subsection{{\tt I/O Efficiency}}
-Caveats with the program {\tt simple-cat.c} from the last class:
+Reviewing the program {\tt simple-cat.c} from the last class:
 \begin{itemize}
 	\item assumes that {\em stdin} and {\em stdout} have been set up
 		appropriately
 \end{itemize}
 
 \subsection{{\tt I/O Efficiency}}
-Caveats with the program {\tt simple-cat.c} from the last class:
+Reviewing the program {\tt simple-cat.c} from the last class:
 \begin{itemize}
 	\item assumes that {\em stdin} and {\em stdout} have been set up
 		appropriately
@@ -557,7 +563,7 @@ Caveats with the program {\tt simple-cat.c} from the last class:
 \end{itemize}
 
 \subsection{{\tt I/O Efficiency}}
-Caveats with the program {\tt simple-cat.c} from the last class:
+Reviewing the program {\tt simple-cat.c} from the last class:
 \begin{itemize}
 	\item assumes that {\em stdin} and {\em stdout} have been set up
 		appropriately
@@ -591,6 +597,19 @@ Note: results vary depending on OS/filesystem.
 \vspace*{\fill}
 \begin{center}
     \Hugesize
+        So far, so good...\\ [1em]
+    \hspace*{5mm}
+    \blueline\\
+    \hspace*{5mm}\\
+	What questions do you have?
+\end{center}
+\vspace*{\fill}
+
+
+\newpage
+\vspace*{\fill}
+\begin{center}
+    \Hugesize
         Hooray! \\ [1em]
     \hspace*{5mm}
     \blueline\\
@@ -615,7 +634,7 @@ data structures which relate to files.  (See: Stevens, pp 75 ff)
 \begin{itemize}
 	\item each process table entry has a table of file descriptors, which contain
 		\begin{itemize}
-			\item the file descriptor flags (ie {\tt FD\_CLOEXEC}, see \verb+fcntl(2)+)
+			\item the file descriptor flags (e.g. {\tt FD\_CLOEXEC}, see \verb+fcntl(2)+)
 			\item a pointer to a file table entry
 		\end{itemize}
 \end{itemize}
@@ -629,7 +648,7 @@ data structures which relate to files.  (See: Stevens, pp 75 ff)
 \begin{itemize}
 	\item each process table entry has a table of file descriptors, which contain
 		\begin{itemize}
-			\item the file descriptor flags (ie {\tt FD\_CLOEXEC}, see \verb+fcntl(2)+)
+			\item the file descriptor flags (e.g. {\tt FD\_CLOEXEC}, see \verb+fcntl(2)+)
 			\item a pointer to a file table entry
 		\end{itemize}
 	\item the kernel maintains a file table;  each entry contains
@@ -650,7 +669,7 @@ data structures which relate to files.  (See: Stevens, pp 75 ff)
 	\item each process table entry has a table of file descriptors, which
 		contain
 		\begin{itemize}
-			\item the file descriptor flags (ie {\tt FD\_CLOEXEC}, see \verb+fcntl(2)+)
+			\item the file descriptor flags (e.g. {\tt FD\_CLOEXEC}, see \verb+fcntl(2)+)
 			\item a pointer to a file table entry
 		\end{itemize}
 	\item the kernel maintains a file table;  each entry contains
@@ -875,12 +894,10 @@ Note:
 			\item Stevens \# 3.5 (bourne shell syntax ``$>\&$'')
 			\item Use {\tt openat(2)} to protect against TOCTOU issues.
 			\item Confirm that {\tt write(2)} clearing the setuid bit foils your evil attempts to root the system.
+			\item Determine the optimal file I/O size on different systems via the benchmark example.
 		\end{itemize}
 	\item Coding:
-		\begin{itemize}
-			\item required: {\tt tcp(1)} (see website)
-			\item extra credit: {\tt tcpm(1)} (see website)
-		\end{itemize}
+		{\tt https://stevens.netmeister.org/631/f18-hw1.html}
 \end{itemize}
 
 \end{document}

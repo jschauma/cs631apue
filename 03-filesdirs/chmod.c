@@ -12,7 +12,7 @@
 #include <stdlib.h>
 
 int
-main(int argc, char **argv) {
+main() {
 	struct stat sbuf;
 
 	if (stat("foo", &sbuf) == -1) {

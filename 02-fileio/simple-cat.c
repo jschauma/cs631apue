@@ -12,7 +12,7 @@
 #endif
 
 int
-main(int argc, char **argv) {
+main() {
 	int n;
 	char buf[BUFFSIZE];
 

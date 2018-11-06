@@ -19,25 +19,25 @@
 #include <unistd.h>
 
 int
-main(int argc, char **argv) {
+main() {
 	int n, r, fd[2];
 	pid_t pid;
-	char line[64];
+	char line[BUFSIZ];
 
 	if (pipe(fd) < 0) {
 		perror("pipe error");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 
 	if ((pid = fork()) < 0) {
 		perror("fork error");
-		exit(1);
+		exit(EXIT_FAILURE);
 	} else if (pid > 0) {		/* parent */
 		close(fd[0]);
 		printf("P=> Parent process with pid %d (and its ppid %d).\n",
 				getpid(), getppid());
 		printf("P=> Sending a message to the child process (pid %d):\n", pid);
-		snprintf(line, 64, "Hello child!  I'm your parent pid %d!\n",
+		snprintf(line, BUFSIZ, "Hello child!  I'm your parent pid %d!\n",
 				getpid());
 		if ((r = write(fd[1], line, strlen(line))) < 0) {
 			fprintf(stderr, "Unable to write to pipe: %s\n", strerror(errno));
@@ -49,12 +49,13 @@ main(int argc, char **argv) {
 		printf("C=> Child process with pid %d (and its ppid %d).\n",
 				getpid(), getppid());
 		printf("C=> Reading a message from the parent (pid %d):\n", getppid());
-		n = read(fd[0], line, 64);
+		n = read(fd[0], line, BUFSIZ);
 		close(fd[0]);
 		if ((r = write(STDOUT_FILENO, line, n)) < 0) {
 			fprintf(stderr, "Unable to write to pipe: %s\n", strerror(errno));
 		}
 	}
 
-	exit(0);
+	(void)wait(NULL);
+	return EXIT_SUCCESS;
 }

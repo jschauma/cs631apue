@@ -50,7 +50,7 @@ main(int argc, char **argv) {
 				getpid(), getppid());
 		printf("C=> Reading a message from the parent (pid %d):\n", getppid());
 		n = read(fd[0], line, 64);
-		close(fd[1]);
+		close(fd[0]);
 		if ((r = write(STDOUT_FILENO, line, n)) < 0) {
 			fprintf(stderr, "Unable to write to pipe: %s\n", strerror(errno));
 		}

@@ -45,7 +45,7 @@ slides:	#example.knuth.eps example.knuth2.eps example.knuth3.eps
 	fig2dev -L eps $< > $@
 
 .jpg.eps:
-	jpegtopnm $< | pnmtops > $@
+	convert $< $@
 
 .png.eps:
 	pngtopnm $< | pnmtops > $@

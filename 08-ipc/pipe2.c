@@ -8,6 +8,7 @@
 
 #include <sys/wait.h>
 
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -25,53 +26,51 @@ main(int argc, char **argv) {
 
 	if (argc != 2) {
 		perror("usage: a.out <pathname>");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	if ((fp = fopen(argv[1], "r")) == NULL) {
 		fprintf(stderr, "can't open %s\n", argv[1]);
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 
 	if (pipe(fd) < 0) {
 		perror("pipe error");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 
 	if ((pid = fork()) < 0) {
 		perror("fork error");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
-	else if (pid > 0) {		/* parent */
+	else if (pid > 0) {
 		close(fd[0]);		/* close read end */
-		/* parent copies argv[1] to pipe */
 		while (fgets(line, LINE_LENGTH, fp) != NULL) {
 			n = strlen(line);
 			if (write(fd[1], line, n) != n) {
 				perror("write error to pipe");
-				exit(1);
+				exit(EXIT_FAILURE);
 			}
 		}
 		if (ferror(fp)) {
 			perror("fgets error");
-			exit(1);
+			exit(EXIT_FAILURE);
 		}
 
-		close(fd[1]);	/* close write end of pipe for reader */
+		/* We're done writing, so close write end of pipe. */
+		close(fd[1]);
 		if (waitpid(pid, NULL, 0) < 0) {
 			perror("waitpid error");
-			exit(1);
+			exit(EXIT_FAILURE);
 		}
 		exit(0);
 
-	} else {		/* child */
+	} else {
 		close(fd[1]);	/* close write end */
 		if (fd[0] != STDIN_FILENO) {
 			if (dup2(fd[0], STDIN_FILENO) != STDIN_FILENO) {
 				perror("dup2 error to stdin");
-				exit(1);
+				exit(EXIT_FAILURE);
 			}
-			/* don't need this after dup2: */
-			/* close(fd[0]); */
 		}
 
 		/* get arguments for execl() */
@@ -83,11 +82,11 @@ main(int argc, char **argv) {
 			argv0 = pager;
 
 		/* We can of course lie about our name: */
-		argv0 = "/bin/sh (not really)";
+		argv0 = "tar";
 		execlp(pager, argv0, (char *) 0);
-		fprintf(stderr,"execl error for %s\n", pager);
-		exit(1);
+		fprintf(stderr,"execl error for %s: %s\n", pager, strerror(errno));
+		exit(EXIT_FAILURE);
 	}
 
-	return 0;
+	return EXIT_SUCCESS;
 }

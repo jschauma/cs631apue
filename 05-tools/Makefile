@@ -15,9 +15,10 @@ FIGURES=	pics/terminal.eps		\
 		pics/ls-changed4.eps		\
 		pics/compiler_monster.eps	\
 		pics/makerbot.eps		\
-		pics/debugging.eps
+		pics/debugging.eps		\
+		pics/vim.eps
 
-.SUFFIXES: .tex .dvi .ps .pdf .fig .eps .png .dot .jpg
+.SUFFIXES: .tex .dvi .ps .pdf .fig .eps .png .dot .jpg .gif
 
 all:	$(FIGURES) $(TARGET).dvi
 
@@ -28,6 +29,9 @@ slides:
 	$(LATEX) $<
 
 .jpg.eps:
+	convert $< $@
+
+.gif.eps:
 	convert $< $@
 
 .png.eps:
