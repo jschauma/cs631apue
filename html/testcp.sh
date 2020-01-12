@@ -40,24 +40,37 @@ checkCopying() {
 # outputs : none if successful, error messages otherwise
 checkCopyFailures() {
 	local arg cmd
-	local dir_to_file dir_to_dir file_to_subdir same
+	local dir_to_file dir_to_dir file_to_subdir same socket_to_file
 
 	verbose "Checking copy failures..." 2
 
 	dir_to_file=". file"
 	dir_to_dir="/ ."
 	file_to_subdir="${TEST_FILE} ./sub/dir"
+	socket_to_file="/var/run/log log"
 
 	cd ${DIR}
-	for arg in dir_to_file dir_to_dir file_to_subdir; do
+	for arg in dir_to_file dir_to_dir file_to_subdir socket_to_file; do
 		TOTAL=$(( ${TOTAL} + 1 ))
 		cmd=$(eval echo ${CP} \$${arg})
 		runTest "${cmd}" 1
 	done
 
 	cp ${TEST_FILE} file
+
+	runTest "${CP} file file1 file2 file3 file4" 1
+
 	ln file file2
 	cmd="${CP} file file2"
+	TOTAL=$(( ${TOTAL} + 1 ))
+	runTest "${cmd}" 1
+	TOTAL=$(( ${TOTAL} + 1 ))
+	# must not truncate/modify existing file
+	compareFiles ${TEST_FILE} file
+
+	# repeat to check path construction
+	cp ${TEST_FILE} file
+	cmd="${CP} file ."
 	TOTAL=$(( ${TOTAL} + 1 ))
 	runTest "${cmd}" 1
 	TOTAL=$(( ${TOTAL} + 1 ))
@@ -70,18 +83,18 @@ checkCopyFailures() {
 # outputs : none if successful, error messages otherwise
 checkCopySuccesses() {
 	local arg cmd
-	local ro_file_to_file file_to_existing abs_file_to_dir rel_file_to_dir abs_file_to_subdir
+	local ro_file_to_file file_to_existing abs_file_to_dir rel_file_to_dir abs_file_to_subdir file_to_slash_dir
 	local zero big
 
 	verbose "Checking copy successes..." 2
 
-	prepDir
 	ro_file_to_file="${TEST_FILE} file"
 	rw_file_to_file="${TMPDIR:-/tmp}/f file"
 	file_to_existing="${TEST_FILE} ${TMPDIR:-/tmp}/f"
 	abs_file_to_dir="${TEST_FILE} ."
 	rel_file_to_dir="g ./sub/dir/."
 	abs_file_to_subdir="${TEST_FILE} ./sub/dir/."
+	file_to_slash_dir="${TEST_FILE} ../$(basename $(pwd))/"
 	zero="zero file"
 	big="big file"
 
@@ -91,7 +104,8 @@ checkCopySuccesses() {
 
 	cd ${DIR}
 	for arg in ro_file_to_file rw_file_to_file abs_file_to_dir \
-		rel_file_to_dir abs_file_to_subdir file_to_existing zero big; do
+		rel_file_to_dir abs_file_to_subdir file_to_existing \
+		file_to_slash_dir zero big; do
 		verbose "Test case: ${arg}..." 3
 		rm -f file >/dev/null 2>&1
 		TOTAL=$(( ${TOTAL} + 1 ))
@@ -112,8 +126,17 @@ checkCopySuccesses() {
 	cmd="${CP} small existing"
 	runTest "${cmd}" 0
 	TOTAL=$(( ${TOTAL} + 1 ))
-	# must not truncate/modify existing file
+	# existing file must have been overwritten and
+	# truncated not just the first few bites
+	# overwritten
 	compareFiles small existing
+
+	# cp of a fifo is an edge condition, so let's
+	# only check the result, not the return code
+	timeout 5 ${CP} fifo file2 >/dev/null 2>&1 &
+	timeout 1 /bin/sh -c "echo foo >fifo"
+	echo foo >file1
+	compareFiles file1 file2
 }
 
 # purpose : verify program accepts the correct set of arguments
@@ -192,6 +215,9 @@ prepDir() {
 
 	verbose "Creating a small file..." 4
 	echo "moo" > small
+
+	verbose "Creating a fifo" 4
+	mkfifo fifo
 }
 
 # purpose : run the given command
@@ -202,13 +228,20 @@ prepDir() {
 runTest() {
 	local cmd="$1"
 	local success_or_fail=$2;
+	local rval
 
 	FAILED=0
 
 	verbose "Checking '${cmd}'..." 3
-	${cmd} >/dev/null 2>&1
-	if [ $? -gt 0 ]; then
-		if [ ${success_or_fail} -eq 0 ]; then
+	timeout 30 ${cmd} >/dev/null 2>&1
+	rval=$?
+	if [ $rval -gt 0 ]; then
+		if [ $rval = 124 ]; then
+			echo "Command timed out, marking as failure:"
+			echo "  ${cmd}"
+			NFAIL=$(( ${NFAIL} + 1 ))
+			FAILED=1
+		elif [ ${success_or_fail} -eq 0 ]; then
 			echo "Expected success, but command failed:"
 			echo "  ${cmd}"
 			NFAIL=$(( ${NFAIL} + 1 ))
@@ -305,6 +338,7 @@ if [ -z "${CP}" ]; then
 fi
 
 checkUsage
+prepDir
 checkCopying
 
 if [ ${NFAIL} -gt 0 ]; then

@@ -58,7 +58,7 @@
 	<tr><td width="50%" valign="top">
 
         <H3><a name="time"></a>Time, Date &amp; Place:</H3>
-	<p><b>Mondays, 18:15 - 20:45, Edwin A. Stevens Hall 329</b></p>
+	<p><b>Mondays, 18:15 - 20:45, Gateway South 123</b></p>
 
         <H3><a name="instructor"></a>Instructor:</H3><A href=
         "http://www.cs.stevens.edu/~jschauma/">Jan Schaumann</A>
@@ -83,8 +83,8 @@
 list.</em><br>
 	  All registered students are subscribed to this list using their
 	  <tt>@stevens.edu</tt> address.  It is critical that you read this list.<br>&nbsp;</li>
-	  <LI><A href="https://webchat.freenode.net/">Freenode IRC Webchat
--- use #cs631apue</a></li>
+	  <!-- <LI><A href="https://webchat.freenode.net/">Freenode IRC Webchat
+- use #cs631apue</a></li> -->
 	</ul>
 	<ul>
 	  <li><a href="#syllabus">Course Syllabus</a></li>
@@ -98,7 +98,7 @@ list.</em><br>
 	  <li><a href="#grading">Grading Policies</a></li>
 	  <li><a href="#hw">Homework Assignments</a></li>
 	  <li><a href="#midterm">Midterm Project</a></li>
-	  <li><a href="#final">Final Project</a></li>
+	  <li><a href="#group-project">Group Project</a></li>
 	</ul>
 
         <UL>
@@ -109,6 +109,7 @@ list.</em><br>
           <LI><A href="http://pubs.opengroup.org/onlinepubs/9699919799/">Single UNIX Specification</A> (POSIX)</LI>
 	  <LI><a href="https://twitter.com/cs631apue">Class Twitter
 Account</a></li>
+	  <LI><a href="apue-code.tar.gz">All Code Examples</a></li>
 	  <!-- <LI><a href="video.html">Lecture recordings</a></li> -->
 	  <li><a href="https://github.com/jschauma/cs631apue">Raw course
 material on GitHub</a></li>
@@ -192,16 +193,16 @@ js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';i
 	href="https://www.netbsd.org">NetBSD</a> system.  It is
 	your responsibility to gain access to such a system <b>prior
 	to the start of the class</b>.  Please see <a href="netbsd.html">this
-	page</a> for more information.</p>
+	page</a> for more information. <a href="virtualbox/">Instructions on how to install NetBSD in a VirtualBox VM are provided to you here.</a></p>
 	<p>
-	<p>All grading will be done on a NetBSD 8.0 system.  While you may
+	<p>All grading will be done on a NetBSD 8.1 system.  While you may
 	choose to develop on your own personal host, you should make sure
 	that your code compiles and runs flawlessly on this OS version.</p>
 
 	<hr>
         <H3><a name="grading"></a>Grading:</H3>There will most likely be:
         <UL>
-	  <LI>course participation and class notes: 50 points</LI>
+	  <LI>course participation and <a href="course-notes.html">class notes</a>: 50 points</LI>
 
           <LI>2 homework assignment, worth 25 points each</LI>
 
@@ -252,34 +253,53 @@ Student Code of Academic Conduct</a>.
 
 	<hr>
         <H3><A name="hw">Homework</A> Assignments:</H3>
-	Assignments will be posted as the semester progresses.
-	<ul>
-		<li><a href="f18-hw1.html">HW#1: trivially copy a file</a></li>
-		<li><a href="f18-hw2.html">HW#2: implement 'command(3)'</a></li>
+	<p>Assignments will be posted as the semester progresses.</p>
+	<p><ul>
+		<li><a href="course-notes.html">Class notes</a></li>
+		<li><a href="f19-hw1.html">HW#1: trivially copy a file</a></li>
+		<li><a href="f19-hw2.html">HW#2: implement 'command(3)'</a></li>
+		<li><a href="f19-sish.html">Final assignment: write a simple shell</a></li>
 <!--
 		<li><a href="intro.html">Intro "test"</a></li>
 		<li><a href="f16-hw1.html">HW#1: read code</a></li>
 		<li><a href="f16-hw3.html">HW#3 - sws milestone#1</a></li>
 		<li><a href="f16-hw4.html">HW#4 - Encryption/decryption</a></li>
-		<li><a href="f16-sish.html">Final assignment: write a simple shell</a></li>
 		<li><a href="f15-hw3.html">HW#3: webserver framework</a></li>
 		<li><a href="f15-aed.html">"HW#4": write a simple tool to perform encryption/decryption of content</a></li>
 		<li><a href="f14-hw4.html">HW#4: sws, milestone#2</a></li>
 simple shell</a></li>
 -->
 	</ul>
+	</p>
+	<p>
+	The following exercises are not graded, but
+	are recommended to be completed before or soon after
+	the given lecture to help you better understand the
+	concepts dicussed.
+	</p>
+	<p>
+	<ul>
+	<li><a href="fd-exercise.html">Lecture 02 - File Descriptor Warmup Exercise</a></li>
+	<li><a href="cd-exercise.html">Lecture 04 - File System Exercise: Implement the cd(1) and pwd(1) commands</a></li>
+	<li><a href="stack-exercise.html">Lecture 06 - Process Execution Exercise: Inspect the call stack</a></li>
+	<li><a href="siggot-exercise.html">Lecture 07 - Play the Signals Game of Thrones</a></li>
+	<li><a href="code-reading-exercise.html">Lecture 10 - HTTP Code Reading</a></li>
+	<li><a href="libgreet-exercise.html">Lecture 11 - libgreet</a></li>
+	<li><a href="aed-exercise.html">Lecture 12 - write a tool to encrypt/decrypt data using AES</a></li>
+	</ul>
+	</p>
 	<hr>
         <H3><A name="midterm">Midterm</A> Project:</H3>
-        <p>Implement the "<a href="ls.pdf">ls(1)</a>" command as
+	<p>Implement the "<a href="ls.pdf">ls(1)</a>" command as
         decribed in the manual page provided to you.
-        See the full <A href="f18-midterm.html">midterm project
+        See the full <A href="f19-midterm.html">midterm project
         description</A> for details.</P>
 
 	<hr>
-        <H3><A name="final">Final</A> Project:</H3>
+        <H3><A name="group-project">Group</A> Project:</H3>
         <p>Implement the "<a href="sws.1.pdf">sws(1)</a>" command as
         decribed in the manual page provided to you.
-        See the full <A href="f18-final-project.html">final project
+        See the full <A href="f19-group-project.html">group project
         description</A> for details.</P>
 
 	<!--
@@ -292,7 +312,7 @@ simple shell</a></li>
 	<hr>
         <H3><A name="syllabus">Syllabus</A>:</H3>
 
-	Homework assignments, slides, and other material listed below is
+	Homework assignments, slides, and other material listed below are
 	from the previous semester.  We will update the content as the
 	semester progresses.
         <TABLE width="100%" border="1" cellpadding="5">
@@ -308,7 +328,7 @@ simple shell</a></li>
           </TR>
 
           <TR>
-            <TD>2018-08-27</TD>
+            <TD>2019-08-26</TD>
 
             <TD>Introduction, UNIX history, UNIX Programming
             Basics</TD>
@@ -328,12 +348,12 @@ simple shell</a></li>
           </TR>
 
           <TR>
-            <TD>2018-09-03</TD>
+            <TD>2019-09-02</TD>
             <TD colspan="3"><em>Labor Day Holiday</em></TD>
           </TR>
 
           <TR>
-            <TD>2018-09-10</TD>
+            <TD>2019-09-09</TD>
 
             <TD>File I/O, File Sharing</TD>
 
@@ -350,12 +370,12 @@ simple shell</a></li>
             <A href="openmax.c">openmax.c</A><BR>
             <A href="rwex.c">rwex.c</A><BR>
             <A href="sync-cat.c">sync-cat.c</A><BR><br>
-            <a href="f18-hw1.html">HW1</a>: <A href="tcp.1.pdf">tcp(1)</A>,<a
-	    href="tcpm.1.pdf">tcpm(1)</a></td>
+            <a href="f19-hw1.html">HW1</a>: <A href="bbcp.1.pdf">bbtcp(1)</A>,<a
+	    href="bbcpm.1.pdf">bbcpm(1)</a></td>
           </TR>
 
           <TR>
-            <TD>2018-09-17</TD>
+            <TD>2019-09-16</TD>
 
             <TD>Files and Directories</TD>
 
@@ -371,11 +391,11 @@ simple shell</a></li>
             <A href="simple-ls.c">simple-ls.c</A><BR>
             <A href="simple-ls-stat.c">simple-ls-stat.c</A><BR>
             <A href="umask.c">umask.c</A><BR>
-	    <a href="f18-midterm.html">Midterm Project Assignment</a></TD>
+	    <a href="f19-midterm.html">Midterm Project Assignment</a></TD>
           </TR>
 
           <TR>
-            <TD>2018-09-24</TD>
+            <TD>2019-09-23</TD>
 
             <TD>Filesystems, System Data Files, Time &amp;
             Date</TD>
@@ -391,9 +411,9 @@ simple shell</a></li>
           </TR>
 
           <TR>
-            <TD>2018-10-01</TD>
+            <TD>2019-09-30</TD>
 
-            <TD>UNIX tools: make(1), revision control, diff(1), patch(1), gdb(1)</TD>
+            <TD>UNIX tools: cc(1), make(1), revision control, diff(1), patch(1), gdb(1)</TD>
 
             <TD><A href=
             "http://www.cvshome.org/docs/manual/cvs-1.11.6/cvs.html">
@@ -415,13 +435,8 @@ simple shell</a></li>
           </TR>
 
           <TR>
-            <TD>2018-10-08</TD>
-            <TD colspan="3"><em>Fall Recess</em></TD>
-          </TR>
 
-          <TR>
-
-            <TD>2018-10-09</TD>
+            <TD>2019-10-07</TD>
 
             <TD>Process Environment, Process Control</TD>
 
@@ -429,9 +444,11 @@ simple shell</a></li>
 		<a
 href="https://insecure.org/stf/smashstack.html">Smashing The Stack For Fun And Profit</a><br>
 		<a
-href="http://dbp-consulting.com/tutorials/debugging/linuxProgramStartup.html">Linux x86 Program Start Up</a></TD>
+href="http://dbp-consulting.com/tutorials/debugging/linuxProgramStartup.html">Linux x86 Program Start Up</a><br>
+		<a
+href="https://www.netmeister.org/blog/stdarg.html"><tt>stdarg</tt> And The Case Of The Forgotten Registers</a></TD>
 
-            <TD width="25%"><em>Note: Tuesday class</em><br><br>
+            <TD width="25%">
 		<A href="lecture06.pdf">Lecture
             Slides</A><BR>
             &#160;<BR>
@@ -442,6 +459,7 @@ href="http://dbp-consulting.com/tutorials/debugging/linuxProgramStartup.html">Li
             <A href="forkflush.c">forkflush.c</A><BR>
             <A href="hw.c">hw.c</A><BR>
             <A href="memory-layout.c">memory-layout.c</A><BR>
+            <A href="sum.c">sum.c</A><BR>
             <A href="zombies.c">zombies.c</A><br><br>
 	    <a
 href="http://cvsweb.netbsd.org/bsdweb.cgi/src/lib/csu/common/crt0-common.c?rev=HEAD&content-type=text/x-cvsweb-markup">NetBSD crt0-common.c</a><br>
@@ -451,13 +469,18 @@ href="http://cvsweb.netbsd.org/bsdweb.cgi/src/lib/csu/common/crt0-common.c?rev=H
           </TR>
 
           <TR>
+            <TD>2019-10-14</TD>
+            <TD colspan="3"><em>Fall Recess</em></TD>
+          </TR>
 
-            <TD>2018-10-15</TD>
+          <TR>
+
+            <TD>2019-10-15</TD>
             <TD>Process Groups, Sessions, Signals</TD>
 
             <TD>Stevens: Chapter 9, 10</TD>
 
-            <TD width="25%">
+            <TD width="25%"><em>Note: Tuesday class</em><br><br>
 		<A href="lecture07.pdf">Lecture
             Slides</A><BR>
 		<a
@@ -470,7 +493,7 @@ href="http://www.informit.com/articles/article.aspx?p=366888&seqNum=7">FreeBSD P
           </TR>
 
           <TR>
-            <TD>2018-10-22</TD>
+            <TD>2019-10-21</TD>
             <TD>Interprocess Communication I</TD>
             <TD>Stevens: Chapter 14</TD>
             <TD width="25%">
@@ -500,12 +523,12 @@ Linux</a><br>
             <a href="semdemo.c">semdemo.c</a><br>
             <a href="shmdemo.c">shmdemo.c</a><br>
 	<br>
-	<a href="f18-hw2.html">HW#2: implement 'command(3)'</a><br>
+	<a href="f19-hw2.html">HW#2: implement 'command(3)'</a><br>
 		</TD>
           </TR>
 
           <TR>
-            <TD>2018-10-29</TD>
+            <TD>2019-10-28</TD>
 
             <TD>Interprocess Communication II</TD>
 
@@ -529,15 +552,16 @@ href="https://ops.tips/blog/how-linux-tcp-introspection/">How Linux allows TCP i
             <A href="streamread.c">streamread.c</A><BR>
             <A href="streamwrite.c">streamwrite.c</A><BR>
             <A href="strchkread.c">strchkread.c</A><br>
-
-	    <!-- <a href="f16-hw3.html">HW#3 - sws milestone#1</a><br> -->
+		<br>
+	    <a href="f19-group-project.html">Group Project Assignment</a><br>
 	    </TD>
           </TR>
 
           <TR>
-            <TD>2018-11-05</TD>
+            <TD>2019-11-04</TD>
 
-            <TD>HTTP / Code Reading / HTTP Server Implementations</TD>
+            <TD>HTTP / Group Project Discussions</TD>
+<!-- Code Reading / HTTP Server Implementations</TD>
 
             <TD><a href="http://www.eterna.com.au/bozohttpd/">bozohottpd</a><br>
 		<a href="http://www.acme.com/software/mini_httpd/">mini_httpd</a><br><br>
@@ -547,7 +571,8 @@ href="https://ops.tips/blog/how-linux-tcp-introspection/">How Linux allows TCP i
 		<a href="http://www.mathopd.org/download.html">mathopd</a><br>
 		<a href="http://nullhttpd.sourceforge.net/httpd/">null httpd</a><br>
 		<a href="http://inglorion.net/software/muhttpd/">muhttpd</a><br>
-		<!-- Too tiny indeed: <a href="http://tinyhttpd.sourceforge.net/">tinyhttpd</a><br> -->
+		Too tiny indeed: <a href="http://tinyhttpd.sourceforge.net/">tinyhttpd</a><br> -->
+		<TD>&nbsp;
 		</TD>
 
             <TD><a href="lecture10.pdf">Lecture Slides</a></TD>
@@ -555,7 +580,7 @@ href="https://ops.tips/blog/how-linux-tcp-introspection/">How Linux allows TCP i
           </TR> 
 
           <TR>
-            <TD>2018-11-12</TD>
+            <TD>2019-11-11</TD>
 
             <TD><a name="daemon"></a>D&aelig;mon Processes, Shared Libraries</TD>
 
@@ -564,6 +589,9 @@ href="https://ops.tips/blog/how-linux-tcp-introspection/">How Linux allows TCP i
             <TD width="25%"><a href="lecture11.pdf">Lecture Slides</a><br>
 		<a
 href="http://jvns.ca/blog/2014/09/06/how-to-read-an-executable/">How to read an Executable</a><br>
+		<a href="https://lwn.net/Articles/276782/">Ian Lance Taylor's blog post series on linkers</a><br>
+		<a href="https://www.iecc.com/linker/">Linkers and Loaders</a><br>
+		<a href="https://www.akkadia.org/drepper/dsohowto.pdf">How To Write Shared Libraries</a><br>
 		<a href="elf.html">The Executable and Linkable Format (ELF)</a><br><br>
 		<a href="dlopenex.c">dlopenex.c</a><br>
 		<a href="evil.c">evil.c</a><br>
@@ -575,17 +603,17 @@ href="http://jvns.ca/blog/2014/09/06/how-to-read-an-executable/">How to read an 
 		<a href="ldtest2.c">ldtest2.c</a><br>
 		<a href="main.c">main.c</a><br>
 		<a href="setget.c">setget.c</a><br>
-	        <a href="f16-libgreet.html">libgreet exercise</a></td>
+	        <a href="libgreet-exercise.html">libgreet exercise</a></td>
           </TR>
           <TR>
-            <TD>2018-11-19</TD>
+            <TD>2019-11-18</TD>
 
             <TD>Advanced I/O: Nonblocking I/O, Polling, and Record
             Locking / Encryption in a Nutshell</TD>
 
             <TD>Stevens: Chapter 14</TD>
 
-            <TD width="25%"><A href="lecture11.pdf">Lecture
+            <TD width="25%"><A href="lecture12.pdf">Lecture
             Slides</A><BR>
             <BR>
             <A href="nonblock.c">nonblock.c</A><br>
@@ -594,22 +622,27 @@ href="http://jvns.ca/blog/2014/09/06/how-to-read-an-executable/">How to read an 
 	</TD>
           </TR>
 
+          <TR>
+            <TD>2019-11-25</TD>
+            <TD>Restricting processes / Containers</TD>
+            <TD>&nbsp;</TD>
+            <TD><a href="lecture13.pdf">Lecture Slides</a><br>
+		<a href="https://www.netmeister.org/blog/restricting-processes.html">Course
+Notes</a><br><br>
+		<a href="break-chroot.c">break-chroot.c</a><br>
+		<a href="priority.c">priority.c</a><br>
+		<a href="mkchroot">mkchroot</a></TD>
+          </TR>
 
           <TR>
-            <TD>2018-11-26</TD>
+            <TD>2019-12-02</TD>
 
             <TD>Review</TD>
 
             <TD>&nbsp;</TD>
 
-            <TD><A href="lecture12.pdf">Lecture Slides</a></TD>
-          </TR>
-
-          <TR>
-            <TD>2018-12-03</TD>
-            <TD>TBD</TD>
-            <TD>&nbsp;</TD>
-            <TD>TBD</TD>
+            <TD><A href="lecture14.pdf">Lecture Slides</a><br><br>
+		<a href="f19-sish.html">Final Assignment: sish(1)</a></TD>
           </TR>
 
         </TABLE>

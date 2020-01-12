@@ -50,11 +50,12 @@ uid_t suid;
 void myseteuid(int);
 void printUids(const char *);
 
-/* We're using this wrapper function, because the behavior
- * of seteuid(2) with respect to the saved-set-uid is inconsistent
- * across platforms.  On e.g. NetBSD, the POSIX.1-2017 mandated
- * behavior is not implemented; see the note in the manual page
- * as well as in <unistd.h>. */
+/* We're using this wrapper function, because the
+ * behavior of seteuid(2) with respect to the
+ * saved-set-uid is inconsistent across platforms.  On
+ * e.g. NetBSD, the POSIX.1-2017 mandated behavior is
+ * not implemented; see the note in the manual page as
+ * well as in <unistd.h>. */
 void
 myseteuid(int myeuid) {
 	char *func = "seteuid(";

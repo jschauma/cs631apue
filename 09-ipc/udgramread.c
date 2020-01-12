@@ -70,11 +70,11 @@ int main()
 		perror("binding name to datagram socket");
 		exit(1);
 	}
-	printf("socket --> %s\n", NAME);
+	printf("Name of our socket: '%s'\n", NAME);
 
 	if (read(sock, buf, BUFSIZ) < 0)
 		perror("reading from socket");
-	printf("--> %s\n", buf);
+	printf("Data read from 'socket': '%s'\n", buf);
 	close(sock);
 
 	/* A UNIX domain datagram socket is a 'file'.  If you don't unlink

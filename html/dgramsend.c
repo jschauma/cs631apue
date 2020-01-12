@@ -39,7 +39,7 @@
 #include <unistd.h>
 
 /* 'Dover Beach' by Matthew Arnold -- look it up. */
-#define DATA "The sea is calm tonight, the tide is full . . ."
+#define DATA "The sea is calm tonight, the tide is full..."
 
 /*
  * Here I send a datagram to a receiver whose name I get from the command

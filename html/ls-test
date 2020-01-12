@@ -14,9 +14,12 @@ COMMANDS="./ls
 ./ls -l /dev
 ./ls -lsh
 ./ls -lF
-./ls -A ~jschauma/apue/ls-test
-./ls -w ~jschauma/apue/ls-test
-./ls ~jschauma/apue/ls-test | more
+./ls -A ~/testdir
+./ls -w ~/testdir
+./ls ~/testdir | more
+./ls ~/testdir/d
+./ls -l ~/testdir/d
+./ls -la ~/testdir/d
 BLOCKSIZE=bacon ./ls -ls
 BLOCKSIZE=0 ./ls -ls
 BLOCKSIZE=2048 ./ls -ls

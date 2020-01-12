@@ -94,7 +94,7 @@ int main()
 			if ((rval = read(msgsock, buf, BUFSIZ)) < 0)
 				perror("reading stream message");
 			if (rval == 0)
-				printf("Ending connection\n");
+				printf("\nEnding connection\n");
 			else
 				printf("Client (%s) sent: %s", inet_ntoa(client.sin_addr), buf);
 		} while (rval != 0);

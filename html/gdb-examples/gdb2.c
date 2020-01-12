@@ -6,29 +6,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define BUFSIZE 1 << 31
-
-int num;
-
-void
-func2(char *buf) {
-	fgets(buf, 1024, stdin);
-}
-
-void
-func(void) {
-	char *buf;
-
-	num = BUFSIZE;
-	buf = malloc(num);
-	printf("What's new?\n");
-	func2(buf);
-	printf("Why do you say: '%s'?\n", buf);
-}
-
 int
 main(int argc, char **argv) {
-	num = 1024;
-	func();
-	return 0;
+	char *buf;
+	int num = 1 << 31;
+	buf = malloc(num);
+	fgets(buf, 1024, stdin);
+	printf("%s\n", buf);
+	return 1;
 }

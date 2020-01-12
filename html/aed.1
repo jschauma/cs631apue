@@ -1,4 +1,4 @@
-.Dd November 20, 2016
+.Dd November 17, 2019
 .Dt AED 1
 .Os AED
 .Sh NAME
@@ -11,7 +11,7 @@
 The
 .Nm
 utility can be used to perform symmetric encryption/decryption of the
-input stream using 256bit AES with a SHA1 digest.
+input stream using 256bit AES with a SHA256 digest.
 .Sh OPTIONS
 .Nm
 supports the following command-line options:
@@ -30,7 +30,7 @@ reads data from stdin and either encrypts or decrypts it (depending on the
 or
 .Fl e
 flag).
-It uses AES 256bit CBC mode with a SHA1 digest with keying material
+It uses AES 256bit CBC mode with a SHA256 digest with keying material
 derived from the passphrase using the
 .Xr EVP_BytesToKey 3
 function, generating a suitable salt via
@@ -41,10 +41,9 @@ reads the password from which to derive the key material from the
 .Ar AED_PASS
 environment variable.
 .Pp
-Output is written to stdout.
-.Pp
 When encrypting, the output is prefixed by the string "Salted__",
 followed by the 8 byte salt.
+Output is written to stdout.
 .Sh EXAMPLES
 To encrypt the contents of the file 'file' and storing the encrypted
 output in 'file.enc':
@@ -71,6 +70,8 @@ exits 0 on success, and >0 if an error occurred.
 .Xr EVP_BytesToKey 3 ,
 .Xr EVP_EncryptInit 3 ,
 .Xr RAND_bytes
+.Pp
+https://www.netmeister.org/blog/passing-passwords.html
 .Sh HISTORY
 This program (or variants thereof) was first assigned as a stand-alone
 programming assignment for the class

@@ -38,7 +38,7 @@
 #include <unistd.h>
 
 /* 'Kubla Khan' by Samuel Taylor Coleridge -- look it up. */
-#define DATA1 "In Xanadu, did Kublai Khan . . ."
+#define DATA1 "In Xanadu, did Kubla Khan . . ."
 #define DATA2 "A stately pleasure dome decree . . ."
 
 /*
@@ -65,7 +65,7 @@ int main()
 
 	if ((child = fork()) == -1)
 		perror("fork");
-	else if (child) {	/* This is the parent. */
+	else if (child) {
 		close(sockets[0]);
 		printf("Parent (%d) --> sending: %s\n", getpid(), DATA1);
 		if (write(sockets[1], DATA1, sizeof(DATA1)) < 0)
@@ -74,14 +74,14 @@ int main()
 			perror("reading stream message");
 		printf("Parent (%d) --> reading: %s\n", getpid(), buf);
 		close(sockets[1]);
-	} else {		/* This is the child. */
+	} else {
 		close(sockets[1]);
-		printf("Child (%d) --> sending: %s\n", getpid(), DATA2);
+		printf("Child  (%d) --> sending: %s\n", getpid(), DATA2);
 		if (write(sockets[0], DATA2, sizeof(DATA2)) < 0)
 			perror("writing stream message");
 		if (read(sockets[0], buf, BUFSIZ) < 0)
 			perror("reading stream message");
-		printf("Child (%d) --> reading: %s\n", getpid(), buf);
+		printf("Child  (%d) --> reading: %s\n", getpid(), buf);
 		close(sockets[0]);
 	}
 	return 0;

@@ -5,9 +5,6 @@
  * desired, but requires that processes clean up after themselves when
  * they are done using the queues.
  *
- * Note that in this example we manually specify the key instead of using
- * ftok(2).
- *
  * Use this tool to create/send messages, then run msgrecv to retrieve
  * them (in order).  Note that msgrecv will block if no messages are in
  * the queue.
@@ -42,14 +39,14 @@ main(int argc, char **argv) {
 	message_buf sbuf;
 	size_t buf_length;
 
-	if (argc != 3) {
-		fprintf(stderr, "Usage: msgsend key message\n");
+	if (argc != 2) {
+		fprintf(stderr, "Usage: msgsend message\n");
 		exit(EXIT_FAILURE);
 	}
 
-	if ((key = atoi(argv[1])) < 1) {
-		fprintf(stderr, "Invalid key: %s\n", argv[1]);
-		exit(EXIT_FAILURE);
+	if ((key = ftok("msgsend.c", 'M')) == -1) {
+		perror("ftok");
+		exit(1);
 	}
 
 	if ((msqid = msgget(key, msgflg )) < 0) {
@@ -59,7 +56,7 @@ main(int argc, char **argv) {
 
 	sbuf.mtype = 1;
 
-	strncpy(sbuf.mtext, argv[2], MSGSZ);
+	strncpy(sbuf.mtext, argv[1], MSGSZ);
 
 	buf_length = strlen(sbuf.mtext) + 1 ;
 

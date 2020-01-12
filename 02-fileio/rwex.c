@@ -49,7 +49,3 @@ main() {
 	close(fd);
 	return EXIT_SUCCESS;
 }
-
-/* Just another comment. */
-
-/* Just another comment. */

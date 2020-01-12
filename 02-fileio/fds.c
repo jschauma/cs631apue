@@ -22,12 +22,16 @@ main() {
 	printf("STDERR_FILENO: %d\n", STDERR_FILENO);
 	printf("stderr: %d\n", fileno(stderr));
 
+	/* Just waiting for the user to hit return. */
+	(void)getchar();
+
 	printf("\nOpening /dev/zero...\n");
 	if ((fd1 = open("/dev/zero", O_RDONLY)) < 0) {
 		fprintf(stderr, "Unable to open /dev/zero: %s\n", strerror(errno));
-	} else {
-		printf("fd1: %d\n", fd1);
+		exit(EXIT_FAILURE);
 	}
+	printf("fd1: %d\n", fd1);
+	(void)getchar();
 
 	printf("\nOpening /dev/zero a second time...\n");
 	if ((fd2 = open("/dev/zero", O_RDONLY)) < 0) {
@@ -35,6 +39,7 @@ main() {
 		exit(EXIT_FAILURE);
 	}
 	printf("fd2: %d\n", fd2);
+	(void)getchar();
 
 	printf("\nNow closing fd1, but keeping fd2 open..\n");
 	(void)close(fd1);
@@ -45,6 +50,7 @@ main() {
 		exit(EXIT_FAILURE);
 	}
 	printf("fd3: %d\n", fd3);
+	(void)getchar();
 
 	printf("\nNow closing fd2 and fd3.\n");
 	(void)close(fd2);
@@ -55,8 +61,19 @@ main() {
 		fprintf(stderr, "Unable to open /dev/zero: %s\n", strerror(errno));
 		exit(EXIT_FAILURE);
 	}
-	printf("f: %d\n", fileno(f));
+	printf("f: %d\n\n", fileno(f));
 	(void)fclose(f);
+
+	printf("What happens if we close stderr and open a new file?\n");
+	(void)getchar();
+	(void)close(STDERR_FILENO);
+
+	if ((fd3 = open("/dev/zero", O_RDONLY)) < 0) {
+		fprintf(stderr, "Unable to open /dev/zero: %s\n", strerror(errno));
+		exit(EXIT_FAILURE);
+	}
+	printf("New fd: %d\n", fd3);
+	(void)close(fd3);
 
 	return EXIT_SUCCESS;
 }

@@ -4,7 +4,7 @@
  * exit codes.
  *
  * To display the entry point of the program:
- * Linux:
+ * Linux / NetBSD:
  * - readelf -h a.out | grep ntry
  * - objdump -d a.out
  *
@@ -15,7 +15,10 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
+
+#define MAINMSG "Hooray Main!\n"
 
 int foo(void) {
 	printf("Foo for the win!\n");
@@ -28,15 +31,15 @@ int foo(void) {
 	 * Note: on OS X, we do not segfault! */
 }
 
-int bar(void) {
-	printf("bar rules!\n");
+int bar(int argc, char **argv) {
+	printf("%s rules!\n", argv[0]);
 	exit(1);
 	/* Unlike foo(), this will not cause a segfault, since we are not
 	 * returning; we explicitly call exit(3). */
 }
 
 int main(int argc, char **argv) {
-	printf("Hooray main!\n");
+	printf(MAINMSG);
 	/* Note that we do explicitly _not_ return an error here, nor call
 	 * any of the exit(3) functions.  Your compiler will warn you
 	 * about this. Inspect the return value. */

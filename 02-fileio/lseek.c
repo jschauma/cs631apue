@@ -3,8 +3,9 @@
  * on a regular file, on a pipe or a fifo.
  */
 
-#include <stdio.h>
 #include <sys/types.h>
+
+#include <stdio.h>
 #include <unistd.h>
 
 int

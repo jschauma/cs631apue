@@ -23,7 +23,7 @@ runDf() {
 }
 
 int
-main(int argc, char **argv) {
+main() {
 	int fd;
 
 	if (chdir("/var/tmp") == -1) {
@@ -33,7 +33,8 @@ main(int argc, char **argv) {
 
 	runDf();
 
-	printf("Creating a 500M file...\n");
+	printf("Hit return to create a 500M file...");
+	(void)getchar();
 	if (system("dd if=/dev/zero of=foo bs=1024k count=500 >/dev/null") != 0) {
 		perror("unable to dd a new file");
 		exit(EXIT_FAILURE);
@@ -41,7 +42,8 @@ main(int argc, char **argv) {
 
 	runDf();
 
-	printf("\nLinking 'bar' to 'foo'...\n\n");
+	printf("\nHit return to link 'bar' to 'foo'...");
+	(void)getchar();
 	if (link("foo", "bar") == -1) {
 		perror("unable to create a second hard link");
 		exit(EXIT_FAILURE);
@@ -53,6 +55,9 @@ main(int argc, char **argv) {
 	}
 
 	runDf();
+
+	printf("\nHit return to open and then unlink 'foo'...");
+	(void)getchar();
 
 	if ((fd = open("foo", O_RDWR)) < 0) {
 		perror("can't open file");
@@ -70,7 +75,8 @@ main(int argc, char **argv) {
 
 	runDf();
 
-	printf("\nOk, now unlinking 'bar'...\n");
+	printf("\nHit return to unlink 'bar'...");
+	(void)getchar();
 	if (unlink("bar") < 0) {
 		perror("error unlinking");
 		exit(EXIT_FAILURE);
@@ -82,6 +88,8 @@ main(int argc, char **argv) {
 
 	runDf();
 
+	printf("\nHit return to close the open file descriptor.");
+	(void)getchar();
 	/* Closing the file descriptor after having
 	 * unlinked all references to the 500M file
 	 * finally frees the disk space. */

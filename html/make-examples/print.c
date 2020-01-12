@@ -1,4 +1,4 @@
-/*	$NetBSD: print.c,v 1.38 2003/12/26 06:19:19 grant Exp $	*/
+/*	$NetBSD: print.c,v 1.55 2014/05/10 09:39:18 martin Exp $	*/
 
 /*
  * Copyright (c) 1989, 1993, 1994
@@ -37,7 +37,7 @@
 #if 0
 static char sccsid[] = "@(#)print.c	8.5 (Berkeley) 7/28/94";
 #else
-__RCSID("$NetBSD: print.c,v 1.38 2003/12/26 06:19:19 grant Exp $");
+__RCSID("$NetBSD: print.c,v 1.55 2014/05/10 09:39:18 martin Exp $");
 #endif
 #endif /* not lint */
 
@@ -46,6 +46,7 @@ __RCSID("$NetBSD: print.c,v 1.38 2003/12/26 06:19:19 grant Exp $");
 
 #include <err.h>
 #include <errno.h>
+#include <inttypes.h>
 #include <fts.h>
 #include <grp.h>
 #include <pwd.h>
@@ -65,164 +66,45 @@ extern int termwidth;
 static int	printaname(FTSENT *, int, int);
 static void	printlink(FTSENT *);
 static void	printtime(time_t);
+static void	printtotal(DISPLAY *dp);
 static int	printtype(u_int);
 
 static time_t	now;
 
 #define	IS_NOPRINT(p)	((p)->fts_number == NO_PRINT)
 
-#define HN_DECIMAL      0x01
-#define HN_NOSPACE      0x02
-#define HN_B            0x04
-#define HN_DIVISOR_1000 0x08
-#define HN_GETSCALE     0x10
-#define HN_AUTOSCALE    0x20
+static int
+safe_printpath(const FTSENT *p) {
+	int chcnt;
 
-#include <locale.h>
-
-int
-humanize_number(char* buf, size_t len, int64_t bytes,
-		                const char* suffix, int scale, int flags)
-{
-	const char *prefixes, *sep;
-	int	b, i, r, maxscale, s1, s2, sign;
-	int64_t	divisor, max;
-	size_t	baselen;
-
-	if (flags & HN_DIVISOR_1000) {
-		/* SI
-		 * for
-		 * decimal
-		 * multiplies
-		 * */
-		divisor = 1000;
-		if (flags & HN_B)
-			prefixes = "B\0k\0M\0G\0T\0P\0E";
-		else
-			prefixes = "\0\0k\0M\0G\0T\0P\0E";
-	} else {
-		/*
-		 * 		 *
-		 * 		 binary
-		 * 		 multiplies
-		 * 		 		 *
-		 * 		 		 XXX
-		 * 		 		 IEC
-		 * 		 		 60027-2
-		 * 		 		 recommends
-		 * 		 		 Ki,
-		 * 		 		 Mi,
-		 * 		 		 Gi...
-		 * 		 		 		 */
-		divisor = 1024;
-		if (flags & HN_B)
-			prefixes = "B\0K\0M\0G\0T\0P\0E";
-		else
-			prefixes = "\0\0K\0M\0G\0T\0P\0E";
-	}
-
-#define	SCALE2PREFIX(scale)	(&prefixes[(scale) << 1])
-	maxscale = 7;
-
-	if (scale >= maxscale &&
-			(scale & (HN_AUTOSCALE | HN_GETSCALE)) == 0)
-		return (-1);
-
-	if (buf == NULL || suffix == NULL)
-		return (-1);
-
-	if (len > 0)
-		buf[0] = '\0';
-	if (bytes < 0) {
-		sign = -1;
-		bytes *= -100;
-		baselen = 3;		/* sign, digit, prefix */
-	} else {
-		sign = 1;
-		bytes *= 100;
-		baselen = 2;		/* digit, prefix */
-	}
-	if (flags & HN_NOSPACE)
-		sep = "";
-	else {
-		sep = " ";
-		baselen++;
-	}
-	baselen += strlen(suffix);
-
-	/* Check
-	 * if
-	 * enough
-	 * room
-	 * for
-	 * `x
-	 * y'
-	 * +
-	 * suffix
-	 * +
-	 * `\0'
-	 * */
-	if (len < baselen + 1)
-		return (-1);
-
-	if (scale & (HN_AUTOSCALE | HN_GETSCALE)) {
-		/* See
-		 * if
-		 * there
-		 * is
-		 * additional
-		 * columns
-		 * can
-		 * be
-		 * used.
-		 * */
-		for (max = 100, i = len - baselen; i-- > 0;)
-			max *= 10;
-
-		for (i = 0; bytes >= max && i < maxscale; i++)
-			bytes /= divisor;
-
-		if (scale & HN_GETSCALE)
-			return (i);
+	if (f_fullpath) {
+		chcnt = safe_print(p->fts_path);
+		chcnt += safe_print("/");
 	} else
-		for (i = 0; i < scale && i < maxscale; i++)
-			bytes /= divisor;
-
-	/* If
-	 * a
-	 * value
-	 * <=
-	 * 9.9
-	 * after
-	 * rounding
-	 * and
-	 * ...
-	 * */
-	if (bytes < 995 && i > 0 && flags & HN_DECIMAL) {
-		/* baselen
-		 * +
-		 * \0
-		 * +
-		 * .N
-		 * */
-		if (len < baselen + 1 + 2)
-			return (-1);
-		b = ((int)bytes + 5) / 10;
-		s1 = b / 10;
-		s2 = b % 10;
-		r = snprintf(buf, len, "%d%s%d%s%s%s",
-				sign * s1, localeconv()->decimal_point, s2,
-				sep, SCALE2PREFIX(i), suffix);
-	} else
-		r = snprintf(buf, len, "%lld%s%s%s",
-				/* LONGLONG
-				 * */
-				(long long)(sign * ((bytes + 50) / 100)),
-				sep, SCALE2PREFIX(i), suffix);
-
-	return (r);
+		chcnt = 0;
+	return chcnt + safe_print(p->fts_name);
 }
 
+static int
+printescapedpath(const FTSENT *p) {
+	int chcnt;
+
+	if (f_fullpath) {
+		chcnt = printescaped(p->fts_path);
+		chcnt += printescaped("/");
+	} else
+		chcnt = 0;
+
+	return chcnt + printescaped(p->fts_name);
+}
+
+static int
+printpath(const FTSENT *p) {
+	if (f_fullpath)
+		return printf("%s/%s", p->fts_path, p->fts_name);
+	else
+		return printf("%s", p->fts_name);
+}
 
 void
 printscol(DISPLAY *dp)
@@ -247,29 +129,29 @@ printlong(DISPLAY *dp)
 
 	now = time(NULL);
 
-	if (dp->list->fts_level != FTS_ROOTLEVEL && (f_longform || f_size)) {
-		if (f_humanize) {
-			if ((humanize_number(szbuf, sizeof(szbuf), dp->stotal,
-			    "", HN_AUTOSCALE,
-			    (HN_DECIMAL | HN_B | HN_NOSPACE))) == -1)
-				err(1, "humanize_number");
-			(void)printf("total %s\n", szbuf);
-		} else {
-			(void)printf("total %llu\n",
-			    (long long)(howmany(dp->btotal, blocksize)));
-		}
-	}
+	if (!f_leafonly)
+		printtotal(dp);		/* "total: %u\n" */
 
 	for (p = dp->list; p; p = p->fts_link) {
 		if (IS_NOPRINT(p))
 			continue;
 		sp = p->fts_statp;
 		if (f_inode)
-			(void)printf("%*lu ", dp->s_inode,
-			    (unsigned long)sp->st_ino);
-		if (f_size && !f_humanize) {
-			(void)printf("%*llu ", dp->s_block,
-			    (long long)howmany(sp->st_blocks, blocksize));
+			(void)printf("%*"PRIu64" ", dp->s_inode, sp->st_ino);
+		if (f_size) {
+			if (f_humanize) {
+				if ((humanize_number(szbuf, sizeof(szbuf),
+				    sp->st_blocks * S_BLKSIZE,
+				    "", HN_AUTOSCALE,
+				    (HN_DECIMAL | HN_B | HN_NOSPACE))) == -1)
+					err(1, "humanize_number");
+				(void)printf("%*s ", dp->s_block, szbuf);
+			} else {
+				(void)printf(f_commas ? "%'*llu " : "%*llu ",
+				    dp->s_block,
+				    (unsigned long long)howmany(sp->st_blocks,
+				    blocksize));
+			}
 		}
 		(void)strmode(sp->st_mode, buf);
 		np = p->fts_pointer;
@@ -281,9 +163,9 @@ printlong(DISPLAY *dp)
 		if (f_flags)
 			(void)printf("%-*s ", dp->s_flags, np->flags);
 		if (S_ISCHR(sp->st_mode) || S_ISBLK(sp->st_mode))
-			(void)printf("%*u, %*u ",
-			    dp->s_major, major(sp->st_rdev), dp->s_minor,
-			    minor(sp->st_rdev));
+			(void)printf("%*lld, %*lld ",
+			    dp->s_major, (long long)major(sp->st_rdev),
+			    dp->s_minor, (long long)minor(sp->st_rdev));
 		else
 			if (f_humanize) {
 				if ((humanize_number(szbuf, sizeof(szbuf),
@@ -292,8 +174,9 @@ printlong(DISPLAY *dp)
 					err(1, "humanize_number");
 				(void)printf("%*s ", dp->s_size, szbuf);
 			} else {
-				(void)printf("%*llu ", dp->s_size,
-				    (long long)sp->st_size);
+				(void)printf(f_commas ? "%'*llu " : "%*llu ",
+				    dp->s_size, (unsigned long long)
+				    sp->st_size);
 			}
 		if (f_accesstime)
 			printtime(sp->st_atime);
@@ -302,11 +185,11 @@ printlong(DISPLAY *dp)
 		else
 			printtime(sp->st_mtime);
 		if (f_octal || f_octal_escape)
-			(void)safe_print(p->fts_name);
+			(void)safe_printpath(p);
 		else if (f_nonprint)
-			(void)printescaped(p->fts_name);
+			(void)printescapedpath(p);
 		else
-			(void)printf("%s", p->fts_name);
+			(void)printpath(p);
 
 		if (f_type || (f_typedir && S_ISDIR(sp->st_mode)))
 			(void)printtype(sp->st_mode);
@@ -324,7 +207,6 @@ printcol(DISPLAY *dp)
 	FTSENT *p;
 	int base, chcnt, col, colwidth, num;
 	int numcols, numrows, row;
-	char szbuf[5];
 
 	colwidth = dp->maxlen;
 	if (f_inode)
@@ -350,12 +232,16 @@ printcol(DISPLAY *dp)
 	 * of pointers.
 	 */
 	if (dp->entries > lastentries) {
-		lastentries = dp->entries;
-		if ((array =
-		    realloc(array, dp->entries * sizeof(FTSENT *))) == NULL) {
+		FTSENT **newarray;
+
+		newarray = realloc(array, dp->entries * sizeof(FTSENT *));
+		if (newarray == NULL) {
 			warn(NULL);
 			printscol(dp);
+			return;
 		}
+		lastentries = dp->entries;
+		array = newarray;
 	}
 	for (p = dp->list, num = 0; p; p = p->fts_link)
 		if (p->fts_number != NO_PRINT)
@@ -367,18 +253,8 @@ printcol(DISPLAY *dp)
 	if (num % numcols)
 		++numrows;
 
-	if (dp->list->fts_level != FTS_ROOTLEVEL && (f_longform || f_size)) {
-		if (f_humanize) {
-			if ((humanize_number(szbuf, sizeof(szbuf), dp->stotal,
-			    "", HN_AUTOSCALE,
-			    (HN_DECIMAL | HN_B | HN_NOSPACE))) == -1)
-				err(1, "humanize_number");
-			(void)printf("total %s\n", szbuf);
-		} else {
-			(void)printf("total %llu\n",
-			    (long long)(howmany(dp->btotal, blocksize)));
-		}
-	}
+	printtotal(dp);				/* "total: %u\n" */
+
 	for (row = 0; row < numrows; ++row) {
 		for (base = row, chcnt = col = 0; col < numcols; ++col) {
 			chcnt = printaname(array[base], dp->s_inode,
@@ -398,7 +274,6 @@ printacol(DISPLAY *dp)
 	FTSENT *p;
 	int chcnt, col, colwidth;
 	int numcols;
-	char szbuf[5];
 
 	colwidth = dp->maxlen;
 	if (f_inode)
@@ -422,18 +297,8 @@ printacol(DISPLAY *dp)
 	numcols = termwidth / colwidth;
 	colwidth = termwidth / numcols;		/* spread out if possible */
 
-	if (dp->list->fts_level != FTS_ROOTLEVEL && (f_longform || f_size)) {
-		if (f_humanize) {
-			if ((humanize_number(szbuf, sizeof(szbuf), dp->stotal,
-			    "", HN_AUTOSCALE,
-			    (HN_DECIMAL | HN_B | HN_NOSPACE))) == -1)
-				err(1, "humanize_number");
-			(void)printf("total %s\n", szbuf);
-		} else {
-			(void)printf("total %llu\n",
-			    (long long)(howmany(dp->btotal, blocksize)));
-		}
-	}
+	printtotal(dp);				/* "total: %u\n" */
+
 	chcnt = col = 0;
 	for (p = dp->list; p; p = p->fts_link) {
 		if (IS_NOPRINT(p))
@@ -475,7 +340,7 @@ printstream(DISPLAY *dp)
 			continue;
 		if (col > 0) {
 			(void)putchar(','), col++;
-			if (col + 1 + extwidth + p->fts_namelen >= termwidth)
+			if (col + 1 + extwidth + (int)p->fts_namelen >= termwidth)
 				(void)putchar('\n'), col = 0;
 			else
 				(void)putchar(' '), col++;
@@ -500,7 +365,7 @@ printaname(FTSENT *p, int inodefield, int sizefield)
 	sp = p->fts_statp;
 	chcnt = 0;
 	if (f_inode)
-		chcnt += printf("%*lu ", inodefield, (unsigned long)sp->st_ino);
+		chcnt += printf("%*"PRIu64" ", inodefield, sp->st_ino);
 	if (f_size) {
 		if (f_humanize) {
 			if ((humanize_number(szbuf, sizeof(szbuf), sp->st_size,
@@ -509,16 +374,17 @@ printaname(FTSENT *p, int inodefield, int sizefield)
 				err(1, "humanize_number");
 			chcnt += printf("%*s ", sizefield, szbuf);
 		} else {
-			chcnt += printf("%*llu ", sizefield,
-			    (long long)howmany(sp->st_blocks, blocksize));
+			chcnt += printf(f_commas ? "%'*llu " : "%*llu ",
+			    sizefield, (unsigned long long)
+			    howmany(sp->st_blocks, blocksize));
 		}
 	}
 	if (f_octal || f_octal_escape)
-		chcnt += safe_print(p->fts_name);
+		chcnt += safe_printpath(p);
 	else if (f_nonprint)
-		chcnt += printescaped(p->fts_name);
+		chcnt += printescapedpath(p);
 	else
-		chcnt += printf("%s", p->fts_name);
+		chcnt += printpath(p);
 	if (f_type || (f_typedir && S_ISDIR(sp->st_mode)))
 		chcnt += printtype(sp->st_mode);
 	return (chcnt);
@@ -528,9 +394,12 @@ static void
 printtime(time_t ftime)
 {
 	int i;
-	char *longstring;
+	const char *longstring;
 
-	longstring = ctime(&ftime);
+	if ((longstring = ctime(&ftime)) == NULL) {
+			   /* 012345678901234567890123 */
+		longstring = "????????????????????????";
+	}
 	for (i = 4; i < 11; ++i)
 		(void)putchar(longstring[i]);
 
@@ -538,7 +407,7 @@ printtime(time_t ftime)
 	if (f_sectime)
 		for (i = 11; i < 24; i++)
 			(void)putchar(longstring[i]);
-	else if (ftime + SIXMONTHS > now)
+	else if (ftime + SIXMONTHS > now && ftime - SIXMONTHS < now)
 		for (i = 11; i < 16; ++i)
 			(void)putchar(longstring[i]);
 	else {
@@ -547,6 +416,32 @@ printtime(time_t ftime)
 			(void)putchar(longstring[i]);
 	}
 	(void)putchar(' ');
+}
+
+/*
+ * Display total used disk space in the form "total: %u\n".
+ * Note: POSIX (IEEE Std 1003.1-2001) says this should be always in 512 blocks,
+ * but we humanise it with -h, or separate it with commas with -M, and use 1024
+ * with -k.
+ */
+static void
+printtotal(DISPLAY *dp)
+{
+	char szbuf[5];
+
+	if (dp->list->fts_level != FTS_ROOTLEVEL && (f_longform || f_size)) {
+		if (f_humanize) {
+			if ((humanize_number(szbuf, sizeof(szbuf), (int64_t)dp->stotal,
+			    "", HN_AUTOSCALE,
+			    (HN_DECIMAL | HN_B | HN_NOSPACE))) == -1)
+				err(1, "humanize_number");
+			(void)printf("total %s\n", szbuf);
+		} else {
+			(void)printf(f_commas ? "total %'llu\n" :
+			    "total %llu\n", (unsigned long long)
+			    howmany(dp->btotal, blocksize));
+		}
+	}
 }
 
 static int

@@ -2,7 +2,7 @@
 .\"   CS631 Advanced Programming in the UNIX Environment
 .\"   https://www.cs.stevens.edu/~jschauma/631/
 .\"
-.Dd November 30, 2016
+.Dd December 17, 2019
 .Dt SISH 1
 .Os
 .Sh NAME
@@ -127,6 +127,9 @@ sish$ ls | wc -l
     2
 sish$ echo $?
 0
+sish$ echo Writing a shell is fun! > /tmp/out
+sish$ < /tmp/out cat
+Writing a shell is fun!
 sish$ find / >/dev/null &
 sish$ 
 sish$ aed -e <file >file.enc
@@ -144,6 +147,8 @@ sish$ echo $?
 sish$ exit
 $ sish -c date
 Sat Nov 29 21:18:07 EST 2014
+$ sish -c "date +%s"
+1576614990
 $ sish -x
 sish$ ls
 + ls

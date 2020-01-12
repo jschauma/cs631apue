@@ -1,4 +1,6 @@
 #! /bin/sh
+#
+# curl --http1.0
 
 SERVER="${1:?"Usage: $0 server port"}"
 PORT="${2:?"Usage: $0 server port"}"

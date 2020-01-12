@@ -22,7 +22,7 @@
 
 int s = 0;
 
-static void
+void
 sig_quit_reset(int signo) {
 	fprintf(stderr, "sig_quit_reset: caught SIGQUIT (%d), sleeping and resetting.\n", ++s);
 	sleep(SLEEP);
@@ -34,14 +34,14 @@ sig_quit_reset(int signo) {
 }
 
 
-static void
+void
 sig_quit(int signo) {
 	fprintf(stderr, "sig_quit: caught SIGQUIT (%d), now sleeping\n", ++s);
 	sleep(SLEEP);
 	fprintf(stderr, "sig_quit: exiting (%d)\n", s);
 }
 
-static void
+void
 sig_int(int signo) {
 	fprintf(stderr, "sig_int: caught SIGINT (%d), returning immediately\n", ++s);
 }

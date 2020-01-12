@@ -27,7 +27,6 @@ main() {
 	}
 
 	/* set absolute mode to rw-r--r-- */
-
 	if (chmod("foo1", S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH) == -1) {
 		perror("can't chmod foo1");
 		exit(EXIT_FAILURE);

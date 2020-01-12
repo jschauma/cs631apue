@@ -1,12 +1,21 @@
 /*
- * This trivial program attempts to determine how many open file
- * descriptors a process can have.  It illustrates the use of
- * pre-processor directives and sysconf(3) to identify a resource that can
- * be changed at system run time.
+ * This trivial program attempts to determine how many
+ * open file descriptors a process can have.  It
+ * illustrates the use of pre-processor directives and
+ * sysconf(3) to identify a resource that can be
+ * changed at system run time.
  *
  * This version also displays the per-process limit
  * via getrlimit(2) to show that resources may be
  * limited per process or per user.
+ *
+ * Display current ulimit(1) output, run the program,
+ * then lower the limit for open file descriptors and
+ * run the program again:
+ * $ ulimit -n
+ * $ ./a.out
+ * $ ulimit -n 64
+ * $ ./a.out
  */
 
 #include <sys/resource.h>

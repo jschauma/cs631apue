@@ -38,8 +38,8 @@
 #include <string.h>
 #include <unistd.h>
 
-/* http://poetry.eserver.org/light-brigade.html */
-#define DATA "Half a league, half a league . . ."
+/* "The Charge of the Light Brigade" by Alfred, Lord Tennyson */
+#define DATA "Half a league, half a league..."
 
 /*
  * This program creates a socket and initiates a connection with the socket

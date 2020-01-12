@@ -116,24 +116,24 @@ main() {
 	createFile();
 	system("ls -l newfile");
 	printf("\n");
-	sleep(2);
+	(void)getchar();
 
 	createFile();
 	system("ls -l newfile");
 	printf("\n");
-	sleep(2);
+	(void)getchar();
 
 	failExclFileCreation();
 	printf("\n");
-	sleep(2);
+	(void)getchar();
 
 	openFile();
 	printf("\n");
-	sleep(2);
+	(void)getchar();
 
 	failOpenNonexistingFile();
 	printf("\n");
-	sleep(2);
+	(void)getchar();
 
 	printf("cp openex.c newfile\n");
 	system("cp openex.c newfile");

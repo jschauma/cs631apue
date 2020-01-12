@@ -1,54 +1,26 @@
-TARGET	=	slides
+# A slightly better Makefile.  As the first one, but much shorter, since
+# we're using the various built-in rules and definitions in make(1).
 
-LATEX	=	latex
-DVIPS	=	dvips -o
-PS2PDF	=	ps2pdf
-PDFTOTEXT=	pdftotext
+PROG=	ls
+OBJS=	cmp.o ls.o main.o print.o stat_flags.o util.o
 
-FIGURES=	pics/terminal.eps		\
-		pics/ide.eps			\
-		pics/compiler.eps		\
-		pics/ls.eps			\
-		pics/ls-changed1.eps		\
-		pics/ls-changed2.eps		\
-		pics/ls-changed3.eps		\
-		pics/ls-changed4.eps		\
-		pics/compiler_monster.eps	\
-		pics/makerbot.eps		\
-		pics/debugging.eps
+# If commented out, defaults will be used. If uncommented, these values
+# will be used, even though there is no other explicit mention of this
+# variable in this Makefile.
+#CFLAGS=	-Wall -g
 
-.SUFFIXES: .tex .dvi .ps .pdf .fig .eps .png .dot .jpg
+all: ${PROG}
 
-all:	$(FIGURES) $(TARGET).dvi
+showvars:
+	@echo "CC=${CC}"
+	@echo "CFLAGS=${CFLAGS}"
+	@echo "LDFLAGS=${LDFLAGS}"
+	@echo "PROG=${PROG}"
+	@echo "OBJS=${OBJS}"
 
-slides:
-
-.tex.dvi:
-	$(LATEX) $<
-	$(LATEX) $<
-
-.jpg.eps:
-	convert $< $@
-
-.png.eps:
-	pngtopnm $< | pnmtops > $@
-
-.dot.eps:
-	dot -Tpng $< | pngtopnm | pnmtops > $@
-
-.fig.eps:
-	fig2dev -L eps $< > $@
-
-ps:	$(TARGET).dvi $(TARGET).ps
-
-.dvi.ps:
-	$(DVIPS) $@ $<
-
-pdf:  $(FIGURES) $(TARGET).dvi $(TARGET).ps $(TARGET).pdf
-
-.ps.pdf:
-	$(PS2PDF) $< $@
+${PROG}: ${OBJS}
+	@echo $@ depends on $?
+	${CC} ${LDFLAGS} ${OBJS} -o ${PROG}
 
 clean:
-	rm -f **.bbl *.blg *.log *.aux *.dvi *.ps *.pdf *.toc *.bak *.lof ${FIGURES} *.out
-	rm -fr $(TARGET)/
+	rm -f ls *.o

@@ -38,7 +38,7 @@ int runCommand(const char *cmd, char *out, int outlen, char *err, int errlen) {
 		return -1;
 	} else {
 		size_t n;
-		char buf[1024];
+		char buf[BUFSIZ];
 		int total = 0;
 		int i;
 		close(opipe[1]);
@@ -47,18 +47,18 @@ int runCommand(const char *cmd, char *out, int outlen, char *err, int errlen) {
 			perror("wait");
 			return -1;
 		}
-		while ((n = read(epipe[0], buf, 1024)) > 0) {
+		while ((n = read(epipe[0], buf, BUFSIZ)) > 0) {
 			total += n;
 			if (total <= errlen) {
 				strlcat(err, buf, errlen);
 			}
 		}
-		while ((n = read(opipe[0], buf, 1024)) > 0) {
+		while ((n = read(opipe[0], buf, BUFSIZ)) > 0) {
 			total += n;
 			if (total <= outlen) {
 				strlcat(out, buf, outlen);
 			}
-			bzero(buf, 1024);
+			bzero(buf, BUFSIZ);
 		}
 	}
 	return 0;
@@ -66,8 +66,8 @@ int runCommand(const char *cmd, char *out, int outlen, char *err, int errlen) {
 
 int
 main(int argc, char **argv) {
-	char out[1024], err[1024];
-	runCommand("sleep 10", out, 1024, err, 1024);
+	char out[BUFSIZ], err[BUFSIZ];
+	runCommand("ls -l", out, BUFSIZ, err, BUFSIZ);
 	printf("stdout:\n%s", out);
 	printf("\n\nstderr:\n%s", err);
 }

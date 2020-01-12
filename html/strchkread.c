@@ -66,6 +66,7 @@ int main()
 		perror("opening stream socket");
 		exit(1);
 	}
+
 	/* Name socket using wildcards */
 	server.sin_family = AF_INET;
 	server.sin_addr.s_addr = INADDR_ANY;
@@ -74,6 +75,7 @@ int main()
 		perror("binding stream socket");
 		exit(1);
 	}
+
 	/* Find out assigned port number and print it out */
 	length = sizeof(server);
 	if (getsockname(sock, (struct sockaddr *)&server, &length) != 0) {

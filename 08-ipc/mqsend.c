@@ -14,7 +14,7 @@ main(int argc, char **argv) {
 	int i;
 
 	setprogname(argv[0]);
-	if ((mq = mq_open(MQ_PATH, O_WRONLY)) == (mqd_t)-1) {
+	if ((mq = mq_open(MQ_PATH, O_WRONLY | O_CREAT)) == (mqd_t)-1) {
 		fprintf(stderr, "%s: Unable to open message queue: %s\n",
 				getprogname(), strerror(errno));
 		exit(EXIT_FAILURE);
@@ -28,6 +28,12 @@ main(int argc, char **argv) {
 #ifdef WAIT
 		sleep(1);
 #endif
+	}
+
+	if (mq_send(mq, "semi-urgent", strlen("semi-urgent"), 5) == -1) {
+		fprintf(stderr, "%s: Unable to send urgent message: %s\n",
+					getprogname(), strerror(errno));
+		exit(EXIT_FAILURE);
 	}
 
 	if (mq_send(mq, "urgent", strlen("urgent"), 10) == -1) {
