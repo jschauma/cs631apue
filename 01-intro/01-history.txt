@@ -1,0 +1,356 @@
+Hello, and welcome back to our second video lecture
+for Week 1 of CS631 "Advanced Programming in the UNIX
+Environment".
+
+In our first segment, we discussed all the what, why,
+and how of the class; we introduced the course
+syllabus, and I warned you about all the code you'd
+have to write for this class.
+
+In this segment, we'll briefly review the history of
+the UNIX operating system.  There will be intrigue,
+lawsuits, differences of opinions, and one or two holy
+wars, although we'll leave the most sensitive
+political battle -- vi vs. emacs -- unaddressed so as
+not to offend anybody.  [cough] vi [cough]
+
+---
+
+The UNIX operating systems family has come a long way
+from a test platform for Ken Thompson's "Space Travel"
+game running on a PDP-7 to the most widely used server
+operating system.
+
+It's history begins at AT&T Bell Labs in New Jersey,
+where Dennis Ritchie and Ken Thompson - shown here
+working on a PDP-11 -- worked together with Doug
+McIlroy and Joe Ossanna on a replacement for the
+MULTICS operating system.
+
+The C programming language was developed in parallel
+by Dennis Ritchie, for and on Unix, deriving from the
+B programming language developed by Ken Thompson for
+the new OS they wrote.  Dennis Ritchie describes the
+history of the language and the operating system at
+the link shown here in the slides.
+
+---
+
+Eventually, some time around 1973 or so, Unix itself
+was rewritten in C, and...
+
+wait a second, if it was _re_written, then what was it
+originally written in?  The answer is that early on
+Unix was written in assembly for the specific target
+platform and hardware, and only as Ken Thompson and
+Dennis Ritchie developed C as a systems programming
+language did they then decide to rewrite the OS to
+take advantage of this new, high-level programming
+language.
+
+This way, the operating system became portable,
+meaning it was no longer tied to the hardware in
+question and could be recompiled for other platforms.
+
+In 1975, Ken Thompson was on sabbatical from Bell Labs
+and went to the University of California in Berkeley
+as a visiting professor.
+
+Since its parent company AT&T was prohibited from
+selling the operating system, Bell Laboratories
+licensed it together with the complete source code to
+academic institutions and commercial entities.
+
+This, one might argue, ultimately led directly to the
+very notion of “Open Source” when the Computer Systems
+Research Group (CSRG) at UC Berkeley extended the
+operating system with their patchsets.  Graduate
+students Chuck Haley and Bill Joy (who in 1982 would
+go on to co-found Sun Microsystems) added new tools
+and other software and eventually began distributing
+these as the "Berkeley Software Distribution" or
+"BSD".
+
+During that time, two main lineages of Unix developed:
+the BSD derived or influenced systems as well as those
+deriving from what become "System V" of UNIX, one of
+the first commercial versions of the OS.
+
+--
+
+As development on the different operating systems
+continued, the folks over at Berkeley added the TCP/IP
+stack, funded by a DARPA research grant.  This stack
+is still the de-facto standard implementation of
+TCP/IP and can be found in a number of other operating
+systems.
+
+In the mean time, a company called "BSDi" began
+selling their version of Unix based on the Berkeley
+Software Distribution, calling it "BSD/OS" and
+branding it as UNIX.
+
+Now Bell Labs had licensed the OS and the source code
+to Berkeley, but BSDi was selling a product derived
+from this code, and was subsequently sued by Unix
+Systems Laboratories (USL), a subsidiary of AT&T Bell
+Labs.  Now BSDi claimed that they could not possibly
+be at fault, because they got their code from UC
+Berkeley, and so USL said "cool beans, we'll sue UC
+Berkeley".
+
+But now things got interesting: the BSD patches had
+always been licensed under the so-called BSD license,
+which, in a nutshell, said "you can do whatever you
+want with this code, including selling it as closed
+source, but you need to give us credit.  Just say your
+product includes code developed by us, and
+everything's peachy."
+
+And the BSD patcheѕ included so much cool stuff!
+TCP/IP, NFS, vi(1), and much more.  Many of the
+commercial Unix providers had incorporated these
+patches, as had USL.
+
+So UC Berkeley, ever the spunky Californians, when
+threatened with a lawsuit said: "you know what, we're
+suing you!".
+
+After some time, the case was settled: UC Berkeley
+would rewrite the bits that were encumbered by the old
+AT&T license, leading to a code base without any
+proprietary code known as 4.4BSD-Lite.
+
+At this time, there had already been born two
+descendents of BSD, NetBSD (first released in March of
+1993 with a focus on portability and technical
+correctness) and FreeBSD (first released in December
+of 1993, with a focus on the new i386 platform).
+
+Meanwhile, over in Finland, a young computer science
+students name Linus Torvalds had been playing around
+with Minix, a Unix-like operating system created by
+Andrew Tanenbaum, and he had just finished his own OS
+kernel, termed "Linux", which he released on the
+internet in 1991.
+
+Linus had chosen the GNU Public License for his
+kernel.  This license originated from the GNU's Not
+Unix project, an effort created in the early 80s by
+Richard Stallman at MIT to develop a completely free
+Unix-like operating system.
+
+The GNU project had written a compiler, an editor
+(emacs), various utilities etc., but had been lacking
+a kernel up until now.  The announcement of the Linux
+kernel under the GPL allowed the GNU project to create
+a complete operating system: GNU/Linux.
+
+Now in contrast to the BSD license, the GPL provided
+additional restrictions on the recipient of the
+software: they were free to use the code in any way
+they saw fit, but if they made any changes to the
+code, those changes had to be released under the same
+terms, those of the GPL.
+
+The birth of this new operating system, despite a
+more restrictive license that normally might make
+businesses hesitant to adopt at a time that the USL v.
+UC Berkeley/BSDi lawsuit was ongoing may have directly
+lead to a broader adoption of Linux over the BSD
+variants and possibly caused Linux's market dominance
+nowadays.
+
+Be that as it may, throughout the 90s and early 2000s
+many of the commercial Unix versions lost market
+share, but a number of interesting developments
+continued to be developed.
+
+The Darwin operating system, derived from NeXT and
+using the Mach microkernel with code for the userland
+coming from Free- and NetBSD was born; Solaris, the
+operating system following Sun Microsystem's SunOS
+developed a number of groundbreaking features, such as
+ZFS, dtrace, and containers; Android (a Linux variant)
+and iOS (a Darwin and thus BSD derivative) ended up on
+our mobile devices.
+
+--
+
+So throughout the last 50 years, we have seen a
+perhaps surprising number of Unix systems.  Some of
+them are all-caps UNIX systems, which derive directly
+from the AT&T code; some are trademarked UNIX(r)
+versions, meaning they have undergone certification to
+meet the UNIX specification; others are merely
+"Unix-like", meaning they share no lineage or code,
+but look and behave just like a Unix system.
+
+Here on this slide you see a small selection of Unix
+systems, which I'm primarily showing to remind people
+that there are more Unix flavors than merely Linux.
+
+---
+
+A perhaps shorter list of Unix variations that you are
+likely to encounter might look like this.  Again, it's
+important to note that "Linux" is one unix-like OS,
+which just happens to come in a surprisingly large
+number of distributions, whereby different projects or
+companies have bundled different pieces of software
+together.
+
+This is notably different from the other operating
+systems, which remain whole units and cannot be split
+up or recombined.
+
+The market share for commercial Unix platforms outside
+of Linux, the BSDs, and the mobile platforms has
+increasingly shrunk over the last few years, although
+you may still find a number of commercial systems use
+Unix versions you nowadays may not hear much about.
+
+---
+
+Our reference platform for this class is NetBSD.
+NetBSD then is a direct, true, genetic Unix, even
+though it does not hold the UNIX trademark.  As a
+whole operating system, it provides not just a kernel,
+but system libraries and userland utilities that all
+are developed together.
+
+Being a complete operating system, it also includes
+some additional information, such as a summary of the
+Unix history as it relates to the BSDs.  You can find
+this history under /usr/share/misc, and it may be fun
+for you to browse through this tree.
+
+---
+
+To really understand how widely used, how diverse the
+term "unix" is, have a look at the complete family
+tree:
+
+Here, we see the timeline of most Unix versions as
+they split off the original UNIX system from Bell
+Labs.
+
+As we scroll to the right, we can see the birth of the
+Berkeley Software Distribution with its various
+released alongside several commercial Unix
+distributions.
+
+Over here in 1984, we see Minix being born, and as we
+progress through the mid-80s, you will notice that
+there is a lot of variation, a lot of code flowing
+back and forth between the different operating
+systems.  Notably, most OS vendors are importing the
+BSD patchsets to get all the features developed in
+Berkeley.
+
+
+Now here in 1991, we see the birth of the Linux
+kernel down here, branching off the Minix timeline.
+
+In 1993, we see the first appearance of NetBSD,
+followed by the birth of FreeBSD soon after.
+
+Disagreements within the NetBSD developer group leads
+to the fork of OpenBSD off the NetBSD timeline in
+1995.
+
+In the late nineties, Apple begins developing Mac OS
+X, which is officially released for consumer products
+in 2001.
+
+As we scroll through the early 2000s - a time that
+doesn't feel all that long ago to me, but that, I
+guess, by now actually is, we notice that there is
+distinctly less cross-pollination between the
+different OS, and fewer commercial versions appear to
+have survived.
+
+In 2008, Android appears - a Linux version for mobile
+devices, while Apple's "iPhone OS" later becomes
+"iOS", as we all know.
+
+We notice some code sharing in parts based on the
+liberal BSD license, as we see NetBSD code flowing
+into a more recent Minix release in 2012, and FreeBSD
+code flowing into a few other products, but as we are
+catching up with 2019 and 2020, we are left with but a
+handful of popular Unix versions.
+
+--
+
+Now lest you think the lineage of Linux by itself is
+any less nuts, here's a very quick look at how the
+different Linux distributions developed over time.  It
+looks just about as bonkers as the regular Unix
+timeline graph, doesn't it?
+
+We identify a few major lineages here as well: there's
+Debian, which, as we follow this brownish line, leads
+to Ubuntu and all itś variants.
+
+We see a number of short-lived projects before we take
+a look at Slackware Linux, one of the oldest
+distributions alongside Debian.
+
+At the bottom of our graphic, we see RedHat Linux,
+which nowadays enjoys significant popularity in the
+server market.
+
+--
+
+Anyway, as we have seen, the history of Unix -- and
+Linux as one version of a Unix-like operating system
+-- is diverse.  It is no surprise then, that nowadays
+we find Unix just about everywhere.
+
+Unix runs on your desktop, your laptop, your servers;
+it powers the public clouds provided by Amazon and
+Google, it runs on your TV, your phone, your watch,
+your stereo, car navigation system -- meaning you may
+at times have to pull over off the road to install a
+software update -- your thermostat, your
+refridgerator, your toaster, etc. etc.
+
+This is not only fascinating, but it also has a number
+of implications.  On the one hand -- and this is why
+this class is particularly relevant and hopefully of
+interest to you -- it means that if you understand
+Unix, you will be better able to understand how all
+these things work.
+
+On the other hand, this also means that your fridge
+now has a CVE and that your thermostat runs a web
+server that can be hacked; we're running a general
+purpose operating system on the internet of things
+without much consideration for how to manage these
+systems!
+
+But do take a look at the printed manuals of some of
+your devices; I'm sure you will find a number of
+copyright disclaimers in them saying "This product
+includes software derived from software contributed to
+Berkeley by..." or "This product includes software
+written by the Regenst of the University of
+California..." or something similar.
+
+It's a world full of Unix.  Unix everywhere.
+
+---
+
+Ok, phew.  This concludes our brief history of the
+Unix operating system.  In our next segment, we'll
+take a closer look at the features and properties of
+the system, of the features of the C programming
+language, and we'll discuss the Unix program design
+and philosophy.
+
+We'll also finally get to write some code, as we
+explore these features.  So please make sure to keep
+your eyes open for the next video lecture.
+
+Until the next time - cheers!

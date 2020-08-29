@@ -1,0 +1,1195 @@
+Hello, and welcome back to the third segment for Week
+1 of CS631 "Advanced Programming in the UNIX
+Environment".
+
+In this portion of the lecture, we will cover a select
+Unix basics and run through a few important features.
+We'll also finally get to wrangle some code, so
+make sure to follow this lecture with your NetBSD VM
+booted up and logged in, so that you can play along
+with the examples.
+
+You may wish to pause the video every now and then to
+better be able to run the same commands and examples.
+
+Are you ready?  Ok, let's get started!
+
+---
+
+The basic design of the Unix operating system can be
+visualized somewhat like this:
+
+At the core sits a monolithic OS kernel, which does
+all the heavy lifting: it initializes and controls the
+(physical or virtual) hardware, it manages memory,
+performs task scheduling, handles the filesystem, and
+interprocess communications etc.
+
+Most Unix versions use such a monolithic kernel;
+notable differences here are Minix (a true
+microkernel), and Darwin, macOS, iOS etc., which use
+the XNU hybrid kernel, derived from the Mach
+microkernel developed at Carnegie Mellon.
+
+The operating system provides a small number of
+so-called system calls, hooks into kernel space that
+allow the remainder of the OS to perform the required
+tasks.  System calls may then be wrapped by library
+functions, which are executing in user space.
+Applications generally call these library functions,
+but may also call system calls directly themselves.
+
+The shell, carved out here in this graphic as somewhat
+separate, is actually nothing but a regular
+application, but since it provides the primary user
+interface we are calling it out separately.  We'll
+take a look at what a shell does and how it works in
+more detail in a moment.
+
+---
+
+Unix systems come with detailed documentation in the
+form of manual pages.  That is, if you don't know what
+a function does or how to use it, you do _not_ need to
+Google it and rely on random people on Stackoverflow
+to wax poetic about their interpretations or
+preferences, likely telling you that you're doing it
+wrong.
+
+Instead, you can simply look up the information by
+calling up the relevant manual page.
+
+The manual pages on the unix systems are divided into
+multiple sections.  We will use the standard notation
+of identifying the section in parenthesis, as shown
+here in the slides.  That is, the 'write' system call
+is explained in section 2 of the manual pages, while
+the 'printf' library function is documented in section
+3.
+
+Given the wide variety of systems that we saw in our
+segment on the Unix history, it stands to reason that
+we need some sort of agreement on how things should
+behave.  As previously discussed, there exists a UNIX
+certification, which implies that there is a set of
+rules by which an OS must abide to meet the
+requirements for this certification.
+
+The OS standard for Unix systems is known as POSIX,
+the "Portable Operating System Interface", which
+defines the API, command-line utilities and interfaces
+for software compatibility with variants of Unix.
+This standard developed into and now is functionally
+equivalent to the Single Unix Specification (SUS).
+
+We'll take a quick look at what this means like in
+practice in a moment.
+
+---
+
+To clarify the usage of the terminology and how we
+reference commands, library functions, or system
+calls, let's quickly bring up a few manual pages:
+
+If we type simply 'man printf', then we will get the
+manual page from the first section, section 1, which
+covers general commands.  That is, there is a 'printf'
+utility.
+
+But frequently we do not want the command-line tool,
+but the library function.  So we have to explicitly
+specify the section as so:
+
+man 3 printf
+
+This now brings up the description of the library
+function 'printf', as desired.
+
+Similarly, if we type 'man write', then we get the
+description of the 'write' command.  So let's try to
+look for the function instead, following the previous
+example.
+
+As we type 'man 3 write', we find that there is no
+library function named 'write'.  That is because
+'write' is a system call, and thus is described in
+section 2 of the manual pages.
+
+There we go.
+
+Note that the 'man' command will always pull up the
+first page it finds.  That is, if there is no command
+by the given name, but there is a library function,
+then we do not need to type 'man 3'.  For example,
+simply typing 'man fprintf' will bring up the section
+3 manual page because there is no 'fprintf' command
+and no 'fprintf' syscall.
+
+Throughout this semester, in emails and written
+assignments, we will thus use the convention of always
+explicitly specifying the section of the manual pages
+when we refer to a command or function.
+
+---
+
+Ok, now on to POSIX.  You can find the Single Unix
+Specification on the website of the Open Group, and I
+recommend you bookmark this site.
+
+The document provides a number of definitions as well
+as a search index, so if we were to, for example,
+search for the POSIX definition of the ln(1) command,
+we'd find it here.
+
+The page pulled up in this way looks a lot like a
+manual page, doesn't it?  It provides a synopsis and a
+description, defines the command-line options, and
+includes further information about the environment
+etc.
+
+One particularly usful section is the "Rationale",
+which helps you understand why certain behaviors were
+chosen over others.
+
+Now let's compare the standard to reality, as we
+perceive it.  Here, we see the command-line options
+that a tool must support to be POSIX compliant.
+
+As we pull up our manual page on our NetBSD system, we
+notice that our version of ln(1) supports additional
+flags not mentioned in the standard.  That is fine -
+the standard defines the _minimum_ requirements.
+
+That is, if you are aware which options are POSIX
+required and which ones are not, then you can better
+set your expectations when writing portable scripts or
+code: anything not mentioned in the standard cannot be
+assumed to be supported on all platforms.
+
+---
+
+Ok, now let's take a look at our programming language
+of choice: C.
+
+Even though the C programming language was developed
+as a systems programming language on and alongside the
+Unix systems, it is an OS agnostic langauge, and thus
+has a standard separate from what defines the Unix
+systems.
+
+As the old saying goes, standards are wonderful
+because there's so many to choose from!
+
+C developed from the early language still referred to
+as "K&R C" -- after Kernighan and Ritchie -- into ANSI
+C, formally standardized in 1989.  Since then, a
+number of changes have been made, and new versions of
+the standard have been released.
+
+Your compiler may or may not support a given version,
+and if your code is relying on certain features in a
+newer version, you do need to be explicit about this
+requirement.  However, the changes in the language are
+notably less drastic than, for example, the changes in
+other languages, such as python 2.x vs python 3.x.
+
+The important features that we got with ANSI C are:
+
+- function prototypes
+
+This allows us to use forward declarations, meaning we
+can separate the programming interface from the
+implementation.
+
+- generic pointers
+
+A "void" pointer can be used to reference objects of
+unspecified type, so are generic in nature.  This
+provides a big amount of flexibility, but comes with
+some risks, as careless pointer manipulation and
+handling can lead to a number of software errors and
+vulnerabilities.
+
+This feature is one of those examples illustrating how
+C gives you enough rope to hang yourself.
+
+- abstract data types
+
+As we discussed earlier, using C to implement Unix
+made the OS portable.  One of the features that allow
+for increased portability are abstract data types:
+rather than implementing a data type as an 'int' or a
+'signed int', we simply declare them to be of the
+specified type.  The implementation of the type is
+then left to the OS and remains opaque to us -- we
+don't need to know how the OS represents them.
+
+Consider, for example, that a 'time_t' data type, used
+to represent time as expressed in seconds since the
+Unix epoch, used to by and large be implemented as a
+32-bit integer; to avoid the Year-2038-Problem, which
+we'll discuss briefly later in this segment, many
+operating systems switched it to 64-bit integers.  The
+advantage of the use of an abstract data type here is
+that that means that application code does not need to
+be changed; simply recompiling the same code on the
+new platform will make the program safe.
+
+
+Next, well-written C implements common unix best
+practices of returning a meaningful value.  That is, a
+program will always indicate whether it completed
+successfully by returning a numeric value: if that
+value is 0, then the program terminated successfully;
+otherwise, an error occurred.
+
+What's more, the type of error is relayed to the user
+via the return code.  Consider that almost any program
+can fail for a myriad of reasons, and it would be
+useful for users of the program to easily identify the
+failure cause without having to parse error messages.
+
+Enter errno.  'errno' is part of the C standard
+library, which acts as an integer value representing
+the reason for failure.
+
+Now numeric error codes are great for programs and
+computers, but humans tend to prefer language and
+words.  We are simply bad at remembering things, so a
+return value of 13 doesn't help us much, but a string
+like "Permission denied" is more helpful.
+
+So we have two helpful library functions that take
+this 'errno' value and return to us a string
+representation of the error, suitable for displaying
+to the user.
+
+
+Please note that in this class we will be meticulous
+in our use of meaningful return values as well as the
+use of strerror(3) etc. to print meaningful error
+messages.
+
+"something went wrong" is not a useful error message;
+"unable to open file 'foo': permission denied" is.
+
+Entering the use of these patterns into your
+programming muscle memory is officially a Good
+Idea(tm)!
+
+--
+
+Alright then, let's finally write some code already!
+
+I've put all the sample programs that we are using in
+this class into a single tarball on the website.  I
+recommend you fetch and extract this on your NetBSD
+VM, as shown here.
+
+As I mentioned earlier, I also recommend that you
+pause the video here to perform these steps and can
+thus work with the code alongside my talking.
+
+Once extracted, go into the directory for lecture 01.
+In it, you will find a file called 'welcome.c', which
+is a most trivial program to print a greeting to the
+terminal.  Have fun!
+
+--
+
+Ok, I know that you didn't pause the video, so let's
+go and do this together.
+
+First, we fetch the sources.  (We're using the
+'ftp(1)' utility because NetBSD does not ship out of
+the box with curl(1) or wget(1); we could install
+those, but there's no need since ftp(1) speaks https
+as well.)
+
+Once extracted, we find our 'welcome.c' program.
+
+Before we compile it, let's quickly make a copy of the
+file in case we want to modify it and back out our
+changes for some reason.
+
+Next, let's compile it.
+
+Hmm, seems to spew some garbage to the terminal, but
+surely that's entirely meaningless, so let's just run
+"./a.out".
+
+Oh no, no a.out!
+
+Well, that really shouldn't come as a surprise, as the
+compiler told us that there as an error.  As if any
+program simply compiles right out of the box - welcome
+to C programming!
+
+Fortunately, the compiler tells us exactly what the
+error is as well as where in the file it is.  So let's
+fix this error.
+
+Sheesh, somebody forgot a semicolon at the end of the
+statement.  Let's add it.
+
+We save the file and compile it again.
+
+There, no error.
+
+We can inspect the return code of the last command by
+running "echo $?"; it shows a '0', meaning the
+compiler completed successfully.
+
+We can confirm that we got an executable - voila,
+a.out!
+
+Let's just ignore this other garbage the compiler
+printed up there; since it completed, that surely is
+entirely unimportant and should be ignored, right?
+
+Ok, let's run "a.out" and...
+
+oooooookay.  A segfault.  Right.  We're programming in
+C.  But what went wrong?
+
+Let's look at the output from the compiler again.  The
+compiler gave us a warning.  Something about an
+implicit function declaration of 'getlogin'.  What
+function is that?
+
+No, hold on, don't Google the error.  Remember how I
+told you that you can use the manual pages to help
+you?
+
+Let's try that.
+
+'man getlogin'
+
+Alright, so getlogin(2) returns a 'char *'.  What did
+we use?
+
+Hmm, '%s', that should be right.
+
+Let's just try to compile it again.  You know, maybe
+there were sunspots the first time, so surely doing
+the same thing a second time will yield a different
+result.  (Yes, that's how programming works, doesn't
+it?)
+
+Hmm, same warning.  Let's take a closer look.
+
+What does 'implicit function declaration' mean?  Well,
+not surprisingly it means that there is no forward
+declaration of the function present, a feature we had
+previously noted as being part of ANSI C.
+
+Well, we know what the function prototype is from the
+manual page, so let's add it!
+
+Let's compile it again, and... hooray, no warnings!
+
+Yep, the compiler succeeded, executable present, we're
+good to go:
+
+Ok, that's great, we fixed our problem, the program
+completed successfully, didn't segfault, and even did
+what we wanted it to do.
+
+But why did we have to add the function prototype
+ourselves?  That seems tedious.
+
+Let's have another look at the manual page.
+
+Notice how in the synopsis the manual page also tells
+you which header file to include?  That's the file
+that includes the forward declaration of the function
+in question.
+
+And the compiler gave us a warning, but our program
+segfaulted - that's also not very nice.
+
+Let's rewind and start over.
+
+Only this time, we will add a few compiler flags to
+instruct the compiler to turn on more warnings and in
+fact to not just warn us, but instead to treat all
+warnings as errors, so we can't blindly ignore them.
+
+Here we go:
+
+Notice that our output shows the same error about the
+missing semicolon as before, but has a new, additional
+error message as well as changed the previous warning
+to an error.
+
+The additional error message we got tells us exactly
+why we got a segfault, too: if the compiler doesn't
+know what a function returns, it assumes that it will
+return an integer.  Silly compiler, but what is it
+going to do?  It's as good a guess as any.
+
+Now unfortunately the printf format we specified
+expects a string, but our compiler sets things up for
+an int - hence the segfault.
+
+So let's fix this again:
+
+First the missing semicolon.
+
+As before, this leaves the other error.  But this
+time, with our additional compiler flags, the compiler
+will not succeed and instead abort.  What used to be a
+warning has been turned into a fatal error to prevent
+us from doing something stupid.
+
+Now from our manual page we also remember what the
+right header is to include, so let's add that instead
+of ourselves providing the forward declaration.
+
+Let's compile it again... hold on, with the right
+flags... success!
+
+---
+
+There you go, a typical C programming session, where a
+single line of code program managed to first not
+compile and then trigger a segfault.
+
+You'll see a lot of those in this class, but most of
+the time you can avoid them by paying attention to
+what the compiler tells you.
+
+On Unix systems, the messages the programs generate
+are meaningful and should not be ignored.  For this
+reason, we will _always_ enable all warnings and
+_always_ turn warnings into errors.  This helps
+protect us against our own mistakes.
+
+To ensure that we don't forget to enable these flags,
+let's add them to our shell's startup file and create
+an alias, as shown here.
+
+With this in place, you can then simply invoke 'cc'
+and it will use the right flags.
+
+For a list of additional warning flags you can enable,
+check out this link here as well.  You may choose to
+add even more pedantic flags.
+
+Remember, for this class all your code must always
+compile with the '-Wall -Werror -Wextra' flags!
+
+---
+
+Alright, so let's go back to our architecture diagram.
+We briefly covered system calls versus library
+functions.  Next, let's take a look at the shell.
+
+---
+
+What exactly does a shell do?  Simplified to its core,
+a shell really doesn't do a whole lot: it loops
+forever, reads commands from the user, then executes
+them.
+
+So we can write a very simple shell in just a few
+lines - let's do that!
+
+Again, consider pausing the video here and reading the
+code before we move forward.
+
+--
+
+Ok, let's do it together:
+
+Note that we are explicitly saying that we only _try_
+to execute the command and that we're identifying a
+few limitations.  After all, this is the world's
+simplest shell.
+
+Our main loop is trivial: as promised, we loop
+forever, printing a shell prompt, then reading input
+from the user into a buffer.
+
+Once we have the input from the user, we fork a new
+process.  If anything goes wrong here, we'll follow
+our best practices and generate a meaningful error
+message via the strerror(3) function.
+
+Otherwise, we exec(3) the command we were given.
+Again, if anything unexpected happens, we generate an
+error message and exit with a meaningful exit status
+rather than a random number.
+
+Finally, the parent process sits back and waits for
+the child process to terminate, upon which it will
+loop back and read input again.
+
+If there is no more input, we exit successfully.
+
+
+Did you notice the exit statuses we used?  How did we
+decide which ones to use and where do they come from?
+
+The 'sysexits(3)' manual page has all the good
+information here.
+
+It is not a good practice to call exit(3) with
+arbitrary values - we want meaningful return codes,
+right?
+
+If you scroll through the manual page here, you'll
+find exit codes for many error scenarios.  Using these
+appropriately is a good habit to get into.
+
+Ok, so let's compile this code.
+
+Here's a quick reminder that we have set our alias so
+that we use the right compiler flags.
+
+When we run 'cc simple-shell.c' now, we get no
+warnings, not errors, everything looks peachy.
+
+Let's run the shell.
+
+We can run a simple command, like 'whoami'.
+
+Or 'ls'. Or 'date'.
+
+But wait, why does our invocation of 'cat' not work?
+
+Or 'ls -l'.  Why does that fail if the previous
+invocation of 'ls' did succeed?
+
+Notice the error message: it says "could not execute
+'ls -l'", not "could not execute 'ls'".
+
+Let's exit this silly shell.
+
+Ugh, wait.  We can't even exit?
+
+Let's feed it an End-Of-File by hitting Control+D to
+end our loop.
+
+Ok, that worked, ok.
+
+Alright, so we've seen that the World's Simplest Shell
+is indeed somewhat limited, but nevertheless, the most
+basic functionality - the read-eec loop - can be
+accomplished within just a few lines of code.
+
+Within this shell and the code example, we've also
+already brushed upon some core unix programming best
+practices.
+
+---
+
+One of the great things about the Unix environment is
+that is behaves consistently.  That is, the tools on
+it behave consistently across the different versions
+of Unix based on the standard, but also that tools not
+included in the standard behave in a predictable
+manner.
+
+Consistency is an important part of the Unix
+philosophy, which prescribes the behavior of the
+environment such that every tool fits in and can be
+combined with others.
+
+And that will be our goal for all the programs we
+write in this class as well: the programs we write
+should not be obvious CS class assignments, but look,
+feel, and behave as if they were part of the OS.
+
+Oh, and if you haven't heard of Fred Brooks, you
+should look up his book "The Mythical Man Month";
+it's required reading for any CS major.
+
+---
+
+The Unix philosophy is simple, but powerful.  In a
+nutshell, it prescribes that programs should be:
+
+- simple
+
+That is, they should not attempt to solve every
+problem in a single program; it is preferable build
+multiple smaller, simpler tools than a single, overly
+complex one.
+
+- follow the element of least surprise
+
+The user should not be surprised by what the tool
+does, both in the successful use case but,
+importantly, also when things go wrong.
+
+When you're writing a tool, and you're not sure
+whether you should do something one way or another,
+or handle a use case or not, ask yourself what you, as
+the user would expect.
+
+- accept input from stdin
+- generate output to stdout
+
+This allows you to avoid the complexities of file I/O
+(which we'll get into in the next class) and ensure
+that your program can be combined with other tools.
+
+- generate meaningful error messages to stderr
+
+It's important to separate normal output generated by
+your program from any error messages you produce.  By
+separating them, your tool again becomes more flexible
+in the way it can be combined with others, and the
+user can choose to redirect output and error messages
+into different places.
+
+- have a meaningful exit code
+
+As we discussed, we want to be able to identify when a
+program has encountered a problem without having to
+parse error messages.  Error messages are for the
+human user, error codes are for the computer, for
+other tools to inspect and react on.  This, too, helps
+make your tool a more useful building block.
+
+- and finally: have a manual page
+
+The manual pages are an important part of the
+environment: they document the tool and provide a
+reference for the user.  But as a programmer, writing
+a manual page is also a very good practice to get into
+the habit of, as it helps you clarify and define the
+user interface.
+
+--
+
+One of the results of applying the Unix philosophy is
+that we can combine small tools, building blocks, into
+more complex things.  This is primarily accomplished
+by stringing them together via the pipe.
+
+As shown here, the Unix practice of operating on the
+three standard file descriptors stdin, stdout, and
+stderr allows the combination of different tools
+whereby output from one tools is used as input for
+another.
+
+The Unix pipe was invented by Douglas McIllroy, and we
+can visualize it's functionality as shown here.  Note
+that the interaction with the terminal allows for both
+input and output as well as redirection by the shell,
+as we will show in a little bit in more detail.
+
+---
+
+To better illustrate the power of the Unix pipe,
+consider how combining small little tools lets you
+create something that the writers of the original
+tools would not have been able to anticipate.
+
+Suppose you'd like to know what the longest word found
+on the ten most frequently retrieved English Wikipedia
+pages is.
+
+Here's a pipeline that actually does that -- try it
+out at home, and see if you understand what each step
+along the way does.
+
+Sure, it's an arbitrary example, but I believe it
+illustrates the flexibility we gain from the use of
+the pipeline.
+
+--
+
+Ok, on to the filesystem.
+
+As I'm sure most of you know, the UNIX filesystem is a
+tree structure, with all partitions mounted under the
+root (/). File names may consist of any character
+except / and NUL as pathnames are a sequence of zero
+or more filenames separated by /’s.
+
+We'll get intimately familiar with the details of the
+Unix filesystem in a future lecture, but for now let's
+quickly note that directories are a type of file that
+provide a mapping between a filename and the internal
+data structure used to reference or look up the file
+in the filesystem, the inode.
+
+That is, a filename is not a property of a file, but
+rather an entry in this directory, a mapping, a way to
+find the file object.
+
+If we consider a directory as a simple lookup table
+that may give us the data associated with a file by
+the mapping of the file name, then we can already
+guess how a tool like the 'ls(1)' utility might work.
+
+---
+
+Time for another code example - you know the drill:
+pause the video, read the code, run the commands shown
+here and come back.
+
+---
+
+A simplistic implementation of the ls(1) command does
+not have to be very complicated: this version clocks
+in at a perhaps surprising 34 lines of code, including
+comments and headers.
+
+Let's take a look:
+
+If we look at the 'main' function, we already see the
+full functionality, simple as it is:
+
+We expect to be given an argument, the directory to
+list the contents of.  Then, we open the directory
+with the aptly named opendir(3) library function, then
+loop over all entries found in the directory via
+readdir(3), printing the name of the directory entry
+we found.
+
+When we're done, we close the directory and return.
+
+Let's run it.
+
+As promised, we require a directory name to be given;
+let's give it the current directory, also known as
+'dot'.
+
+Et voila: all entries found in the directory are
+printed, one line at a time.
+
+Note that the entries are not sorted -- the system
+ls(1) command behaves differently here, but when we
+iterate over the items found in the directory, we get
+them back one at a time in an opaque order.
+
+If we give it another directory, say our home
+directory, we see a couple more files, including those
+that start with a 'dot'.  Again, the system's ls(1)
+behaves differently in that it, by default, hides
+these files.  But there's nothing special about files
+starting with a 'dot' as far as the file system is
+concerned; not displaying them by default just happens
+to be a convention of the ls(1) command.
+
+---
+
+Cool, so far we've already written a simple shell and
+a version of the ls(1) command - let's see what's
+next!
+
+On a Unix system, all users are identified by a
+numeric value.  Computers like numbers.  It's us silly
+humans who don't like to be referred to as numbers, so
+we came up with "usernames".  But as far as the
+computer is concerned, every user is but a UID and may
+additionally be a member of multiple groups, again
+identified as numeric group IDs.
+
+The 'whoami' command, which we saw earlier, prints the
+username of the effective user; as the manual page
+tells us, this command is actually deprecated in
+favor of the id(1) command.
+
+If we run the 'id(1)' command just by itself, we get
+the numeric UID as well as the symbolic username
+together with the group IDs and group names.
+
+---
+
+The Unix system requires a way to represent time, an
+odd concept.  It does so by counting seconds since an
+arbitrarily chosen date -- midnight of January 1st,
+1970, aka the Unix epoch.
+
+Fun fact: Unix having been created in 1969 predates
+the Unix epoch.  I know, I know, it's this sort of
+trivia that makes this class worth it.
+
+So this is in effect a counter, and we need to somehow
+represent this number.  As explained earlier, using an
+abstract data type -- a time_t, to be specific - here
+is useful, because any resource on a computer system
+is finite, and unfortunately time has the apparent
+tendency to continue to move forward, so this value
+necessarily must continue to increase, leading to a
+possible wrapping counter.
+
+---
+
+Specifically, the latest time since 1 January 1970
+that can be stored using a signed 32-bit integer is
+03:14:07 on Tuesday, 19 January 2038; at that time,
+the counter will wrap, and the date will become
+December 13th, 1901.  That's probably not so good for
+most applications.
+
+Fortunately, though, most operating systems designed
+to run on 64-bit hardware already use signed 64-bit
+time_t integers.  And by using a time_t, even those
+operating systems that did use a signed 32-bit integer
+can be changed to using a 64-bit value without
+requiring all applications to be modified (although
+they need to be rebuilt on the given platform).
+
+Now another important lesson here is that any time we
+make a change like this, we are effectively kicking
+the can down the road, since even a 64-bit counter
+will eventually wrap.  However, a 64-bit counter is
+capable of representing a date that is over twenty
+times greater than the estimated age of the universe,
+so the new wraparound date for a 64-bit counter is
+thus approximately 292 billion years from now. 
+
+Most people do not consider this a significant
+problem.
+
+---
+
+But there's more to time than just counting seconds
+since the epoch.  Sometimes we want to know how long
+it took a program to run.
+
+This time is measured in three distinct values:
+
+- clock time, or the time that has elapsed in total
+- user CPU time, or the time the process spent in
+  userland
+- system CPU time, or the time the process spent in
+  kernel space
+
+Now you might reasonably think that system time plus
+user time equals clock time, but unfortunately that's
+not the case: the time that elapses while a process is
+blocked -- for example because it is waiting for I/O
+-- is not accounted for in either user- nor system
+time.
+
+Here's an example:
+
+Let's find out how many lines of code there are in all
+of the source files for all of the tools under
+/usr/bin.  To do that, we run a 'find' command, cat
+all files in question, and pipe all that into the
+wc(1) command.
+
+Let's see how long that takes.
+
+Ok, so we find about 312K lines of code, and the
+command took us about 1.26 seconds total time, of
+which 0.35 seconds were spent in user space and 0.44
+seconds in kernel space.  Note that there's a missing
+.47 seconds, which is time spent waiting for actual
+I/O in this case.
+
+But if we use the '-exec' flag for find(1), then we
+will invoke cat(1) once for every single file.  Can we
+optimize this?  Let's try to first generate the list
+of files, then use xargs(1) to invoke cat(1) fewer
+times.
+
+Hey now, that's a lot faster!  Now there may be a bit
+of an optimization by the filesystem by way of the
+buffer cache, but we'll talk about that in more detail
+in our next class.  For now, let's just note that we
+can use these time measurements as a way to optimize
+our programs, to find out where it spends the most
+time.
+
+---
+
+Alright, on to file descriptors.  As mentioned
+earlier, unix tools operate on stdin, stdout, and
+stderr; these are file streams by default connected to
+the terminal, and represented via the file descriptors
+0, 1, and 2 respectively.  But this concept of file
+descriptors goes beyond just these numbers: all file
+I/O is done based on file descriptors - small,
+non-negative integers representing the file in
+question.
+
+As we have also already seen, the shell can redirect
+any file descriptor.  Examples for that include the
+uqiuituous pipe, whereby stdout from one program
+becomes stdin for another, but of course you all have
+also already used the usual redirection of output into
+a file, into e.g. /dev/null, etc.
+
+File I/O generally comes in two flavors: buffered and
+unbuffered.  As you can tell by looking at the manual
+pages referenced here, unbuffered I/O is done via
+system calls, ergo takes place in kernel space.
+Buffered I/O, in contrast, is implemented via library
+functions, and thus executes in user space.
+
+In a nutshell, your standard 'printf(3)' provides
+buffered I/O, whereby when you ask the system to print
+something, it says "sure, I'll totally print this
+right away", but it actually lies.  Instead, the
+system buffers the input -- often depending on or
+influenced by what the output is connected to.  For
+example, output to the terminal is line-buffered,
+meaning the library uses a line-feed to indicate that
+it should flush its buffer.
+
+Unbuffered I/O, on the other hand, will be performed
+immediately as the system call completes.
+
+We will discuss all -- well, most -- things I/O in our
+next lecture, but with what we have summarized here,
+we already can write a simple implementation of the
+cat(1) command in under 50 lines of code.
+
+Before we look at the code, let's think about what the
+cat(1) command actually does: it reads data from stdin
+and then writes it to stdout.  So not surprisingly,
+our simple-cat will do the same thing.
+
+Let's take a look at the main loop.
+
+Note that we are not using the numbers 0 and 1, but
+instead are using the constants defined for stdin and
+stdout.  This is a general practice we will follow
+throughout the class: we avoid using so-called magic
+numbers that presume the person reading the code knows
+what they mean and instead use symbolic names or
+appropriately named variables.
+
+For consistency's sake we do this even if virtually
+all Unix systems do define STDIN_FILENO to be 0 and
+STDOUT_FILENO to be 1.  We want to get into the habit,
+to build muscle memory and avoid magic numbers
+whenever we can.
+
+Likewise, we do not initialize our buffer with an
+arbitrary integer number, but using a symbolic name.
+(How we picked this number is something we'll get back
+to in our next lecture.)
+
+Ok, so simple enough, right?  Let's see if it behaves
+as expected:
+
+We enter data on stdin, and the program dutifully
+echoes it back to use.  Great.
+
+Since our program loops for as long as there is data
+on stdin, we need to send it EOF - End-Of-File - to
+signal the end of our input.  We can do this on most
+terminals by pressing Control+D - and thus we
+terminate.
+
+Now let's try to cat a file:
+
+Hmm, that doesn't seem to do what we want.  It just
+sits there!  Well, that's because our program was not
+written to handle any command-line arguments at all -
+it will always just read from stdin.
+
+Another way of aborting the program - and you are all
+probably familiar with that - is to press Control+C,
+which generates the interrupt signal.  This is
+different from generating EOF, though: we are causing
+an abnormal exit of the program by the signal.
+
+
+Back in our shell - we mentioned that any file
+descriptor can be redirected by the shell.  That
+includes stdin.  The shell uses the 'less-than' (<)
+syntax for that, so if we run this command shown
+here...
+
+...then we get the contents of the file on stdin and
+our simple cat program nicely prints it out on stdout
+as we expect.
+
+Now what happens if we redirect stdout to another
+file, say /tmp/copy?  Well, we effectively copied the
+file, no surprise.  Copying file, after all, really
+only means that you have to open a file, read all the
+input, write all the data to another file, and you're
+done.  By using the redirection provided by the shell,
+we avoid all the complexities of dealing with opening
+of files, and our 41 line simple-cat thus is also an
+implementation of the cp(1) program.  Neat, huh?
+
+
+Alright, so our simple-cat here used read(1) and
+write(2), which was using unbuffered I/O.  Let's take
+a look at how one could write the same tool using
+buffered I/O:
+
+Not much different here - the only difference is that
+instead of read(1) and write(2) we are using getc(3)
+and putc(3) with the respective file streams.
+
+Let's run that.
+
+Yep, same as before.
+
+The difference in code between these two versions is
+minimal, as we see here.
+
+--
+
+Next, let's look at processes.  Any program executing
+in memory is called a process.  A process is
+identified via a small non-negative integer, called
+the process ID or PID.
+
+You can only create a new process via the fork(2)
+system call, and the general flow to run another
+program is to fork(2), then exec(3) the executable,
+and wait(3) for it.  Just as we saw earlier when we
+wrote the World's Simplest Shell.
+
+We'll discuss all the details of processes in a future
+lecture, of course, but let's play around with this a
+little bit to warm up:
+
+First, let's install a tool called 'pstree' --
+sometimes known as 'proctree' -- that will help us
+illustrate the process relationships.
+
+When we run 'proctree', we see how the system created
+different processes off init, launched sshd, which
+created a session for my user, which runs a login
+shell, which now runs the 'proctree' command, which
+itself appears to invoke the ps(1) command with the
+flags shown here.
+
+How do we know what our current pid is?  We can use
+getpid(2):
+
+The shell itself is a different process, and we can
+have it display its current pid by printing the $$
+variable.
+
+Compare to the output of 'proctree', and we can
+confirm that the shell didn't lie to us and its pid
+really is 9974.
+
+Notice that if we run our program to print the pid, we
+will always get a different number in an unpredictable
+order.
+
+That also means that if you look at the process table
+and see a process with PID 1234 now and then you look
+again 5 minutes later and see a process with PID 1234,
+that you have no guarantee that that's the same
+process: PIDs can be reused, so if one process
+terminates, the next process that starts might get
+that PID.
+
+--
+
+Ok, finally, a quick note about signals.  Just a few
+minutes ago, when we talked about our simple cat
+program, we mentioned that you can interrupt the
+program using Control+C.  This key combination happens
+to - by convention - generate the interrupt signal,
+and the default action for a process receiving the
+interrupt signal is to terminate abnormally.
+
+So we have already seen signals in action.  More
+generally speaking, signals are simply a way to inform
+a process that a certain condition has occurred.  As a
+programmer, you can choose what to do with this
+information:
+
+- you can do nothing, meaning you allow the default
+  action to take place; this is what we did with our
+  simple cat example
+
+- you can intentionally and explicitly ignore the
+  signal; that is, you say "whenever this happens, I
+don't care, I'm not going to do anything about this,
+but I'm also not going to allow the default action to
+take place"
+
+- and finally, you can choose to perform a custom
+  action whenever this event occurs
+
+There's a bunch of intricacies involved in signal
+handling, and we'll cover those later in the semester,
+but let us briefly go back to our simple shell from
+earlier:
+
+When we ran 'simple cat' and hit Control+C, simple cat
+terminated, which is exactly what we want.  But now
+consider what happens when the program you're running
+is a shell:
+
+If we hit Control+C here, the shell exits.  That's
+really no surprise, but on the other hand, that's
+really not what we would want, is it?
+
+Imagine if you log into a system and every time you
+hit Control+C your shell exits - you'd be logged out
+of the system.
+
+So what happens when we do hit Control+C in our
+regular login shell?
+
+It looks like the shell simply prints the prompt again
+- it doesn't exit!
+
+Let's change our simple shell to behave similarly.
+
+Notice that right above our 'main' function, we now
+have a function called 'sig_int' that merely prints
+out that we have caught the interrupt signal.  Now to
+ensure that this function - this signal handler - is
+installed, we call the 'signal(3)' function before we
+begin our main loop.
+
+This, in effect, says: "hey, whenever the user happens
+to generate the interrupt signal, don't just abort.
+Instead, jump into the 'sig_int' function that I have
+written for this purpose."
+
+All the rest remains the same as in our original
+shell.
+
+Ok, let's run this new shell and see if it worked:
+
+Ok, command execution still works, let's hit
+Control+C.
+
+Hey, look at that - it worked!  Nice.
+
+---
+
+And this brings us to the end of our quick whirlwind
+tour of the Unix system and the programming
+environment basics.
+
+In this session we've now written a number of programs
+already.  First we've debugged a silly little
+hello-world program and discussed the importance of
+the right compiler flags.
+
+Then we wrote a simple shell, which we just now
+extended to add a signal handler; we wrote a simple
+ls(1) clone, and we wrote two version of cat(1).  Not
+too bad for our first week!
+
+So make sure to go over these code examples and repeat
+them for yourself.  Make sure you're set up for this
+class with your VM and have initialized your course
+notes.
+
+If you have any questions or run into any problems,
+please send a mail to the course mailing list or post
+on Slack; we can then discuss there as well as in
+our first synchronous Zoom class on Monday.
+
+In preparation for next week, please make sure to read
+chapter three in the Stevens book.  I'll be posting
+the video lectures for that material some time next
+week.
+
+Thanks for watching - cheers!

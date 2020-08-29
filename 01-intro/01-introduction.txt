@@ -1,0 +1,637 @@
+Hello, and welcome to CS631 Advanced Programming in
+the Unix Environment!
+
+Don't panic - I'm from the internet, and I'm here to
+help!  My name is Jan Schaumann, and I've been an
+adjunct professor at Stevens Institute of Technology
+since around 2005, teaching this class as well as
+CS615 System Administration.
+
+Besides that, I work as a principal infrastructure
+security architect at Verizon Media.
+
+You can reach me at via email at jschauma@stevens.edu
+and the course website is located at the link shown on
+the slide here.
+
+Despite having taught this class for going on 15 years
+now, this is the first time we are holding it entirely
+online, and so you are spared the very long, late
+Monday night lectures - good for you!
+
+Instead, we are going to break the lectures into
+smaller segments for you to consume asynchronously and
+at your own time, and instead use the scheduled class
+time for interactive discussions and for me to help
+you with any questions or problems you have.
+
+This online lecture summarizes the class; we discuss
+what we will cover, how we will work, what the
+syllabus looks like, and what resources you should
+bookmark.
+
+In our second part, we will then review the history of
+the UNIX operating system and perform a whirlwind tour
+of the Unix programming environment and some of the
+features of the C programming language.
+
+As this is the first time we are flipping the
+classroom and moving all content online, I will rely
+on your feedback throughout the semester to help you
+get the most out of this class, so please do not be
+shy in letting me know what you think.  Ok?
+
+With that, if you are still with me and haven't
+switched over to your Facebook tab, let's begin...
+
+
+----
+
+Ok, so this class is called "Advanced Programming in
+the UNIX Environment".
+
+Each of those words is aptly picked, and it is
+important to note what this class is _not_.
+
+Specifically, this class is _not_ an introduction to
+using Unix.  All students are expected to be
+comfortable using a Unix-like operating system from
+the command-line exclusively.  I assume that you are
+able to use a common Unix text editor, know how to
+find, search, and manage files, how to use the shell
+and the various common tools, how to compile your code
+and run your program.
+
+If you are not familiar with Unix systems or are not
+comfortable using the command-line interface, then
+this class will be _very_ challenging for you.
+
+
+Secondly, this class is not an introductory
+programming class.  That is, you are expected to have
+written sizeable programs and to be familiar with most
+common paradigms and the practical efforts involved
+in writing and debugging code.
+
+
+Finally, in this class we will be using the C
+programming language, and you are expected to be
+familiar with it.  Please do note the difference
+between C and C++.
+
+As we will see in the second segment of our Week I
+lectures, the C programming language and the Unix
+operating systems are deeply intertwined; in this
+class, we will only write plain old C.
+
+
+So in a nutshell, if what you see here on the screen
+in the terminal looks in _any_ way foreign or strange
+to you, then this class is not for you.
+
+Ok, having gotten that out of the way, and now being
+on the same page about what this class is _not_, let's
+talk about what it _is_, what specifically we're doing
+here:
+
+---
+
+As we are talking about Advanced Programming in the
+UNIX Environment, let us quickly take a look at what
+this environment looks like.
+
+As you know, the system provides a number of standard
+tools in the '/bin' directory.  By the end of this
+class, you should be able to implement any one of
+these tools.  You should be able to look at the manual
+page for a given tool and from there determine how to
+write the code to provide the given functionality, to
+be aware of some of the edge cases and hidden
+requirements that you might encounter and so on.
+
+In fact, by the end of week 1, we'll already have
+looked at how to implement -- albeit from the most
+basic level -- an interactive shell, the 'ls' command,
+as well as the 'cat' utility.
+
+Take a look at the commands you find in /bin -- think
+about what they do, and how you would implement them.
+Can you jot down the pseudo-code for three or four of
+them?
+
+If you are not familiar with any of the commands you
+see there, take note and look them up later on.
+Remember that your system comes with detailed manual
+pages for each of the provided commands.
+
+---
+
+But this class goes beyond just the command-line
+utilities we use day to day, as useful and interesting
+as that is.
+
+In addition, we will be looking at interprocess
+communications and even some network programming in a
+client/server model.
+
+What you see here are most of the network library
+functions needed to implement communications across
+the internet between hosts, to listen on a socket, to
+accept connections, to send and receive data.
+
+Note that all of these functions are operating on an
+integer file desriptor, thereby providing a simple,
+flexible, and consistent API.  We'll talk more about
+this in future lectures.
+
+--
+
+So what are doing in this class?  Obviously we'll be
+performing some programming in the Unix environment,
+but as so often in academia, the outcomes and lessons
+of a class go beyond just the practical tasks
+performed.
+
+That is, we are specifically looking to:
+
+- gain an understanding of Unix operating systems from a
+  programmer's perspective
+
+- gain programming experience; systems programming
+  experience in particular
+
+Programming on the systems level is somewhat different
+from programming e.g. on the kernel level, from
+programming in embedded environments, or from
+programming mobile apps or databases.  We will be
+_using_ the Unix environment as well as understanding
+how it is implemented, how we can write tools for and
+within the Unix environment.
+
+In so doing, we will further
+
+- gain a deeper understanding of a number of
+  fundamental OS concepts.
+
+Many of you will already have some familiarity with
+these concepts, but I believe that all of you will
+find our revisiting these concepts in this class will
+strengthen your understanding and deepen your
+knowledge.
+
+---
+
+Ok, great, learning all these things sounds awesome.
+But _why_ are we doing this?  Well, of course _you_
+are doing this so that you get a hopefully good grade
+and are able to graduate, but I do naively hope that
+we have additional goals as we follow this class:
+
+For starters, understanding the Unix family of
+operating systems gives you a better understanding of
+other computer operating systems.
+
+The systems level experience we gain here will make us
+better, more advanced users of the system, and will
+let us better understand the limitations of _all_
+programs or applications we encounter.
+
+Next, as mentioned earlier, we are programming in C.
+Nowadays, C is often considered a "low level"
+programming language -- something we'll get back to in
+our next segment -- and there are many problems being
+called out in using a language like C for modern
+programming tasks.
+
+However, understanding how C works, and what these
+limitations are will help us better understand a
+number of general programming and OS concepts, again
+reinforcing some previous lessons and hopefully
+helping you gain new insights as well.
+
+Lastly, C is far from obsolete -- in fact, it remains
+ubiquituous.  As we look at the different APIs and
+interfaces of the standard libraries, we will find
+that many if not most of the higher level programming
+languages eventually fall back onto exactly these
+standard libraries.  From a systems perspective, C
+remains the de-facto standard and understanding how to
+write C in the Unix environment will make you a better
+programmer all around: a better python programmer, a
+better Go programmer, a better perl or rust or even
+javascript programmer.
+
+---
+
+Alright - now we know _what_ we're doing as well as
+_why_ we're doing it, so let's take a look at _how_
+we're going to do it.
+
+As we will discuss in our next segment, the history of
+the Unix family of operating systems is long and
+complex, and different flavors have emerged over time.
+For this class, we will need a single reference
+platform to ensure that all students are working in
+the same environment and I can grade your work on a
+platform where we do not end up with a discussion
+about how your code works just fine on your laptop,
+but not on mine, or how your version of the hottest
+linux distribution of the month has certain libraries,
+but last month's variant does not, and now your code
+explodes when I run it.
+
+For this reasoņ, we are going to use the NetBSD
+operating system as our reference platform.  Of course
+you can develop and run your code on e.g., your macOS
+system or your Linux VPS, but at the end of the day
+your code is expected to compile and run on a NetBSD
+9.0 system, which is where I will test and grade it.
+
+There are many different ways for you to get access to
+a NetBSD system - to make it easy for you, I've put
+together step-by-step instructions on how to install
+it in a VirtualBox VM, which you can see at the link
+shown here.
+
+This is the environment I will be using throughout
+this class, and all code and terminal examples or
+snippets are, unless explicitly noted, from a NetBSD
+9.0 VM.
+
+It is in your interest to make sure you have your
+reference instance set up as early as possible,
+preferably before our first class.
+
+---
+
+The next thing we note about programming is that it's
+useful to be able to _read_ code.  In fact, reading
+code is a critical skill not always stressed enough
+when it comes to programming or computer science
+education.
+
+In this class, you should be in the habit of reading a
+lot of code.  Fortunately for us, many of the Unix
+flavors that are popular these days are Open Source
+and we can easily browse their source code.
+
+The NetBSD operating system is an open source OS as
+well, and I recommend that you fetch and extract the
+source code as shown on the screen here and make
+yourself familiar with the code base.
+
+Poke around the source tree, find the utilities we
+mentioned earlier that you might understand how they
+are implemented, then look at the code.
+
+Another interesting thing to do is to compare how
+different systems have implemented the same tools.
+Consider that all the Unix systems come with a bunch
+of tools that are more or less the same or at least
+very similar across them -- do they share code?  Do
+they implement the same logic?
+
+See the recommended exercise linked to at the bottom
+of this slide and make yourself familiar with
+different code bases.
+
+---
+
+Now obviously reading code is only one part; the much
+more obvious part is that in this class we will also
+be _writing_ a whole lot of code, and I'm going to be
+very, very pedantic about the quality of your code.
+
+Code is communication.  Code needs to be easy to read
+not just for the author right now, but for others as
+well.
+
+The reason for this is that you will always spend a
+disproportionally bigger amount of time _reading_
+code, debugging code than actually writing code.  When
+you work on a code base with others or when you are
+debugging a tool that somebody else wrote it's
+critical that you can quickly dive right in and are
+not confused by the author's specific style
+preferences.
+
+And writing legible, clear code is something that can
+only be honed with practice.
+
+So for every assignment and all the code you write in
+this class, let's make sure that it is:
+
+bullet points
+
+
+We will discuss coding style and best practices
+throughout the semester, but please do begin by
+following the coding style linked on this slide as
+well as from the course website.
+
+---
+
+Alright, so now on to more practical things.  Since
+this is a university class, and you're paying a lot of
+money in tuition, I will have to give you a grade at
+the end of the semester.
+
+Trust me, I wish I didn't have to.  But, you know, it
+is what it is.  So here's how we're going to do this.
+
+Even though this class is online, we are -- hopefully,
+anyway -- going to have interactive exchanges,
+sometimes synchronously via Zoom, sometimes
+asynchronously on the mailing list, sometimes
+semi-synchronously on the class Slack channel.  Your
+participation here matters.  I'm looking for you to
+speak up, to contribute, to ask questions, to follow
+up on the lectures and all around to be mentally
+present.
+
+(This is a nice change from our in-class interactions,
+where students generally are physically present, but
+often not mentally; so maybe in this version of the
+class we'll strike a reasonable equilibrium?)
+
+Anyway, so class participation and your preparation
+for each week in the form of course notes, which we'll
+discuss in more detail in a minute, will make up 50
+points.
+
+There will be two smaller programming assignments,
+maybe something like a two hundred lines of code or so
+each.  Then there will be a more sizeable midterm
+project, which we'll assign after the second week.
+That will likely be several hundred lines of code,
+maybe up to two thousand or so.
+
+We'll then have a larger project that will be done in
+teams of two or three people, and finally another
+individual project towards the end of the semester.
+
+All of these points should add up to 500 total points,
+with letter grades being given out as explained on the
+course website.
+
+---
+
+As mentioned, your course participation will in part
+be evaluated based on the course notes you take.  This
+is something that I've found to be useful to help
+students come to class prepared, to help guide them
+through the semester.
+
+Here's how we will do this:
+
+- read slide
+
+The goal is for you to have a way to review your
+progress throughout the semester.  Something that
+might not have made much sense in the second or third
+week may become clearer towards the end of the
+semester.
+
+Use these notes to guide you to what questions to ask
+on the mailing list, what to seek clarification on,
+and what to share with your class mates.
+
+At the end of the semester, I will review the notes
+to gauge your progress myself; the more detailed your
+notes are, the easier it will be for me to give you
+credit here.
+
+---
+
+The assignments will be posted to the class mailing
+list and announced in the video lecture, but it is
+your responsibiilty to note the due date and submit
+your code on time.
+
+I understand that especially at this time many people
+have different obligations and anything may come up
+that may derail your plans.  If that happens, please
+come to me right away -- I'm ok with granting an
+extension if circumstances require it, but I cannot
+grant extensions simply for poor time management or
+planning.
+
+The assignments are given with sufficient time to
+complete them, but in my experience students often
+times start much too late.  You will not be able to
+complete the assignments in a rushed manner in the
+last minute or even within the last 24 hours before
+they are due.
+
+Please do not delay starting to work on the
+assignments, as often times unexpected problems arise
+and clarifications are necessary -- the sooner you
+discover these issues, the better for you!
+
+Give then current circumstances and trying to adopt
+the new online-only syllabus, I'm also changing
+another important part of this class: while there will
+not be any make-up assignments or extra-credit work, I
+will allow you to resubmit your code after you have
+received your grade to correct any major problems.
+
+This option will be available if the work you
+submitted did not receive an A.  In that case, you may
+take my comments and resubmit your improved code a
+week later to attempt to bump up your grade.
+
+Finally, I'm sad to have to explicitly point out that
+you are responsible for all your work yourself.  Every
+semester I have at least one student who will hand in
+code that they did not write themselves -- this
+constitutes plagiarism and possibly copyright
+violations and will yield a failing grade.
+
+Please note that even though the code for the Unix
+systems we are using is publicly available and is
+licensed as Open Source code, you may still _not_ take
+that code and submit as your own for the assignments
+in this class.
+
+The same holds for smaller code segments and snippets:
+if you run into a problem, search the internet and
+follow the first Google result to the Stackoverflow
+answer and then copy that code snippet into your
+assignment, then that may also constitute plagiarism;
+at a minimum, you need to identify to me in your code
+which parts you did not write yourself and copied from
+the internet.
+
+I know very well that in that so-called "real world"
+out there people search for and copy code from
+Stackoverflow all the time, but it is critical for
+Computer Science students to learn to properly cite
+their sources.
+
+The programming assignments given here are not like
+the problems you're solving in that mystical "real
+world" -- they are not an objective for you to
+produce, but an opportunity for you to learn
+something.  By blindly copying code from the internet
+and glueing together something that perhaps even works
+but that you did not write yourself you are robbing
+yourself of the opportunity to really understand the
+problem, to learn.
+
+The best way to avoid any problems here is for you to
+actually sit down and write all code you hand in
+yourself.  And if you run into problems, if you have
+questions about how to best do something, please reach
+out on our class mailing list, where I encourage all
+of you to share code segments and to discuss the best
+approach to any given issue.
+
+---
+
+Ok, with all the formalities out of the way, let's
+take a look at our syllabus:
+
+We will by and large follow the outline of the course
+book, although we will also throw in a lecture on
+using the Unix programming environment in an efficient
+manner.  Other than that, I hope that you will find a
+certain progression in the topics we'll cover:
+
+We will begin with local file I/O and file systems,
+take a look at process relationships, then move on to
+interprocess communications and network programming
+before we round out our understanding of the system
+with a number of mixed, advanced topics.
+
+The order of the lectures may be subject to change,
+based on how much time I find to put together the
+online lectures and based on our discussions in class.
+
+--
+
+Finally, here are the primary course resources that
+you should have bookmarked.
+
+The most important link is the course website, shown
+here.  This website is linked to from the Stevens
+Canvas shell and remains authoritative for all
+information about the class.
+
+There is no other information in the Stevens Canvas
+shell, so please do make sure to refer to the course
+website for all materials.
+
+The second most important part is the course mailing
+list, which will be our primary means of
+communication.  I have subscribed all students who are
+currently enrolled in the class; if you are not
+subscribed, please do subscribe yourself, using your
+stevens.edu email address.  (I cannot and will not
+accept other addresses.)
+
+The mailing list is a discussion list, not an
+announcements-only list: I will send announcements
+there, but I expect you to participate in discussions
+on the list.  If you have a question or seek
+clarification about anything, please send a mail to
+the mailing list.  If you send it to me in private,
+chances are that I will reply saying "please send your
+question to the class mailing list", so save yourself
+that roundtrip.  The only time you should email me
+off-list is if you are refering to your grades or any
+other personal circumstances; any generic questions
+should go to the list.
+
+The reason for this is that it is quite likely that if
+_you_ have a question, that the other students would
+also benefit from the answer or clarification.  Please
+don't be shy!
+
+Please also do not rely on me to respond to any
+questions you see on the class mailing list: if you
+know the answer, or you think you do, please reply on
+the mailing list.  If you come across an interesting
+link relevant to the class in general or a specific
+topic in particular, please share it!  I'm looking for
+actual interactions on the list.
+
+
+I've also set up a Slack channel for this class, and
+have invited all registered students to join.  If you
+have not received an invite, please email me and I
+will add you.
+
+The Slack channel is intended to let us discuss
+anything semi-synchronously.  You may share links,
+post questions, or engage in code analysis or
+comparison at any time.  However, while the mailing
+list is mandatory reading, the Slack channel is
+optional for you to join.  That is, any announcements
+of importance are sent to the mailing list, but I hope
+that we can enjoy chatting on Slack as time permits.
+
+I myself will peek in on the Slack channel every so
+ofteņ, but you shouldn't expect an immediate response
+from me.
+
+Finally, the last link goes to the course youtube
+channel, where I will upload video lectures like this
+as I finish them.
+
+---
+
+Ok, phew, we're coming to the end of the first segment
+of week 1.  Let's quickly recap what homework you have
+in order to get the most our of this class.  This is,
+in effect, the prep work you should do for the course
+notes every week, and is something that I'd expect any
+good students to already be in the habit of:
+
+read slides
+
+Note that the course website has a number of
+recommended exercises that are not graded assignments.
+That is, I put together a few problems or tasks that I
+believe will help you better understand the topic for
+the given week, and I very much recommend that you use
+them as a self-guided study tool.
+
+You will also note that my lecture slides include a
+lot of code snippets.  Even in the video lecture,
+these may fly by quickly, so I recommend that after
+you have viewed the lecture you take some time to run
+the commands and examples we used.  This will help you
+understand what we're trying to do or may lead to
+questions you might have.
+
+--
+
+For this week specifically, your homework is basically
+to get fully set up for this class, to bookmark all
+the resources, to initialize your course notes, and to
+get your NetBSD reference platform VM set up.
+
+If you run into problems, please send a mail to the
+mailing list!
+
+--
+
+Alright - this concludes our first video segment for
+week 1 of the Fall 2020 semester of CS631 Advanced
+Programming in the UNIX Environment!  I hope you were
+able to pay attention and find that this video lecture
+is helpful.
+
+The slides accompanying this video are of course
+available from the course website as well.
+
+In our next segment, we'll cover the UNIX history and
+take a look at some of the basics of the unix
+programming environment and important features of the
+C programming language, which, as you know, can be a
+bit fickle.
+
+But more on that in our next segment...
+
+Thanks for watching, and until the next time - cheers!
+
