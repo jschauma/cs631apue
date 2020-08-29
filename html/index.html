@@ -58,7 +58,7 @@
 	<tr><td width="50%" valign="top">
 
         <H3><a name="time"></a>Time, Date &amp; Place:</H3>
-	<p><b>Mondays, 18:15 - 20:45, Gateway South 123</b></p>
+	<p><b>Mondays, 18:15 - 20:45 Eastern, <a href="https://stevens.zoom.us/j/94952815375">via Zoom</a>; see <a href="https://sit.instructure.com/courses/39047">Canvas</a> for more details</b></p>
 
         <H3><a name="instructor"></a>Instructor:</H3><A href=
         "http://www.cs.stevens.edu/~jschauma/">Jan Schaumann</A>
@@ -76,22 +76,24 @@
 
         <H3><a name="resources"></a>Resources:</H3>
 
+	<p>Content and discussions:
 	<ul>
           <LI><A href=
           "https://lists.stevens.edu/cgi-bin/mailman/listinfo/cs631apue">CS631APUE Mailinglist</a><br>
 	  <em>Note: all class communications happen via this mailing
 list.</em><br>
 	  All registered students are subscribed to this list using their
-	  <tt>@stevens.edu</tt> address.  It is critical that you read this list.<br>&nbsp;</li>
-	  <!-- <LI><A href="https://webchat.freenode.net/">Freenode IRC Webchat
-- use #cs631apue</a></li> -->
+	  <tt>@stevens.edu</tt> address.  It is critical that you read this list.</li>
+	  <li><a href="https://cs631apue.slack.com/">Course Slack</a></li>
+	  <li><a href="https://v.gd/cs631apue">Course Videos / Youtube Channel</a></li>
 	</ul>
+
+	<p>Assignments and meta-information:
 	<ul>
 	  <li><a href="#syllabus">Course Syllabus</a></li>
           <LI><A href="hw">General Homework Guidelines</a></li>
 	  <LI><A href="style">Source Code Style Guide</A></li>
 	  <LI><A href="checklist">Code Submission Checklist</A></li>
-	  <LI><A href="text">Writing ASCII Text</A></li>
 	  <LI><a href="#source-code">Links to OS Source Code</a></li>
 	  <li><a href="#books">Textbooks used in this class</a></li>
 	  <li><a href="#systems">Systems used in this class</a></li>
@@ -100,8 +102,11 @@ list.</em><br>
 	  <li><a href="#midterm">Midterm Project</a></li>
 	  <li><a href="#group-project">Group Project</a></li>
 	</ul>
+	</p>
 
+	<p>Related links and documents:
         <UL>
+	  <LI><A href="text">Writing ASCII Text</A></li>
           <LI><A href=
           "http://man.netbsd.org/cgi-bin/man-cgi/man">
           NetBSD Manual Pages</A></LI>
@@ -115,6 +120,7 @@ Account</a></li>
 material on GitHub</a></li>
           <li><a href="git.html">Using git</a></li>
         </UL>
+	</p>
 	</td><td valign="top" align="right">
 <a class="twitter-timeline" data-dnt="true"
 href="https://twitter.com/cs631apue"
@@ -131,7 +137,16 @@ js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';i
 
         <P>You will be writing a lot of code in this class. You may
         also find the need to <em>read</em> a lot of code not written by you
-        as well as the manual pages accompanying the sources:</p>
+        as well as the manual pages accompanying the sources.</p>
+
+	<p>Our primary reference platform being
+	NetBSD, you can install the full sources into
+	<a href="virtualbox/">your VM</a> via e.g., <a
+	href="fetch-sources.sh">this script</a>.</p>
+
+	<p>To browse or fetch sources for other Open
+	Source Unix variations, please see these
+	links:</p>
 
 	<p>
 	<ul>
@@ -195,7 +210,7 @@ js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';i
 	to the start of the class</b>.  Please see <a href="netbsd.html">this
 	page</a> for more information. <a href="virtualbox/">Instructions on how to install NetBSD in a VirtualBox VM are provided to you here.</a></p>
 	<p>
-	<p>All grading will be done on a NetBSD 8.1 system.  While you may
+	<p>All grading will be done on a NetBSD 9.0 system.  While you may
 	choose to develop on your own personal host, you should make sure
 	that your code compiles and runs flawlessly on this OS version.</p>
 
@@ -256,10 +271,9 @@ Student Code of Academic Conduct</a>.
 	<p>Assignments will be posted as the semester progresses.</p>
 	<p><ul>
 		<li><a href="course-notes.html">Class notes</a></li>
-		<li><a href="f19-hw1.html">HW#1: trivially copy a file</a></li>
+<!--		<li><a href="f19-hw1.html">HW#1: trivially copy a file</a></li>
 		<li><a href="f19-hw2.html">HW#2: implement 'command(3)'</a></li>
 		<li><a href="f19-sish.html">Final assignment: write a simple shell</a></li>
-<!--
 		<li><a href="intro.html">Intro "test"</a></li>
 		<li><a href="f16-hw1.html">HW#1: read code</a></li>
 		<li><a href="f16-hw3.html">HW#3 - sws milestone#1</a></li>
@@ -279,6 +293,8 @@ simple shell</a></li>
 	</p>
 	<p>
 	<ul>
+	<li><a href="fixme-exercise.html">Lecture 01 - Generic Warmup Exercise</a></li>
+	<li><a href="compare-code-exercise.html">Lecture 01 - Compare Code Exercise</a></li>
 	<li><a href="fd-exercise.html">Lecture 02 - File Descriptor Warmup Exercise</a></li>
 	<li><a href="cd-exercise.html">Lecture 04 - File System Exercise: Implement the cd(1) and pwd(1) commands</a></li>
 	<li><a href="stack-exercise.html">Lecture 06 - Process Execution Exercise: Inspect the call stack</a></li>
@@ -321,21 +337,33 @@ simple shell</a></li>
 
             <TH>Topic</TH>
 
-            <TH>Reading Material</TH>
+            <TH>Reading</TH>
 
-            <TH>Notes</TH>
+            <TH>Links</TH>
 
           </TR>
 
           <TR>
-            <TD>2019-08-26</TD>
+            <TD>2020-08-31</TD>
 
             <TD>Introduction, UNIX history, UNIX Programming
             Basics</TD>
 
-            <TD>Stevens: Chapters 1, 2</TD>
+            <TD>Stevens: Chapters 1, 2<br>
+		<a href="https://www.netmeister.org/book/02-unix.pdf">Unix history and basic features</a></TD>
 
-            <TD width="25%"><a href="lecture01.pdf">Lecture slides</a><br>
+            <TD width="25%">
+			<a href="01-introduction.pdf">Introduction slides</a><br>
+			<a href="https://youtu.be/BsB9Cg6yJc4">Introduction video lecture</a><br>
+			<a href="01-introduction.txt">Introduction lecture transcript</a><br>
+            &#160;<BR>
+			<a href="01-history.pdf">UNIX History slides</a><br>
+			<a href="https://youtu.be/3H7SQWTR6Dw">UNIX History video lecture</a><br>
+			<a href="01-history.txt">UNIX History lecture transcript</a><br>
+            &#160;<BR>
+			<a href="01-basics.pdf">UNIX Basics slides</a><br>
+			<a href="https://youtu.be/w3spRzZ8bSA">UNIX Basics video lecture</a><br>
+			<a href="01-history.txt">UNIX Basics lecture transcript</a><br>
             &#160;<BR>
             <A href="simple-cat.c">simple-cat.c</A><BR>
             <A href="simple-ls.c">simple-ls.c</A><BR>
@@ -348,12 +376,12 @@ simple shell</a></li>
           </TR>
 
           <TR>
-            <TD>2019-09-02</TD>
+            <TD>2020-09-07</TD>
             <TD colspan="3"><em>Labor Day Holiday</em></TD>
           </TR>
 
           <TR>
-            <TD>2019-09-09</TD>
+            <TD>2020-09-14</TD>
 
             <TD>File I/O, File Sharing</TD>
 
@@ -375,7 +403,7 @@ simple shell</a></li>
           </TR>
 
           <TR>
-            <TD>2019-09-16</TD>
+            <TD>2020-09-21</TD>
 
             <TD>Files and Directories</TD>
 
@@ -395,7 +423,7 @@ simple shell</a></li>
           </TR>
 
           <TR>
-            <TD>2019-09-23</TD>
+            <TD>2020-09-28</TD>
 
             <TD>Filesystems, System Data Files, Time &amp;
             Date</TD>
@@ -411,7 +439,7 @@ simple shell</a></li>
           </TR>
 
           <TR>
-            <TD>2019-09-30</TD>
+            <TD>2020-10-05</TD>
 
             <TD>UNIX tools: cc(1), make(1), revision control, diff(1), patch(1), gdb(1)</TD>
 
@@ -435,8 +463,13 @@ simple shell</a></li>
           </TR>
 
           <TR>
+            <TD>2020-10-12</TD>
+            <TD colspan="3"><em>Fall Recess</em></TD>
+          </TR>
 
-            <TD>2019-10-07</TD>
+          <TR>
+
+            <TD>2020-10-13</TD>
 
             <TD>Process Environment, Process Control</TD>
 
@@ -448,7 +481,7 @@ href="http://dbp-consulting.com/tutorials/debugging/linuxProgramStartup.html">Li
 		<a
 href="https://www.netmeister.org/blog/stdarg.html"><tt>stdarg</tt> And The Case Of The Forgotten Registers</a></TD>
 
-            <TD width="25%">
+            <TD width="25%"><em>Note: Tuesday Class</em><br><br>
 		<A href="lecture06.pdf">Lecture
             Slides</A><BR>
             &#160;<BR>
@@ -469,18 +502,13 @@ href="http://cvsweb.netbsd.org/bsdweb.cgi/src/lib/csu/common/crt0-common.c?rev=H
           </TR>
 
           <TR>
-            <TD>2019-10-14</TD>
-            <TD colspan="3"><em>Fall Recess</em></TD>
-          </TR>
 
-          <TR>
-
-            <TD>2019-10-15</TD>
+            <TD>2020-10-19</TD>
             <TD>Process Groups, Sessions, Signals</TD>
 
             <TD>Stevens: Chapter 9, 10</TD>
 
-            <TD width="25%"><em>Note: Tuesday class</em><br><br>
+            <TD width="25%">
 		<A href="lecture07.pdf">Lecture
             Slides</A><BR>
 		<a
@@ -493,7 +521,7 @@ href="http://www.informit.com/articles/article.aspx?p=366888&seqNum=7">FreeBSD P
           </TR>
 
           <TR>
-            <TD>2019-10-21</TD>
+            <TD>2020-10-26</TD>
             <TD>Interprocess Communication I</TD>
             <TD>Stevens: Chapter 14</TD>
             <TD width="25%">
@@ -528,7 +556,7 @@ Linux</a><br>
           </TR>
 
           <TR>
-            <TD>2019-10-28</TD>
+            <TD>2020-11-02</TD>
 
             <TD>Interprocess Communication II</TD>
 
@@ -558,7 +586,7 @@ href="https://ops.tips/blog/how-linux-tcp-introspection/">How Linux allows TCP i
           </TR>
 
           <TR>
-            <TD>2019-11-04</TD>
+            <TD>2020-11-09</TD>
 
             <TD>HTTP / Group Project Discussions</TD>
 <!-- Code Reading / HTTP Server Implementations</TD>
@@ -580,7 +608,7 @@ href="https://ops.tips/blog/how-linux-tcp-introspection/">How Linux allows TCP i
           </TR> 
 
           <TR>
-            <TD>2019-11-11</TD>
+            <TD>2020-11-16</TD>
 
             <TD><a name="daemon"></a>D&aelig;mon Processes, Shared Libraries</TD>
 
@@ -606,7 +634,7 @@ href="http://jvns.ca/blog/2014/09/06/how-to-read-an-executable/">How to read an 
 	        <a href="libgreet-exercise.html">libgreet exercise</a></td>
           </TR>
           <TR>
-            <TD>2019-11-18</TD>
+            <TD>2020-11-23</TD>
 
             <TD>Advanced I/O: Nonblocking I/O, Polling, and Record
             Locking / Encryption in a Nutshell</TD>
@@ -623,7 +651,7 @@ href="http://jvns.ca/blog/2014/09/06/how-to-read-an-executable/">How to read an 
           </TR>
 
           <TR>
-            <TD>2019-11-25</TD>
+            <TD>2020-11-30</TD>
             <TD>Restricting processes / Containers</TD>
             <TD>&nbsp;</TD>
             <TD><a href="lecture13.pdf">Lecture Slides</a><br>
@@ -635,7 +663,7 @@ Notes</a><br><br>
           </TR>
 
           <TR>
-            <TD>2019-12-02</TD>
+            <TD>2020-12-07</TD>
 
             <TD>Review</TD>
 

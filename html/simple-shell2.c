@@ -16,19 +16,27 @@
 #include <sysexits.h>
 #include <unistd.h>
 
-static void sig_int(int);
-
 char *
 getinput(char *buffer, size_t buflen) {
 	printf("$$ ");
 	return fgets(buffer, buflen, stdin);
 }
 
+void
+sig_int(int signo) {
+	printf("\nCaught SIGINT (Signal #%d)!\n$$ ", signo);
+	(void)fflush(stdout);
+}
+
 int
 main(int argc, char **argv) {
-	char buf[1024];
+	char buf[BUFSIZ];
 	pid_t pid;
 	int status;
+
+	/* cast to void to silence compiler warnings */
+	(void)argc;
+	(void)argv;
 
 	if (signal(SIGINT, sig_int) == SIG_ERR) {
 		fprintf(stderr, "signal error: %s\n", strerror(errno));
@@ -42,23 +50,19 @@ main(int argc, char **argv) {
 			fprintf(stderr, "shell: can't fork: %s\n",
 					strerror(errno));
 			continue;
-		} else if (pid == 0) {
-			/* child */
+		} else if (pid == 0) {   /* child */
 			execlp(buf, buf, (char *)0);
 			fprintf(stderr, "shell: couldn't exec %s: %s\n", buf,
 					strerror(errno));
-			exit(EX_DATAERR);
+			exit(EX_UNAVAILABLE);
 		}
 
-		if ((pid=waitpid(pid, &status, 0)) < 0)
+		/* parent waits */
+		if ((pid=waitpid(pid, &status, 0)) < 0) {
 			fprintf(stderr, "shell: waitpid error: %s\n",
 					strerror(errno));
+		}
 	}
 
 	exit(EX_OK);
-}
-
-void
-sig_int(int signo) {
-	printf("\nCaught SIGINT!\n");
 }

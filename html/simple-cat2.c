@@ -4,24 +4,33 @@
  * ./simple-cat <simple-cat.c >simple-cat.copy
  */
 
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 
 int
 main(int argc, char **argv) {
 	int c;
 
-	while ((c = getc(stdin)) != EOF)
-		if (putc(c, stdout) == EOF) {
-			fprintf(stderr, "write error\n");
-			exit(1);
-		}
+	/* cast to void to silence compiler warnings */
+	(void)argc;
+	(void)argv;
 
-	if (ferror(stdin)) {
-		fprintf(stderr, "read error\n");
-		exit(1);
+	while ((c = getc(stdin)) != EOF) {
+		if (putc(c, stdout) == EOF) {
+			fprintf(stderr, "Unable to write: %s\n",
+					strerror(errno));
+			exit(EXIT_FAILURE);
+		}
 	}
 
-	return(0);
+	if (ferror(stdin)) {
+		fprintf(stderr, "Unable to read: %s\n",
+					strerror(errno));
+		exit(EXIT_FAILURE);
+	}
+
+	return(EXIT_SUCCESS);
 }
