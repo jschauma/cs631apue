@@ -3,7 +3,7 @@ CS631APUE - Advanced Programming in the UNIX Environment
 
 In this repository you can find the files I use for my class "[CS631 -
 Advanced Programming in the UNIX Environment]
-(http://www.cs.stevens.edu/~jschauma/631/)", which is currently offered at
+(http://stevens.netmeister.org/631/)", which is currently offered at
 [Stevens Institute of Technology](http://www.cs.stevens.edu/).
 
 Contents
@@ -23,6 +23,19 @@ scripts.
 The organization of this directory tree is by lecture, and I will
 commit/update the contents throughout each semester as we go
 along.
+
+Videos
+------
+
+Beginning with the Fall 2020 semester, all lectures
+are provided as video lectures via the [CS631APUE
+Youtube Channel](https://v.gd/cs631apue).
+
+These lectures are screen recordings made via Apple
+Keynote; the keynote files themselves are rather
+large, and have not (yet?) been committed into this
+repository.
+
 
 License
 -------
