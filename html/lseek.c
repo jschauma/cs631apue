@@ -3,8 +3,10 @@
  * on a regular file, on a pipe or a fifo.
  */
 
-#include <stdio.h>
 #include <sys/types.h>
+
+#include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 
 int
@@ -14,5 +16,5 @@ main(void) {
 	else
 		printf("seek OK\n");
 
-	return 0;
+	return EXIT_SUCCESS;
 }

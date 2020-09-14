@@ -19,10 +19,16 @@
 #include <string.h>
 #include <unistd.h>
 
+#ifndef SLEEP
+#define SLEEP 10
+#endif
+
 void
 createFile() {
 	int fd;
 
+	printf("Checking if './newfile' exists...\n");
+	system("ls -l ./newfile");
 	printf("Trying to create './newfile' with O_RDONLY | O_CREAT...\n");
 
 	if ((fd = open("./newfile", O_RDONLY | O_CREAT,
@@ -43,6 +49,8 @@ void
 failExclFileCreation() {
 	int fd;
 
+	printf("Checking if './newfile' exists...\n");
+	system("ls -l ./newfile");
 	printf("Trying to create './newfile' with O_RDONLY | O_CREAT | O_EXCL...\n");
 
 	if ((fd = open("./newfile", O_RDONLY | O_CREAT | O_EXCL,
@@ -69,7 +77,7 @@ failOpenNonexistingFile() {
 				strerror(errno));
 	}
 
-	/* This will fail.  So be it. */
+	/* We know this is going to fail, but no need to complain. */
 	(void)close(fd);
 }
 
@@ -87,15 +95,20 @@ openFile() {
 
 	printf("'./openex.c' opened. File descriptor is: %d\n", fd);
 
-	(void)close(fd);
-	printf("'./openex.c' closed again\n");
+	if (close(fd) == 0) {
+		printf("'./openex.c' closed again\n");
+	}
 }
 
 void
 truncateFile() {
 	int fd;
 
-	printf("Trying to open './newfile  with O_RDONLY | O_TRUNC...\n");
+	system("cp openex.c newfile");
+	printf("Copied 'openex.c' to 'newfile'.\n");
+	system("ls -l newfile");
+
+	printf("Trying to open './newfile' with O_RDONLY | O_TRUNC...\n");
 
 	if ((fd = open("./newfile", O_RDONLY | O_TRUNC)) == -1) {
 		fprintf(stderr, "Unable to open './newfile': %s\n",
@@ -105,6 +118,7 @@ truncateFile() {
 
 	printf("'./newfile' opened. File descriptor is: %d\n", fd);
 	printf("'./newfile' truncated -- see 'ls -l newfile'\n");
+	system("ls -l newfile");
 
 	(void)close(fd);
 }
@@ -116,30 +130,26 @@ main() {
 	createFile();
 	system("ls -l newfile");
 	printf("\n");
-	(void)getchar();
+	sleep(SLEEP);
 
 	createFile();
 	system("ls -l newfile");
 	printf("\n");
-	(void)getchar();
+	sleep(SLEEP);
 
 	failExclFileCreation();
 	printf("\n");
-	(void)getchar();
+	sleep(SLEEP);
 
 	openFile();
 	printf("\n");
-	(void)getchar();
+	sleep(SLEEP);
 
 	failOpenNonexistingFile();
 	printf("\n");
-	(void)getchar();
+	sleep(SLEEP);
 
-	printf("cp openex.c newfile\n");
-	system("cp openex.c newfile");
-	system("ls -l newfile");
 	truncateFile();
-	system("ls -l newfile");
 
 	return 0;
 }

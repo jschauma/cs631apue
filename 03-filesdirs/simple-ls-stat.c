@@ -1,7 +1,9 @@
 /*
- * simple-ls.c
- * Extremely low-power ls clone.
- * ./simple-ls .
+ * Variant of 'simple-ls' that illustrates the
+ * difference between stat(2) and lstat(2).
+ *
+ * Create a few files and symlink to different types
+ * of files to show.
  */
 
 #include <sys/types.h>
@@ -14,24 +16,24 @@
 #include <string.h>
 #include <unistd.h>
 
-void
-printType(const struct stat sb) {
+char *
+getType(const struct stat sb) {
 	if (S_ISREG(sb.st_mode))
-		printf("regular file");
+		return "regular file";
 	else if (S_ISDIR(sb.st_mode))
-		printf("directory");
+		return "directory";
 	else if (S_ISCHR(sb.st_mode))
-		printf("character special");
+		return "character special";
 	else if (S_ISBLK(sb.st_mode))
-		printf("block special");
+		return "block special";
 	else if (S_ISFIFO(sb.st_mode))
-		printf("FIFO");
+		return "FIFO";
 	else if (S_ISLNK(sb.st_mode))
-		printf("symbolic link");
+		return "symbolic link";
 	else if (S_ISSOCK(sb.st_mode))
-		printf("socket");
+		return "socket";
 	else
-		printf("unknown");
+		return "unknown";
 }
 
 int
@@ -42,12 +44,12 @@ main(int argc, char **argv) {
 
 	if (argc != 2) {
 		fprintf(stderr, "usage: %s dir_name\n", argv[0]);
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 
 	if ((dp = opendir(argv[1])) == NULL) {
 		fprintf(stderr, "can't open '%s'\n", argv[1]);
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 
 	if (chdir(argv[1]) == -1) {
@@ -57,28 +59,27 @@ main(int argc, char **argv) {
 
 	while ((dirp = readdir(dp)) != NULL) {
 		struct stat sb;
-		printf("%s (", dirp->d_name);
+		char *statType;
+
+		printf("%s: ", dirp->d_name);
 		if (stat(dirp->d_name, &sb) == -1) {
 			fprintf(stderr, "Can't stat %s: %s\n", dirp->d_name,
 						strerror(errno));
-
-			printf("unknown");
+			statType = "unknown";
 		} else {
-			printType(sb);
+			statType = getType(sb);
 		}
-		printf(" - ");
 
 		if (lstat(dirp->d_name, &sb) == -1) {
-			printf("unknown");
-			fprintf(stderr,"Can't stat %s: %s\n", dirp->d_name,
+			fprintf(stderr,"Can't lstat %s: %s\n", dirp->d_name,
 						strerror(errno));
 			continue;
-		} else {
-			printType(sb);
+		} else if (S_ISLNK(sb.st_mode)) {
+			printf("symlink to ");
 		}
-		printf(")\n");
+		printf("%s\n", statType);
 	}
 
-	closedir(dp);
-	return(0);
+	(void)closedir(dp);
+	return EXIT_SUCCESS;
 }

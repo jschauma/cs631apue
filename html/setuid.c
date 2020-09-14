@@ -60,7 +60,7 @@ myseteuid(int myeuid) {
 	char *func = "seteuid(";
 #ifdef _POSIX_SAVED_IDS
 	if (seteuid(myeuid) == -1) {
-		fprintf(stderr, "Unable to seteuid(%d): %s\n", euid, strerror(errno));
+		fprintf(stderr, "Unable to seteuid(%d): %s\n", myeuid, strerror(errno));
 		exit(EXIT_FAILURE);
 		/* NOTREACHED */
 	}
@@ -70,7 +70,7 @@ myseteuid(int myeuid) {
 		exit(EXIT_FAILURE);
 		/* NOTREACHED */
 	}
-	func ="setreuid(-1, ";
+	func = "setreuid(-1, ";
 #endif
 	if (snprintf(buf, BUFSIZ, "After %s%d)", func, myeuid) < 0) {
 		fprintf(stderr, "Unable to snprintf: %s\n", strerror(errno));

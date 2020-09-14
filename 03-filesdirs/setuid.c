@@ -50,18 +50,17 @@ uid_t suid;
 void myseteuid(int);
 void printUids(const char *);
 
-/* We're using this wrapper function, because the
- * behavior of seteuid(2) with respect to the
- * saved-set-uid is inconsistent across platforms.  On
- * e.g. NetBSD, the POSIX.1-2017 mandated behavior is
- * not implemented; see the note in the manual page as
- * well as in <unistd.h>. */
+/* We're using this wrapper function, because the behavior
+ * of seteuid(2) with respect to the saved-set-uid is inconsistent
+ * across platforms.  On e.g. NetBSD, the POSIX.1-2017 mandated
+ * behavior is not implemented; see the note in the manual page
+ * as well as in <unistd.h>. */
 void
 myseteuid(int myeuid) {
 	char *func = "seteuid(";
 #ifdef _POSIX_SAVED_IDS
 	if (seteuid(myeuid) == -1) {
-		fprintf(stderr, "Unable to seteuid(%d): %s\n", euid, strerror(errno));
+		fprintf(stderr, "Unable to seteuid(%d): %s\n", myeuid, strerror(errno));
 		exit(EXIT_FAILURE);
 		/* NOTREACHED */
 	}
@@ -71,7 +70,7 @@ myseteuid(int myeuid) {
 		exit(EXIT_FAILURE);
 		/* NOTREACHED */
 	}
-	func ="setreuid(-1, ";
+	func = "setreuid(-1, ";
 #endif
 	if (snprintf(buf, BUFSIZ, "After %s%d)", func, myeuid) < 0) {
 		fprintf(stderr, "Unable to snprintf: %s\n", strerror(errno));

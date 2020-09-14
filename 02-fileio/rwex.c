@@ -1,10 +1,10 @@
 /*
- * This trivial program illustrates how we might normally read from and
- * write to a file.  Here, we simply open the source code file, read the
+ * This trivial program illustrates how we might normally read and write
+ * to a simple file. Here, we simply open the source code file, read the
  * first few bytes, then append a comment.
+ *
+ * What happens if we do not open with O_APPEND?
  */
-
-#include <sys/stat.h>
 
 #include <errno.h>
 #include <fcntl.h>
@@ -35,17 +35,23 @@ main() {
 					strerror(errno));
 			exit(EXIT_FAILURE);
 		}
+	} else if (n == -1) {
+		fprintf(stderr, "Error reading from %s: %s\n",
+				SOURCE, strerror(errno));
+		exit(EXIT_FAILURE);
 	}
 
 	printf("\n\nOk, we read the first %d bytes. Now let's write something.\n", BUFFSIZE);
 
 	len = sizeof(COMMENT) - 1;
 	if (write(fd, COMMENT, len) != len) {
-			fprintf(stderr, "Unable to write: %s\n",
-					strerror(errno));
-			exit(EXIT_FAILURE);
+		fprintf(stderr, "Unable to write: %s\n",
+				strerror(errno));
+		exit(EXIT_FAILURE);
 	}
 
-	close(fd);
+	(void)close(fd);
 	return EXIT_SUCCESS;
 }
+
+/* Just another comment. */

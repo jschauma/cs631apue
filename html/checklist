@@ -14,7 +14,7 @@ Does my code follow the style guide?
 
 
 Does my code compile without warnings or errors on a
-NetBSD 8.x system?
+NetBSD 9.x system?
   - Always use *at least* 'cc -Wall -Werror -Wextra',
     possibly
     'cc -ansi -g -Wall -Werror -Wextra -Wformat=2 -Wjump-misses-init -Wlogical-op -Wpedantic -Wshadow'.
@@ -41,6 +41,9 @@ Did I send error messages to stderr?
 Did I use only meaningful and necessary comments?
   - Your comments should explain the 'why', not the
     'what'.
+
+Does my program only generate meaningful output?
+Debugging information should be removed.
 
 
 Does my program return zero on success, non-zero otherwise?

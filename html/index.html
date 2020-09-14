@@ -58,10 +58,14 @@
 	<tr><td width="50%" valign="top">
 
         <H3><a name="time"></a>Time, Date &amp; Place:</H3>
-	<p><b>Mondays, 18:15 - 20:45 Eastern, <a href="https://stevens.zoom.us/j/94952815375">via Zoom</a>; see <a href="https://sit.instructure.com/courses/39047">Canvas</a> for more details</b></p>
+	<p><b>Interactive/synchronous: Mondays, 18:15 - 20:45 Eastern, <a href="https://stevens.zoom.us/j/91309973136">via Zoom</a></b><br>
+		<b>Online on-demand: anytime <a
+href="https://v.gd/cs631apue">via YouTube video
+lectures</a></b></p>
+
 
         <H3><a name="instructor"></a>Instructor:</H3><A href=
-        "http://www.cs.stevens.edu/~jschauma/">Jan Schaumann</A>
+        "https://stevens.netmeister.org">Jan Schaumann</A>
         [<A href=
         "mailto:jschauma@stevens.edu">jschauma@stevens.edu</A>]
 
@@ -121,6 +125,12 @@ material on GitHub</a></li>
           <li><a href="git.html">Using git</a></li>
         </UL>
 	</p>
+
+	<p>Tool Tips:
+	<ul>
+	  <li><a href="https://youtu.be/TWog5NklSws">ctags(1)</a> [<a href="tt/ctags/tt-ctags.pdf">slides</a>]&nbsp;[<a href="tt/ctags/tt-ctags.txt">transcript</a>]
+	</ul>
+
 	</td><td valign="top" align="right">
 <a class="twitter-timeline" data-dnt="true"
 href="https://twitter.com/cs631apue"
@@ -271,8 +281,8 @@ Student Code of Academic Conduct</a>.
 	<p>Assignments will be posted as the semester progresses.</p>
 	<p><ul>
 		<li><a href="course-notes.html">Class notes</a></li>
+		<li><a href="f20-hw1.html">HW#1: trivially copy a file</a></li>
 <!--		<li><a href="f19-hw1.html">HW#1: trivially copy a file</a></li>
-		<li><a href="f19-hw2.html">HW#2: implement 'command(3)'</a></li>
 		<li><a href="f19-sish.html">Final assignment: write a simple shell</a></li>
 		<li><a href="intro.html">Intro "test"</a></li>
 		<li><a href="f16-hw1.html">HW#1: read code</a></li>
@@ -296,6 +306,7 @@ simple shell</a></li>
 	<li><a href="fixme-exercise.html">Lecture 01 - Generic Warmup Exercise</a></li>
 	<li><a href="compare-code-exercise.html">Lecture 01 - Compare Code Exercise</a></li>
 	<li><a href="fd-exercise.html">Lecture 02 - File Descriptor Warmup Exercise</a></li>
+	<li><a href="compare-stat.html">Lecture 03 - Compare <tt>stat(1)</tt> Exercise</a></li>
 	<li><a href="cd-exercise.html">Lecture 04 - File System Exercise: Implement the cd(1) and pwd(1) commands</a></li>
 	<li><a href="stack-exercise.html">Lecture 06 - Process Execution Exercise: Inspect the call stack</a></li>
 	<li><a href="siggot-exercise.html">Lecture 07 - Play the Signals Game of Thrones</a></li>
@@ -308,7 +319,7 @@ simple shell</a></li>
         <H3><A name="midterm">Midterm</A> Project:</H3>
 	<p>Implement the "<a href="ls.pdf">ls(1)</a>" command as
         decribed in the manual page provided to you.
-        See the full <A href="f19-midterm.html">midterm project
+        See the full <A href="f20-midterm.html">midterm project
         description</A> for details.</P>
 
 	<hr>
@@ -387,8 +398,22 @@ simple shell</a></li>
 
             <TD>Stevens: Chapter 3</TD>
 
-            <TD width="25%"><A href="lecture02.pdf">Lecture
-            Slides</A><BR>
+            <TD width="25%">
+			<a href="02-fds.pdf">File Descriptors slides</a><br>
+			<a href="https://youtu.be/h5A1OQjuCqk">File Descriptors video lecture</a><br>
+			<a href="02-fds.txt">File Descriptors transcript</a><br>
+            &#160;<BR>
+			<a href="02-open-close.pdf">open(2)/close(2) slides</a><br>
+			<a href="https://youtu.be/QnL4eYpb5Iw">open(2)/close(2) video lecture</a><br>
+			<a href="02-open-close.txt">open(2)/close(2) transcript</a><br>
+            &#160;<BR>
+			<a href="02-read-write-lseek.pdf">read(2)/write(2)/lseek(2) slides</a><br>
+			<a href="https://youtu.be/EUUPw8MOV_A">read(2)/write(2)/lseek(2) video lecture</a><br>
+			<a href="02-read-write-lseek.txt">read(2)/write(2)/lseek(2) transcript</a><br>
+            &#160;<BR>
+			<a href="02-file-sharing.pdf">File Sharing slides</a><br>
+			<a href="https://youtu.be/CAbUtc86ULw">File Sharing video lecture</a><br>
+			<a href="02-file-sharing.txt">File Sharing transcript</a><br>
             &#160;<BR>
             <A href="argv.c">argv.c</A><BR>
             <A href="fds.c">fds.c</A><BR>
@@ -396,10 +421,10 @@ simple shell</a></li>
             <A href="lseek.c">lseek.c</A><BR>
             <A href="openex.c">openex.c</A><BR>
             <A href="openmax.c">openmax.c</A><BR>
+            <A href="redir.c">redir.c</A><BR>
             <A href="rwex.c">rwex.c</A><BR>
             <A href="sync-cat.c">sync-cat.c</A><BR><br>
-            <a href="f19-hw1.html">HW1</a>: <A href="bbcp.1.pdf">bbtcp(1)</A>,<a
-	    href="bbcpm.1.pdf">bbcpm(1)</a></td>
+            <a href="f20-hw1.html">HW1</a>: <A href="bbcp.1.pdf">bbcp(1)</A></td>
           </TR>
 
           <TR>
@@ -409,17 +434,39 @@ simple shell</a></li>
 
             <TD>Stevens: Chapter 4</TD>
 
-            <TD width="25%"><A href="lecture03.pdf">Lecture
-            Slides</A><BR>
+            <TD width="25%">
+			<a href="03-stat.pdf">stat(2) intro slides</a><br>
+			<a href="https://youtu.be/veFwXrEHPsk">stat(2) intro video lecture</a><br>
+			<a href="03-stat.txt">stat(2) intro transcript</a><br>
+            &#160;<BR>
+			<a href="03-uids.pdf">UIDs slides</a><br>
+			<a href="https://youtu.be/YlcF3ncTQpo">UIDs video lecture</a><br>
+			<a href="03-uids.txt">UIDs transcript</a><br>
+            &#160;<BR>
+			<a href="03-perms.pdf">struct stat st_mode slides</a><br>
+			<a href="https://youtu.be/vS6abFjN3ZY">struct stat st_mode video lecture</a><br>
+			<a href="03-perms.txt">struct stat st_mode transcript</a><br>
+            &#160;<BR>
+			<a href="03-chmod-chown.pdf">chmod(2) and chown(2) slides</a><br>
+			<a href="https://youtu.be/5MJmCanZDyk">chmod(2) and chown(2) video lecture</a><br>
+			<a href="03-chmod-chown.txt">chmod(2) and chown(2) transcript</a><br>
+            &#160;<BR>
+			<a href="03-umask.pdf">umask(2) slides</a><br>
+			<a href="https://youtu.be/bRAR2bv2HSM">umask(2) video lecture</a><br>
+			<a href="03-umask.txt">umask(2) transcript</a><br>
+            &#160;<BR>
+
             &#160;<BR>
             <A href="access.c">access.c</A><BR>
             <A href="chmod.c">chmod.c</A><BR>
+            <A href="chown.c">chown.c</A><BR>
+            <A href="myuids.c">myuids.c</A><BR>
             <A href="setuid.c">setuid.c</A><BR>
             <A href="size.c">size.c</A><BR>
             <A href="simple-ls.c">simple-ls.c</A><BR>
             <A href="simple-ls-stat.c">simple-ls-stat.c</A><BR>
             <A href="umask.c">umask.c</A><BR>
-	    <a href="f19-midterm.html">Midterm Project Assignment</a></TD>
+	    <a href="f20-midterm.html">Midterm Project Assignment</a></TD>
           </TR>
 
           <TR>
