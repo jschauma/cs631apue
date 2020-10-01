@@ -1,3 +1,13 @@
+/* This program allows us to visualize the layout of a
+ * process in memory, printing the addresses of
+ * various parts of the program, including components
+ * in the text, data, and bss segments as well as on
+ * the heap and the stack.
+ *
+ * This program can also illustrate a stack overflow
+ * if compiled with '-DSTACKOVERFLOW'.
+ */
+
 #include <sys/shm.h>
 
 #include <errno.h>

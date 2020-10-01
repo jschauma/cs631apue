@@ -49,11 +49,12 @@ openFiles(int num) {
 	for (int i = count; i <= num + 1; i++) {
 		if ((fd = open("/dev/null", O_RDONLY)) < 0) {
 			if (errno == EMFILE) {
-				printf("Opened %d additional files, then failed due to limit.\n", i - count);
+				printf("Opened %d additional files, then failed: %s (%d)\n", i - count, strerror(errno), errno);
 				break;
 			} else {
-				fprintf(stderr, "Unable to open '/dev/null': %s\n",
-						strerror(errno));
+				fprintf(stderr, "Unable to open '/dev/null' on fd#%d: %s (errno %d)\n",
+						i, strerror(errno), errno);
+				break;
 			}
 		}
 	}
