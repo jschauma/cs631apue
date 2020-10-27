@@ -35,7 +35,9 @@ Did I check the return value of all function calls?
   - Yes, that does include malloc(3).
 
 
-Did I send error messages to stderr?
+Did I send error messages to stderr?  Did I use
+strerror(3) or perror(3) etc. to print meaningful
+error messages?
 
 
 Did I use only meaningful and necessary comments?

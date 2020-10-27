@@ -39,27 +39,27 @@
 #include <unistd.h>
 
 /* 'Dover Beach' by Matthew Arnold -- look it up. */
-#define DATA "The sea is calm tonight, the tide is full..."
+#define DATA "The sea is calm tonight, the tide is full . . ."
 
 /*
  * Here I send a datagram to a receiver whose name I get from the command
- * line arguments.  The form of the command line is 'udgramsend pathname'.
+ * line arguments.  The form of the command line is udgramsend pathname
  */
 
-int main(int argc, char **argv)
+int
+main(int argc, char **argv)
 {
 	int sock;
 	struct sockaddr_un name;
 
 	if (argc != 2) {
 		perror("usage: send <socket>");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 
-	sock = socket(PF_LOCAL, SOCK_DGRAM, 0);
-	if (sock < 0) {
+	if ((sock = socket(PF_LOCAL, SOCK_DGRAM, 0)) < 0) {
 		perror("opening datagram socket");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 
 	name.sun_family = PF_LOCAL;
@@ -69,6 +69,6 @@ int main(int argc, char **argv)
 	    (struct sockaddr *)&name, sizeof(struct sockaddr_un)) < 0) {
 		perror("sending datagram message");
 	}
-	close(sock);
-	return 0;
+	(void)close(sock);
+	return EXIT_SUCCESS;
 }

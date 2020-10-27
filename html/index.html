@@ -130,6 +130,7 @@ material on GitHub</a></li>
 	<ul>
 	  <li><a href="https://youtu.be/TWog5NklSws">ctags(1)</a> [<a href="tt/ctags/tt-ctags.pdf">slides</a>]&nbsp;[<a href="tt/ctags/tt-ctags.txt">transcript</a>]
 	  <li><a href="https://youtu.be/vxTXXaCr4s8">screen(1)</a> [<a href="tt/screen/tt-screen.pdf">slides</a>]&nbsp;[<a href="tt/screen/tt-screen.txt">transcript</a>]
+	  <li><a href="https://youtu.be/XqhOUqi4fc0">/usr/share/docs</a> [<a href="tt/screen/tt-docs.pdf">slides</a>]&nbsp;[<a href="tt/screen/tt-docs.txt">transcript</a>]
 	</ul>
 
 	</td><td valign="top" align="right">
@@ -290,6 +291,7 @@ Student Code of Academic Conduct</a>.
 	<p><ul>
 		<li><a href="course-notes.html">Class notes</a></li>
 		<li><a href="f20-hw1.html">HW#1: trivially copy a file</a></li>
+		<li><a href="f20-hw2.html">HW#2: implement the <tt>command(3)</tt> library function</a></li>
 <!--		<li><a href="f19-hw1.html">HW#1: trivially copy a file</a></li>
 		<li><a href="f19-sish.html">Final assignment: write a simple shell</a></li>
 		<li><a href="intro.html">Intro "test"</a></li>
@@ -317,6 +319,8 @@ simple shell</a></li>
 	<li><a href="compare-stat.html">Lecture 03 - Compare <tt>stat(1)</tt> Exercise</a></li>
 	<li><a href="cd-exercise.html">Lecture 04 - File System Exercise: Implement the cd(1) and pwd(1) commands</a></li>
 	<li><a href="stack-exercise.html">Lecture 06 - Process Execution Exercise: Inspect the call stack</a></li>
+	<li><a href="startup-exercise.html">Lecture 06 - Program Startup Exercise</a></li>
+	<li><a href="env-exercise.html">Lecture 06 - Environment Exercise</a></li>
 	<li><a href="siggot-exercise.html">Lecture 07 - Play the Signals Game of Thrones</a></li>
 	<li><a href="code-reading-exercise.html">Lecture 10 - HTTP Code Reading</a></li>
 	<li><a href="libgreet-exercise.html">Lecture 11 - libgreet</a></li>
@@ -556,19 +560,39 @@ href="https://www.netmeister.org/blog/stdarg.html"><tt>stdarg</tt> And The Case 
 			<b>Week 06, Segment 1: Memory Layout of a Process</b><br>
 			[<a href="06-memory-layout.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/aHmcowhoOzU">video lecture</a>]&nbsp;[<a href="06-memory-layout.txt">transcript</a>]<br>
             &#160;<BR>
-		<A href="lecture06.pdf">Lecture
-            Slides</A><BR>
+			<b>Week 06, Segment 2: Program Startup</b><br>
+			[<a href="06-program-start.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/Yul4d-BDdx8">video lecture</a>]&nbsp;[<a href="06-program-start.txt">transcript</a>]<br>
+            &#160;<BR>
+			<b>Week 06, Segment 3: Program Termination</b><br>
+			[<a href="06-program-termination.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/xNeEw1f_js8">video lecture</a>]&nbsp;[<a href="06-program-termination.txt">transcript</a>]<br>
+            &#160;<BR>
+			<b>Week 06, Segment 4: The Environment</b><br>
+			[<a href="06-env.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/8DEPA6nJXNY">video lecture</a>]&nbsp;[<a href="06-env.txt">transcript</a>]<br>
+            &#160;<BR>
+			<b>Week 06, Segment 5: Process Limits and Identifiers</b><br>
+			[<a href="06-limits-pids.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/bnki8QKjSfQ">video lecture</a>]&nbsp;[<a href="06-limits-pids.txt">transcript</a>]<br>
+            &#160;<BR>
+			<b>Week 06, Segment 6: Process Control</b><br>
+			[<a href="06-process-control.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/KJq5nTCFsIg">video lecture</a>]&nbsp;[<a href="06-process-control.txt">transcript</a>]<br>
+            &#160;<BR>
             &#160;<BR>
             <a href="testcp.sh">testcp.sh</a><BR>
             <A href="const.c">const.c</A><BR>
             <A href="entry.c">entry.c</A><BR>
             <A href="exit-handlers.c">exit-handlers.c</A><BR>
             <A href="forkflush.c">forkflush.c</A><BR>
+            <A href="forkseek.c">forkseek.c</A><BR>
             <A href="hw.c">hw.c</A><BR>
+            <A href="malloc.c">malloc.c</A><BR>
             <A href="memory-layout0.c">memory-layout0.c</A><BR>
             <A href="memory-layout1.c">memory-layout1.c</A><BR>
             <A href="memory-layout2.c">memory-layout2.c</A><BR>
             <A href="memory-layout3.c">memory-layout3.c</A><BR>
+            <A href="memory-layout4.c">memory-layout4.c</A><BR>
+            <A href="memory-layout5.c">memory-layout5.c</A><BR>
+            <A href="memory-layout6.c">memory-layout6.c</A><BR>
+            <A href="memory-layout7.c">memory-layout7.c</A><BR>
+            <A href="memory-layout8.c">memory-layout8.c</A><BR>
             <A href="sum.c">sum.c</A><BR>
             <A href="zombies.c">zombies.c</A><br><br>
 	    <a
@@ -583,40 +607,64 @@ href="http://cvsweb.netbsd.org/bsdweb.cgi/src/lib/csu/common/crt0-common.c?rev=H
             <TD>2020-10-19</TD>
             <TD>Process Groups, Sessions, Signals</TD>
 
-            <TD>Stevens: Chapter 9, 10</TD>
+            <TD>Stevens: Chapter 9, 10<br>
+		<a
+href="https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap11.html#tag_11">POSIX
+Terminal Interface Description</a><br>
+		<a href="https://notes.shichao.io/apue/ch9/">Shichao's Notes</a><br>
+		<a
+href="http://www.informit.com/articles/article.aspx?p=366888&seqNum=7">FreeBSD Process Management</a> (from "The Design and Implementation of the FreeBSD Operating System")</td>
 
             <TD width="25%">
-		<A href="lecture07.pdf">Lecture
-            Slides</A><BR>
-		<a
-href="http://www.informit.com/articles/article.aspx?p=366888&seqNum=7">FreeBSD Process Management</a> (from "The Design and Implementation of the FreeBSD Operating System")<BR>
+			<b>Week 07, Segment 1: The Login Process</b><br>
+			[<a href="07-login-process.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/eNYTJbmYzH8">video lecture</a>]&nbsp;[<a href="07-login-process.txt">transcript</a>]<br>
+            &#160;<BR>
+			<b>Week 07, Segment 2: Process Groups and Sessions</b><br>
+			[<a href="07-process-groups-and-sessions.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/NfHqGv0PlIw">video lecture</a>]&nbsp;[<a href="07-process-groups-and-sessions.txt">transcript</a>]<br>
+            &#160;<BR>
+			<b>Week 07, Segment 3: Job Control</b><br>
+			[<a href="07-job-control.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/l6-663i8bwQ">video lecture</a>]&nbsp;[<a href="07-job-control.txt">transcript</a>]<br>
+            &#160;<BR>
+			<b>Week 07, Segment 4: Signals</b><br>
+			[<a href="07-signals.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/Vh7rBGj0Ty4">video lecture</a>]&nbsp;[<a href="07-signals.txt">transcript</a>]<br>
+            &#160;<BR>
+			<b>Week 07, Segment 5: Reentrant and Interrupted Functions</b><br>
+			[<a href="07-reentrant.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/0GRLhpMao3I">video lecture</a>]&nbsp;[<a href="07-reentrant.txt">transcript</a>]<br>
+            &#160;<BR>
             &#160;<BR>
 	    <a href="eintr.c">eintr.c</a><br>
 	    <a href="pending.c">pending.c</a><br>
             <a href="reentrant.c">reentrant.c</a><br>
+            <a href="signals1.c">signals1.c</a><br>
+            <a href="signals2.c">signals2.c</a><br>
+            <a href="signals3.c">signals3.c</a><br>
+            <a href="signals4.c">signals4.c</a><br>
             <A href="sigusr.c">sigusr.c</A></TD>
           </TR>
 
           <TR>
             <TD>2020-10-26</TD>
             <TD>Interprocess Communication I</TD>
-            <TD>Stevens: Chapter 14</TD>
+            <TD>Stevens: Chapter 14<br>
+		<A href="https://web.archive.org/web/20160507131726/http://www.kohala.com/start/unpv22e/unpv22e.chap12.pdf">Shared Memory Introduction</A><BR>
+		<a href="https://web.archive.org/web/20180316204322/http://www.linuxdevcenter.com/pub/a/linux/2007/05/24/semaphores-in-linux.html">Semaphores in Linux</a><br>
+		<a href="https://www.softprayog.in/programming/interprocess-communication-using-posix-message-queues-in-linux">Interprocess communication using POSIX message queues in Linux</a>
+		</td>
             <TD width="25%">
-		<a href="lecture08.pdf">Lecture Slides</A><BR>
+			<b>Week 08, Segment 1: Interprocess Communications Intro</b><br>
+			[<a href="08-ipc-intro.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/JHV2dsGZUzk">video lecture</a>]&nbsp;[<a href="08-ipc-intro.txt">transcript</a>]<br>
+            &#160;<BR>
+			<b>Week 08, Segment 2: System V IPC</b><br>
+			[<a href="08-sysv-ipc.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/hTUquvhWysA">video lecture</a>]&nbsp;[<a href="08-sysv-ipc.txt">transcript</a>]<br>
+            &#160;<BR>
+			<b>Week 08, Segment 3: Pipes and FIFOs</b><br>
+			[<a href="08-pipes.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/mq5G33Sbc_o">video lecture</a>]&nbsp;[<a href="08-pipes.txt">transcript</a>]<br>
+            &#160;<BR>
             <BR>
             <A href="ipctut.pdf">BSD IPC Tutorial</A><BR>
 		<a
 href="https://beej.us/guide/bgipc/html/single/bgipc.html">Beej's
 Guide to Unix IPC</a><br>
-            <A
-href="https://web.archive.org/web/20160507131726/http://www.kohala.com/start/unpv22e/unpv22e.chap12.pdf">Shared Memory Introduction</A><BR>
-		<a
-href="https://web.archive.org/web/20180316204322/http://www.linuxdevcenter.com/pub/a/linux/2007/05/24/semaphores-in-linux.html">Semaphores
-in Linux</a><br>
-		<a
-href="https://www.softprayog.in/programming/interprocess-communication-using-posix-message-queues-in-linux">Interprocess
-communication using POSIX message queues in
-Linux</a><br>
             <BR>
             <a href="memory-layout.c">memory-layout.c</a><br>
             <a href="mqrecv.c">mqrecv.c</a><br>
@@ -628,7 +676,7 @@ Linux</a><br>
             <a href="semdemo.c">semdemo.c</a><br>
             <a href="shmdemo.c">shmdemo.c</a><br>
 	<br>
-	<a href="f19-hw2.html">HW#2: implement 'command(3)'</a><br>
+	<a href="f20-hw2.html">HW#2: implement 'command(3)'</a><br>
 		</TD>
           </TR>
 
@@ -637,17 +685,18 @@ Linux</a><br>
 
             <TD>Interprocess Communication II</TD>
 
-            <TD>Stevens: Chapter 14</TD>
+            <TD>Stevens: Chapter 14<br>
+            	<A href="ipc.pdf">BSD IPC</A><BR>
+		<a href="https://ops.tips/blog/how-linux-creates-sockets/">How Linux creates sockets and counts them</a><br>
+		<a href="https://ops.tips/blog/how-linux-tcp-introspection/">How Linux allows TCP introspection</a><br></TD>
 
             <TD width="25%">
-		<a href="lecture09.pdf">Lecture Slides</A><BR>
-            <BR>
-            <A href="ipc.pdf">BSD IPC</A><BR>
-		<a
-href="https://ops.tips/blog/how-linux-creates-sockets/">How
-Linux creates sockets and counts them</a><br>
-		<a
-href="https://ops.tips/blog/how-linux-tcp-introspection/">How Linux allows TCP introspection</a><br>
+			<b>Week 09, Segment 1: <tt>socketpair(2)</tt></b><br>
+			[<a href="09-socketpair.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/w6Au54pVt-8">video lecture</a>]&nbsp;[<a href="09-socketpair.txt">transcript</a>]<br>
+            &#160;<BR>
+			<b>Week 09, Segment 2: <tt>socketpair(2)</tt></b><br>
+			[<a href="09-sockets-local.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/7LoLt49oB9A">video lecture</a>]&nbsp;[<a href="09-sockets-local.txt">transcript</a>]<br>
+            &#160;<BR>
             <BR>
             <A href="socketpair.c">socketpair.c</A><BR>
             <A href="udgramread.c">udgramread.c</A><BR>
