@@ -13,40 +13,44 @@
 #include <string.h>
 #include <unistd.h>
 
-#define BUFSIZE 100000
+#define BUFSIZE 1024000
 
 int
-main(void) {
-	int flags, count, resid, loops;
+main(int argc, char **argv) {
+	int flags, count, loops, num;
 	char buf[BUFSIZE], *ptr;
+
+	(void)argv;
 
 	/* fill buffer with 'a' */
 	memset(buf, 'a', BUFSIZE);
 
-	/* set non-blocking mode on stdout */
 	if ((flags = fcntl(STDOUT_FILENO, F_GETFL, 0)) < 0) {
 		perror("getting file flags");
-		exit(1);
+		exit(EXIT_FAILURE);
+		/* NOTREACHED */
 	}
-#ifdef NONBLOCK
-	if (fcntl(STDOUT_FILENO, F_SETFL, flags|O_NONBLOCK) < 0) {
-		perror("setting file flags");
-		exit(2);
-	}
-#endif
 
+	if (argc > 1) {
+		/* set non-blocking mode on stdout */
+		if (fcntl(STDOUT_FILENO, F_SETFL, flags|O_NONBLOCK) < 0) {
+			perror("setting file flags");
+			exit(EXIT_FAILURE);
+			/* NOTREACHED */
+		}
+	}
 
 	for (loops = 0; loops < 50; loops++) {
 		ptr = buf;
-		resid = BUFSIZE;
-		while(resid > 0) {
-			count = write(STDOUT_FILENO, ptr, resid);
+		num = BUFSIZE;
+		while(num > 0) {
+			count = write(STDOUT_FILENO, ptr, num);
 			if (count >= 0) {
 				ptr += count;
-				resid -= count;
-				fprintf(stderr, "wrote %d bytes\n", count);
+				num -= count;
+				(void)fprintf(stderr, "wrote %d bytes\n", count);
 			} else {
-				fprintf(stderr, "write error: %s\n",
+				(void)fprintf(stderr, "write error: %s\n",
 						strerror(errno));
 			}
 		}
@@ -54,5 +58,5 @@ main(void) {
 	/* set file flags back as they were; not strictly necessary, since
 	 * we exit right away, but illustrative of good practice */
 	(void)fcntl(STDOUT_FILENO, F_SETFL, flags);
-	exit(0);
+	exit(EXIT_SUCCESS);
 }

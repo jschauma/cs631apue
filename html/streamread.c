@@ -42,6 +42,7 @@
 #include <unistd.h>
 
 #define TRUE 1
+#define BACKLOG 5
 
 /*
  * This program creates a socket and then begins an infinite loop. Each time
@@ -54,56 +55,70 @@ int main()
 {
 	int sock;
 	socklen_t length;
-	struct sockaddr_in server;
-	int msgsock;
-	char buf[BUFSIZ];
-	int rval;
-	struct sockaddr_in client;
+	struct sockaddr_in6 server;
 
-	/* Create socket */
-	sock = socket(AF_INET, SOCK_STREAM, 0);
-	if (sock < 0) {
+	if ((sock = socket(PF_INET6, SOCK_STREAM, 0)) < 0) {
 		perror("opening stream socket");
-		exit(1);
+		exit(EXIT_FAILURE);
+		/* NOTREACHED */
 	}
-	/* Name socket using wildcards */
-	server.sin_family = AF_INET;
-	server.sin_addr.s_addr = INADDR_ANY;
-	server.sin_port = 0;
+
+	server.sin6_family = PF_INET6;
+	server.sin6_addr = in6addr_any;
+	server.sin6_port = 0;
 	if (bind(sock, (struct sockaddr *)&server, sizeof(server)) != 0) {
 		perror("binding stream socket");
-		exit(1);
+		exit(EXIT_FAILURE);
+		/* NOTREACHED */
 	}
+
 	/* Find out assigned port number and print it out */
 	length = sizeof(server);
 	if (getsockname(sock, (struct sockaddr *)&server, &length) != 0) {
 		perror("getting socket name");
-		exit(1);
+		exit(EXIT_FAILURE);
+		/* NOTREACHED */
 	}
-	printf("Socket has port #%d\n", ntohs(server.sin_port));
+	(void)printf("Socket has port #%d\n", ntohs(server.sin6_port));
 
-	/* Start accepting connections */
-	listen(sock, 5);
-	do {
+	if (listen(sock, BACKLOG) < 0) {
+		perror("listening");
+		exit(EXIT_FAILURE);
+		/* NOTREACHED */
+	}
+
+	while (1) {
+		int fd, rval;
+		char buf[BUFSIZ];
+		char claddr[INET6_ADDRSTRLEN];
+		struct sockaddr_in6 client;
+
 		length = sizeof(client);
-		msgsock = accept(sock, (struct sockaddr *)&client, &length);
-		if (msgsock == -1)
+		if ((fd = accept(sock, (struct sockaddr *)&client, &length)) < 0) {
 			perror("accept");
-		else do {
+			continue;
+		}
+
+		do {
 			bzero(buf, sizeof(buf));
-			if ((rval = read(msgsock, buf, BUFSIZ)) < 0)
+			if ((rval = read(fd, buf, BUFSIZ)) < 0) {
 				perror("reading stream message");
-			if (rval == 0)
-				printf("\nEnding connection\n");
-			else
-				printf("Client (%s) sent: %s", inet_ntoa(client.sin_addr), buf);
+			}
+
+			if (rval == 0) {
+				(void)printf("Ending connection\n");
+			} else {
+				const char *rip;
+				if ((rip = inet_ntop(PF_INET6, &(client.sin6_addr), claddr, INET6_ADDRSTRLEN)) == NULL) {
+					perror("inet_ntop");
+					rip = "unknown";
+				} else {
+					(void)printf("Client (%s) sent: \"%s\"", rip, buf);
+				}
+			}
 		} while (rval != 0);
-		close(msgsock);
-	} while (TRUE);
-	/*
-	 * Since this program has an infinite loop, the socket "sock" is
-	 * never explicitly closed.  However, all sockets will be closed
-	 * automatically when a process is killed or terminates normally.
-	 */
-	return 0;
+		(void)close(fd);
+	}
+
+	/* NOTREACHED */
 }

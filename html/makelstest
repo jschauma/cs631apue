@@ -10,7 +10,7 @@ touch empty
 mkfifo fifo
 echo file > file
 ln file file2
-ln "" emptylink
+ln -s "" emptylink
 ln -s /nowhere
 ln -s file2 symlink
 touch -a -t 201810012222 atime
@@ -29,6 +29,8 @@ touch " "
 touch "	"
 touch "foobar"
 
+su root -c "chown nobody:operator file"
+su root -c "chown games:daemon d"
 su root -c "cp /dev/wd0 ."
 touch noowner
 su root -c "chown 1234 noowner"

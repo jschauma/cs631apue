@@ -1,26 +1,13 @@
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 
-#include "defs.h"
-
-int primes[MAXPRIMES];
-int upperb;
+void printBufs(long);
 
 int
-main(int argc, char **argv)
-{
-	int n;
-
-	printf("Enter upper bound: ");
-	scanf("%d", upperb);
-
-	primes[2] = 1;
-
-	for (n=3; n<=upperb; n+=2) {
-		checkprime(upperb);
-		if (primes[n])
-			printf("%d is a prime\n", n);
+main(int argc, char **argv) {
+	if (argc != 2) {
+		fprintf(stderr, "Usage: %s num\n", argv[0]);
+		exit(EXIT_FAILURE);
 	}
-
-	return 0;
+	printBufs(strtol(argv[1], NULL, 10));
 }

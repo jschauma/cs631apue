@@ -3,5 +3,5 @@
 #include <stdio.h>
 
 void ldtest2(const char *str) {
-	printf("ldtest2 => %s\n", str);
+	(void)printf("ldtest2 => %s\n", str);
 }

@@ -17,52 +17,60 @@
 #include <string.h>
 #include <unistd.h>
 
+void
+progress() {
+	for (int i=0; i < 10; i++) {
+		/* Using write(2), because printf(3) is line-buffered. */
+		(void)write(STDOUT_FILENO, ".", 1);
+		sleep(1);
+	}
+}
+
 int
-main(void) {
+main(int argc, char **argv) {
 	int i, fd, flags;
 
-	if ((fd = open("/tmp/1", O_CREAT|O_RDWR, 0644)) == -1) {
-		fprintf(stderr, "Unable to open /tmp/1: %s", strerror(errno));
-		exit(1);
-	}
+	(void)argv;
 
-	if ((flags = fcntl(fd, F_GETFL, 0)) < 0) {
-		perror("getting file flags");
-		exit(1);
+	if ((fd = open("/tmp/1", O_CREAT|O_RDWR, 0644)) == -1) {
+		(void)fprintf(stderr, "Unable to open /tmp/1: %s", strerror(errno));
+		exit(EXIT_FAILURE);
+		/* NOTREACHED */
 	}
 
 	if (flock(fd, LOCK_SH) < 0) {
 		perror("flocking");
-		exit(1);
+		exit(EXIT_FAILURE);
+		/* NOTREACHED */
 	}
 
-	printf("Shared lock established - sleeping for 10 seconds.\n");
-	for (i=0;i<10;i++) {
-		fprintf(stderr, ".");
-		sleep(1);
+	(void)printf("Shared lock established - sleeping for 10 seconds.\n");
+	progress();
+	(void)printf("\nNow trying to get an exclusive lock.\n");
+
+	flags = LOCK_EX;
+	if (argc > 1) {
+		flags |= LOCK_NB;
 	}
-	fprintf(stderr, "\n");
-	printf("Now trying to get an exclusive lock.\n");
 
 	for (i=0; i < 10; i++) {
-		if (flock(fd, LOCK_EX|LOCK_NB) < 0) {
-		/* if (flock(fd, LOCK_EX) < 0) { */
-			printf("Unable to get an exclusive lock.\n");
+		if (flock(fd, flags) < 0) {
+			(void)printf("Unable to get an exclusive lock.\n");
 			if (i==9) {
-				printf("Giving up all locks.\n");
+				(void)printf("Giving up all locks.\n");
 				flock(fd, LOCK_UN);
-				exit(1);
+				exit(EXIT_FAILURE);
+				/* NOTREACHED */
 			}
 			sleep(1);
 		} else {
-			printf("Exclusive lock established.\n");
+			(void)printf("Exclusive lock established.\n");
 			break;
 		}
 	}
-	for (i=0;i<10;i++) {
-		fprintf(stderr, ".");
-		sleep(1);
-	}
-	fprintf(stderr, "\n");
-	exit(0);
+
+	progress();
+	(void)printf("\n");
+	(void)close(fd);
+	exit(EXIT_SUCCESS);
 }

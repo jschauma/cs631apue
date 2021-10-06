@@ -58,9 +58,9 @@
 	<tr><td width="50%" valign="top">
 
         <H3><a name="time"></a>Time, Date &amp; Place:</H3>
-	<p><b>Interactive/synchronous: Mondays, 18:15 - 20:45 Eastern, <a href="https://stevens.zoom.us/j/91309973136">via Zoom</a></b><br>
+	<p><b>Interactive/synchronous: Mondays, 18:30 Eastern, North Building 101 or <a href="https://stevens.zoom.us/j/91309973136">via Zoom</a></b><br>
 		<b>Online on-demand: anytime <a
-href="https://v.gd/cs631apue">via YouTube video
+href="https://youtube.com/c/cs631apue">via YouTube video
 lectures</a></b></p>
 
 
@@ -73,11 +73,6 @@ lectures</a></b></p>
           I will likely not even see your email if it is sent from gmail
           or any other non-stevens address.</small></p>
 
-
-        <!-- <H3><a name="ta"></a>TA:</h3>
-        Patrick Murray [<a href="mailto:pmurray1@stevens.edu">pmurray1@stevens.edu</a>] -->
-	<hr>
-
         <H3><a name="resources"></a>Resources:</H3>
 
 	<p>Content and discussions:
@@ -88,8 +83,8 @@ lectures</a></b></p>
 list.</em><br>
 	  All registered students are subscribed to this list using their
 	  <tt>@stevens.edu</tt> address.  It is critical that you read this list.</li>
-	  <li><a href="https://cs631apue.slack.com/">Course Slack</a></li>
-	  <li><a href="https://v.gd/cs631apue">Course Videos / Youtube Channel</a></li>
+	  <li><a href="https://cs631apue2021.slack.com/">Course Slack</a></li>
+	  <li><a href="https://youtube.com/c/cs631apue">Course Videos / Youtube Channel</a> (<a href="https://www.youtube.com/feeds/videos.xml?channel_id=UC7-CyoYfsrVI-dsuHRQx0IQ">RSS feed</a>)</li>
 	</ul>
 
 	<p>Assignments and meta-information:
@@ -97,6 +92,7 @@ list.</em><br>
 	  <li><a href="#syllabus">Course Syllabus</a></li>
           <LI><A href="hw">General Homework Guidelines</a></li>
 	  <LI><A href="style">Source Code Style Guide</A></li>
+	  <li><a href="https://www.netmeister.org/blog/readability-counts.html">Recommendations To Write (Slightly More) Readable And (Thus) Robust Code</a></li>
 	  <LI><A href="checklist">Code Submission Checklist</A></li>
 	  <LI><a href="#source-code">Links to OS Source Code</a></li>
 	  <li><a href="#books">Textbooks used in this class</a></li>
@@ -130,7 +126,7 @@ material on GitHub</a></li>
 	<ul>
 	  <li><a href="https://youtu.be/TWog5NklSws">ctags(1)</a> [<a href="tt/ctags/tt-ctags.pdf">slides</a>]&nbsp;[<a href="tt/ctags/tt-ctags.txt">transcript</a>]
 	  <li><a href="https://youtu.be/vxTXXaCr4s8">screen(1)</a> [<a href="tt/screen/tt-screen.pdf">slides</a>]&nbsp;[<a href="tt/screen/tt-screen.txt">transcript</a>]
-	  <li><a href="https://youtu.be/XqhOUqi4fc0">/usr/share/docs</a> [<a href="tt/screen/tt-docs.pdf">slides</a>]&nbsp;[<a href="tt/screen/tt-docs.txt">transcript</a>]
+	  <li><a href="https://youtu.be/XqhOUqi4fc0">/usr/share/docs</a> [<a href="tt/docs/tt-docs.pdf">slides</a>]&nbsp;[<a href="tt/docs/tt-docs.txt">transcript</a>]
 	</ul>
 
 	</td><td valign="top" align="right">
@@ -222,7 +218,7 @@ js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';i
 	to the start of the class</b>.  Please see <a href="netbsd.html">this
 	page</a> for more information. <a href="virtualbox/">Instructions on how to install NetBSD in a VirtualBox VM are provided to you here.</a></p>
 	<p>
-	<p>All grading will be done on a NetBSD 9.0 system.  While you may
+	<p>All grading will be done on a NetBSD 9.2 system.  While you may
 	choose to develop on your own personal host, you should make sure
 	that your code compiles and runs flawlessly on this OS version.</p>
 
@@ -236,7 +232,7 @@ to be able to compare another system.
 	<hr>
         <H3><a name="grading"></a>Grading:</H3>There will most likely be:
         <UL>
-	  <LI>course participation and <a href="course-notes.html">class notes</a>: 50 points</LI>
+	  <LI>course participation and checkpoints: 50 points</LI>
 
           <LI>2 homework assignment, worth 25 points each</LI>
 
@@ -289,9 +285,8 @@ Student Code of Academic Conduct</a>.
         <H3><A name="hw">Homework</A> Assignments:</H3>
 	<p>Assignments will be posted as the semester progresses.</p>
 	<p><ul>
-		<li><a href="course-notes.html">Class notes</a></li>
-		<li><a href="f20-hw1.html">HW#1: trivially copy a file</a></li>
-		<li><a href="f20-hw2.html">HW#2: implement the <tt>command(3)</tt> library function</a></li>
+		<li><a href="f21-hw1.html">HW#1: trivially copy a file</a></li>
+		<li><a href="f21-hw2.html">HW#2: implement the <tt>command(3)</tt> library function</a></li>
 <!--		<li><a href="f19-hw1.html">HW#1: trivially copy a file</a></li>
 		<li><a href="f19-sish.html">Final assignment: write a simple shell</a></li>
 		<li><a href="intro.html">Intro "test"</a></li>
@@ -338,7 +333,7 @@ simple shell</a></li>
         <H3><A name="group-project">Group</A> Project:</H3>
         <p>Implement the "<a href="sws.1.pdf">sws(1)</a>" command as
         decribed in the manual page provided to you.
-        See the full <A href="f19-group-project.html">group project
+	See the full <A href="f20-group-project.html">group project
         description</A> for details.</P>
 
 	<!--
@@ -367,7 +362,7 @@ simple shell</a></li>
           </TR>
 
           <TR>
-            <TD>2020-08-31</TD>
+            <TD>2021-08-30</TD>
 
             <TD>Introduction, UNIX history, UNIX Programming
             Basics</TD>
@@ -383,25 +378,26 @@ simple shell</a></li>
 			[<a href="01-history.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/3H7SQWTR6Dw">video lecture</a>]&nbsp;[<a href="01-history.txt">transcript</a>]<br>
             &#160;<BR>
 			<b>Week 01, Segment 3: UNIX Basics</b><br>
-			[<a href="01-basics.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/w3spRzZ8bSA">video lecture</a>]&nbsp;[<a href="01-history.txt">transcript</a>]<br>
+			[<a href="01-basics.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/w3spRzZ8bSA">video lecture</a>]&nbsp;[<a href="01-basics.txt">transcript</a>]<br>
             &#160;<BR>
             <A href="simple-cat.c">simple-cat.c</A><BR>
             <A href="simple-ls.c">simple-ls.c</A><BR>
             <A href="simple-shell.c">simple-shell.c</A><BR>
             <A href="simple-shell2.c">simple-shell2.c</A><br>
             <A href="welcome.c">welcome.c</A><BR><br>
+            <a href="/cgi-bin/631-01.cgi">Week 01 Checkpoint</a><br>
 <!--            <a href="intro.html">Intro</a><br>
 	    <a href="f16-hw1.html">HW#1</a></TD> -->
 	    </TD>
           </TR>
 
           <TR>
-            <TD>2020-09-07</TD>
+            <TD>2021-09-06</TD>
             <TD colspan="3"><em>Labor Day Holiday</em></TD>
           </TR>
 
           <TR>
-            <TD>2020-09-14</TD>
+            <TD>2021-09-13</TD>
 
             <TD>File I/O, File Sharing</TD>
 
@@ -421,6 +417,7 @@ simple shell</a></li>
 			[<a href="02-file-sharing.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/CAbUtc86ULw">video lecture</a>]&nbsp;[<a href="02-file-sharing.txt">transcript</a>]<br>
             &#160;<BR>
             <A href="argv.c">argv.c</A><BR>
+            <A href="close-stderr.c">close-stderr.c</A><BR>
             <A href="fds.c">fds.c</A><BR>
             <A href="hole.c">hole.c</A><BR>
             <A href="lseek.c">lseek.c</A><BR>
@@ -429,11 +426,13 @@ simple shell</a></li>
             <A href="redir.c">redir.c</A><BR>
             <A href="rwex.c">rwex.c</A><BR>
             <A href="sync-cat.c">sync-cat.c</A><BR><br>
-            <a href="f20-hw1.html">HW1</a>: <A href="bbcp.1.pdf">bbcp(1)</A></td>
+            <a href="/cgi-bin/631-02.cgi">Week 02 Checkpoint</a><br><br>
+            <a href="f21-hw1.html">HW1</a>: <A href="bbcp.1.pdf">bbcp(1)</A>
+           </td>
           </TR>
 
           <TR>
-            <TD>2020-09-21</TD>
+            <TD>2021-09-20</TD>
 
             <TD>Files and Directories</TD>
 
@@ -465,12 +464,13 @@ simple shell</a></li>
             <A href="size.c">size.c</A><BR>
             <A href="simple-ls.c">simple-ls.c</A><BR>
             <A href="simple-ls-stat.c">simple-ls-stat.c</A><BR>
-            <A href="umask.c">umask.c</A><BR>
-	    <a href="f20-midterm.html">Midterm Project Assignment</a></TD>
+            <A href="umask.c">umask.c</A><BR><br>
+            <a href="/cgi-bin/631-03.cgi">Week 03 Checkpoint</a><br>
+	    <a href="f21-midterm.html">Midterm Project Assignment</a></TD>
           </TR>
 
           <TR>
-            <TD>2020-09-28</TD>
+            <TD>2021-09-27</TD>
 
             <TD>Filesystems, System Data Files, Time &amp;
             Date</TD>
@@ -510,17 +510,23 @@ href="https://www.netmeister.org/book/04-file-systems.pdf">File Systems and Stor
 	    <a href="groups.c">groups.c</A><BR>
             <A href="wait-unlink.c">wait-unlink.c</A><BR>
             <A href="sizeof.c">sizeof.c</A><BR>
-            <A href="time.c">time.c</A><BR></td>
+            <A href="time.c">time.c</A><BR><br>
+            <a href="/cgi-bin/631-04.cgi">Week 04 Checkpoint</a><br>
+            <a href="https://stevens.zoom.us/rec/share/Mw61HEwLiBornX8WQ2LA-dfZelEZI45yjf5Nhy5lDaGiIgdxNF8U_eqGf3uivQa0.nXDK6nRM5_NZka7q?startTime=1632781836000">Zoom Meeting Recording</a><br>
+            </td>
           </TR>
 
           <TR>
-            <TD>2020-10-05</TD>
+            <TD>2021-10-04</TD>
 
             <TD>UNIX tools: cc(1), make(1), revision control, diff(1), patch(1), gdb(1)</TD>
 
             <TD><A href=
             "http://www.cvshome.org/docs/manual/cvs-1.11.6/cvs.html">
-            CVS Documentation</A>
+            CVS Documentation</A><br>
+		<a
+href="https://dev.gentoo.org/~vapier/crt.txt">Mini FAQ
+about the misc libc/gcc crt files</a><br>
           <A href="http://sourceware.org/gdb/current/onlinedocs/gdb/">
             Debugging with GDB</A><BR>
             <A href=
@@ -530,7 +536,46 @@ href="https://www.netmeister.org/book/04-file-systems.pdf">File Systems and Stor
             "http://www.unknownroad.com/rtfm/gdbtut/gdbtoc.html">gdb
             Tutorial</A><br>
 		<a href="http://git-scm.com/">Git</a></TD>
-            <TD><A href="lecture05.pdf">Lecture Slides</A><BR>
+            <TD>
+			<b>Week 05, Segment 1: The Unix Development Environment</b><br>
+			[<a href="05-tools.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/QYwYLR3UD2w">video lecture</a>]&nbsp;[<a href="05-tools.txt">transcript</a>]<br>
+            &#160;<BR>
+			<b>Week 05, Segment 2: The Editor</b><br>
+			[<a href="05-editors.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/DdaJ87G9Kes">video lecture</a>]&nbsp;[<a href="05-editors.txt">transcript</a>]<br>
+            &#160;<BR>
+			<b>Week 05, Segment 3: The Compiler Toolchain, Part I</b><br>
+			[<a href="05-compilers-1.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/SOeo4zLBqdI">video lecture</a>]&nbsp;[<a href="05-compilers-1.txt">transcript</a>]<br>
+            &#160;<BR>
+			<b>Week 05, Segment 4: The Compiler Toolchain, Part II</b><br>
+			[<a href="05-compilers-2.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/8qPxQ3g8bso">video lecture</a>]&nbsp;[<a href="05-compilers-2.txt">transcript</a>]<br>
+            &#160;<BR>
+			<b>Week 05, Segment 5: The Compiler Toolchain, Part III</b><br>
+			[<a href="05-compilers-3.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/ddvYL-G3oew">video lecture</a>]&nbsp;[<a href="05-compilers-3.txt">transcript</a>]<br>
+            &#160;<BR>
+			<b>Week 05, Segment 6: The Compiler Toolchain, Part IV</b><br>
+			[<a href="05-compilers-4.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/8LCyPmjknBY">video lecture</a>]&nbsp;[<a href="05-compilers-4.txt">transcript</a>]<br>
+            &#160;<BR>
+			<b>Week 05, Segment 7: <tt>make(1)</tt></b><br>
+			[<a href="05-make.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/WLTuUtj7LPw">video lecture</a>]&nbsp;[<a href="05-make.txt">transcript</a>]<br>
+            &#160;<BR>
+			<b>Week 05, Segment 8: Debugging Your Code</b><br>
+			[<a href="05-gdb.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/61YwbTQy2G0">video lecture</a>]&nbsp;[<a href="05-gdb.txt">transcript</a>]<br>
+            &#160;<BR>
+			<b>Week 05, Segment 9: Using <tt>gdb(1)</tt></b><br>
+			[<a href="05-gdb-2.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/Miw0XLzHCws">video lecture</a>]&nbsp;[<a href="05-gdb-2.txt">transcript</a>]<br>
+            &#160;<BR>
+			<b>Week 05, Segment 10: Using <tt>gdb(1)</tt>, part II</b><br>
+			[<a href="05-gdb-3.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/fOp4Q4mnTD4">video lecture</a>]&nbsp;[<a href="05-gdb-3.txt">transcript</a>]<br>
+            &#160;<BR>
+			<b>Week 05, Segment 11: Using <tt>gdb(1)</tt>, part III</b><br>
+			[<a href="05-gdb-4.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/hgcj7iAxhhU">video lecture</a>]&nbsp;[<a href="05-gdb-4.txt">transcript</a>]<br>
+            &#160;<BR>
+			<b>Week 05, Segment 12: Using <tt>gdb(1)</tt> to understand pointers</b><br>
+			[<a href="05-gdb-5.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/hr-rn0yUhAw">video lecture</a>]&nbsp;[<a href="05-gdb-5.txt">transcript</a>]<br>
+            &#160;<BR>
+
+
+<A href="lecture05.pdf">Lecture Slides</A><BR>
             <BR>
 	    <A href="compilechain/">compile chain examples</a><br>
 	    <A href="make-examples/">make examples</a><br>
@@ -538,13 +583,13 @@ href="https://www.netmeister.org/book/04-file-systems.pdf">File Systems and Stor
           </TR>
 
           <TR>
-            <TD>2020-10-12</TD>
+            <TD>2021-10-11</TD>
             <TD colspan="3"><em>Fall Recess</em></TD>
           </TR>
 
           <TR>
 
-            <TD>2020-10-13</TD>
+            <TD>2021-10-12</TD>
 
             <TD>Process Environment, Process Control</TD>
 
@@ -596,7 +641,8 @@ href="https://www.netmeister.org/blog/stdarg.html"><tt>stdarg</tt> And The Case 
             <A href="sum.c">sum.c</A><BR>
             <A href="zombies.c">zombies.c</A><br><br>
 	    <a
-href="http://cvsweb.netbsd.org/bsdweb.cgi/src/lib/csu/common/crt0-common.c?rev=HEAD&content-type=text/x-cvsweb-markup">NetBSD crt0-common.c</a><br>
+href="http://cvsweb.netbsd.org/bsdweb.cgi/src/lib/csu/common/crt0-common.c?rev=HEAD&content-type=text/x-cvsweb-markup">NetBSD crt0-common.c</a><br><br>
+            <a href="/cgi-bin/631-06.cgi">Week 06 Checkpoint</a><br>
             <!-- <A href="setjmp1.c">setjmp1.c</A><BR>
             <A href="setjmp2.c">setjmp2.c</A><BR>
             <A href="setjmp3.c">setjmp3.c</A> --></TD>
@@ -604,7 +650,7 @@ href="http://cvsweb.netbsd.org/bsdweb.cgi/src/lib/csu/common/crt0-common.c?rev=H
 
           <TR>
 
-            <TD>2020-10-19</TD>
+            <TD>2021-10-18</TD>
             <TD>Process Groups, Sessions, Signals</TD>
 
             <TD>Stevens: Chapter 9, 10<br>
@@ -643,7 +689,7 @@ href="http://www.informit.com/articles/article.aspx?p=366888&seqNum=7">FreeBSD P
           </TR>
 
           <TR>
-            <TD>2020-10-26</TD>
+            <TD>2021-10-25</TD>
             <TD>Interprocess Communication I</TD>
             <TD>Stevens: Chapter 14<br>
 		<A href="https://web.archive.org/web/20160507131726/http://www.kohala.com/start/unpv22e/unpv22e.chap12.pdf">Shared Memory Introduction</A><BR>
@@ -676,28 +722,39 @@ Guide to Unix IPC</a><br>
             <a href="semdemo.c">semdemo.c</a><br>
             <a href="shmdemo.c">shmdemo.c</a><br>
 	<br>
-	<a href="f20-hw2.html">HW#2: implement 'command(3)'</a><br>
+	<a href="f21-hw2.html">HW#2: implement 'command(3)'</a><br>
 		</TD>
           </TR>
 
           <TR>
-            <TD>2020-11-02</TD>
+            <TD>2021-11-01</TD>
 
             <TD>Interprocess Communication II</TD>
 
             <TD>Stevens: Chapter 14<br>
             	<A href="ipc.pdf">BSD IPC</A><BR>
 		<a href="https://ops.tips/blog/how-linux-creates-sockets/">How Linux creates sockets and counts them</a><br>
-		<a href="https://ops.tips/blog/how-linux-tcp-introspection/">How Linux allows TCP introspection</a><br></TD>
+		<a href="https://ops.tips/blog/how-linux-tcp-introspection/">How Linux allows TCP introspection</a><br>
+		<a href="http://www.kegel.com/c10k.html">The C10K problem</a><br></TD>
 
             <TD width="25%">
 			<b>Week 09, Segment 1: <tt>socketpair(2)</tt></b><br>
-			[<a href="09-socketpair.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/w6Au54pVt-8">video lecture</a>]&nbsp;[<a href="09-socketpair.txt">transcript</a>]<br>
+			[<a href="09-socketpairs.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/w6Au54pVt-8">video lecture</a>]&nbsp;[<a href="09-socketpairs.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 09, Segment 2: <tt>socketpair(2)</tt></b><br>
+			<b>Week 09, Segment 2: <tt>socket(PF_LOCAL, SOCK_DGRAM, 0)</tt></b><br>
 			[<a href="09-sockets-local.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/7LoLt49oB9A">video lecture</a>]&nbsp;[<a href="09-sockets-local.txt">transcript</a>]<br>
             &#160;<BR>
+			<b>Week 09, Segment 3: <tt>socket(PF_INET, SOCK_DGRAM, 0)</tt></b><br>
+			[<a href="09-sockets-inet-dgram.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/MMQ50PADnrY">video lecture</a>]&nbsp;[<a href="09-sockets-inet-dgram.txt">transcript</a>]<br>
+            &#160;<BR>
+			<b>Week 09, Segment 4: <tt>socket(PF_INET6, SOCK_STREAM, 0)</tt></b><br>
+			[<a href="09-sockets-inet6-stream.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/qKMXw76Dk1o">video lecture</a>]&nbsp;[<a href="09-sockets-inet6-stream.txt">transcript</a>]<br>
+            &#160;<BR>
+			<b>Week 09, Segment 5: I/O Multiplexing</b><br>
+			[<a href="09-io-multiplexing.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/Y5PiHboUctw">video lecture</a>]&nbsp;[<a href="09-io-multiplexing.txt">transcript</a>]<br>
+            &#160;<BR>
             <BR>
+            <A href="dualstack-streamread.c">dualstack-streamread.c</A><BR>
             <A href="socketpair.c">socketpair.c</A><BR>
             <A href="udgramread.c">udgramread.c</A><BR>
             <A href="udgramsend.c">udgramsend.c</A><BR>
@@ -705,16 +762,19 @@ Guide to Unix IPC</a><br>
             <A href="dgramsend.c">dgramsend.c</A><BR>
             <A href="streamread.c">streamread.c</A><BR>
             <A href="streamwrite.c">streamwrite.c</A><BR>
-            <A href="strchkread.c">strchkread.c</A><br>
+            <A href="two-sockets.c">two-sockets.c</A><BR>
+            <A href="two-sockets-select.c">two-sockets-select.c</A><BR>
+            <A href="one-socket-select.c">one-socket-select.c</A><BR>
+            <A href="one-socket-select-fork.c">one-socket-select-fork.c</A><BR>
 		<br>
 	    <a href="f19-group-project.html">Group Project Assignment</a><br>
 	    </TD>
           </TR>
 
           <TR>
-            <TD>2020-11-09</TD>
+            <TD>2021-11-08</TD>
 
-            <TD>HTTP / Group Project Discussions</TD>
+            <TD><a name="daemon"></a>D&aelig;mon Processes, HTTP / Group Project Discussions</TD>
 <!-- Code Reading / HTTP Server Implementations</TD>
 
             <TD><a href="http://www.eterna.com.au/bozohttpd/">bozohottpd</a><br>
@@ -729,24 +789,38 @@ Guide to Unix IPC</a><br>
 		<TD>&nbsp;
 		</TD>
 
-            <TD><a href="lecture10.pdf">Lecture Slides</a></TD>
+            <TD>
+			<b>Week 10, Segment 1: D&aelig;mon Processes</b><br>
+			[<a href="10-daemons.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/YbYQqVMv7b8">video lecture</a>]&nbsp;[<a href="10-daemons.txt">transcript</a>]<br>
+            &#160;<BR>
+<a href="lecture10.pdf">Lecture Slides</a></TD>
   
           </TR> 
 
           <TR>
-            <TD>2020-11-16</TD>
+            <TD>2021-11-15</TD>
 
-            <TD><a name="daemon"></a>D&aelig;mon Processes, Shared Libraries</TD>
+            <TD>Shared Libraries</TD>
 
-            <TD>Stevens: Chapter 13</TD>
-
-            <TD width="25%"><a href="lecture11.pdf">Lecture Slides</a><br>
+            <TD>Stevens: Chapter 13<br>
 		<a
 href="http://jvns.ca/blog/2014/09/06/how-to-read-an-executable/">How to read an Executable</a><br>
 		<a href="https://lwn.net/Articles/276782/">Ian Lance Taylor's blog post series on linkers</a><br>
-		<a href="https://www.iecc.com/linker/">Linkers and Loaders</a><br>
+		<a href="https://web.archive.org/web/20150320212734/http://www.iecc.com/linker/">Linkers and Loaders</a><br>
 		<a href="https://www.akkadia.org/drepper/dsohowto.pdf">How To Write Shared Libraries</a><br>
-		<a href="elf.html">The Executable and Linkable Format (ELF)</a><br><br>
+		<a href="elf.html">The Executable and Linkable Format (ELF)</a></TD>
+
+            <TD width="25%">
+			<b>Week 11, Segment 1: The Executable and Linkable Format</b><br>
+			[<a href="11-elf.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/i1UDF05iZPU">video lecture</a>]&nbsp;[<a href="11-elf.txt">transcript</a>]<br>
+            &#160;<BR>
+			<b>Week 11, Segment 2: Of Linkers and Loaders</b><br>
+			[<a href="11-linker-loader.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/8KWuz7gLycc">video lecture</a>]&nbsp;[<a href="11-linker-loader.txt">transcript</a>]<br>
+            &#160;<BR>
+			<b>Week 11, Segment 3: Shared Libraries</b><br>
+			[<a href="11-shlibs.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/eloJO0ssrfc">video lecture</a>]&nbsp;[<a href="11-shlibs.txt">transcript</a>]<br>
+            &#160;<BR>
+		<a href="crypt.c">crypt.c</a><br>
 		<a href="dlopenex.c">dlopenex.c</a><br>
 		<a href="evil.c">evil.c</a><br>
 		<!-- <a href="greet.h">greet.h</a><br>
@@ -760,16 +834,33 @@ href="http://jvns.ca/blog/2014/09/06/how-to-read-an-executable/">How to read an 
 	        <a href="libgreet-exercise.html">libgreet exercise</a></td>
           </TR>
           <TR>
-            <TD>2020-11-23</TD>
-
+            <TD>2021-11-22</TD>
             <TD>Advanced I/O: Nonblocking I/O, Polling, and Record
             Locking / Encryption in a Nutshell</TD>
 
             <TD>Stevens: Chapter 14</TD>
 
-            <TD width="25%"><A href="lecture12.pdf">Lecture
-            Slides</A><BR>
+            <TD width="25%">
+			<b>Week 12, Segment 1: syslog(3)</b><br>
+			[<a href="12-syslog.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/YfdAJ8rhG-I">video lecture</a>]&nbsp;[<a href="12-syslog.txt">transcript</a>]<br>
+            &#160;<BR>
+			<b>Week 12, Segment 2: Non-blocking I/O</b><br>
+			[<a href="12-nonblocking.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/_hOLO_27L7U">video lecture</a>]&nbsp;[<a href="12-nonblocking.txt">transcript</a>]<br>
+            &#160;<BR>
+			<b>Week 12, Segment 3: Resource Locking</b><br>
+			[<a href="12-locking.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/017DtsMRHjg">video lecture</a>]&nbsp;[<a href="12-locking.txt">transcript</a>]<br>
+            &#160;<BR>
+			<b>Week 12, Segment 4: Asynchronous and Memory Mapped I/O</b><br>
+			[<a href="12-aio-mmap.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/_R_t0d5BzEk">video lecture</a>]&nbsp;[<a href="12-aio-mmap.txt">transcript</a>]<br>
+            &#160;<BR>
+
             <BR>
+		<a href="lecture12.pdf">Lecture
+Slides</a> (previous semester, includes section on
+encryption basics)
+            <BR>
+            <BR>
+            <A href="slogdemo.c">slogdemo.c</A><br>
             <A href="nonblock.c">nonblock.c</A><br>
             <A href="flock.c">flock.c</A><br><br>
 	    <!-- <a href="f16-hw4.html">HW4</a> -->
@@ -777,26 +868,50 @@ href="http://jvns.ca/blog/2014/09/06/how-to-read-an-executable/">How to read an 
           </TR>
 
           <TR>
-            <TD>2020-11-30</TD>
+            <TD>2021-11-29</TD>
             <TD>Restricting processes / Containers</TD>
-            <TD>&nbsp;</TD>
-            <TD><a href="lecture13.pdf">Lecture Slides</a><br>
-		<a href="https://www.netmeister.org/blog/restricting-processes.html">Course
-Notes</a><br><br>
+            <TD>
+		<a href="https://www.netmeister.org/blog/restricting-processes.html">Course Notes</a><br>
+		<a
+href="https://www.netbsd.org/~rmind/pub/netbsd_5_scheduling_apis.pdf">Thread
+scheduling and related interfaces in NetBSD 5.0</a><br>
+		<a href="https://www.netmeister.org/blog/cpu-pinning-and-sets.html">CPU Pinning and CPU Sets</a></TD>
+            <TD>
+			<b>Week 13, Segment 1: POSIX ACLs</b><br>
+			[<a href="13-acls.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/lCACl3NE058">video lecture</a>]&nbsp;[<a href="13-acls.txt">transcript</a>]<br>
+            &#160;<BR>
+			<b>Week 13, Segment 2: eUIDs, file flags, mount options, securelevels</b><br>
+			[<a href="13-euids-restricting-root.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/WBm5j-XAyVk">video lecture</a>]&nbsp;[<a href="13-euids-restricting-root.txt">transcript</a>]<br>
+            &#160;<BR>
+			<b>Week 13, Segment 3: Restricted shells, Chroots, Jails</b><br>
+			[<a href="13-shells-chroots-jails.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/UF7gNYaZuG0">video lecture</a>]&nbsp;[<a href="13-shells-chroots-jails.txt">transcript</a>]<br>
+            &#160;<BR>
+			<b>Week 13, Segment 4: Process Priorities</b><br>
+			[<a href="13-priorities.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/icjvv-RFm1I">video lecture</a>]&nbsp;[<a href="13-priorities.txt">transcript</a>]<br>
+            &#160;<BR>
+			<b>Week 13, Segment 5: Processor Affinity and CPU Sets</b><br>
+			[<a href="13-cpusets.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/sy8121p4pjw">video lecture</a>]&nbsp;[<a href="13-cpusets.txt">transcript</a>]<br>
+            &#160;<BR>
+			<b>Week 13, Segment 6: Capabilities, Control Groups, Containers</b><br>
+			[<a href="13-containers.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/ozzyh5wjjdw">video lecture</a>]&nbsp;[<a href="13-containers.txt">transcript</a>]<br>
+            &#160;<BR>
 		<a href="break-chroot.c">break-chroot.c</a><br>
+		<a href="busy-child.c">busy-child.c</a><br>
+		<a href="load.c">load.c</a><br>
 		<a href="priority.c">priority.c</a><br>
 		<a href="mkchroot">mkchroot</a></TD>
           </TR>
 
           <TR>
-            <TD>2020-12-07</TD>
+            <TD>2021-12-06</TD>
 
             <TD>Review</TD>
 
             <TD>&nbsp;</TD>
 
-            <TD><A href="lecture14.pdf">Lecture Slides</a><br><br>
-		<a href="f19-sish.html">Final Assignment: sish(1)</a></TD>
+            <TD><A
+href="https://create.kahoot.it/share/cs631-advanced-programming-in-the-unix-environment/d5280f84-bd71-4efe-85e8-0f2d22d86086">Review Kahoot</a><br><br>
+		<a href="f20-sish.html">Final Assignment: sish(1)</a></TD>
           </TR>
 
         </TABLE>

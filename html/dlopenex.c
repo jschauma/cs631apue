@@ -1,47 +1,47 @@
 /* This program can be used to illustrate that we can load symbols from
  * dynamic libraries at runtime without actually linking against them.
  *
- * Since (some) Linux versions don't use getprogname(3)/setprogname(3), we
- * extract these function definitions from the BSD compatibility library.
+ * Note that we do _not_ link against libcrypt, nor do we include the
+ * unistd.h header.
  *
- * Compile with 'cc -Wall -rdynamic dlopenex.c -dl'; compare with 'cc
- * -Wall setget.c -lbsd'.
+ * cc -Wall -Werror -Wextra crypt.c
+ * cc -Wall -Werror -Wextra -rdynamic dlopenex.c
  */
 
+#include <err.h>
+#include <errno.h>
 #include <dlfcn.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
+void
+printCrypt(const char *s) {
+	void *dlhandle;
+	char *(*_crypt)(const char *, const char *);
+	char *error;
+
+	dlhandle = dlopen("libcrypt.so", RTLD_LAZY);
+	if (!dlhandle) {
+		err(EXIT_FAILURE, "%s\n", dlerror());
+		/* NOTREACHED */
+	}
+
+	*(void **) (&_crypt) = dlsym(dlhandle, "crypt");
+	if ((error = dlerror()) != NULL)  {
+		err(EXIT_FAILURE, "%s\n", error);
+		/* NOTREACHED */
+	}
+
+	(void)printf("%s\n", _crypt(s, "$1"));
+}
 
 int
 main(int argc, char **argv) {
-	void *handle;
-	void (*setprogname)(const char *);
-	char *(*getprogname)(void);
-	char *error;
-
-	handle = dlopen("libbsd.so", RTLD_LAZY);
-	if (!handle) {
-		fprintf(stderr, "%s\n", dlerror());
+	if (argc != 2) {
+		(void)fprintf(stderr, "Usage: %s string\n", argv[0]);
 		exit(EXIT_FAILURE);
 	}
-
-	dlerror();    /* Clear any existing error */
-
-	*(void **) (&setprogname) = dlsym(handle, "setprogname");
-	if ((error = dlerror()) != NULL)  {
-		fprintf(stderr, "%s\n", error);
-		exit(EXIT_FAILURE);
-	}
-
-	*(void **) (&getprogname) = dlsym(handle, "getprogname");
-	if ((error = dlerror()) != NULL)  {
-		fprintf(stderr, "%s\n", error);
-		exit(EXIT_FAILURE);
-	}
-
-
-	setprogname("dlopenex");
-	printf("My name is '%s'.\n", getprogname());
-	dlclose(handle);
+	printCrypt(argv[1]);
 	exit(EXIT_SUCCESS);
 }

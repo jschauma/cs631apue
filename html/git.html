@@ -33,12 +33,17 @@
         <p>
         Note: <tt>git(1)</tt> can be used without and independent of <a
         href="https://github.com/">GitHub</a>!  In this class, we will use
-        <tt>git(1)</tt> for your <a href="course-notes.html">course notes</a>,
-	as well as for your midterm-, group-, and final projects.
+        <tt>git(1)</tt> for your <!-- <a href="course-notes.html">course notes</a>,
+	as well as for your --> midterm-, group-, and final projects.
         </p>
+
         <p>
 	You can create a repository on any Unix system you have access to,
-	or even use a public repository such as on GitHub.
+	or even use a public repository such as on GitHub, but your easiest
+	and recommended course of action is to create
+	a repository on <tt><a href="linux-lab.html">linux-lab.cs.stevens.edu</a></tt>.
+	</p>
+
         <h4>Shared repositories</h4>
 	<p>
 	For your group project, you will need to use a
@@ -52,6 +57,43 @@
 	one of you to host the repository on your own
 	server and grant your team members access
 	there.
+	</p>
+        <h4>Working with git on <tt>linux-lab.cs.stevens.edu</tt></h4>
+	<p>
+	<h5>Create a new repository</h5>
+	<blockquote><tt><pre>$ ssh linux-lab
+linux-lab$ mkdir .cs631.git
+linux-lab$ cd .cs631.git
+linux-lab$ git init --bare
+Initialized empty Git repository in /home/jschauma/.cs631.git/
+linux-lab$ cd ..
+linux-lab$ git clone ~/.cs631.git cs631
+Cloning into 'cs631'...
+warning: You appear to have cloned an empty repository.
+done.
+linux-lab$ cd cs631
+linux-lab$ vi README
+linux-lab$ git add README
+linux-lab$ git commit -m 'initialize CS631 repository'
+ 1 file changed, 1 insertion(+)
+ create mode 100644 README
+linux-lab$ git push
+Counting objects: 3, done.
+Writing objects: 100% (3/3), 224 bytes | 0 bytes/s,
+done.
+Total 3 (delta 0), reused 0 (delta 0)
+To /home/jschauma/.cs631.git
+ * [new branch]      master -&gt; master
+linux-lab$ </pre></tt></blockquote>
+	</p>
+	<p>
+	<em>Note</em>: you now have a <em>working
+	directory</em> in <tt>~/cs631</tt>, and the
+	<em>bare git repository</em> in
+	<tt>~/.cs631.git</tt>.  You should never have
+	a need to enter or access files in the bare
+	git repository other than via the
+	<tt>git(1)</tt> client.
 	</p>
         <h4>Working with git</h4>
         <p>
