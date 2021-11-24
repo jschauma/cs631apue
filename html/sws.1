@@ -1,4 +1,4 @@
-.Dd October 28, 2019
+.Dd November 12, 2021
 .Dt SWS 1
 .Os
 .Sh NAME
@@ -145,6 +145,33 @@ Example log lines might look like so:
 All lines will be appended to the given file unless
 .Fl d
 was given, in which case all lines will be printed to stdout.
+.Sh EXAMPLE INVOCATIONS
+In order to test
+.Nm ,
+you may wish to compare to e.g.,
+.Xr bozohttpd 8 .
+For this, let us start
+.Xr bozohttpd 8
+in the background
+.Ns ( Fl b Ns ),
+listen on port 8080
+.Ns ( Fl I Ar 8080 Ns ),
+enable user translation using the "sws" directory name
+.Ns ( Fl u Fl p Ar sws Ns ),
+enable CGI execution from the "cgi-bin" directory
+.Ns ( Fl c Ar cgi-bin )
+under the document root, and serve data from the
+directory "docroot":
+.Bd -literal -offset indent
+/usr/libexec/httpd -b -I 8080 -X -u -p sws -c cgi-bin docroot
+.Ed
+.Pp
+The equivalent invocation for
+.Nm
+to run side-by-side on port 8081 would then be:
+.Bd -literal -offset indent
+sws -p 8081 -c cgi-bin docroot
+.Ed
 .Sh EXIT STATUS
 .Ex -std 
 .Sh SEE ALSO

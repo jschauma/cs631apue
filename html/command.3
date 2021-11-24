@@ -1,4 +1,4 @@
-.Dd October 21, 2018
+.Dd October 26, 2021
 .Dt COMMAND 3
 .Os
 .Sh NAME
@@ -50,6 +50,28 @@ Otherwise,
 .Fn command
 returns the termination status of the shell in the format specified by
 .Xr waitpid 2 .
+.Pp
+Note that
+.Nm
+does not necessarily
+.Dv NUL Ns No -terminate
+.Ar outbuf
+or
+.Ar errbuf .
+If the output to be placed into these buffers is
+larger than
+.Ar outlen / errlen ,
+then
+.Nm
+would exactly fill the buffer(s).
+The caller should
+.Dv NUL Ns No -terminate
+these buffers explicitly:
+.Bd -literal -offset indent
+command(cmd, out, outlen - 1, err, errlen - 1);
+out[outlen-1] = '\e0';
+err[errlen-1] = '\e0';
+.Ed
 .Sh RETURN VALUES
 If a child process cannot be created, or the termination status of
 the shell cannot be obtained,
