@@ -60,6 +60,9 @@ int main()
 	int rval;
 	struct sockaddr_in client;
 
+	memset(&server, 0, sizeof(server));
+	memset(&client, 0, sizeof(client));
+
 	/* Create socket */
 	sock = socket(AF_INET, SOCK_STREAM, 0);
 	if (sock < 0) {
@@ -96,7 +99,8 @@ int main()
 			if (rval == 0)
 				printf("Ending connection\n");
 			else
-				printf("Client (%s) sent: %s", inet_ntoa(client.sin_addr), buf);
+				printf("Client (%s) sent: %s",
+					inet_ntoa(client.sin_addr), buf);
 		} while (rval != 0);
 		close(msgsock);
 	} while (TRUE);

@@ -56,6 +56,8 @@ int main(argc, argv)
 	struct sockaddr_in server;
 	struct hostent *hp, *gethostbyname();
 
+	memset(&server, 0, sizeof(server));
+
 	if (argc != 3) {
 		perror("usage: a.out <hostname> <portnumber>");
 		exit(1);

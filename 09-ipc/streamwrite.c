@@ -38,8 +38,8 @@
 #include <string.h>
 #include <unistd.h>
 
-/* "The Charge of the Light Brigade" by Alfred, Lord Tennyson */
-#define DATA "Half a league, half a league..."
+/* http://poetry.eserver.org/light-brigade.html */
+#define DATA "Half a league, half a league . . ."
 
 /*
  * This program creates a socket and initiates a connection with the socket
@@ -48,45 +48,44 @@
  * line is streamwrite hostname portnumber
  */
 
-int main(argc, argv)
-	int argc;
-	char *argv[];
+int main(int argc, char **argv)
 {
 	int sock, port;
-	struct sockaddr_in server;
-	struct hostent *hp, *gethostbyname();
+	struct sockaddr_in6 server;
+	struct hostent *hp;
+
+	memset(&server, 0, sizeof(server));
 
 	if (argc != 3) {
-		perror("usage: a.out <hostname> <portnumber>");
-		exit(1);
+		(void)printf("Usage: %s hostname port\n", argv[0]);
+		exit(EXIT_FAILURE);
 	}
 
 	port = atoi(argv[2]);
 	if ((port < 1) || (port > 65536)) {
-		fprintf(stderr, "Invalid port: %s\n", argv[2]);
-		exit(1);
+		(void)fprintf(stderr, "Invalid port: %s\n", argv[2]);
+		exit(EXIT_FAILURE);
 	}
 
-	if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+	if ((sock = socket(PF_INET6, SOCK_STREAM, 0)) < 0) {
 		perror("opening stream socket");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 
-	/* Connect socket using name specified by command line. */
-	server.sin_family = AF_INET;
-	if ((hp = gethostbyname(argv[1])) == NULL) {
-		fprintf(stderr, "%s: unknown host\n", argv[1]);
-		exit(2);
+	server.sin6_family = PF_INET6;
+	if ((hp = gethostbyname2(argv[1], PF_INET6)) == NULL) {
+		(void)fprintf(stderr, "%s: unknown host\n", argv[1]);
+		exit(EXIT_FAILURE);
 	}
-	bcopy(hp->h_addr, &server.sin_addr, hp->h_length);
-	server.sin_port = htons(port);
+	bcopy(hp->h_addr, &server.sin6_addr, hp->h_length);
+	server.sin6_port = htons(port);
 
 	if (connect(sock, (struct sockaddr *)&server, sizeof(server)) < 0) {
 		perror("connecting stream socket");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	if (write(sock, DATA, sizeof(DATA)) < 0)
 		perror("writing on stream socket");
-	close(sock);
-	return 0;
+	(void)close(sock);
+	return EXIT_FAILURE;
 }

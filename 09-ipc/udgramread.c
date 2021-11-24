@@ -61,24 +61,27 @@ int main()
 
 	if ((sock = socket(PF_LOCAL, SOCK_DGRAM, 0)) < 0) {
 		perror("opening datagram socket");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 
 	name.sun_family = PF_LOCAL;
 	(void)strncpy(name.sun_path, NAME, sizeof(name.sun_path));
 	if (bind(sock, (struct sockaddr *)&name, sizeof(struct sockaddr_un))) {
 		perror("binding name to datagram socket");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
-	printf("Name of our socket: '%s'\n", NAME);
+	(void)printf("socket --> %s\n", NAME);
 
-	if (read(sock, buf, BUFSIZ) < 0)
-		perror("reading from socket");
-	printf("Data read from 'socket': '%s'\n", buf);
-	close(sock);
+	while (1) {
+		bzero(buf, BUFSIZ);
+		if (read(sock, buf, BUFSIZ) < 0)
+			perror("reading from socket");
+		(void)printf("--> %s\n", buf);
+	}
+	(void)close(sock);
 
 	/* A UNIX domain datagram socket is a 'file'.  If you don't unlink
 	 * it, it will remain in the file system. */
-	unlink(NAME);
-	return 0;
+	(void)unlink(NAME);
+	return EXIT_SUCCESS;
 }

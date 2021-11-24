@@ -53,6 +53,8 @@ int main(int argc, char **argv)
 	struct sockaddr_in name;
 	struct hostent *hp, *gethostbyname();
 
+	memset(&name, 0, sizeof(name));
+
 	if (argc != 3) {
 		printf("Usage: %s hostname port\n", argv[0]);
 		exit(1);

@@ -34,6 +34,7 @@
 #include <netinet/in.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 
 /*
@@ -54,6 +55,8 @@ int main()
 	socklen_t length;
 	struct sockaddr_in name;
 	char buf[BUFSIZ];
+
+	memset(&name, 0, sizeof(name));
 
 	if ((sock = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
 		perror("opening datagram socket");

@@ -60,6 +60,9 @@ int main()
 	struct sockaddr_in client;
 	char *client_addr;
 
+	memset(&server, 0, sizeof(server));
+	memset(&client, 0, sizeof(client));
+
 	/* Create socket */
 	sock = socket(AF_INET, SOCK_STREAM, 0);
 	if (sock < 0) {

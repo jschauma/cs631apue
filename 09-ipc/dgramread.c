@@ -34,6 +34,7 @@
 #include <netinet/in.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 
 /*
@@ -55,29 +56,31 @@ int main()
 	struct sockaddr_in name;
 	char buf[BUFSIZ];
 
-	if ((sock = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
+	memset(&name, 0, sizeof(name));
+
+	if ((sock = socket(PF_INET, SOCK_DGRAM, 0)) < 0) {
 		perror("opening datagram socket");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 
-	name.sin_family = AF_INET;
+	name.sin_family = PF_INET;
 	name.sin_addr.s_addr = INADDR_ANY;
 	name.sin_port = 0;
 	if (bind(sock, (struct sockaddr *)&name, sizeof(name)) < 0) {
 		perror("binding datagram socket");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 
 	/* Find assigned port value and print it out. */
 	length = sizeof(name);
 	if (getsockname(sock, (struct sockaddr *)&name, &length) < 0) {
 		perror("getting socket name");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
-	printf("Socket has port #%d\n", ntohs(name.sin_port));
+	(void)printf("Socket has port #%d\n", ntohs(name.sin_port));
 	if (read(sock, buf, BUFSIZ) < 0)
 		perror("receiving datagram packet");
-	printf("-->%s\n", buf);
-	close(sock);
-	return 0;
+	(void)printf("-->%s\n", buf);
+	(void)close(sock);
+	return EXIT_SUCCESS;
 }
