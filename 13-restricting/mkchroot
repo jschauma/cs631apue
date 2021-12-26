@@ -1,0 +1,18 @@
+CHROOT="/var/chroot/apue"
+
+FILES="/bin/sh /bin/ps /usr/bin/id"
+
+rm -fr ${CHROOT}
+mkdir -p ${CHROOT}/libexec ${CHROOT}/usr/libexec
+
+cp /libexec/ld.elf_so ${CHROOT}/libexec
+ln /libexec/ld.elf_so ${CHROOT}/usr/libexec/ld.elf_so
+
+for f in ${FILES}; do
+        mkdir -p ${CHROOT}${f%/*}
+        for lib in $(ldd ${f} | sed -n -e 's/.*> //p'); do
+                mkdir -p ${CHROOT}${lib%/*}
+                test -f ${CHROOT}${lib} || cp ${lib} ${CHROOT}${lib}
+        done
+        cp "${f}" ${CHROOT}/bin/
+done

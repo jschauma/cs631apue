@@ -5,20 +5,25 @@
  * unless we explicitly link against libcrypt.
  *
  * Compare
- *   cc -Wall crypt.c -lcrypt
- *   cc -Wall -rdynamic dlopenex.c -dl
+ *   cc -Wall -Werror -Wextra crypt.c -lcrypt
+ *   cc -Wall -Werror -Wextra -rdynamic dlopenex.c -dl
  */
 
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 
+void
+printCrypt(const char *s) {
+	(void)printf("%s\n", crypt(s, "$1"));
+}
+
 int
 main(int argc, char **argv) {
 	if (argc != 2) {
-		fprintf(stderr, "Usage: %s string\n", argv[0]);
+		(void)fprintf(stderr, "Usage: %s string\n", argv[0]);
 		exit(EXIT_FAILURE);
 	}
-	printf("%s\n", crypt(argv[1], "$1"));
+	printCrypt(argv[1]);
 	exit(EXIT_SUCCESS);
 }

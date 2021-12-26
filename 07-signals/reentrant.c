@@ -9,6 +9,7 @@
  * - memory fault: FUBAR
  */
 
+#include <err.h>
 #include <errno.h>
 #include <pwd.h>
 #include <signal.h>
@@ -26,12 +27,19 @@ my_alarm(int signo)
 {
 	struct passwd *rootptr;
 
-	write(STDOUT_FILENO, "in signal handler\n", 18);
-	if ((rootptr = getpwnam("root")) == NULL) {
-		write(STDERR_FILENO, "no 'root' found!\n", 17);
-		exit(1);
+	(void)signo;
+	(void)write(STDOUT_FILENO, "SIGALRM\n", 8);
+	for (int i=0; i<3; i++) {
+		if ((rootptr = getpwnam("root")) == NULL) {
+			(void)write(STDERR_FILENO, "no 'root' found!\n", 17);
+			exit(EXIT_FAILURE);
+			/* NOTREACHED */
+		}
 	}
-	alarm(1);
+	if (alarm(1) == (unsigned int)-1) {
+		err(EXIT_FAILURE, "alarm");
+		/* NOTREACHED */
+	}
 }
 
 int
@@ -40,20 +48,26 @@ main(void) {
 
 	if (signal(SIGALRM, my_alarm) == SIG_ERR) {
 		fprintf(stderr, "Unable to establish signal handler: %s\n", strerror(errno));
-		exit(1);
+		exit(EXIT_FAILURE);
+		/* NOTREACHED */
 	}
 
-	alarm(1);
+	if (alarm(1) == (unsigned int)-1) {
+		err(EXIT_FAILURE, "alarm");
+		/* NOTREACHED */
+	}
 
 	for ( ; ; ) {
 		if ((ptr = getpwnam(USER)) == NULL) {
 			fprintf(stderr, "user %s not found!\n", USER);
-			exit(1);
+			exit(EXIT_FAILURE);
+			/* NOTREACHED */
 		}
-		if(strcmp(ptr->pw_name, USER) != 0) {
+		if (strcmp(ptr->pw_name, USER) != 0) {
 			fprintf(stderr, "return value corrupted: pw_name = %s\n",
 				ptr->pw_name);
 			abort();
+			/* NOTREACHED */
 		}
 	}
 }

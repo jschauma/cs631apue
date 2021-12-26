@@ -27,11 +27,12 @@ main(int argc, char **argv) {
 	if (RAND_bytes(data, NUM) == 0) {
 		err(EXIT_FAILURE, "Unable to generate random data: %s\n",
 				strerror(errno));
+		/* NOTREACHED */
 	}
 
 	for (i=0; i<NUM; i++) {
-		printf("%02X", data[i]);
+		(void)printf("%02X", data[i]);
 	}
-	printf("\n");
+	(void)printf("\n");
 	exit(EXIT_SUCCESS);
 }

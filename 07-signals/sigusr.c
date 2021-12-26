@@ -3,22 +3,22 @@
  * signals.
  */
 
+#include <err.h>
 #include <errno.h>
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <unistd.h>
 
 static void
 sig_usr(int signo) {
 	if (signo == SIGUSR1)
-		printf("received SIGUSR1\n");
+		(void)printf("Nobody expects SIGUSR1!\n");
 	else if (signo == SIGUSR2)
-		printf("received SIGUSR2\n");
+		(void)printf("A surprising turn of events occurred!\n");
 	else {
-		fprintf(stderr, "received signal: %d\n", signo);
-		exit(1);
+		(void)fprintf(stderr, "received signal: %d\n", signo);
+		exit(EXIT_FAILURE);
 	}
 	return;
 }
@@ -26,22 +26,24 @@ sig_usr(int signo) {
 int
 main(void) {
 	if (signal(SIGUSR1, sig_usr) == SIG_ERR) {
-		fprintf(stderr, "Can't catch SIGUSR1: %s", strerror(errno));
-		exit(1);
+		err(EXIT_FAILURE, "unable to catch SIGUSR1");
+		/* NOTREACHED */
 	}
 	if (signal(SIGUSR2, sig_usr) == SIG_ERR) {
-		fprintf(stderr, "Can't catch SIGUSR2: %s", strerror(errno));
-		exit(1);
+		err(EXIT_FAILURE, "unable to catch SIGUSR2");
+		/* NOTREACHED */
 	}
 
 	if (signal(SIGHUP, sig_usr) == SIG_ERR) {
-		fprintf(stderr, "Can't catch SIGHUP: %s", strerror(errno));
-		exit(1);
+		err(EXIT_FAILURE, "unable to catch SIGHUP");
+		/* NOTREACHED */
 	}
 
-	for ( ; ; )
+	(void)printf("%d\n", getpid());
+	for ( ; ; ) {
 		pause();
 		/* Note that the compiler is smart enough to realize we
 		 * don't return from main, so won't warn that we didn't
 		 * return a value. */
+	}
 }

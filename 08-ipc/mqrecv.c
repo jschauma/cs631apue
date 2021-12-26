@@ -1,5 +1,6 @@
 #include <sys/stat.h>
 
+#include <err.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <mqueue.h>
@@ -9,11 +10,11 @@
 #include <string.h>
 #include <unistd.h>
 
-#define MQ_PATH "/mq-example"
-#define MQ_FLAGS O_RDONLY | O_CREAT | O_EXCL | O_NONBLOCK
-#define MQ_PERMS S_IRUSR | S_IWUSR
-#define MQ_MAXMSG 10
-#define MQ_MSGSIZE 1024
+#define MQ_PATH             "/sandwiches"
+#define MQ_FLAGS            O_RDONLY | O_CREAT | O_EXCL | O_NONBLOCK
+#define MQ_PERMS            S_IRUSR | S_IWUSR
+#define MQ_MAXMSG           10
+#define MQ_MSGSIZE          1024
 #define MQ_DEFAULT_PRIORITY 0
 
 int msgreceived;
@@ -26,11 +27,10 @@ emptyQueue(mqd_t mq, struct sigevent se) {
 
 		struct mq_attr attr;
 		if (mq_getattr(mq, &attr) == -1) {
-			fprintf(stderr, "Unable to get mq attributes: %s\n",
-					strerror(errno));
-			exit(EXIT_FAILURE);
+			err(EXIT_FAILURE, "mq_getattr");
+			/* NOTREACHED */
 		}
-		printf("Number of messages in queue: %ld\n", attr.mq_curmsgs);
+		(void)printf("Number of messages in queue: %ld\n", attr.mq_curmsgs);
 
 		/* Note: we only get notified if the message queue is
 		 * empty and it receives a message; if we don't pick them
@@ -40,20 +40,19 @@ emptyQueue(mqd_t mq, struct sigevent se) {
 		 * Note also: If a message of a higher priority comes in,
 		 * it'll be picked off first. */
 		while (mq_receive(mq, buf, BUFSIZ, &prio) > 0) {
-			printf("Message of priority %d: %s\n", prio, buf);
+			(void)printf("Message of priority %d: %s\n", prio, buf);
 			bzero(buf, BUFSIZ);
 		}
 		if ((errno > 0) && (errno != EAGAIN)) {
-			fprintf(stderr, "Unable to receive message from queue: %s\n",
+			(void)fprintf(stderr, "Unable to receive message from queue: %s\n",
 				strerror(errno));
 		}
 
 		/* After every notification, the registration to be
 		 * notified is removed, so we need to re-register. */
 		if (mq_notify(mq, &se) == -1) {
-			fprintf(stderr, "Unable to set up mq notification: %s\n",
-					strerror(errno));
-			exit(EXIT_FAILURE);
+			err(EXIT_FAILURE, "mq_notify");
+			/* NOTREACHED */
 		}
 	}
 	msgreceived = 0;
@@ -80,8 +79,8 @@ main(int argc, char **argv) {
 	(void)mq_unlink(MQ_PATH);
 
 	if (signal(SIGUSR1, msghandler) == SIG_ERR) {
-		fprintf(stderr, "%s: Can't catch SIGUSR1: %s", getprogname(), strerror(errno));
-		exit(EXIT_FAILURE);
+		err(EXIT_FAILURE, "Unable to install signal handler");
+		/* NOTREACHED */
 	}
 
 	attr.mq_flags = 0;
@@ -90,18 +89,16 @@ main(int argc, char **argv) {
 	attr.mq_curmsgs = 0;
 
 	if ((mq = mq_open(MQ_PATH, MQ_FLAGS, MQ_PERMS, &attr)) == (mqd_t)-1) {
-		fprintf(stderr, "%s: Unable to create message queue: %s\n",
-				getprogname(), strerror(errno));
-		exit(EXIT_FAILURE);
+		err(EXIT_FAILURE, "mq_open");
+		/* NOTREACHED */
 	}
 
 	se.sigev_notify = SIGEV_SIGNAL;
 	se.sigev_signo = SIGUSR1;
 
 	if (mq_notify(mq, &se) == -1) {
-		fprintf(stderr, "%s: Unable to set up mq notification: %s\n",
-				getprogname(), strerror(errno));
-		exit(EXIT_FAILURE);
+		err(EXIT_FAILURE, "mq_notify");
+		/* NOTREACHED */
 	}
 
 	for (;;) {
@@ -115,14 +112,12 @@ main(int argc, char **argv) {
 	}
 
 	if (mq_close(mq) == -1) {
-		fprintf(stderr, "%s: Unable to close message queue: %s\n",
-				getprogname(), strerror(errno));
-		exit(EXIT_FAILURE);
+		err(EXIT_FAILURE, "mq_close");
+		/* NOTREACHED */
 	}
 
 	if (mq_unlink(MQ_PATH) == -1) {
-		fprintf(stderr, "%s: Unable to delete message queue: %s\n",
-				getprogname(), strerror(errno));
-		exit(EXIT_FAILURE);
+		err(EXIT_FAILURE, "mq_unlink");
+		/* NOTREACHED */
 	}
 }

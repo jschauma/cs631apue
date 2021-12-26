@@ -6,14 +6,15 @@
  */
 #include <sys/param.h>
 
+#include <errno.h>
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 
 int
-main(int argc, char **argv)
-{
+main(int argc, char **argv) {
 	char buf[MAXPATHLEN];
 
 	if (argc != 2) {
@@ -22,8 +23,8 @@ main(int argc, char **argv)
 	}
 
 	if (chdir(argv[1]) == -1) {
-		fprintf(stderr, "%s: unable to chdir to %s\n", argv[0],
-						argv[1]);
+		fprintf(stderr, "%s: unable to chdir to %s: %s\n", argv[0],
+						argv[1], strerror(errno));
 		return(EXIT_FAILURE);
 	}
 

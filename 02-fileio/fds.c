@@ -58,5 +58,13 @@ main() {
 	printf("f: %d\n", fileno(f));
 	(void)fclose(f);
 
+	(void)close(STDERR_FILENO);
+	printf("\nOpening /dev/stderr after closing STDERR...\n");
+	if ((fd3 = open("/dev/stderr", O_RDONLY)) < 0) {
+		fprintf(stdout, "Unable to open /dev/stderr: %s\n", strerror(errno));
+		exit(EXIT_FAILURE);
+	}
+	printf("stderr is now: %d\n", fd3);
+
 	return EXIT_SUCCESS;
 }

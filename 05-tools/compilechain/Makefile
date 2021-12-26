@@ -1,9 +1,11 @@
 all: a.out
 
+cpp: preprocess
+
 preprocess: hello.i
 
 hello.i: hello.c
-	cpp $< >$@
+	cpp -P $> >$@
 
 compile: hello.s
 

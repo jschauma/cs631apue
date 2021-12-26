@@ -3,7 +3,7 @@
  * interrupted and we need to manually check this condition.
  *
  * This code example is derived from:
- * http://www.win.tue.nl/~aeb/linux/lk/lk-4.html
+ * https://www.win.tue.nl/~aeb/linux/lk/lk-4.html
  */
 
 #include <errno.h>
@@ -17,6 +17,7 @@ int restarted = 0;
 
 void
 sig_handler(int signo) {
+	(void)signo;
         restarted = 1;
 }
 
@@ -29,11 +30,10 @@ main(void) {
 	sa.sa_handler = sig_handler;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
-
 	if (sigaction(SIGINT, &sa, NULL) == -1) {
-		fprintf(stderr, "Unable to establish signal handler for SIGINT: %s\n",
+		(void)fprintf(stderr, "Unable to establish signal handler for SIGINT: %s\n",
 			strerror(errno));
-		exit(1);
+		exit(EXIT_FAILURE);
 		/* NOTREACHED */
 	}
 
@@ -41,20 +41,20 @@ main(void) {
 	 * setting errno to EINTR. */
 	sa.sa_flags = SA_RESTART;
 	if (sigaction(SIGQUIT, &sa, NULL) == -1) {
-		fprintf(stderr, "Unable to establish signal handler for SIGQUIT: %s\n",
+		(void)fprintf(stderr, "Unable to establish signal handler for SIGQUIT: %s\n",
 			strerror(errno));
-		exit(1);
+		exit(EXIT_FAILURE);
 		/* NOTREACHED */
 	}
 
 	if ((n = read(STDIN_FILENO, &c, 1)) < 0) {
 		if (errno == EINTR) {
-			printf("\nread call was interrupted\n");
+			(void)printf("\nread call was interrupted\n");
 		}
 	} else if (restarted) {
-		printf("\nread call was restarted\n");
+		(void)printf("\nread call was restarted\n");
 	}
 
 	printf("|%c|\n", c);
-	return 0;
+	return EXIT_SUCCESS;
 }

@@ -1,13 +1,18 @@
-/* A simple program to illustrate the use of Message Queues.
+/* A simple program to illustrate the use of Message
+ * Queues.
  *
- * Note that message queues continue to exist after all processes have
- * terminated; messages continue to remain in the queues as well.  This is
- * desired, but requires that processes clean up after themselves when
- * they are done using the queues.
+ * Note that message queues continue to exist after
+ * all processes have terminated; messages continue to
+ * remain in the queues as well.  This is desired, but
+ * requires that processes clean up after themselves
+ * when they are done using the queues.
  *
- * Use this tool to create/send messages, then run msgrecv to retrieve
- * them (in order).  Note that msgrecv will block if no messages are in
- * the queue.
+ * Note that in this example we manually specify the
+ * key instead of using ftok(2).
+ *
+ * Use this tool to create/send messages, then run
+ * msgrecv to retrieve them (in order).  Note that
+ * msgrecv will block if no messages are in the queue.
  *
  * Use ipcs(1) to inspect the usage.
  *
@@ -32,37 +37,37 @@ typedef struct msgbuf {
 } message_buf;
 
 int
-main(int argc, char **argv) {
+main(int argc, char **argv)
+{
 	int msqid;
-	int msgflg = IPC_CREAT | 0666;
 	key_t key;
 	message_buf sbuf;
-	size_t buf_length;
+	size_t len;
 
-	if (argc != 2) {
-		fprintf(stderr, "Usage: msgsend message\n");
+	if (argc != 3) {
+		(void)fprintf(stderr, "Usage: msgsend key message\n");
 		exit(EXIT_FAILURE);
 	}
 
-	if ((key = ftok("msgsend.c", 'M')) == -1) {
-		perror("ftok");
-		exit(1);
+	if ((key = atoi(argv[1])) < 1) {
+		(void)fprintf(stderr, "Invalid key: %s\n", argv[1]);
+		exit(EXIT_FAILURE);
 	}
 
-	if ((msqid = msgget(key, msgflg )) < 0) {
+	if ((msqid = msgget(key, IPC_CREAT | 0644)) < 0) {
 		perror("msgget");
 		exit(EXIT_FAILURE);
 	}
 
 	sbuf.mtype = 1;
 
-	strncpy(sbuf.mtext, argv[1], MSGSZ);
+	(void)strncpy(sbuf.mtext, argv[2], MSGSZ);
 
-	buf_length = strlen(sbuf.mtext) + 1 ;
+	len = strlen(sbuf.mtext) + 1;
 
-	if (msgsnd(msqid, &sbuf, buf_length, IPC_NOWAIT) < 0) {
-		fprintf (stderr, "%d, %ld, %s, %d\n",
-				msqid, sbuf.mtype, sbuf.mtext, (int)buf_length);
+	if (msgsnd(msqid, &sbuf, len, IPC_NOWAIT) < 0) {
+		(void)fprintf (stderr, "%d, %ld, %s, %d\n",
+				msqid, sbuf.mtype, sbuf.mtext, (int)len);
 		perror("msgsnd");
 		exit(EXIT_FAILURE);
 	}

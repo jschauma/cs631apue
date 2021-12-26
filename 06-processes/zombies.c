@@ -4,47 +4,41 @@
 
 #include <sys/wait.h>
 
-#include <errno.h>
+#include <err.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <unistd.h>
 
 int
-main(int argc, char **argv) {
-	pid_t pid;
-	int i;
+main() {
+	(void)printf("Let's create some zombies!\n");
 
-	printf("Let's create some zombies!\n");
+	for (int i=0; i<5; i++) {
+		pid_t pid;
 
-	for (i=0; i<10; i++) {
 		if ((pid = fork()) < 0) {
-			fprintf(stderr, "%s: fork error: %s\n",
-					argv[0], strerror(errno));
-			exit(1);
+			err(EXIT_FAILURE, "fork error");
+			/* NOTREACHED */
 		}
 
 		if (pid == 0) {
-			/* Do nothing in the child, ie immediately exit.  This
+			/* Do nothing in the child, i.e. immediately exit.  This
 			 * creates a zombie until the parent decides to wait for
 			 * the child. */
-			exit(0);
+			exit(EXIT_SUCCESS);
 		} else {
-			printf("====\n");
+			(void)printf("====\n");
 			system("ps a | grep '[^ ]'a.ou[t]");
 			/* We don't wait for our children.  This allows
 			 * them to become zombies.  We sleep for a short
 			 * time to delay the next iteration of the loop.
 			 * When the parent exits, init will reap the zombies. */
-			sleep(2);
-			/* We wait for every other child to show that
-			 * zombies are reaped eventually if the parent
-			 * waits. */
-			if (i%2)
-				wait(NULL);
+			sleep(1);
 		}
 	}
-	printf("That's enough zombies. Let's have init clean them up.\n");
-	printf("Remember to run 'ps a | grep a.ou[t]' to verify.\n");
-	exit(0);
+	(void)printf("I'm going to sleep - try to kill my zombie children, if you like.\n");
+	sleep(30);
+	(void)printf("That's enough zombies. Let's have init clean them up.\n");
+	(void)printf("Remember to run 'ps a | grep a.ou[t]' to verify.\n");
+	return EXIT_SUCCESS;
 }

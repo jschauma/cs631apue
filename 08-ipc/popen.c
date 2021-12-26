@@ -1,12 +1,15 @@
-/* This is basically the same as 'pipe2.c', but using popen(3).  Make sure
- * to illustrate the dangers of invoking a shell on user-provided input.
+/* This is basically the same as 'pipe2.c', but using
+ * popen(3).  Make sure to illustrate the dangers of
+ * invoking a shell on user-provided input.
  *
  * $ env PAGER="more; touch /tmp/boo" ./a.out popen.c
- * $ env PAGER="more; rm /etc/passwd 2>/dev/null" ./a.out popen.c
+ * $ env PAGER="more; rm /etc/passwd 2>/dev/null"
+ * ./a.out popen.c
  */
 
 #include <sys/wait.h>
 
+#include <err.h>
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -22,37 +25,40 @@ main(int argc, char **argv) {
 	FILE *fp;
 
 	if (argc != 2) {
-		perror("usage: a.out <pathname>");
+		(void)fprintf(stderr, "Usage: %s <pathname>\n", argv[0]);
 		exit(EXIT_FAILURE);
+		/* NOTREACHED */
 	}
 
 	if ((pager = getenv("PAGER")) == NULL)
 		pager = DEF_PAGER;
 
 	if ((pipe = popen(pager, "w")) == NULL) {
-		fprintf(stderr,"Unable to open pipe to %s: %s\n",
+		(void)fprintf(stderr,"Unable to open pipe to %s: %s\n",
 				pager, strerror(errno));
 		exit(EXIT_FAILURE);
+		/* NOTREACHED */
 	}
 
 	if ((fp = fopen(argv[1], "r")) == NULL) {
-		fprintf(stderr, "can't open %s\n", argv[1]);
+		(void)fprintf(stderr, "can't open %s\n", argv[1]);
 		exit(EXIT_FAILURE);
+		/* NOTREACHED */
 	}
 
 	while (fgets(line, BUFSIZ, fp) != NULL) {
-		fprintf(pipe, "==> %s", line);
+		(void)fprintf(pipe, "==> %s", line);
 	}
 
 	if (ferror(fp)) {
-		perror("fgets error");
-		exit(EXIT_FAILURE);
+		err(EXIT_FAILURE, "fgets");
+		/* NOTREACHED */
 	}
 
 	if (pclose(pipe) == -1) {
-		perror("pclose error");
-		exit(EXIT_FAILURE);
+		err(EXIT_FAILURE, "pclose");
+		/* NOTREACHED */
 	}
 
-	return 0;
+	return EXIT_SUCCESS;
 }

@@ -48,9 +48,9 @@
 	bold.  (This has the added benefit of showing that you've actually
 	read at least this far on this page.)</p>
 
-        <P>This class overlaps <em>significantly</em> with
-	CS392 ``Systems Programming'' -- if you have taken this class,
-        please talk to me in person before trying to register for CS631.</P>
+        <!-- <P>This class overlaps <em>significantly</em> with
+	CS392 ``Systems Programming'' - if you have taken this class,
+        please talk to me in person before trying to register for CS631.</P> -->
 
 	<hr>
 	<table width="100%" border="0">
@@ -127,6 +127,7 @@ material on GitHub</a></li>
 	  <li><a href="https://youtu.be/TWog5NklSws">ctags(1)</a> [<a href="tt/ctags/tt-ctags.pdf">slides</a>]&nbsp;[<a href="tt/ctags/tt-ctags.txt">transcript</a>]
 	  <li><a href="https://youtu.be/vxTXXaCr4s8">screen(1)</a> [<a href="tt/screen/tt-screen.pdf">slides</a>]&nbsp;[<a href="tt/screen/tt-screen.txt">transcript</a>]
 	  <li><a href="https://youtu.be/XqhOUqi4fc0">/usr/share/docs</a> [<a href="tt/docs/tt-docs.pdf">slides</a>]&nbsp;[<a href="tt/docs/tt-docs.txt">transcript</a>]
+	  <li><a href="https://youtu.be/FyPqII2rewA"><tt>sizeof != strlen</tt></a> [<a href="tt/sizeof/tt-sizeof.pdf">slides</a>]&nbsp;[<a href="tt/sizeof/tt-sizeof.txt">transcript</a>]&nbsp;[<a href="tt/sizeof/sizeof.c">sizeof.c</a>]
 	</ul>
 
 	</td><td valign="top" align="right">
@@ -317,6 +318,8 @@ simple shell</a></li>
 	<li><a href="startup-exercise.html">Lecture 06 - Program Startup Exercise</a></li>
 	<li><a href="env-exercise.html">Lecture 06 - Environment Exercise</a></li>
 	<li><a href="siggot-exercise.html">Lecture 07 - Play the Signals Game of Thrones</a></li>
+	<li><a href="two-pipes-exercise.html">Lecture 08 - Bi-directional communications using pipe(2)</a></li>
+	<li><a href="pipe-readers-exercise.html">Lecture 08 - How do multiple <tt>pipe(2)</tt> readers/writers behave?</a></li>
 	<li><a href="code-reading-exercise.html">Lecture 10 - HTTP Code Reading</a></li>
 	<li><a href="libgreet-exercise.html">Lecture 11 - libgreet</a></li>
 	<li><a href="aed-exercise.html">Lecture 12 - write a tool to encrypt/decrypt data using AES</a></li>
@@ -326,14 +329,14 @@ simple shell</a></li>
         <H3><A name="midterm">Midterm</A> Project:</H3>
 	<p>Implement the "<a href="ls.pdf">ls(1)</a>" command as
         decribed in the manual page provided to you.
-        See the full <A href="f20-midterm.html">midterm project
+        See the full <A href="f21-midterm.html">midterm project
         description</A> for details.</P>
 
 	<hr>
         <H3><A name="group-project">Group</A> Project:</H3>
         <p>Implement the "<a href="sws.1.pdf">sws(1)</a>" command as
         decribed in the manual page provided to you.
-	See the full <A href="f20-group-project.html">group project
+	See the full <A href="f21-group-project.html">group project
         description</A> for details.</P>
 
 	<!--
@@ -598,8 +601,8 @@ about the misc libc/gcc crt files</a><br>
 href="https://insecure.org/stf/smashstack.html">Smashing The Stack For Fun And Profit</a><br>
 		<a
 href="http://dbp-consulting.com/tutorials/debugging/linuxProgramStartup.html">Linux x86 Program Start Up</a><br>
-		<a
-href="https://www.netmeister.org/blog/stdarg.html"><tt>stdarg</tt> And The Case Of The Forgotten Registers</a></TD>
+		<a href="https://www.netmeister.org/blog/stdarg.html"><tt>stdarg</tt> And The Case Of The Forgotten Registers</a><br>
+		<a href="https://www.netmeister.org/blog/return-printf.html">There is no 'printf'.</a></TD>
 
             <TD nowrap="nowrap"><em>Note: Tuesday Class</em><br><br>
 			<b>Week 06, Segment 1: Memory Layout of a Process</b><br>
@@ -642,7 +645,8 @@ href="https://www.netmeister.org/blog/stdarg.html"><tt>stdarg</tt> And The Case 
             <A href="zombies.c">zombies.c</A><br><br>
 	    <a
 href="http://cvsweb.netbsd.org/bsdweb.cgi/src/lib/csu/common/crt0-common.c?rev=HEAD&content-type=text/x-cvsweb-markup">NetBSD crt0-common.c</a><br><br>
-            <a href="/cgi-bin/631-06.cgi">Week 06 Checkpoint</a><br>
+            <a href="/cgi-bin/631-06.cgi">Week 06 Checkpoint</a><br><br>
+            <a href="https://stevens.zoom.us/rec/share/ivA9F4vwOWOZogw1c8flGOR6yLQRbKkmUs8xbTZZmr52WuujOIadUM_M0AtZRK9q.rUjEojaIB18rBygJ">Zoom Meeting Recording</a><br>
             <!-- <A href="setjmp1.c">setjmp1.c</A><BR>
             <A href="setjmp2.c">setjmp2.c</A><BR>
             <A href="setjmp3.c">setjmp3.c</A> --></TD>
@@ -685,7 +689,9 @@ href="http://www.informit.com/articles/article.aspx?p=366888&seqNum=7">FreeBSD P
             <a href="signals2.c">signals2.c</a><br>
             <a href="signals3.c">signals3.c</a><br>
             <a href="signals4.c">signals4.c</a><br>
-            <A href="sigusr.c">sigusr.c</A></TD>
+            <A href="sigusr.c">sigusr.c</A><br><br>
+            <a href="/cgi-bin/631-07.cgi">Week 07 Checkpoint</a>
+           </TD>
           </TR>
 
           <TR>
@@ -722,7 +728,9 @@ Guide to Unix IPC</a><br>
             <a href="semdemo.c">semdemo.c</a><br>
             <a href="shmdemo.c">shmdemo.c</a><br>
 	<br>
+            <a href="/cgi-bin/631-08.cgi">Week 08 Checkpoint</a><br>
 	<a href="f21-hw2.html">HW#2: implement 'command(3)'</a><br>
+            <a href="https://stevens.zoom.us/rec/share/6ElJQaqPG9UtMsk9pYr7LMijxRpJ6l9IknO4oWjIdptggJVcWUZqYguQkdX8h7D4.zUCsSxgAf_2LL7pC">Zoom Meeting Recording</a><br>
 		</TD>
           </TR>
 
@@ -735,7 +743,9 @@ Guide to Unix IPC</a><br>
             	<A href="ipc.pdf">BSD IPC</A><BR>
 		<a href="https://ops.tips/blog/how-linux-creates-sockets/">How Linux creates sockets and counts them</a><br>
 		<a href="https://ops.tips/blog/how-linux-tcp-introspection/">How Linux allows TCP introspection</a><br>
-		<a href="http://www.kegel.com/c10k.html">The C10K problem</a><br></TD>
+		<a href="http://www.kegel.com/c10k.html">The C10K problem</a><br>
+		<a href="https://www.netmeister.org/blog/ipcbufs.html">IPC Buffer Sizes</a><br>
+		</TD>
 
             <TD width="25%">
 			<b>Week 09, Segment 1: <tt>socketpair(2)</tt></b><br>
@@ -767,7 +777,8 @@ Guide to Unix IPC</a><br>
             <A href="one-socket-select.c">one-socket-select.c</A><BR>
             <A href="one-socket-select-fork.c">one-socket-select-fork.c</A><BR>
 		<br>
-	    <a href="f19-group-project.html">Group Project Assignment</a><br>
+            <a href="/cgi-bin/631-09.cgi">Week 09 Checkpoint</a><br><br>
+	    <a href="f21-group-project.html">Group Project Assignment</a><br>
 	    </TD>
           </TR>
 
@@ -793,6 +804,8 @@ Guide to Unix IPC</a><br>
 			<b>Week 10, Segment 1: D&aelig;mon Processes</b><br>
 			[<a href="10-daemons.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/YbYQqVMv7b8">video lecture</a>]&nbsp;[<a href="10-daemons.txt">transcript</a>]<br>
             &#160;<BR>
+			<a
+href="https://stevens.zoom.us/rec/share/iHD84oocuLek3LisEuDiKy-GP7SVAqALtbX1ogUdrGn9KM1pHXCjHKAXVcHkOnUM.oDS5fh0Z28RcaX1-">Zoom Meeting Recording</a><br>
 <a href="lecture10.pdf">Lecture Slides</a></TD>
   
           </TR> 
@@ -808,10 +821,10 @@ href="http://jvns.ca/blog/2014/09/06/how-to-read-an-executable/">How to read an 
 		<a href="https://lwn.net/Articles/276782/">Ian Lance Taylor's blog post series on linkers</a><br>
 		<a href="https://web.archive.org/web/20150320212734/http://www.iecc.com/linker/">Linkers and Loaders</a><br>
 		<a href="https://www.akkadia.org/drepper/dsohowto.pdf">How To Write Shared Libraries</a><br>
+		<a href="https://refspecs.linuxbase.org/elf/elf.pdf">Tool Interface Standard (TIS) ELF Specification</a><br>
 		<a href="elf.html">The Executable and Linkable Format (ELF)</a></TD>
 
-            <TD width="25%">
-			<b>Week 11, Segment 1: The Executable and Linkable Format</b><br>
+            <TD width="25%"><a name="elf"><b>Week 11, Segment 1: The Executable and Linkable Format</b></a><br>
 			[<a href="11-elf.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/i1UDF05iZPU">video lecture</a>]&nbsp;[<a href="11-elf.txt">transcript</a>]<br>
             &#160;<BR>
 			<b>Week 11, Segment 2: Of Linkers and Loaders</b><br>
@@ -830,7 +843,8 @@ href="http://jvns.ca/blog/2014/09/06/how-to-read-an-executable/">How to read an 
 		<a href="ldtest1.c">ldtest1.c</a><br>
 		<a href="ldtest2.c">ldtest2.c</a><br>
 		<a href="main.c">main.c</a><br>
-		<a href="setget.c">setget.c</a><br>
+		<a href="setget.c">setget.c</a><br><br>
+		<a href="/cgi-bin/631-11.cgi">Week 11 Checkpoint</a><br>
 	        <a href="libgreet-exercise.html">libgreet exercise</a></td>
           </TR>
           <TR>
@@ -863,6 +877,9 @@ encryption basics)
             <A href="slogdemo.c">slogdemo.c</A><br>
             <A href="nonblock.c">nonblock.c</A><br>
             <A href="flock.c">flock.c</A><br><br>
+            <a
+href="https://stevens.zoom.us/rec/share/UbOPIePAcJcNm_rVl6VkokNLNYjEvwK8ynqRpZrBsVrn3J8kGu6tPut7CjeYMh5M.U6Q8mCsg3Dgwj466 ">Zoom Meeting Recording</a><br>
+            <a href="/cgi-bin/631-12.cgi">Week 12 Checkpoint</a><br>
 	    <!-- <a href="f16-hw4.html">HW4</a> -->
 	</TD>
           </TR>
@@ -899,7 +916,10 @@ scheduling and related interfaces in NetBSD 5.0</a><br>
 		<a href="busy-child.c">busy-child.c</a><br>
 		<a href="load.c">load.c</a><br>
 		<a href="priority.c">priority.c</a><br>
-		<a href="mkchroot">mkchroot</a></TD>
+		<a href="mkchroot">mkchroot</a><br><br>
+                <a href="https://stevens.zoom.us/rec/share/FEmL1i-vQ3Q8kwbIEIVXx6sZSv_ykgMCRLy674-OXurTXGHnScKUNKYE4z91WeEJ.Dg2-W17eip4rJ2pq">Zoom Meeting Recording</a><br>
+		<a href="/cgi-bin/631-13.cgi">Week 13 Checkpoint</a><br>
+		</TD>
           </TR>
 
           <TR>
@@ -911,7 +931,7 @@ scheduling and related interfaces in NetBSD 5.0</a><br>
 
             <TD><A
 href="https://create.kahoot.it/share/cs631-advanced-programming-in-the-unix-environment/d5280f84-bd71-4efe-85e8-0f2d22d86086">Review Kahoot</a><br><br>
-		<a href="f20-sish.html">Final Assignment: sish(1)</a></TD>
+		<a href="f21-sish.html">Final Assignment: sish(1)</a></TD>
           </TR>
 
         </TABLE>

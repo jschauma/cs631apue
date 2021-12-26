@@ -6,7 +6,6 @@
  *
  * $ cc -Wall wait-unlink.c
  * $ ./a.out
- * $ df .
  */
 #include <fcntl.h>
 #include <stdio.h>
@@ -26,6 +25,10 @@ int
 main() {
 	int fd;
 
+	/* "/tmp" is a memory file system on our
+	 * reference platform, so let's use a separate
+	 * temporary directory backed by a "normal"
+	 * filesystem. */
 	if (chdir("/var/tmp") == -1) {
 		perror("unable to cd to /var/tmp");
 		exit(EXIT_FAILURE);
@@ -33,8 +36,10 @@ main() {
 
 	runDf();
 
-	printf("Hit return to create a 500M file...");
+	/* Hit return to continue. */
 	(void)getchar();
+
+	printf("Creating a 500M file...\n");
 	if (system("dd if=/dev/zero of=foo bs=1024k count=500 >/dev/null") != 0) {
 		perror("unable to dd a new file");
 		exit(EXIT_FAILURE);
@@ -42,8 +47,8 @@ main() {
 
 	runDf();
 
-	printf("\nHit return to link 'bar' to 'foo'...");
 	(void)getchar();
+	printf("\nLinking 'bar' to 'foo'...\n\n");
 	if (link("foo", "bar") == -1) {
 		perror("unable to create a second hard link");
 		exit(EXIT_FAILURE);
@@ -56,44 +61,48 @@ main() {
 
 	runDf();
 
-	printf("\nHit return to open and then unlink 'foo'...");
 	(void)getchar();
-
 	if ((fd = open("foo", O_RDWR)) < 0) {
 		perror("can't open file");
 		exit(EXIT_FAILURE);
 	}
+	printf("\nOpened 'foo' on fd#%d.\n", fd);
 
+	(void)getchar();
 	if (unlink("foo") < 0) {
 		perror("error unlinking");
 		exit(EXIT_FAILURE);
 	}
 
-	printf("\nOk, foo unlinked.  Disk space not free'd since 'bar' still exists...\n");
-	/* We expect system(3) to fail here, since foo no longer exists. */
+	printf("\nOk, foo unlinked.\n");
+	printf("Disk space not free'd since 'bar' still exists...\n");
+	/* We expect system(3) to fail here, since 'foo' no longer exists. */
 	(void)system("ls -li foo bar");
 
 	runDf();
 
-	printf("\nHit return to unlink 'bar'...");
 	(void)getchar();
+	printf("\nOk, now unlinking 'bar'...\n");
 	if (unlink("bar") < 0) {
 		perror("error unlinking");
 		exit(EXIT_FAILURE);
 	}
 
-	printf("\nOk, bar unlinked.  Disk space not free'd since I still have a file handle open...\n");
+	printf("\nOk, bar unlinked.\n");
+	(void)getchar();
+
+	printf("Disk space not free'd since I still have fd#%d open...\n", fd);
 	printf("\nRunning 'ls -li foo bar':\n");
 	(void)system("ls -li foo bar");
 
 	runDf();
 
-	printf("\nHit return to close the open file descriptor.");
 	(void)getchar();
+	printf("Now closing fd#%d...\n", fd);
 	/* Closing the file descriptor after having
 	 * unlinked all references to the 500M file
 	 * finally frees the disk space. */
-	close(fd);
+	(void)close(fd);
 	printf("\n...and done.  Disk space is freed now.\n");
 
 	runDf();

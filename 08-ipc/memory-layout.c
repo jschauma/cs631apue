@@ -1,15 +1,21 @@
+/* This program allows us to visualize the layout of a
+ * process in memory, printing the addresses of
+ * various parts of the program, including components
+ * in the text, data, and bss segments as well as on
+ * the heap and the stack.
+ *
+ * This program can also illustrate a stack overflow
+ * if compiled with '-DSTACKOVERFLOW'.
+ */
 #include <sys/shm.h>
 
-#include <errno.h>
-#include <stdarg.h>
+#include <err.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <unistd.h>
 
-
-#define ARRAY_SIZE 40000
-#define MALLOC_SIZE 100000
+#define ARRAY_SIZE 16
+#define MALLOC_SIZE 32
 #define SHM_SIZE 100000
 #define SHM_MODE 0600
 
@@ -20,122 +26,125 @@ int num = 10;
 int num2;
 
 extern char **environ;
-char **argv;
-int argc;
 
 void func(int);
 void func2(const char *);
 
 int
 main(int argc, char **argv, char **envp) {
+	int vars;
 	int shmid;
-	char *ptr;
+	char *ptr, *shmptr;
 
 	char func_array[ARRAY_SIZE];
 
-	printf("Text Segment:\n");
-	printf("-------------\n");
-	printf("main (function) at                                     : 0x%12lX\n", (unsigned long)&main);
-	printf("func (function) at                                     : 0x%12lX\n", (unsigned long)&func);
-	printf("func2 (function) at                                    : 0x%12lX\n", (unsigned long)&func2);
-	printf("\n");
-
-	printf("Initialized Data:\n");
-	printf("-----------------\n");
-	printf("string (initialized global char *) at                  : 0x%12lX\n", (unsigned long)&string);
-	printf("num (initialized global int) at                        : 0x%12lX\n", (unsigned long)&num);
-	printf("\n");
-
-	printf("Uninitialized Data (BSS):\n");
-	printf("-------------------------\n");
-	printf("extern **environ at                                    : 0x%12lX\n", (unsigned long)&environ);
-	printf("string2 (uninitialized global char *) at               : 0x%12lX\n", (unsigned long)&string2);
-	printf("num2 (uninitialized global int) at                     : 0x%12lX\n", (unsigned long)&num2);
-	printf("array[] (uninitialized, fixed-size char * on BSS) from : 0x%12lX\n", (unsigned long)&array[0]);
-	printf("array[] ends at                                        : 0x%12lX\n", (unsigned long)&array[ARRAY_SIZE]);
-	printf("\n");
-
-	printf("Heap:\n");
-	printf("-----\n");
-	if ((ptr = malloc(MALLOC_SIZE)) == NULL) {
-		fprintf(stderr, "Unable to allocate memory: %s\n",
-			strerror(errno));
-		exit(1);
+	vars = 0;
+	char **tmp = envp;
+	while (*tmp++) {
+		vars++;
 	}
-	printf("malloced area begins at                                : 0x%12lX\n", (unsigned long)ptr);
-	printf("malloced area ends at                                  : 0x%12lX\n", (unsigned long)ptr+MALLOC_SIZE);
-	free(ptr);
-	printf("\n");
 
-	printf("Shared memory:\n");
-	printf("--------------\n");
+	(void)printf("High address (args and env):\n");
+	(void)printf("----------------------------\n");
+	(void)printf("envp[%d] at                                            : 0x%12lX\n", vars, (unsigned long)&envp[vars]);
+	(void)printf("environ[%d] at                                         : 0x%12lX\n", vars, (unsigned long)&environ[vars]);
+	(void)printf("envp[0] at                                             : 0x%12lX\n", (unsigned long)envp);
+	(void)printf("environ[0] at                                          : 0x%12lX\n", (unsigned long)environ);
+	(void)printf("last arg at                                            : 0x%12lX\n", (unsigned long)&argv[argc]);
+	(void)printf("first arg at                                           : 0x%12lX\n", (unsigned long)&argv[0]);
+	(void)printf("\n");
+
+	(void)printf("Stack:\n");
+	(void)printf("------\n");
+	(void)printf("First variable inside main at                          : 0x%12lX\n", (unsigned long)&vars);
+	(void)printf("func_array[] ends at                                   : 0x%12lX\n", (unsigned long)&func_array[ARRAY_SIZE]);
+	(void)printf("func_array[] (like 'array[]', but on stack) begins at  : 0x%12lX\n", (unsigned long)&func_array[0]);
+
+	(void)printf("argc at                                                : 0x%12lX\n", (unsigned long)&argc);
+	(void)printf("argv at                                                : 0x%12lX\n", (unsigned long)&argv);
+	(void)printf("envp at                                                : 0x%12lX\n", (unsigned long)&envp);
+
+	func2("from main");
+	func(0);
+
+	(void)printf("\n");
+
+	(void)printf("Shared Memory:\n");
+	(void)printf("--------------\n");
 
 	if ((shmid = shmget(IPC_PRIVATE, SHM_SIZE, SHM_MODE)) < 0) {
-		fprintf(stderr, "Unable to get shared memory: %s\n",
-			strerror(errno));
-		exit(1);
+		err(EXIT_FAILURE, "shmget");
+		/* NOTREACHED */
 	}
 
-	if ((ptr = shmat(shmid, 0, 0)) == (void *)-1) {
-		fprintf(stderr, "Unable to map shared memory: %s\n",
-			strerror(errno));
-		exit(1);
+	if ((shmptr = shmat(shmid, 0, 0)) == (void *)-1) {
+		err(EXIT_FAILURE, "shmat");
+		/* NOTREACHED */
 	}
-	printf("shared memory attachment begins at                     : 0x%12lX\n", (unsigned long)ptr);
-	printf("shared memory attachment ends at                       : 0x%12lX\n", (unsigned long)ptr+SHM_SIZE);
+	(void)printf("shared memory area ends at                             : 0x%12lX\n", (unsigned long)shmptr+SHM_SIZE);
+	(void)printf("shared memory area begins at                           : 0x%12lX\n", (unsigned long)shmptr);
 
 	if (shmctl(shmid, IPC_RMID, 0) < 0) {
-		fprintf(stderr, "shmctl error: %s\n", strerror(errno));
-		exit(1);
+		err(EXIT_FAILURE, "shmctl");
+		/* NOTREACHED */
 	}
-	printf("\n");
 
-
-	printf("High address (args and env):\n");
-	printf("----------------------------\n");
-	printf("argv at                                                : 0x%12lX\n", (unsigned long)&argv);
-	printf("argc at                                                : 0x%12lX\n", (unsigned long)&argc);
-	printf("last arg at                                            : 0x%12lX\n", (unsigned long)&argv[argc]);
-	printf("environ[0] at                                          : 0x%12lX\n", (unsigned long)environ);
-	printf("envp at                                                : 0x%12lX\n", (unsigned long)&envp);
-	printf("envp[0] at                                             : 0x%12lX\n", (unsigned long)envp);
-	printf("\n");
-
-	if (setenv("FOO", "bar", 1) < 0) {
-		fprintf(stderr, "Unable to setenv(3): %s\n", strerror(errno));
-		exit(1);
+	(void)printf("\n");
+	(void)printf("Heap:\n");
+	(void)printf("-----\n");
+	if ((ptr = malloc(MALLOC_SIZE)) == NULL) {
+		err(EXIT_FAILURE, "unable to allocate memory");
+		/* NOTREACHED */
 	}
-	printf("After setenv(3):\n");
-	printf("environ[0] at                                          : 0x%12lX\n", (unsigned long)environ);
-	printf("envp[0] at                                             : 0x%12lX\n", (unsigned long)envp);
-	printf("\n");
 
-	printf("Stack:\n");
-	printf("------\n");
-	printf("func_array[] (like 'array[]', but on stack) begins at  : 0x%12lX\n", (unsigned long)&func_array[0]);
-	printf("func_array[] ends at                                   : 0x%12lX\n", (unsigned long)&func_array[ARRAY_SIZE]);
-	printf("First variable inside main at                          : 0x%12lX\n", (unsigned long)&shmid);
+	(void)printf("malloced area ends at                                  : 0x%12lX\n", (unsigned long)ptr+MALLOC_SIZE);
+	(void)printf("malloced area begins at                                : 0x%12lX\n", (unsigned long)ptr);
+	free(ptr);
+	(void)printf("\n");
 
+	(void)printf("Uninitialized Data (BSS):\n");
+	(void)printf("-------------------------\n");
+	(void)printf("array[] ends at                                        : 0x%12lX\n", (unsigned long)&array[ARRAY_SIZE]);
+	(void)printf("array[] (uninitialized, fixed-size char * on BSS) from : 0x%12lX\n", (unsigned long)&array[0]);
+	(void)printf("num2 (uninitialized global int) at                     : 0x%12lX\n", (unsigned long)&num2);
+	(void)printf("string2 (uninitialized global char *) at               : 0x%12lX\n", (unsigned long)&string2);
+	(void)printf("extern **environ at                                    : 0x%12lX\n", (unsigned long)&environ);
+	(void)printf("\n");
 
-	func(0);
-	func2("from main");
-	return 0;
+	(void)printf("Initialized Data:\n");
+	(void)printf("-----------------\n");
+	(void)printf("num (initialized global int) at                        : 0x%12lX\n", (unsigned long)&num);
+	(void)printf("string (initialized global char *) at                  : 0x%12lX\n", (unsigned long)&string);
+	(void)printf("\n");
+
+	(void)printf("Text Segment:\n");
+	(void)printf("-------------\n");
+	(void)printf("func2 (function) at                                    : 0x%12lX\n", (unsigned long)&func2);
+	(void)printf("func (function) at                                     : 0x%12lX\n", (unsigned long)&func);
+	(void)printf("main (function) at                                     : 0x%12lX\n", (unsigned long)&main);
+	(void)printf("\n");
+
+	return EXIT_SUCCESS;
 }
 
 
 void
-func(int i) {
+func(int recurse) {
 	int fint;
+	char *msg = "from func";
+
 	/* Change this value to 0 and note how
 	 * the location of where it is stored
 	 * changes from the Data to BSS segment. */
 	static int n = 1;
-	char *msg = "from func";
-	if (i) {
+	(void)printf("func frame at                                          : 0x%12lX\n", (unsigned long)&fint);
+
+	if (recurse) {
 		msg = "recursive";
 	}
-	printf("static int n within func at                            : 0x%12lX\n", (unsigned long)&n);
-	printf("func (called %d times): frame at                        : 0x%12lX\n", n, (unsigned long)&fint);
+	(void)printf("static int n within func at                            : 0x%12lX\n", (unsigned long)&n);
+	printf("func (called %5d times): frame at                    : 0x%12lX\n", n, (unsigned long)&fint);
+
 	n++;
 	func2(msg);
 }
@@ -143,7 +152,7 @@ func(int i) {
 void
 func2(const char *how) {
 	int fint;
-	printf("func2 (%s): frame at                            : 0x%12lX\n", how, (unsigned long)&fint);
+	(void)printf("func2 (%s): frame at                            : 0x%12lX\n", how, (unsigned long)&fint);
 #ifdef STACKOVERFLOW
 	func(1);
 #endif

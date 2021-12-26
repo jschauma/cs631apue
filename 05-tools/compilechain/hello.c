@@ -19,7 +19,7 @@
 #include <stdio.h>
 
 #ifndef FOOD
-#define FOOD "Bacon"
+#define FOOD "avocado"
 #endif
 
 void
@@ -33,7 +33,7 @@ func1(void) {
 }
 
 int
-main(int argc, char **argv) {
+main() {
 	func1();
 	return 0;
 }

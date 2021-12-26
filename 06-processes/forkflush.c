@@ -8,39 +8,39 @@
 *  (line-buffered) and once to a pipe or a file.
 */
 
-#include <errno.h>
+#include <err.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <unistd.h>
 
-int glob = 6;
+int global = 0;
 char buf[] = "a write to stdout\n";
 
 int
-main(int argc, char **argv) {
-	int var;
+main() {
+	int local;
 	pid_t pid;
 
-	var = 88;
+	local = 1;
 	if (write(STDOUT_FILENO, buf, sizeof(buf)-1) != sizeof(buf)-1) {
-		fprintf(stderr, "%s: write error: %s\n",
-				argv[0], strerror(errno));
-		exit(1);
+		err(EXIT_FAILURE, "write error");
+		/* NOTREACHED */
 	}
-	printf("before fork\n");
+	(void)printf("before fork\n");
 
 	if ((pid = fork()) < 0) {
-		fprintf(stderr, "%s: fork error: %s\n",
-				argv[0], strerror(errno));
-		exit(1);
-	} else if (pid == 0) { /* child */
-		glob++;
-		var++;
+		err(EXIT_FAILURE, "fork error");
+		/* NOTREACHED */
+	} else if (pid == 0) {	/* child */
+		global++;
+		local++;
 	} else {		/* parent */
-		sleep(2);
+		sleep(1);
+		global--;
+		local--;
 	}
 
-	printf("pid = %d, glob = %d, var = %d\n", getpid(), glob, var);
-	exit(0);
+	(void)printf("pid = %d, ppid = %d, global = %d, local = %d\n",
+			getpid(), getppid(), global, local);
+	return EXIT_SUCCESS;
 }

@@ -1,3 +1,4 @@
+#include <err.h>
 #include <errno.h>
 #include <mqueue.h>
 #include <stdio.h>
@@ -5,46 +6,57 @@
 #include <string.h>
 #include <unistd.h>
 
-#define MQ_PATH "/mq-example"
+#define MQ_PATH             "/sandwiches"
 #define MQ_DEFAULT_PRIORITY 0
+#define MQ_IMPORTANT        1
 
 int
 main(int argc, char **argv) {
 	mqd_t mq;
-	int i;
+	int ch, wait;
 
+	wait = 0;
 	setprogname(argv[0]);
-	if ((mq = mq_open(MQ_PATH, O_WRONLY | O_CREAT)) == (mqd_t)-1) {
-		fprintf(stderr, "%s: Unable to open message queue: %s\n",
-				getprogname(), strerror(errno));
-		exit(EXIT_FAILURE);
+
+	while ((ch = getopt(argc, argv, "w")) != -1) {
+		switch (ch) {
+		case 'w':
+			wait = 1;
+			break;
+		default:
+			(void)fprintf(stderr, "Usage: %s [-w] message\n",
+					getprogname());
+			exit(EXIT_FAILURE);
+			/* NOTREACHED */
+		}
+	}
+	argc -= optind;
+	argv += optind;
+
+	if ((mq = mq_open(MQ_PATH, O_WRONLY)) == (mqd_t)-1) {
+		err(EXIT_FAILURE, "mq_open");
+		/* NOTREACHED */
 	}
 
-	for (i = 1; i < argc; i++) {
+	for (int i = 0; i < argc; i++) {
 		if (mq_send(mq, argv[i], strlen(argv[i]), MQ_DEFAULT_PRIORITY) == -1) {
-			fprintf(stderr, "%s: Unable to send message %d: %s\n",
+			(void)fprintf(stderr, "%s: Unable to send message %d: %s\n",
 					getprogname(), i, strerror(errno));
 		}
-#ifdef WAIT
-		sleep(1);
-#endif
+
+		if (wait) {
+			sleep(1);
+		}
 	}
 
-	if (mq_send(mq, "semi-urgent", strlen("semi-urgent"), 5) == -1) {
-		fprintf(stderr, "%s: Unable to send urgent message: %s\n",
-					getprogname(), strerror(errno));
-		exit(EXIT_FAILURE);
-	}
+	if (mq_send(mq, "TUNA", strlen("TUNA"), MQ_IMPORTANT) == -1) {
+		err(EXIT_FAILURE, "mq_send");
+		/* NOTREACHED */
 
-	if (mq_send(mq, "urgent", strlen("urgent"), 10) == -1) {
-		fprintf(stderr, "%s: Unable to send urgent message: %s\n",
-					getprogname(), strerror(errno));
-		exit(EXIT_FAILURE);
 	}
 	if (mq_close(mq) == -1) {
-		fprintf(stderr, "%s: Unable to close message queue: %s\n",
-					getprogname(), strerror(errno));
-		exit(EXIT_FAILURE);
+		err(EXIT_FAILURE, "mq_close");
+		/* NOTREACHED */
 	}
 
 	return EXIT_SUCCESS;

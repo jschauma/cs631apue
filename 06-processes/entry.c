@@ -4,7 +4,7 @@
  * exit codes.
  *
  * To display the entry point of the program:
- * Linux / NetBSD:
+ * NetBSD:
  * - readelf -h a.out | grep ntry
  * - objdump -d a.out
  *
@@ -18,12 +18,19 @@
 #include <string.h>
 #include <unistd.h>
 
-#define MAINMSG "Hooray Main!\n"
+int
+bar(void) {
+	printf("bar rules!\n");
+	exit(EXIT_FAILURE);
+	/* Unlike foo(), this will not cause a segfault, since we are not
+	 * returning; we explicitly call exit(3). */
+}
 
-int foo(void) {
+int
+foo(void) {
 	printf("Foo for the win!\n");
-	return 1;
-	/* Note: this will cause a segfault on Linux, because this function
+	return EXIT_FAILURE;
+	/* Note: this will cause a segfault on NetBSD, because this function
 	 * returns, but there is nothing to return to: the routines set up
 	 * by the kernel remain set up for 'main', we just told the linker
 	 * to jump into 'foo' at program start.  Compare objdump(1)
@@ -31,16 +38,13 @@ int foo(void) {
 	 * Note: on OS X, we do not segfault! */
 }
 
-int bar(int argc, char **argv) {
-	printf("%s rules!\n", argv[0]);
-	exit(1);
-	/* Unlike foo(), this will not cause a segfault, since we are not
-	 * returning; we explicitly call exit(3). */
-}
-
-int main(int argc, char **argv) {
-	printf(MAINMSG);
+int
+main(int argc, char **argv) {
+	(void)argc;
+	(void)argv;
+	printf("main is at 0x%lX\n", (unsigned long)&main);
 	/* Note that we do explicitly _not_ return an error here, nor call
-	 * any of the exit(3) functions.  Your compiler will warn you
-	 * about this. Inspect the return value. */
+	 * any of the exit(3) functions.  Your compiler may warn you
+	 * about this. We're also not casting the return value of printf(3)
+	 * to void. Inspect the return value. */
 }

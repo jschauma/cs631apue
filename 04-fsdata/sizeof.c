@@ -8,7 +8,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-int main(int argc, char **argv) {
+int main() {
+
+	printf("int: %ld\n", sizeof(int));
 
 	char buf[BUFSIZ];
 	printf("Fixed buffer, size known at compile time: \"buf[%d]\"\n", BUFSIZ);

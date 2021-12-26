@@ -1,10 +1,11 @@
 /* This program can be used to illustrate that we can load symbols from
  * dynamic libraries at runtime without actually linking against them.
  *
- * Note that we do _not_ link against libcrypto, nor do we include the
- * openssl/rand.h header.
+ * Note that we do _not_ link against libcrypt, nor do we include the
+ * unistd.h header.
  *
- * cc -Wall -rdynamic dlopenex.c
+ * cc -Wall -Werror -Wextra crypt.c
+ * cc -Wall -Werror -Wextra -rdynamic dlopenex.c
  */
 
 #include <err.h>
@@ -14,35 +15,33 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define NUM 16
+void
+printCrypt(const char *s) {
+	void *dlhandle;
+	char *(*_crypt)(const char *, const char *);
+	char *error;
+
+	dlhandle = dlopen("libcrypt.so", RTLD_LAZY);
+	if (!dlhandle) {
+		err(EXIT_FAILURE, "%s\n", dlerror());
+		/* NOTREACHED */
+	}
+
+	*(void **) (&_crypt) = dlsym(dlhandle, "crypt");
+	if ((error = dlerror()) != NULL)  {
+		err(EXIT_FAILURE, "%s\n", error);
+		/* NOTREACHED */
+	}
+
+	(void)printf("%s\n", _crypt(s, "$1"));
+}
 
 int
 main(int argc, char **argv) {
-	int i;
-	unsigned char data[NUM];
-
-	void *handle;
-	int (*RAND_bytes)(unsigned char *, int);
-	char *error;
-
-	handle = dlopen("libcrypto.so", RTLD_LAZY);
-	if (!handle) {
-		err(EXIT_FAILURE, "%s\n", dlerror());
+	if (argc != 2) {
+		(void)fprintf(stderr, "Usage: %s string\n", argv[0]);
+		exit(EXIT_FAILURE);
 	}
-
-	*(void **) (&RAND_bytes) = dlsym(handle, "RAND_bytes");
-	if ((error = dlerror()) != NULL)  {
-		err(EXIT_FAILURE, "%s\n", error);
-	}
-
-	if (RAND_bytes(data, NUM) == 0) {
-		err(EXIT_FAILURE, "Unable to generate random data: %s\n",
-				strerror(errno));
-	}
-
-	for (i=0; i<NUM; i++) {
-		printf("%02X", data[i]);
-	}
-	printf("\n");
+	printCrypt(argv[1]);
 	exit(EXIT_SUCCESS);
 }
