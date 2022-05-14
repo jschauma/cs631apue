@@ -73,10 +73,12 @@ videos available on YouTube are work by <span xmlns:cc="http://creativecommons.o
 property="cc:attributionName">Jan Schaumann
 &lt;jschauma@netmeister.org&gt;</span> and are licensed under a <a
 rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative
-Commons Attribution-Non Commercial 4.0 International License</a>.
+Commons Attribution-Non Commercial 4.0 International License</a>.  If you are interested in using them in a
+commercial context, please <a
+href="mailto:jschauma@netmeister.org">email me</a> and
+we can work something out.
 </td></tr>
 </table></div>
-
 
 Non-copyright / licensed materials
 ----------------------------------
