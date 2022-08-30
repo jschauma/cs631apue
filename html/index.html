@@ -58,7 +58,7 @@
 	<tr><td width="50%" valign="top">
 
         <H3><a name="time"></a>Time, Date &amp; Place:</H3>
-	<p><b>Interactive/synchronous: Mondays, 18:30 Eastern, North Building 101 or <a href="https://stevens.zoom.us/j/91309973136">via Zoom</a></b><br>
+	<p><b>Interactive/synchronous: Mondays, 18:30 Eastern, Gateway South 024<!-- <a href="https://stevens.zoom.us/j/91309973136">via Zoom</a>--></b><br>
 		<b>Online on-demand: anytime <a
 href="https://youtube.com/c/cs631apue">via YouTube video
 lectures</a></b></p>
@@ -128,6 +128,7 @@ material on GitHub</a></li>
 	  <li><a href="https://youtu.be/vxTXXaCr4s8">screen(1)</a> [<a href="tt/screen/tt-screen.pdf">slides</a>]&nbsp;[<a href="tt/screen/tt-screen.txt">transcript</a>]
 	  <li><a href="https://youtu.be/XqhOUqi4fc0">/usr/share/docs</a> [<a href="tt/docs/tt-docs.pdf">slides</a>]&nbsp;[<a href="tt/docs/tt-docs.txt">transcript</a>]
 	  <li><a href="https://youtu.be/FyPqII2rewA"><tt>sizeof != strlen</tt></a> [<a href="tt/sizeof/tt-sizeof.pdf">slides</a>]&nbsp;[<a href="tt/sizeof/tt-sizeof.txt">transcript</a>]&nbsp;[<a href="tt/sizeof/sizeof.c">sizeof.c</a>]
+	  <li><a href="https://youtu.be/hCqfmuG5Acc">Installing NetBSD/evbarm in UTM on Apple M1</a> [<a href="tt/netbsd-utm/netbsd-utm.txt">transcript</a>]
 	</ul>
 
 	</td><td valign="top" align="right">
@@ -150,7 +151,8 @@ js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';i
 
 	<p>Our primary reference platform being
 	NetBSD, you can install the full sources into
-	<a href="virtualbox/">your VM</a> via e.g., <a
+	<a href="virtualbox/">your VirtualBox</a> or
+<a href="utm/">UTM VM</a> via e.g., <a
 	href="fetch-sources.sh">this script</a>.</p>
 
 	<p>To browse or fetch sources for other Open
@@ -210,6 +212,16 @@ js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';i
           ISBN 0-201-61586-X. <BR>
           </LI>
         </UL>
+        </p>
+
+        <p>
+        In addition, please consider MIT's "Missing
+        Semester" a course pre- or co-requisite:
+        <ul>
+          <li><a href="https://missing.csail.mit.edu/">MIT's Missing Semester</a>
+              -- <a href="https://www.youtube.com/playlist?list=PLyzOVJj3bHQuloKGG59rS43e29ro7I57J">video lectures</a></li>
+        </ul>
+        </p>
 
 	<hr>
 	<H3><a name="systems"></a>Systems Used</H3>
@@ -217,7 +229,7 @@ js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';i
 	href="https://www.netbsd.org">NetBSD</a> system.  It is
 	your responsibility to gain access to such a system <b>prior
 	to the start of the class</b>.  Please see <a href="netbsd.html">this
-	page</a> for more information. <a href="virtualbox/">Instructions on how to install NetBSD in a VirtualBox VM are provided to you here.</a></p>
+	page</a> for more information. Here are instructions on how to install NetBSD in a <a href="virtualbox/">VirtualBox</a> or <a href="utm/">UTM</a>.</a></p>
 	<p>
 	<p>All grading will be done on a NetBSD 9.2 system.  While you may
 	choose to develop on your own personal host, you should make sure
@@ -365,7 +377,7 @@ simple shell</a></li>
           </TR>
 
           <TR>
-            <TD>2021-08-30</TD>
+            <TD>2022-09-12</TD>
 
             <TD>Introduction, UNIX history, UNIX Programming
             Basics</TD>
@@ -388,6 +400,7 @@ simple shell</a></li>
             <A href="simple-shell.c">simple-shell.c</A><BR>
             <A href="simple-shell2.c">simple-shell2.c</A><br>
             <A href="welcome.c">welcome.c</A><BR><br>
+            <a href="/cgi-bin/631-F22.cgi">Instructor Masking Preference</a><br>
             <a href="/cgi-bin/631-01.cgi">Week 01 Checkpoint</a><br>
 <!--            <a href="intro.html">Intro</a><br>
 	    <a href="f16-hw1.html">HW#1</a></TD> -->
@@ -395,12 +408,7 @@ simple shell</a></li>
           </TR>
 
           <TR>
-            <TD>2021-09-06</TD>
-            <TD colspan="3"><em>Labor Day Holiday</em></TD>
-          </TR>
-
-          <TR>
-            <TD>2021-09-13</TD>
+            <TD>2022-09-19</TD>
 
             <TD>File I/O, File Sharing</TD>
 
@@ -435,7 +443,7 @@ simple shell</a></li>
           </TR>
 
           <TR>
-            <TD>2021-09-20</TD>
+            <TD>2022-09-26</TD>
 
             <TD>Files and Directories</TD>
 
@@ -473,7 +481,7 @@ simple shell</a></li>
           </TR>
 
           <TR>
-            <TD>2021-09-27</TD>
+            <TD>2022-10-03</TD>
 
             <TD>Filesystems, System Data Files, Time &amp;
             Date</TD>
@@ -520,7 +528,11 @@ href="https://www.netmeister.org/book/04-file-systems.pdf">File Systems and Stor
           </TR>
 
           <TR>
-            <TD>2021-10-04</TD>
+            <TD>2022-10-10</TD>
+            <TD colspan="3"><em>Fall Recess</em></TD>
+
+          <TR>
+            <TD>2022-10-11</TD>
 
             <TD>UNIX tools: cc(1), make(1), revision control, diff(1), patch(1), gdb(1)</TD>
 
@@ -539,7 +551,7 @@ about the misc libc/gcc crt files</a><br>
             "http://www.unknownroad.com/rtfm/gdbtut/gdbtoc.html">gdb
             Tutorial</A><br>
 		<a href="http://git-scm.com/">Git</a></TD>
-            <TD>
+            <TD><em>Note: Tuesday Class</em><br><br>
 			<b>Week 05, Segment 1: The Unix Development Environment</b><br>
 			[<a href="05-tools.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/QYwYLR3UD2w">video lecture</a>]&nbsp;[<a href="05-tools.txt">transcript</a>]<br>
             &#160;<BR>
@@ -586,13 +598,8 @@ about the misc libc/gcc crt files</a><br>
           </TR>
 
           <TR>
-            <TD>2021-10-11</TD>
-            <TD colspan="3"><em>Fall Recess</em></TD>
-          </TR>
 
-          <TR>
-
-            <TD>2021-10-12</TD>
+            <TD>2022-10-17</TD>
 
             <TD>Process Environment, Process Control</TD>
 
@@ -602,9 +609,10 @@ href="https://insecure.org/stf/smashstack.html">Smashing The Stack For Fun And P
 		<a
 href="http://dbp-consulting.com/tutorials/debugging/linuxProgramStartup.html">Linux x86 Program Start Up</a><br>
 		<a href="https://www.netmeister.org/blog/stdarg.html"><tt>stdarg</tt> And The Case Of The Forgotten Registers</a><br>
-		<a href="https://www.netmeister.org/blog/return-printf.html">There is no 'printf'.</a></TD>
+		<a href="https://www.netmeister.org/blog/return-printf.html">There is no 'printf'.</a><br>
+		<a href="https://man7.org/tlpi/download/TLPI-24-Process_Creation.pdf">Process Creation</a></TD>
 
-            <TD nowrap="nowrap"><em>Note: Tuesday Class</em><br><br>
+            <TD nowrap="nowrap">
 			<b>Week 06, Segment 1: Memory Layout of a Process</b><br>
 			[<a href="06-memory-layout.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/aHmcowhoOzU">video lecture</a>]&nbsp;[<a href="06-memory-layout.txt">transcript</a>]<br>
             &#160;<BR>
@@ -654,7 +662,7 @@ href="http://cvsweb.netbsd.org/bsdweb.cgi/src/lib/csu/common/crt0-common.c?rev=H
 
           <TR>
 
-            <TD>2021-10-18</TD>
+            <TD>2022-10-24</TD>
             <TD>Process Groups, Sessions, Signals</TD>
 
             <TD>Stevens: Chapter 9, 10<br>
@@ -695,12 +703,13 @@ href="http://www.informit.com/articles/article.aspx?p=366888&seqNum=7">FreeBSD P
           </TR>
 
           <TR>
-            <TD>2021-10-25</TD>
+            <TD>2022-10-31</TD>
             <TD>Interprocess Communication I</TD>
             <TD>Stevens: Chapter 14<br>
 		<A href="https://web.archive.org/web/20160507131726/http://www.kohala.com/start/unpv22e/unpv22e.chap12.pdf">Shared Memory Introduction</A><BR>
 		<a href="https://web.archive.org/web/20180316204322/http://www.linuxdevcenter.com/pub/a/linux/2007/05/24/semaphores-in-linux.html">Semaphores in Linux</a><br>
-		<a href="https://www.softprayog.in/programming/interprocess-communication-using-posix-message-queues-in-linux">Interprocess communication using POSIX message queues in Linux</a>
+		<a href="https://www.softprayog.in/programming/interprocess-communication-using-posix-message-queues-in-linux">Interprocess communication using POSIX message queues in Linux</a><br>
+		<a href="https://man7.org/tlpi/download/TLPI-52-POSIX_Message_Queues.pdf">POSIX Message Queues</a>
 		</td>
             <TD width="25%">
 			<b>Week 08, Segment 1: Interprocess Communications Intro</b><br>
@@ -735,7 +744,7 @@ Guide to Unix IPC</a><br>
           </TR>
 
           <TR>
-            <TD>2021-11-01</TD>
+            <TD>2022-11-07</TD>
 
             <TD>Interprocess Communication II</TD>
 
@@ -783,7 +792,7 @@ Guide to Unix IPC</a><br>
           </TR>
 
           <TR>
-            <TD>2021-11-08</TD>
+            <TD>2022-11-14</TD>
 
             <TD><a name="daemon"></a>D&aelig;mon Processes, HTTP / Group Project Discussions</TD>
 <!-- Code Reading / HTTP Server Implementations</TD>
@@ -811,7 +820,7 @@ href="https://stevens.zoom.us/rec/share/iHD84oocuLek3LisEuDiKy-GP7SVAqALtbX1ogUd
           </TR> 
 
           <TR>
-            <TD>2021-11-15</TD>
+            <TD>2022-11-21</TD>
 
             <TD>Shared Libraries</TD>
 
@@ -848,7 +857,7 @@ href="http://jvns.ca/blog/2014/09/06/how-to-read-an-executable/">How to read an 
 	        <a href="libgreet-exercise.html">libgreet exercise</a></td>
           </TR>
           <TR>
-            <TD>2021-11-22</TD>
+            <TD>2022-11-28</TD>
             <TD>Advanced I/O: Nonblocking I/O, Polling, and Record
             Locking / Encryption in a Nutshell</TD>
 
@@ -876,7 +885,8 @@ encryption basics)
             <BR>
             <A href="slogdemo.c">slogdemo.c</A><br>
             <A href="nonblock.c">nonblock.c</A><br>
-            <A href="flock.c">flock.c</A><br><br>
+            <A href="flock.c">flock.c</A><br>
+            <A href="https://www.netmeister.org/blog/strlcat.html">Use <tt>strlcat(3)</tt>!</A><br><br>
             <a
 href="https://stevens.zoom.us/rec/share/UbOPIePAcJcNm_rVl6VkokNLNYjEvwK8ynqRpZrBsVrn3J8kGu6tPut7CjeYMh5M.U6Q8mCsg3Dgwj466 ">Zoom Meeting Recording</a><br>
             <a href="/cgi-bin/631-12.cgi">Week 12 Checkpoint</a><br>
@@ -885,7 +895,7 @@ href="https://stevens.zoom.us/rec/share/UbOPIePAcJcNm_rVl6VkokNLNYjEvwK8ynqRpZrB
           </TR>
 
           <TR>
-            <TD>2021-11-29</TD>
+            <TD>2022-12-05</TD>
             <TD>Restricting processes / Containers</TD>
             <TD>
 		<a href="https://www.netmeister.org/blog/restricting-processes.html">Course Notes</a><br>
@@ -923,14 +933,14 @@ scheduling and related interfaces in NetBSD 5.0</a><br>
           </TR>
 
           <TR>
-            <TD>2021-12-06</TD>
+            <TD>2022-12-12</TD>
 
             <TD>Review</TD>
 
             <TD>&nbsp;</TD>
 
-            <TD><A
-href="https://create.kahoot.it/share/cs631-advanced-programming-in-the-unix-environment/d5280f84-bd71-4efe-85e8-0f2d22d86086">Review Kahoot</a><br><br>
+            <TD><!-- <A
+href="https://create.kahoot.it/share/cs631-advanced-programming-in-the-unix-environment/d5280f84-bd71-4efe-85e8-0f2d22d86086">Review Kahoot</a><br><br> -->
 		<a href="f21-sish.html">Final Assignment: sish(1)</a></TD>
           </TR>
 

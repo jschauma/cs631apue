@@ -1,0 +1,336 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+<HEAD>
+  <TITLE>Advanced Programming in the UNIX Environment</TITLE>
+  <STYLE type="text/css">
+  body {
+  background-color: #FFFFFf;
+  }
+  </STYLE>
+
+</HEAD>
+
+<BODY>
+  <TABLE border="1" align="center" cellpadding="15">
+    <TR>
+      <TD valign="top">
+        <H2>Advanced Programming in the UNIX Environment</H2>
+	<H3>CS631 - APUE - NetBSD/UTM Setup</H3>
+	<hr>
+<p>
+This document will guide you through the setup of a
+<a href="https://www.netbsd.org">NetBSD</a> VM using
+<a href="https://mac.getutm.app/">UTM</a> on an Apple
+M1
+to perform all your course work on.  Please follow
+these steps as shown; if you run into problems or have
+questions, please send them to the <a
+href="https://lists.stevens.edu/cgi-bin/mailman/listinfo/cs631apue">class
+mailing list</a>.
+</p>
+
+<p>If you prefer, you can also follow the <a
+href="https://www.youtube.com/watch?v=hCqfmuG5Acc">video
+tutorial</a>:</p>
+
+<iframe width="560" height="315"
+src="https://www.youtube.com/embed/hCqfmuG5Acc"
+title="YouTube video player" frameborder="0"
+allow="accelerometer; autoplay; clipboard-write;
+encrypted-media; gyroscope; picture-in-picture"
+allowfullscreen></iframe>
+
+<hr>
+
+<h3>Installing your NetBSD VM</h3>
+<h4>Creating a new UTM Image</h4>
+
+<p>First, install UTM from <a
+href="https://mac.getutm.app/">https://mac.getutm.app/</a>.</p>
+
+<p>Next, download the latest "-current" ISO for NetBSD/evbarm from
+<a href="https://nycdn.netbsd.org/pub/NetBSD-daily/HEAD/latest/images/NetBSD-9.99.97-evbarm-aarch64.iso">https://nycdn.netbsd.org/pub/NetBSD-daily/HEAD/latest/images/NetBSD-9.99.97-evbarm-aarch64.iso</a>
+and save it as <tt>~/Desktop/NetBSD-9.99.97-evbarm-aarch64.iso</tt>.</p>
+
+<p>Start UTM and select '<em>Create a New Virtual Machine</em>':</p>
+<p><img src="utm-fresh.jpg" alt="Screenshot: UTM at first start"></p>
+
+<p>On the next screen, choose '<em>Virtualize</em>',
+then '<em>Other</em>' in the OS selection:</p>
+
+<p><img src="utm-new.jpg" alt="Screenshot: UTM new VM dialog">&nbsp;
+<img src="utm-os.jpg" alt="Screenshot: UTM OS selection dialog"></p>
+
+<p>On the next screen, select '<em>Boot ISO
+Image</em>' and browse to the saved file
+<tt>~/Desktop/NetBSD-9.99.97-evbarm-aarch64.iso</tt> and
+'<em>continue</em>':</p>
+
+<p><img src="utm-iso.jpg" alt="Screenshot: UTM Load ISO file"></p>
+
+<p>On the following screens, you can accept all the
+default values, although as far as disk space is
+concerned, 16 GB would be plenty.</p>
+
+<p>Let's name the VM "apue".</p>
+
+<p>Once the VM has been created, select the 'Settings'
+menu from the upper right "sliders" menu, then select
+'<em>Network</em>' on the left and change the '<em>Network
+Mode</em>' to "<em>Bridged (Advanced)</em>":</p>
+
+<p>
+<img src="utm-menu.jpg" alt="Screenshot: UTM VM
+Menu">&nbsp;
+<img src="utm-network.jpg" alt="Screenshot: UTM Network Preferences"></p>
+
+<h4>Installing NetBSD</h4>
+
+<p>Start the VM.  You should see the '<em>Welcome to
+the NetBSD-9.99.97 Installation CD</em>' screen, where
+you can hit return or wait for the timeout after which
+the system will boot into the NetBSD installer, where
+we'll follow a very <a
+href="https://www.netbsd.org/docs/guide/en/chap-exinst.html">basic
+NetBSD installation</a>:</p>
+
+<p>
+<img src="netbsd-welcome.jpg" alt="Screenshot: NetBSD
+Welcome Screen">&nbsp;
+<img src="netbsd-install0.jpg" alt="Screenshot: NetBSD
+Installer 0"></p>
+
+<p>Select '<em>Installatation messages in English</em>', then
+select '<em>Install NetBSD to hard disk</em>'. Then:</p>
+
+<p><blockquote><pre>Shall we continue? yes
+Available disks: ld4
+Guid Partition Table (GPT)
+Use default partition sizes
+Partition sizes are ok
+Shall we continue? 'yes'
+Select your distribution: 'Installation without X11'
+Install from: 'CD-ROM / DVD /install image media'</pre></blockquote></p>
+
+<p><img src="netbsd-extract.jpg" alt="NetBSD Installation Screenshot: Set Extraction" width="480"></p>
+
+<p>After extraction is complete, '<em>hit enter to
+continue</em>', then set the root password.  After
+this, you will be on the configuration screen show
+below:</p>
+
+<p><img src="netbsd-configure.jpg" alt="NetBSD Installation Screenshot: Configuration" width="480"></p>
+
+<p>Here, we'll configure the network ('<tt>a</tt>'
+followed by <tt>return</tt>):
+
+<p><blockquote><pre>Available interfaces: 'vioifi0'
+Network media type: &lt;<em>blank</em>&gt;
+Perform autoconfiguration? yes</pre></blockquote></p>
+
+<p>This should get you a DHCP lease and an overall
+network configuration that we wish to commit to the
+system:</p>
+
+<p><blockquote><pre>Your host name: apue
+Your DNS domain: &lt;<em>blank</em>&gt;
+Are they ok? Yes
+Do you want it installed in /etc? Yes</pre></blockquote></p>
+
+<p>Back at the configure screen shown above, you can
+leave the option '<em>Fetch and unpack pkgsrc</em>'
+disabled if you so choose -- we won't be using <a
+href="https://www.pkgsrc.org">pkgsrc</a> in this
+class, but if you're interested, installing it doesn't
+hurt.</p>
+
+<p>Next, select:</p>
+
+<p><blockquote><pre>'g: Enable sshd'
+'h: Enable ntpd'
+'i: Run ntpdate at boot'
+'o: Add a user'</pre></blockquote></p>
+
+<p><em>Note</em>: it is <em>required</em> for this
+class to create and run your code as a non-root user,
+so this step is not optional.  Choose your preferred
+username.</p>
+
+<p>Add the user to '<tt>wheel</tt>', so you can <tt>su(1)</tt>.</p>
+
+<p>Select a shell, e.g. <tt>/bin/sh</tt> and set a
+password.</p>
+
+<p>NetBSD requires users to be in the '<tt>wheel</tt>' group to
+run <tt>su(1)</tt>, so only your newly created user should be
+able to do this.</p>
+
+<p>This, together with the fact that the VM is intended
+for nothing of importance whatsoever may make it ok to
+not have any additional protections on the superuser
+account.</p>
+
+<p>Select
+'<em>x: Finished configuring</em>', then '<em>Hit
+enter to continue</em>'.</p>
+
+<p> Now you're back at the main install menu, where we
+can select '<em>x: Exit install System</em>.
+This drops you into a shell, where we can power down
+the VM:</p>
+
+<p><blockquote><pre>shutdown -p now</pre></blockquote></p>
+
+<p>Once the VM has been shut down, you can close this
+window.  Back in the main UTM screen, we now remove
+the ISO image from the virtual CD drive by selecting
+'<tt>clear</tt>' from the drop-down menu labeled
+'CD/DVD' at the bottom of the VM information.</p>
+
+<p>Once done, you can now boot the newly installed
+NetBSD VM.  You should first see the NetBSD
+bootloader, followed by the usual boot sequence:</p>
+
+<p><img src="netbsd-boot.jpg" alt="Screenshot: NetBSD boot loader">&nbsp;
+<img src="netbsd-login.jpg" alt="Screenshot: NetBSD login screen"></p>
+
+<p>You can now log in and verify network
+connectivity, then power it down again:</p>
+
+<p><blockquote><pre>NetBSD/evbarm (apue) (constty)
+
+login: jschauma
+Password:
+
+NetBSD 9.99.97 (GENERIC) #0: Wed May 25 15:52:25 UTC 2022
+
+Welcome to NetBSD!
+
+apue$ ifconfig -a
+vioif0: flags=0x8843&lt;UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST&gt; mtu 1500
+	ec_capabilities=0x1&lt;VLAN_MTU&gt;
+	ec_enabled=0
+	address: e2:47:b0:00:bd:cf
+	status: active
+	inet6 fe80::e047:b0ff:fe00:bdcf%vioif0/64 flags 0 scopeid 0x1
+	inet 172.16.1.25/24 broadcast 172.16.1.255 flags 0
+lo0: flags=0x8049&lt;UP,LOOPBACK,RUNNING,MULTICAST&gt; mtu 33624
+	status: active
+	inet6 ::1/128 flags 0x20<NODAD>
+	inet6 fe80::1%lo0/64 flags 0 scopeid 0x2
+	inet 127.0.0.1/8 flags 0
+apue$ su root -c "/sbin/shutdown -p now"</pre></blockquote></p>
+
+<p>Note: it appears that as of 2022-06-03, UTM / QEMU
+does not correctly configure IPv6 networking: in
+bridged mode, if your local network supports IPv6,
+your VM will get an IPv6 address, but routing IPv6
+traffic from the VM to the internet does not appear to
+work.  In shared or emulated VLAN mode, the VM does
+not appear to get a DHCPv6 lease at all.</p>
+
+<h3>Using your VM</h3>
+<h4>Minimize GUI Work with UTM</h4>
+
+<p>Unfortunately, UTM does not currently support fully
+headless operation.  However, we don't want to have to
+open the app and click on things just to start our VM.
+Now what we <em>can</em> do is easily <em>start</em>
+the VM by using the convenient <tt>utm://start</tt>
+URL schema:</p>
+
+<p><blockquote><pre>$ open utm://start?name=apue</pre></blockquote></p>
+
+<p>This should open UTM and immediately start our VM.
+Neat!</p>
+
+<p>But we still have the GUI in the foreground, even
+though we want to access our VM via <tt>ssh(1)</tt>.
+There doesn't seem to be a good way around this right
+now, but until UTM supports full headless operation
+(or until you decide to ditch UTM and run QEMU
+directly), we can at least automate the minimization
+of those windows, too.</p>
+
+<p>For that, open the <em>Script Editor</em>
+application, create a <em>New Document</em>, and enter
+the following:</p>
+
+<p><blockquote><pre>tell application "System Events"
+	tell process "UTM"
+		set frontmost to true
+		click menu item "Minimize" of menu "Window" of menu bar 1
+		click menu item "Minimize" of menu "Window" of menu bar 1
+	end tell
+end tell</pre></blockquote></p>
+
+<p>Save this script as as e.g.,
+<tt>~/bin/utm-minimize.scpt</tt>and then give it a
+try: with UTM and our <tt>apue</tt> instance
+running:</p>
+
+<p><blockquote><pre>$ osascript ~/bin/utm-minimize.scpt</pre></blockquote></p>
+
+<p>You will need to grant <tt>Terminal</tt>
+'Accessibility' privileges under '<em>System
+Preferences-&gt;Security &amp;
+Privacy-&gt;Privacy-&gt;Accessibility</em>'.  Once
+that is done, we can then combine the <tt>open</tt>
+all with this application into a simple start-up
+script:</p>
+
+<p><blockquote><pre>$ cat &gt;~/bin/start-apue &lt;&lt;EOF
+#! /bin/sh
+open utm://start?name=apue
+sleep 2
+osascript ~/bin/utm-minimize.scpt &gt;/dev/null &gt;&amp;1
+EOF
+$ chmod a+rx ~/bin/start-apue
+$ </pre></blockquote></p>
+
+<p>When you run <tt>~/bin/start-apue</tt>, that should
+now open UTM, start our VM, and then minimize the
+windows.  Alternatively, you can use <tt>qemu</tt>
+directly from the command-line to start the VM;
+however, without UTM you cannot use bridged networking
+(easily).  Using normal user networking works fine for
+the most part, but means ICMP won't work in your VM.
+If that doesn't bother you, then you can use e.g., <a
+href="start-apue.sh">this script</a> to start your
+VM.</p>
+
+<p>After you shut down the VM, the UTM
+application will still be running minimized, but we
+can likewise create a quick script to terminate our
+instance completely:</p>
+
+<p><blockquote><pre>$ cat &gt;~/bin/stop-apue &lt;&lt;"EOF"
+#! /bin/sh
+ssh apue "su root -c '/sbin/shutdown -p now'"
+sleep 5
+ps wwaux | awk '/UT[M].app/ { print $2 }' | xargs kill
+EOF
+$ chmod a+rx ~/bin/stop-apue
+$ </pre></blockquote></p>
+
+<h3>Set up your VM for this class</h3>
+
+<p>With the VM now ready for use, you can next follow
+the steps to set up everything for use in this class.
+That will include configuration of SSH, configuring
+your development environment, and fetching all source
+code and code examples.</p>
+
+<p>These steps are more or less the same for use of
+UTM and <a href="../virtualbox/">VirtualBox</a>, and
+you can find them <a href="../vm-setup.html">in this
+document</a>.</p>
+
+        <hr>
+        [<a href="../index.html">Course Website</a>]
+      </TD>
+    </TR>
+  </TABLE>
+</BODY>
+</HTML>
