@@ -1,5 +1,10 @@
 /*
  * This simple program illustrates output redirection via dup(2).
+ *
+ * Compare:
+ * ./a.out
+ * ./a.out >/dev/null
+ * ./a.out 2>/dev/null
  */
 
 #include <stdio.h>
