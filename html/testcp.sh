@@ -16,6 +16,7 @@ DIR=""
 FAILED=0
 NFAIL=0
 PROGNAME=${0##/}
+TDIR="${TMPDIR:-/var/tmp}"
 TOTAL=0
 VERBOSE=0
 
@@ -51,7 +52,6 @@ checkCopyFailures() {
 
 	cd ${DIR}
 	for arg in dir_to_file dir_to_dir file_to_subdir socket_to_file; do
-		TOTAL=$(( ${TOTAL} + 1 ))
 		cmd=$(eval echo ${CP} \$${arg})
 		runTest "${cmd}" 1
 	done
@@ -62,7 +62,6 @@ checkCopyFailures() {
 
 	ln file file2
 	cmd="${CP} file file2"
-	TOTAL=$(( ${TOTAL} + 1 ))
 	runTest "${cmd}" 1
 	TOTAL=$(( ${TOTAL} + 1 ))
 	# must not truncate/modify existing file
@@ -71,11 +70,13 @@ checkCopyFailures() {
 	# repeat to check path construction
 	cp ${TEST_FILE} file
 	cmd="${CP} file ."
-	TOTAL=$(( ${TOTAL} + 1 ))
 	runTest "${cmd}" 1
 	TOTAL=$(( ${TOTAL} + 1 ))
 	# must not truncate/modify existing file
 	compareFiles ${TEST_FILE} file
+
+	cmd="${CP} s1 s2"
+	runTest "${cmd}" 1
 }
 
 # purpose : verify that the program succeeds when it should
@@ -89,8 +90,8 @@ checkCopySuccesses() {
 	verbose "Checking copy successes..." 2
 
 	ro_file_to_file="${TEST_FILE} file"
-	rw_file_to_file="${TMPDIR:-/tmp}/f file"
-	file_to_existing="${TEST_FILE} ${TMPDIR:-/tmp}/f"
+	rw_file_to_file="${TDIR}/f file"
+	file_to_existing="${TEST_FILE} ${TDIR}/f"
 	abs_file_to_dir="${TEST_FILE} ."
 	rel_file_to_dir="g ./sub/dir/."
 	abs_file_to_subdir="${TEST_FILE} ./sub/dir/."
@@ -99,7 +100,7 @@ checkCopySuccesses() {
 	big="big file"
 
 	mkdir -p ./sub/dir
-	cp ${TEST_FILE} ${TMPDIR:-/tmp}/f
+	cp ${TEST_FILE} ${TDIR}/f
 	cp ${TEST_FILE} ./g
 
 	cd ${DIR}
@@ -108,7 +109,6 @@ checkCopySuccesses() {
 		file_to_slash_dir zero big; do
 		verbose "Test case: ${arg}..." 3
 		rm -f file >/dev/null 2>&1
-		TOTAL=$(( ${TOTAL} + 1 ))
 		cmd=$(eval echo ${CP} \$${arg})
 		runTest "${cmd}" 0
 		if [ ${FAILED} -eq 0 ]; then
@@ -153,7 +153,6 @@ checkUsage() {
 	threeargs="one two three"
 
 	for arg	in noarg onearg threeargs; do
-		TOTAL=$(( ${TOTAL} + 1 ))
 		cmd=$(eval echo ${CP} \$${arg})
 		runTest "${cmd}" 1
 	done
@@ -206,18 +205,22 @@ prepDir() {
 	touch zero
 
 	verbose "Creating a large file..." 4
-	if [ -f ${TMPDIR:-/tmp}/big ]; then
-		ln ${TMPDIR:-/tmp}/big big
+	if [ -f ${TDIR}/big ]; then
+		ln ${TDIR}/big big
 	else
-		dd if=/dev/zero of=${TMPDIR:-/tmp}/big bs=512k count=4000 >/dev/null 2>&1
-		ln ${TMPDIR:-/tmp}/big big
+		dd if=/dev/zero of=${TDIR}/big bs=512k count=4000 >/dev/null 2>&1
+		ln ${TDIR}/big big
 	fi
 
 	verbose "Creating a small file..." 4
 	echo "moo" > small
 
-	verbose "Creating a fifo" 4
+	verbose "Creating a fifo..." 4
 	mkfifo fifo
+
+	verbose "Creating a symlink loop..." 4
+	ln -s s1 s2
+	ln -s s2 s1
 }
 
 # purpose : run the given command
@@ -231,6 +234,7 @@ runTest() {
 	local rval
 
 	FAILED=0
+	TOTAL=$(( ${TOTAL} + 1 ))
 
 	verbose "Checking '${cmd}'..." 3
 	timeout 30 ${cmd} >/dev/null 2>&1
@@ -296,7 +300,7 @@ verbose() {
 ### Main
 ###
 
-DIR=$(mktemp -d ${TMPDIR:-/tmp}/cptest.XXXXXX)
+DIR=$(mktemp -d ${TDIR}/cptest.XXXXXX)
 if [ $? -ne 0 ]; then
 	error "Unable to create temporary directory"
 	# NOTREACHED
