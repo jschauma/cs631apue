@@ -14,6 +14,7 @@ CP=""
 # temporary directory created below
 DIR=""
 FAILED=0
+FAILED_TESTS=""
 NFAIL=0
 PROGNAME=${0##/}
 TDIR="${TMPDIR:-/var/tmp}"
@@ -30,8 +31,6 @@ TEST_FILE="/etc/passwd"
 # inputs  : none
 # outputs : none if successful, error messages otherwise
 checkCopying() {
-	verbose "Checking copying..."
-
 	checkCopyFailures
 	checkCopySuccesses
 }
@@ -43,8 +42,6 @@ checkCopyFailures() {
 	local arg cmd
 	local dir_to_file dir_to_dir file_to_subdir same socket_to_file
 
-	verbose "Checking copy failures..." 2
-
 	dir_to_file=". file"
 	dir_to_dir="/ ."
 	file_to_subdir="${TEST_FILE} ./sub/dir"
@@ -53,30 +50,32 @@ checkCopyFailures() {
 	cd ${DIR}
 	for arg in dir_to_file dir_to_dir file_to_subdir socket_to_file; do
 		cmd=$(eval echo ${CP} \$${arg})
-		runTest "${cmd}" 1
+		runTest "${arg}" "${cmd}" 1
 	done
 
 	cp ${TEST_FILE} file
 
-	runTest "${CP} file file1 file2 file3 file4" 1
+	runTest "too_many_arguments" "${CP} file file1 file2 file3 file4" 1
 
 	ln file file2
 	cmd="${CP} file file2"
-	runTest "${cmd}" 1
-	TOTAL=$(( ${TOTAL} + 1 ))
-	# must not truncate/modify existing file
-	compareFiles ${TEST_FILE} file
+	runTest "identical_source_and_dest" "${cmd}" 1
+	if [ $? -eq 1 ]; then
+		# must not truncate/modify existing file
+		compareFiles "identical_source_and_dest" ${TEST_FILE} file
+	fi
 
 	# repeat to check path construction
 	cp ${TEST_FILE} file
 	cmd="${CP} file ."
-	runTest "${cmd}" 1
-	TOTAL=$(( ${TOTAL} + 1 ))
-	# must not truncate/modify existing file
-	compareFiles ${TEST_FILE} file
+	runTest "identicial_source_and_test_path" "${cmd}" 1
+	if [ $? -eq 1 ]; then
+		# must not truncate/modify existing file
+		compareFiles "identicial_source_and_test_path" ${TEST_FILE} file
+	fi
 
 	cmd="${CP} s1 s2"
-	runTest "${cmd}" 1
+	runTest "symlink_loop" "${cmd}" 1
 }
 
 # purpose : verify that the program succeeds when it should
@@ -86,8 +85,6 @@ checkCopySuccesses() {
 	local arg cmd
 	local ro_file_to_file file_to_existing abs_file_to_dir rel_file_to_dir abs_file_to_subdir file_to_slash_dir
 	local zero big
-
-	verbose "Checking copy successes..." 2
 
 	ro_file_to_file="${TEST_FILE} file"
 	rw_file_to_file="${TDIR}/f file"
@@ -107,36 +104,37 @@ checkCopySuccesses() {
 	for arg in ro_file_to_file rw_file_to_file abs_file_to_dir \
 		rel_file_to_dir abs_file_to_subdir file_to_existing \
 		file_to_slash_dir zero big; do
-		verbose "Test case: ${arg}..." 3
 		rm -f file >/dev/null 2>&1
 		cmd=$(eval echo ${CP} \$${arg})
-		runTest "${cmd}" 0
+		runTest "${arg}" "${cmd}" 0
 		if [ ${FAILED} -eq 0 ]; then
-			TOTAL=$(( ${TOTAL} + 1 ))
 			set -- ${cmd}
 			if expr $arg : ".*dir" >/dev/null 2>&1; then
-				compareFiles ${2} ${3}/$(basename ${2})
+				compareFiles "${arg}" ${2} ${3}/$(basename ${2})
 			else
-				compareFiles ${2} ${3}
+				compareFiles "${arg}" ${2} ${3}
 			fi
 		fi
 	done
 
 	cp /etc/passwd existing
 	cmd="${CP} small existing"
-	runTest "${cmd}" 0
-	TOTAL=$(( ${TOTAL} + 1 ))
+	runTest "small_over_existing" "${cmd}" 0
 	# existing file must have been overwritten and
 	# truncated not just the first few bites
 	# overwritten
-	compareFiles small existing
+	if [ $? -eq 0 ]; then
+		compareFiles "small_over_existing" small existing
+	fi
 
 	# cp of a fifo is an edge condition, so let's
 	# only check the result, not the return code
+	TOTAL=$(( ${TOTAL} + 1 ))
+	verbose "Test #${TOTAL} (copy_fifo): Checking '${CP} fifo file2'..." 1
 	timeout 5 ${CP} fifo file2 >/dev/null 2>&1 &
 	timeout 1 /bin/sh -c "echo foo >fifo"
 	echo foo >file1
-	compareFiles file1 file2
+	compareFiles "copy_fifo" file1 file2
 }
 
 # purpose : verify program accepts the correct set of arguments
@@ -146,31 +144,34 @@ checkUsage() {
 	local arg noarg onearg threeargs
 	local cmd
 
-	verbose "Checking usage..."
-
 	noarg=""
 	onearg="one"
 	threeargs="one two three"
 
 	for arg	in noarg onearg threeargs; do
 		cmd=$(eval echo ${CP} \$${arg})
-		runTest "${cmd}" 1
+		runTest "${arg}" "${cmd}" 1
 	done
 }
 
 # purpose : verify that two given files are identical
-# inputs  : two pathnames
+# inputs  : two pathnames, name of the test
 # outputs : nothing on success, an error message if both files are not the
 #           same
 compareFiles() {
-	local file1=$1
-	local file2=$2
+	local name=$1
+	local file1=$2
+	local file2=$3
 
-	verbose "Comparing '${file1}' to '${file2}'..." 3
-	cmp -s ${file1} ${file2} || {
+	verbose "Test #${TOTAL} (${name}): Comparing '${file1}' to '${file2}'..." 1
+	cmp -s ${file1} ${file2}
+	if [ $? -gt 0 ]; then
 		echo "Files '${file1}' and '${file2}' differ." >&2
 		NFAIL=$(( ${NFAIL} + 1 ))
-	};
+		FAILED_TESTS="${FAILED_TESTS} ${name}"
+	else
+		verbose "Succeeded." 2
+	fi
 }
 
 # purpose : print given message to stderr and exit unsuccessfully
@@ -196,15 +197,15 @@ fullname() {
 prepDir() {
 	cd ${DIR} || error "Unable to chdir to ${DIR}!"
 
-	verbose "Prepping test directory..." 3
+	verbose "Prepping test directory..." 1
 
-	verbose "Removing anything already in the directory..." 4
+	verbose "Removing anything already in the directory..." 2
 	rm -fr * .??* >/dev/null 2>&1
 
-	verbose "Creating a zero-length file..." 4
+	verbose "Creating a zero-length file..." 2
 	touch zero
 
-	verbose "Creating a large file..." 4
+	verbose "Creating a large file..." 2
 	if [ -f ${TDIR}/big ]; then
 		ln ${TDIR}/big big
 	else
@@ -212,53 +213,63 @@ prepDir() {
 		ln ${TDIR}/big big
 	fi
 
-	verbose "Creating a small file..." 4
+	verbose "Creating a small file..." 2
 	echo "moo" > small
 
-	verbose "Creating a fifo..." 4
+	verbose "Creating a fifo..." 2
 	mkfifo fifo
 
-	verbose "Creating a symlink loop..." 4
+	verbose "Creating a symlink loop..." 2
 	ln -s s1 s2
 	ln -s s2 s1
 }
 
+# purpose : report failure of a test
+# inputs  : error message, cmd, name of the test
+# outputs : error message, increments fail count
+reportFailure() {
+	local msg="$1"
+	local cmd="$2"
+	local name="$3"
+	echo "${msg}:"
+	echo "  ${cmd}"
+	NFAIL=$(( ${NFAIL} + 1 ))
+	FAILED=1
+	FAILED_TESTS="${FAILED_TESTS} ${name}"
+}
+
 # purpose : run the given command
-# inputs  : a command, 0 or 1 indicating whether or not we expect the
-#           command to be successful (0) or not (1)
+# inputs  : name of the test, a command, 0 or 1 indicating whether
+#           or not we expect the command to be successful (0) or not (1)
 # outputs : nothing if the return code of the command is as we expect;
 #           error message to stderr otherwise
 runTest() {
-	local cmd="$1"
-	local success_or_fail=$2;
+	local name="$1"
+	local cmd="$2"
+	local success_or_fail=$3;
 	local rval
 
 	FAILED=0
 	TOTAL=$(( ${TOTAL} + 1 ))
 
-	verbose "Checking '${cmd}'..." 3
+	verbose "Test #${TOTAL} (${name}): Running '${cmd}'..." 1
 	timeout 30 ${cmd} >/dev/null 2>&1
 	rval=$?
 	if [ $rval -gt 0 ]; then
 		if [ $rval = 124 ]; then
-			echo "Command timed out, marking as failure:"
-			echo "  ${cmd}"
-			NFAIL=$(( ${NFAIL} + 1 ))
-			FAILED=1
+			reportFailure "Command timed out, marking as failure" "${cmd}" "${name}"
 		elif [ ${success_or_fail} -eq 0 ]; then
-			echo "Expected success, but command failed:"
-			echo "  ${cmd}"
-			NFAIL=$(( ${NFAIL} + 1 ))
-			FAILED=1
+			reportFailure "Expected success, but command failed" "${cmd}" "${name}"
+		else
+			verbose "Failed as expected." 2
 		fi
 	else
 		if [ ${success_or_fail} -eq 1 ]; then
-			echo "Expected failure, but command returned 0:"
-			echo "  ${cmd}"
-			NFAIL=$(( ${NFAIL} + 1 ))
-			FAILED=1
+			reportFailure "Expected failure, but command returned 0" "${cmd}" "${name}"
 		fi
 	fi
+
+	return ${rval}
 }
 
 
@@ -299,6 +310,11 @@ verbose() {
 ###
 ### Main
 ###
+
+if [ x"$(whoami)" = x"root" ]; then
+	error "Tests should be run as a normal user."
+	# NOTREACHED
+fi
 
 DIR=$(mktemp -d ${TDIR}/cptest.XXXXXX)
 if [ $? -ne 0 ]; then
@@ -346,7 +362,10 @@ prepDir
 checkCopying
 
 if [ ${NFAIL} -gt 0 ]; then
-	error "${NFAIL}/${TOTAL} tests failed."
+	echo >&2
+	echo "${NFAIL}/${TOTAL} tests failed." >&2
+	echo "Failed tests: ${FAILED_TESTS}" >&2
+	exit 1
 	# NOTREACHED
 else
 	echo "All ${TOTAL} tests passed."
