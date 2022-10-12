@@ -231,14 +231,27 @@ work.  In shared or emulated VLAN mode, the VM does
 not appear to get a DHCPv6 lease at all.</p>
 
 <h3>Using your VM</h3>
-<h4>Minimize GUI Work with UTM</h4>
+<h4>Starting headlessly</h4>
 
 <p>Unfortunately, UTM does not currently support fully
 headless operation.  However, we don't want to have to
-open the app and click on things just to start our VM.
-Now what we <em>can</em> do is easily <em>start</em>
-the VM by using the convenient <tt>utm://start</tt>
-URL schema:</p>
+open the app and click on things just to start our
+VM.</p>
+
+<p>To avoid this, we can use <tt>qemu</tt> directly to
+start the VM.  However, without UTM you cannot use
+bridged networking (easily).  Using normal user
+networking works fine for the most part, but means
+ICMP won't work in your VM.  If that doesn't bother
+you, then you can use e.g., <a
+href="start-apue.sh">this script</a> to start your
+VM.</p>
+
+<h4>Minimize GUI Work with UTM</h4>
+
+<p>Alternatively, or if we need fully bridged
+networking, we can start the VM by using the
+convenient <tt>utm://start</tt> URL schema:</p>
 
 <p><blockquote><pre>$ open utm://start?name=apue</pre></blockquote></p>
 
@@ -291,14 +304,7 @@ $ </pre></blockquote></p>
 
 <p>When you run <tt>~/bin/start-apue</tt>, that should
 now open UTM, start our VM, and then minimize the
-windows.  Alternatively, you can use <tt>qemu</tt>
-directly from the command-line to start the VM;
-however, without UTM you cannot use bridged networking
-(easily).  Using normal user networking works fine for
-the most part, but means ICMP won't work in your VM.
-If that doesn't bother you, then you can use e.g., <a
-href="start-apue.sh">this script</a> to start your
-VM.</p>
+windows.</p>
 
 <p>After you shut down the VM, the UTM
 application will still be running minimized, but we

@@ -64,10 +64,12 @@ href="https://youtube.com/c/cs631apue">via YouTube video
 lectures</a></b></p>
 
 
-        <H3><a name="instructor"></a>Instructor:</H3><A href=
+        <H3><a name="instructor"></a>Instructor:</H3>
+        <p><A href=
         "https://stevens.netmeister.org">Jan Schaumann</A>
         [<A href=
-        "mailto:jschauma@stevens.edu">jschauma@stevens.edu</A>]
+        "mailto:jschauma@stevens.edu">jschauma@stevens.edu</A>]</p>
+        <p>Office Hours: by appointment Mondays, 18:00 Eastern, Gateway South</p>
 
         <p><small>When emailing me, please use your @stevens.edu address.
           I will likely not even see your email if it is sent from gmail
@@ -129,6 +131,7 @@ material on GitHub</a></li>
 	  <li><a href="https://youtu.be/XqhOUqi4fc0">/usr/share/docs</a> [<a href="tt/docs/tt-docs.pdf">slides</a>]&nbsp;[<a href="tt/docs/tt-docs.txt">transcript</a>]
 	  <li><a href="https://youtu.be/FyPqII2rewA"><tt>sizeof != strlen</tt></a> [<a href="tt/sizeof/tt-sizeof.pdf">slides</a>]&nbsp;[<a href="tt/sizeof/tt-sizeof.txt">transcript</a>]&nbsp;[<a href="tt/sizeof/sizeof.c">sizeof.c</a>]
 	  <li><a href="https://youtu.be/hCqfmuG5Acc">Installing NetBSD/evbarm in UTM on Apple M1</a> [<a href="tt/netbsd-utm/netbsd-utm.txt">transcript</a>]
+	  <li><a href="https://youtu.be/mRZsV7aMK0I">ed(1) is the standard text editor</a> [<a href="tt/ed/tt-ed.txt">transcript</a>]
 	</ul>
 
 	</td><td valign="top" align="right">
@@ -235,17 +238,17 @@ js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';i
 	choose to develop on your own personal host, you should make sure
 	that your code compiles and runs flawlessly on this OS version.</p>
 
-	<p>
+	<!-- <p>
 	You may also find it useful to
 get yourself an account on the
 <a href="linux-lab.html">Stevens linux-lab systems</a>
 to be able to compare another system.
-	</p>
+	</p> -->
 
 	<hr>
         <H3><a name="grading"></a>Grading:</H3>There will most likely be:
         <UL>
-	  <LI>course participation and checkpoints: 50 points</LI>
+	  <LI>course notes, participation and checkpoints: 50 points</LI>
 
           <LI>2 homework assignment, worth 25 points each</LI>
 
@@ -298,8 +301,8 @@ Student Code of Academic Conduct</a>.
         <H3><A name="hw">Homework</A> Assignments:</H3>
 	<p>Assignments will be posted as the semester progresses.</p>
 	<p><ul>
-		<li><a href="f21-hw1.html">HW#1: trivially copy a file</a></li>
-		<li><a href="f21-hw2.html">HW#2: implement the <tt>command(3)</tt> library function</a></li>
+		<li><a href="f22-hw1.html">HW#1: trivially copy a file</a></li>
+		<!-- <li><a href="f21-hw2.html">HW#2: implement the <tt>command(3)</tt> library function</a></li> -->
 <!--		<li><a href="f19-hw1.html">HW#1: trivially copy a file</a></li>
 		<li><a href="f19-sish.html">Final assignment: write a simple shell</a></li>
 		<li><a href="intro.html">Intro "test"</a></li>
@@ -341,7 +344,7 @@ simple shell</a></li>
         <H3><A name="midterm">Midterm</A> Project:</H3>
 	<p>Implement the "<a href="ls.pdf">ls(1)</a>" command as
         decribed in the manual page provided to you.
-        See the full <A href="f21-midterm.html">midterm project
+        See the full <A href="f22-midterm.html">midterm project
         description</A> for details.</P>
 
 	<hr>
@@ -395,13 +398,13 @@ simple shell</a></li>
 			<b>Week 01, Segment 3: UNIX Basics</b><br>
 			[<a href="01-basics.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/w3spRzZ8bSA">video lecture</a>]&nbsp;[<a href="01-basics.txt">transcript</a>]<br>
             &#160;<BR>
-            <A href="simple-cat.c">simple-cat.c</A><BR>
-            <A href="simple-ls.c">simple-ls.c</A><BR>
-            <A href="simple-shell.c">simple-shell.c</A><BR>
-            <A href="simple-shell2.c">simple-shell2.c</A><br>
-            <A href="welcome.c">welcome.c</A><BR><br>
+            <A href="apue-code/01/simple-cat.c">simple-cat.c</A><BR>
+            <A href="apue-code/01/simple-ls.c">simple-ls.c</A><BR>
+            <A href="apue-code/01/simple-shell.c">simple-shell.c</A><BR>
+            <A href="apue-code/01/simple-shell2.c">simple-shell2.c</A><br>
+            <A href="apue-code/01/welcome.c">welcome.c</A><BR><br>
             <a href="/cgi-bin/631-F22.cgi">Instructor Masking Preference</a><br>
-            <a href="/cgi-bin/631-01.cgi">Week 01 Checkpoint</a><br>
+            <a href="/cgi-bin/631-01.cgi">Week 01 Checkpoint</a> (due by 16:00 Eastern before class)<br>
 <!--            <a href="intro.html">Intro</a><br>
 	    <a href="f16-hw1.html">HW#1</a></TD> -->
 	    </TD>
@@ -427,19 +430,19 @@ simple shell</a></li>
 			<b>Week 02, Segment 4: File Sharing</b><br>
 			[<a href="02-file-sharing.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/CAbUtc86ULw">video lecture</a>]&nbsp;[<a href="02-file-sharing.txt">transcript</a>]<br>
             &#160;<BR>
-            <A href="argv.c">argv.c</A><BR>
-            <A href="close-stderr.c">close-stderr.c</A><BR>
-            <A href="fds.c">fds.c</A><BR>
-            <A href="hole.c">hole.c</A><BR>
-            <A href="lseek.c">lseek.c</A><BR>
-            <A href="openat.c">openat.c</A><BR>
-            <A href="openex.c">openex.c</A><BR>
-            <A href="openmax.c">openmax.c</A><BR>
-            <A href="redir.c">redir.c</A><BR>
-            <A href="rwex.c">rwex.c</A><BR>
-            <A href="sync-cat.c">sync-cat.c</A><BR><br>
-            <a href="/cgi-bin/631-02.cgi">Week 02 Checkpoint</a><br><br>
-            <a href="f21-hw1.html">HW1</a>: <A href="bbcp.1.pdf">bbcp(1)</A>
+            <A href="apue-code/02/argv.c">argv.c</A><BR>
+            <A href="apue-code/02/close-stderr.c">close-stderr.c</A><BR>
+            <A href="apue-code/02/fds.c">fds.c</A><BR>
+            <A href="apue-code/02/hole.c">hole.c</A><BR>
+            <A href="apue-code/02/lseek.c">lseek.c</A><BR>
+            <A href="apue-code/02/openat.c">openat.c</A><BR>
+            <A href="apue-code/02/openex.c">openex.c</A><BR>
+            <A href="apue-code/02/openmax.c">openmax.c</A><BR>
+            <A href="apue-code/02/redir.c">redir.c</A><BR>
+            <A href="apue-code/02/rwex.c">rwex.c</A><BR>
+            <A href="apue-code/02/sync-cat.c">sync-cat.c</A><BR><br>
+            <a href="/cgi-bin/631-02.cgi">Week 02 Checkpoint</a> (due by 16:00 Eastern before class)<br><br>
+            <a href="f22-hw1.html">HW1</a>: <A href="bbcp.1.pdf">bbcp(1)</A>
            </td>
           </TR>
 
@@ -468,17 +471,17 @@ simple shell</a></li>
             &#160;<BR>
 
             &#160;<BR>
-            <A href="access.c">access.c</A><BR>
-            <A href="chmod.c">chmod.c</A><BR>
-            <A href="chown.c">chown.c</A><BR>
-            <A href="myuids.c">myuids.c</A><BR>
-            <A href="setuid.c">setuid.c</A><BR>
-            <A href="size.c">size.c</A><BR>
-            <A href="simple-ls.c">simple-ls.c</A><BR>
-            <A href="simple-ls-stat.c">simple-ls-stat.c</A><BR>
-            <A href="umask.c">umask.c</A><BR><br>
-            <a href="/cgi-bin/631-03.cgi">Week 03 Checkpoint</a><br>
-	    <a href="f21-midterm.html">Midterm Project Assignment</a></TD>
+            <A href="apue-code/03/access.c">access.c</A><BR>
+            <A href="apue-code/03/chmod.c">chmod.c</A><BR>
+            <A href="apue-code/03/chown.c">chown.c</A><BR>
+            <A href="apue-code/03/myuids.c">myuids.c</A><BR>
+            <A href="apue-code/03/setuid.c">setuid.c</A><BR>
+            <A href="apue-code/03/size.c">size.c</A><BR>
+            <A href="apue-code/01/simple-ls.c">simple-ls.c</A><BR>
+            <A href="apue-code/03/simple-ls-stat.c">simple-ls-stat.c</A><BR>
+            <A href="apue-code/03/umask.c">umask.c</A><BR><br>
+            <a href="/cgi-bin/631-03.cgi">Week 03 Checkpoint</a>  (due by 16:00 Eastern before class)<br>
+	    <a href="f22-midterm.html">Midterm Project Assignment</a></TD>
           </TR>
 
           <TR>
@@ -517,14 +520,13 @@ href="https://www.netmeister.org/book/04-file-systems.pdf">File Systems and Stor
 			[<a href="04-time.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/3N2aH1vUacQ">video lecture</a>]&nbsp;[<a href="04-time.txt">transcript</a>]<br>
             &#160;<BR>
             &#160;<BR>
-	    <a href="cd.c">cd.c</A><BR>
-	    <a href="getpw.c">getpw.c</A><BR>
-	    <a href="groups.c">groups.c</A><BR>
-            <A href="wait-unlink.c">wait-unlink.c</A><BR>
-            <A href="sizeof.c">sizeof.c</A><BR>
-            <A href="time.c">time.c</A><BR><br>
-            <a href="/cgi-bin/631-04.cgi">Week 04 Checkpoint</a><br>
-            <a href="https://stevens.zoom.us/rec/share/Mw61HEwLiBornX8WQ2LA-dfZelEZI45yjf5Nhy5lDaGiIgdxNF8U_eqGf3uivQa0.nXDK6nRM5_NZka7q?startTime=1632781836000">Zoom Meeting Recording</a><br>
+	    <a href="apue-code/04/cd.c">cd.c</A><BR>
+	    <a href="apue-code/04/getpw.c">getpw.c</A><BR>
+	    <a href="apue-code/04/groups.c">groups.c</A><BR>
+            <A href="apue-code/04/wait-unlink.c">wait-unlink.c</A><BR>
+            <A href="apue-code/04/sizeof.c">sizeof.c</A><BR>
+            <A href="apue-code/04/time.c">time.c</A><BR><br>
+            <a href="/cgi-bin/631-04.cgi">Week 04 Checkpoint</a> (due by 16:00 Eastern before class)<br>
             </td>
           </TR>
 
@@ -593,9 +595,10 @@ about the misc libc/gcc crt files</a><br>
 
 <A href="lecture05.pdf">Lecture Slides</A><BR>
             <BR>
-	    <A href="compilechain/">compile chain examples</a><br>
-	    <A href="make-examples/">make examples</a><br>
-	    <A href="gdb-examples/">gdb examples</a><br><br>
+	    <A href="apue-code/05/compilechain/">compile chain examples</a><br>
+	    <A href="apue-code/05/make-examples/">make examples</a><br>
+	    <A href="apue-code/05/gdb-examples/">gdb examples</a><br><br>
+            <a href="/cgi-bin/631-05.cgi">Week 05 Checkpoint</a> (due by 16:00 Eastern before class)<br><br>
           </TR>
 
           <TR>
@@ -633,29 +636,27 @@ href="http://dbp-consulting.com/tutorials/debugging/linuxProgramStartup.html">Li
 			[<a href="06-process-control.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/KJq5nTCFsIg">video lecture</a>]&nbsp;[<a href="06-process-control.txt">transcript</a>]<br>
             &#160;<BR>
             &#160;<BR>
-            <a href="testcp.sh">testcp.sh</a><BR>
-            <A href="const.c">const.c</A><BR>
-            <A href="entry.c">entry.c</A><BR>
-            <A href="exit-handlers.c">exit-handlers.c</A><BR>
-            <A href="forkflush.c">forkflush.c</A><BR>
-            <A href="forkseek.c">forkseek.c</A><BR>
-            <A href="hw.c">hw.c</A><BR>
-            <A href="malloc.c">malloc.c</A><BR>
-            <A href="memory-layout0.c">memory-layout0.c</A><BR>
-            <A href="memory-layout1.c">memory-layout1.c</A><BR>
-            <A href="memory-layout2.c">memory-layout2.c</A><BR>
-            <A href="memory-layout3.c">memory-layout3.c</A><BR>
-            <A href="memory-layout4.c">memory-layout4.c</A><BR>
-            <A href="memory-layout5.c">memory-layout5.c</A><BR>
-            <A href="memory-layout6.c">memory-layout6.c</A><BR>
-            <A href="memory-layout7.c">memory-layout7.c</A><BR>
-            <A href="memory-layout8.c">memory-layout8.c</A><BR>
-            <A href="sum.c">sum.c</A><BR>
-            <A href="zombies.c">zombies.c</A><br><br>
+            <A href="apue-code/06/const.c">const.c</A><BR>
+            <A href="apue-code/06/entry.c">entry.c</A><BR>
+            <A href="apue-code/06/exit-handlers.c">exit-handlers.c</A><BR>
+            <A href="apue-code/06/forkflush.c">forkflush.c</A><BR>
+            <A href="apue-code/06/forkseek.c">forkseek.c</A><BR>
+            <A href="apue-code/06/hw.c">hw.c</A><BR>
+            <A href="apue-code/06/malloc.c">malloc.c</A><BR>
+            <A href="apue-code/06/memory-layout0.c">memory-layout0.c</A><BR>
+            <A href="apue-code/06/memory-layout1.c">memory-layout1.c</A><BR>
+            <A href="apue-code/06/memory-layout2.c">memory-layout2.c</A><BR>
+            <A href="apue-code/06/memory-layout3.c">memory-layout3.c</A><BR>
+            <A href="apue-code/06/memory-layout4.c">memory-layout4.c</A><BR>
+            <A href="apue-code/06/memory-layout5.c">memory-layout5.c</A><BR>
+            <A href="apue-code/06/memory-layout6.c">memory-layout6.c</A><BR>
+            <A href="apue-code/06/memory-layout7.c">memory-layout7.c</A><BR>
+            <A href="apue-code/06/memory-layout8.c">memory-layout8.c</A><BR>
+            <A href="apue-code/06/sum.c">sum.c</A><BR>
+            <A href="apue-code/06/zombies.c">zombies.c</A><br><br>
 	    <a
 href="http://cvsweb.netbsd.org/bsdweb.cgi/src/lib/csu/common/crt0-common.c?rev=HEAD&content-type=text/x-cvsweb-markup">NetBSD crt0-common.c</a><br><br>
-            <a href="/cgi-bin/631-06.cgi">Week 06 Checkpoint</a><br><br>
-            <a href="https://stevens.zoom.us/rec/share/ivA9F4vwOWOZogw1c8flGOR6yLQRbKkmUs8xbTZZmr52WuujOIadUM_M0AtZRK9q.rUjEojaIB18rBygJ">Zoom Meeting Recording</a><br>
+            <a href="/cgi-bin/631-06.cgi">Week 06 Checkpoint</a> (due by 16:00 Eastern before class)<br><br>
             <!-- <A href="setjmp1.c">setjmp1.c</A><BR>
             <A href="setjmp2.c">setjmp2.c</A><BR>
             <A href="setjmp3.c">setjmp3.c</A> --></TD>
@@ -691,15 +692,15 @@ href="http://www.informit.com/articles/article.aspx?p=366888&seqNum=7">FreeBSD P
 			[<a href="07-reentrant.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/0GRLhpMao3I">video lecture</a>]&nbsp;[<a href="07-reentrant.txt">transcript</a>]<br>
             &#160;<BR>
             &#160;<BR>
-	    <a href="eintr.c">eintr.c</a><br>
-	    <a href="pending.c">pending.c</a><br>
-            <a href="reentrant.c">reentrant.c</a><br>
-            <a href="signals1.c">signals1.c</a><br>
-            <a href="signals2.c">signals2.c</a><br>
-            <a href="signals3.c">signals3.c</a><br>
-            <a href="signals4.c">signals4.c</a><br>
-            <A href="sigusr.c">sigusr.c</A><br><br>
-            <a href="/cgi-bin/631-07.cgi">Week 07 Checkpoint</a>
+	    <a href="apue-code/07/eintr.c">eintr.c</a><br>
+	    <a href="apue-code/07/pending.c">pending.c</a><br>
+            <a href="apue-code/07/reentrant.c">reentrant.c</a><br>
+            <a href="apue-code/07/signals1.c">signals1.c</a><br>
+            <a href="apue-code/07/signals2.c">signals2.c</a><br>
+            <a href="apue-code/07/signals3.c">signals3.c</a><br>
+            <a href="apue-code/07/signals4.c">signals4.c</a><br>
+            <A href="apue-code/07/sigusr.c">sigusr.c</A><br><br>
+            <a href="/cgi-bin/631-07.cgi">Week 07 Checkpoint</a> (due by 16:00 Eastern before class)
            </TD>
           </TR>
 
@@ -728,19 +729,18 @@ href="http://www.informit.com/articles/article.aspx?p=366888&seqNum=7">FreeBSD P
 href="https://beej.us/guide/bgipc/html/single/bgipc.html">Beej's
 Guide to Unix IPC</a><br>
             <BR>
-            <a href="memory-layout.c">memory-layout.c</a><br>
-            <a href="mqrecv.c">mqrecv.c</a><br>
-            <a href="mqsend.c">mqsend.c</a><br>
-            <a href="msgrecv.c">msgrecv.c</a><br>
-            <A href="pipe1.c">pipe1.c</A><BR>
-            <A href="pipe2.c">pipe2.c</A><BR>
-            <a href="popen.c">popen.c</a><br>
-            <a href="semdemo.c">semdemo.c</a><br>
-            <a href="shmdemo.c">shmdemo.c</a><br>
+            <a href="apue-code/08/memory-layout.c">memory-layout.c</a><br>
+            <a href="apue-code/08/mqrecv.c">mqrecv.c</a><br>
+            <a href="apue-code/08/mqsend.c">mqsend.c</a><br>
+            <a href="apue-code/08/msgrecv.c">msgrecv.c</a><br>
+            <A href="apue-code/08/pipe1.c">pipe1.c</A><BR>
+            <A href="apue-code/08/pipe2.c">pipe2.c</A><BR>
+            <a href="apue-code/08/popen.c">popen.c</a><br>
+            <a href="apue-code/08/semdemo.c">semdemo.c</a><br>
+            <a href="apue-code/08/shmdemo.c">shmdemo.c</a><br>
 	<br>
-            <a href="/cgi-bin/631-08.cgi">Week 08 Checkpoint</a><br>
-	<a href="f21-hw2.html">HW#2: implement 'command(3)'</a><br>
-            <a href="https://stevens.zoom.us/rec/share/6ElJQaqPG9UtMsk9pYr7LMijxRpJ6l9IknO4oWjIdptggJVcWUZqYguQkdX8h7D4.zUCsSxgAf_2LL7pC">Zoom Meeting Recording</a><br>
+            <a href="/cgi-bin/631-08.cgi">Week 08 Checkpoint</a> (due by 16:00 Eastern before class)<br>
+	<!-- <a href="f21-hw2.html">HW#2: implement 'command(3)'</a><br> -->
 		</TD>
           </TR>
 
@@ -774,20 +774,20 @@ Guide to Unix IPC</a><br>
 			[<a href="09-io-multiplexing.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/Y5PiHboUctw">video lecture</a>]&nbsp;[<a href="09-io-multiplexing.txt">transcript</a>]<br>
             &#160;<BR>
             <BR>
-            <A href="dualstack-streamread.c">dualstack-streamread.c</A><BR>
-            <A href="socketpair.c">socketpair.c</A><BR>
-            <A href="udgramread.c">udgramread.c</A><BR>
-            <A href="udgramsend.c">udgramsend.c</A><BR>
-            <A href="dgramread.c">dgramread.c</A><BR>
-            <A href="dgramsend.c">dgramsend.c</A><BR>
-            <A href="streamread.c">streamread.c</A><BR>
-            <A href="streamwrite.c">streamwrite.c</A><BR>
-            <A href="two-sockets.c">two-sockets.c</A><BR>
-            <A href="two-sockets-select.c">two-sockets-select.c</A><BR>
-            <A href="one-socket-select.c">one-socket-select.c</A><BR>
-            <A href="one-socket-select-fork.c">one-socket-select-fork.c</A><BR>
+            <A href="apue-code/09/dualstack-streamread.c">dualstack-streamread.c</A><BR>
+            <A href="apue-code/09/socketpair.c">socketpair.c</A><BR>
+            <A href="apue-code/09/udgramread.c">udgramread.c</A><BR>
+            <A href="apue-code/09/udgramsend.c">udgramsend.c</A><BR>
+            <A href="apue-code/09/dgramread.c">dgramread.c</A><BR>
+            <A href="apue-code/09/dgramsend.c">dgramsend.c</A><BR>
+            <A href="apue-code/09/streamread.c">streamread.c</A><BR>
+            <A href="apue-code/09/streamwrite.c">streamwrite.c</A><BR>
+            <A href="apue-code/09/two-sockets.c">two-sockets.c</A><BR>
+            <A href="apue-code/09/two-sockets-select.c">two-sockets-select.c</A><BR>
+            <A href="apue-code/09/one-socket-select.c">one-socket-select.c</A><BR>
+            <A href="apue-code/09/one-socket-select-fork.c">one-socket-select-fork.c</A><BR>
 		<br>
-            <a href="/cgi-bin/631-09.cgi">Week 09 Checkpoint</a><br><br>
+            <a href="/cgi-bin/631-09.cgi">Week 09 Checkpoint</a> (due by 16:00 Eastern before class)<br><br>
 	    <a href="f21-group-project.html">Group Project Assignment</a><br>
 	    </TD>
           </TR>
@@ -814,9 +814,7 @@ Guide to Unix IPC</a><br>
 			<b>Week 10, Segment 1: D&aelig;mon Processes</b><br>
 			[<a href="10-daemons.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/YbYQqVMv7b8">video lecture</a>]&nbsp;[<a href="10-daemons.txt">transcript</a>]<br>
             &#160;<BR>
-			<a
-href="https://stevens.zoom.us/rec/share/iHD84oocuLek3LisEuDiKy-GP7SVAqALtbX1ogUdrGn9KM1pHXCjHKAXVcHkOnUM.oDS5fh0Z28RcaX1-">Zoom Meeting Recording</a><br>
-<a href="lecture10.pdf">Lecture Slides</a></TD>
+			<a href="lecture10.pdf">Lecture Slides</a></TD>
   
           </TR> 
 
@@ -843,18 +841,18 @@ href="http://jvns.ca/blog/2014/09/06/how-to-read-an-executable/">How to read an 
 			<b>Week 11, Segment 3: Shared Libraries</b><br>
 			[<a href="11-shlibs.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/eloJO0ssrfc">video lecture</a>]&nbsp;[<a href="11-shlibs.txt">transcript</a>]<br>
             &#160;<BR>
-		<a href="crypt.c">crypt.c</a><br>
-		<a href="dlopenex.c">dlopenex.c</a><br>
-		<a href="evil.c">evil.c</a><br>
+		<a href="apue-code/11/crypt.c">crypt.c</a><br>
+		<a href="apue-code/11/dlopenex.c">dlopenex.c</a><br>
+		<a href="apue-code/11/evil.c">evil.c</a><br>
 		<!-- <a href="greet.h">greet.h</a><br>
 		<a href="greet.c">greet.c</a><br> -->
-		<a href="hello.c">hello.c</a><br>
-		<a href="ldtest1.2.c">ldtest1.2.c</a><br>
-		<a href="ldtest1.c">ldtest1.c</a><br>
-		<a href="ldtest2.c">ldtest2.c</a><br>
-		<a href="main.c">main.c</a><br>
-		<a href="setget.c">setget.c</a><br><br>
-		<a href="/cgi-bin/631-11.cgi">Week 11 Checkpoint</a><br>
+		<a href="apue-code/11/hello.c">hello.c</a><br>
+		<a href="apue-code/11/ldtest1.2.c">ldtest1.2.c</a><br>
+		<a href="apue-code/11/ldtest1.c">ldtest1.c</a><br>
+		<a href="apue-code/11/ldtest2.c">ldtest2.c</a><br>
+		<a href="apue-code/11/main.c">main.c</a><br>
+		<a href="apue-code/11/setget.c">setget.c</a><br><br>
+		<a href="/cgi-bin/631-11.cgi">Week 11 Checkpoint</a> (due by 16:00 Eastern before class)<br>
 	        <a href="libgreet-exercise.html">libgreet exercise</a></td>
           </TR>
           <TR>
@@ -884,13 +882,11 @@ Slides</a> (previous semester, includes section on
 encryption basics)
             <BR>
             <BR>
-            <A href="slogdemo.c">slogdemo.c</A><br>
-            <A href="nonblock.c">nonblock.c</A><br>
-            <A href="flock.c">flock.c</A><br>
+            <A href="apue-code/12/slogdemo.c">slogdemo.c</A><br>
+            <A href="apue-code/12/nonblock.c">nonblock.c</A><br>
+            <A href="apue-code/12/flock.c">flock.c</A><br>
             <A href="https://www.netmeister.org/blog/strlcat.html">Use <tt>strlcat(3)</tt>!</A><br><br>
-            <a
-href="https://stevens.zoom.us/rec/share/UbOPIePAcJcNm_rVl6VkokNLNYjEvwK8ynqRpZrBsVrn3J8kGu6tPut7CjeYMh5M.U6Q8mCsg3Dgwj466 ">Zoom Meeting Recording</a><br>
-            <a href="/cgi-bin/631-12.cgi">Week 12 Checkpoint</a><br>
+            <a href="/cgi-bin/631-12.cgi">Week 12 Checkpoint</a> (due by 16:00 Eastern before class)<br>
 	    <!-- <a href="f16-hw4.html">HW4</a> -->
 	</TD>
           </TR>
@@ -923,13 +919,12 @@ scheduling and related interfaces in NetBSD 5.0</a><br>
 			<b>Week 13, Segment 6: Capabilities, Control Groups, Containers</b><br>
 			[<a href="13-containers.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/ozzyh5wjjdw">video lecture</a>]&nbsp;[<a href="13-containers.txt">transcript</a>]<br>
             &#160;<BR>
-		<a href="break-chroot.c">break-chroot.c</a><br>
-		<a href="busy-child.c">busy-child.c</a><br>
-		<a href="load.c">load.c</a><br>
-		<a href="priority.c">priority.c</a><br>
-		<a href="mkchroot">mkchroot</a><br><br>
-                <a href="https://stevens.zoom.us/rec/share/FEmL1i-vQ3Q8kwbIEIVXx6sZSv_ykgMCRLy674-OXurTXGHnScKUNKYE4z91WeEJ.Dg2-W17eip4rJ2pq">Zoom Meeting Recording</a><br>
-		<a href="/cgi-bin/631-13.cgi">Week 13 Checkpoint</a><br>
+		<a href="apue-code/13/break-chroot.c">break-chroot.c</a><br>
+		<a href="apue-code/13/busy-child.c">busy-child.c</a><br>
+		<a href="apue-code/13/load.c">load.c</a><br>
+		<a href="apue-code/13/priority.c">priority.c</a><br>
+		<a href="apue-code/13/mkchroot">mkchroot</a><br><br>
+		<a href="/cgi-bin/631-13.cgi">Week 13 Checkpoint</a> (due by 16:00 Eastern before class)<br>
 		</TD>
           </TR>
 
