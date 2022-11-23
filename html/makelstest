@@ -31,7 +31,7 @@ touch "foobar"
 
 su root -c "chown nobody:operator file"
 su root -c "chown games:daemon d"
-su root -c "cp /dev/wd0 ."
+#su root -c "cp /dev/wd0 ."
 touch noowner
 su root -c "chown 1234 noowner"
 touch nogroup
@@ -83,3 +83,20 @@ EOF
 
 cc -Wall -Werror hole.c
 ./a.out
+
+mkdir nested
+cd nested
+(
+for i in `jot 512`; do
+	mkdir $i
+	cd $i
+done
+)
+
+(
+for i in `jot 30`; do
+	mkdir `yes a | head -255 | tr -d '\n'`
+	ln -s a* b
+	cd b
+done
+)

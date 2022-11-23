@@ -1,3 +1,12 @@
+/* This file is part of the sample code and exercises
+ * used by the class "Advanced Programming in the UNIX
+ * Environment" taught by Jan Schaumann
+ * <jschauma@netmeister.org> at Stevens Institute of
+ * Technology.
+ *
+ * https://stevens.netmeister.org/631/
+ */
+
 /*	$NetBSD: socketpair.c,v 1.3 2003/08/07 10:30:50 agc Exp $
  *
  * Copyright (c) 1986, 1993
@@ -37,7 +46,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-/* 'Kubla Khan' by Samuel Taylor Coleridge -- look it up. */
 #define DATA1 "In Xanadu, did Kubla Khan . . ."
 #define DATA2 "A stately pleasure dome decree . . ."
 
@@ -67,21 +75,21 @@ int main()
 		perror("fork");
 	else if (child) {
 		close(sockets[0]);
-		printf("Parent (%d) --> sending: %s\n", getpid(), DATA1);
-		if (write(sockets[1], DATA1, sizeof(DATA1)) < 0)
-			perror("writing stream message");
 		if (read(sockets[1], buf, BUFSIZ) < 0)
 			perror("reading stream message");
 		printf("Parent (%d) --> reading: %s\n", getpid(), buf);
+		printf("Parent (%d) --> sending: %s\n", getpid(), DATA1);
+		if (write(sockets[1], DATA1, sizeof(DATA1)) < 0)
+			perror("writing stream message");
 		close(sockets[1]);
 	} else {
 		close(sockets[1]);
-		printf("Child  (%d) --> sending: %s\n", getpid(), DATA2);
-		if (write(sockets[0], DATA2, sizeof(DATA2)) < 0)
-			perror("writing stream message");
 		if (read(sockets[0], buf, BUFSIZ) < 0)
 			perror("reading stream message");
 		printf("Child  (%d) --> reading: %s\n", getpid(), buf);
+		printf("Child  (%d) --> sending: %s\n", getpid(), DATA2);
+		if (write(sockets[0], DATA2, sizeof(DATA2)) < 0)
+			perror("writing stream message");
 		close(sockets[0]);
 	}
 	return 0;

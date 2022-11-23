@@ -1,3 +1,12 @@
+/* This file is part of the sample code and exercises
+ * used by the class "Advanced Programming in the UNIX
+ * Environment" taught by Jan Schaumann
+ * <jschauma@netmeister.org> at Stevens Institute of
+ * Technology.
+ *
+ * https://stevens.netmeister.org/631/
+ */
+
 /*	$NetBSD: streamread.c,v 1.3 2003/08/07 10:30:50 agc Exp $
  *
  * Copyright (c) 1986, 1993
@@ -41,7 +50,6 @@
 #include <string.h>
 #include <unistd.h>
 
-#define TRUE 1
 #define BACKLOG 5
 
 /*
@@ -56,6 +64,8 @@ int main()
 	int sock;
 	socklen_t length;
 	struct sockaddr_in6 server;
+
+	memset(&server, 0, sizeof(server));
 
 	if ((sock = socket(PF_INET6, SOCK_STREAM, 0)) < 0) {
 		perror("opening stream socket");
@@ -92,6 +102,7 @@ int main()
 		char buf[BUFSIZ];
 		char claddr[INET6_ADDRSTRLEN];
 		struct sockaddr_in6 client;
+		memset(&client, 0, sizeof(client));
 
 		length = sizeof(client);
 		if ((fd = accept(sock, (struct sockaddr *)&client, &length)) < 0) {

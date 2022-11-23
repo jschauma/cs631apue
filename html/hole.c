@@ -1,3 +1,18 @@
+/* This file is part of the sample code and exercises
+ * used by the class "Advanced Programming in the UNIX
+ * Environment" taught by Jan Schaumann
+ * <jschauma@netmeister.org> at Stevens Institute of
+ * Technology.
+ *
+ * This file is in the public domain.
+ *
+ * You don't have to, but if you feel like
+ * acknowledging where you got this code, you may
+ * reference me by name, email address, or point
+ * people to the course website:
+ * https://stevens.netmeister.org/631/
+ */
+
 /*
  * This simple program creates a file with a hole in it, a so-called
  * sparse file.  Use hexdump(1) or od(1) to verify that there is no data
@@ -42,6 +57,7 @@ main(void) {
 		perror("error writing buf2");
 		return EXIT_FAILURE;
 	}
+	sleep(30);
 
 	(void)close(fd);
 	return EXIT_SUCCESS;

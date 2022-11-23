@@ -1,3 +1,18 @@
+/* This file is part of the sample code and exercises
+ * used by the class "Advanced Programming in the UNIX
+ * Environment" taught by Jan Schaumann
+ * <jschauma@netmeister.org> at Stevens Institute of
+ * Technology.
+ *
+ * This file is in the public domain.
+ *
+ * You don't have to, but if you feel like
+ * acknowledging where you got this code, you may
+ * reference me by name, email address, or point
+ * people to the course website:
+ * https://stevens.netmeister.org/631/
+ */
+
 /* This program can be used to illustrates how the kernel sets up the
  * startup routine.  Call with "-e" to specify any of the functions as the
  * entry point instead of 'main'; compare otool(1)/objdump(1) output and
@@ -40,6 +55,8 @@ foo(void) {
 
 int
 main(int argc, char **argv) {
+	(void)argc;
+	(void)argv;
 	printf("main is at 0x%lX\n", (unsigned long)&main);
 	/* Note that we do explicitly _not_ return an error here, nor call
 	 * any of the exit(3) functions.  Your compiler may warn you

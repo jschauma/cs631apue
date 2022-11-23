@@ -1,3 +1,12 @@
+/* This file is part of the sample code and exercises
+ * used by the class "Advanced Programming in the UNIX
+ * Environment" taught by Jan Schaumann
+ * <jschauma@netmeister.org> at Stevens Institute of
+ * Technology.
+ *
+ * https://stevens.netmeister.org/631/
+ */
+
 /*	$NetBSD: streamwrite.c,v 1.3 2003/08/07 10:30:50 agc Exp $
  *
  * Copyright (c) 1986, 1993
@@ -53,6 +62,8 @@ int main(int argc, char **argv)
 	int sock, port;
 	struct sockaddr_in6 server;
 	struct hostent *hp;
+
+	memset(&server, 0, sizeof(server));
 
 	if (argc != 3) {
 		(void)printf("Usage: %s hostname port\n", argv[0]);
