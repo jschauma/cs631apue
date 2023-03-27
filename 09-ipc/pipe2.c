@@ -1,6 +1,22 @@
-/* This program illustrates a more common use of a pipe: one process
- * generates data, the other exec's another command with stdin connected
- * to the pipe's read end.  This is equivalent to
+/* This file is part of the sample code and exercises
+ * used by the class "Advanced Programming in the UNIX
+ * Environment" taught by Jan Schaumann
+ * <jschauma@netmeister.org> at Stevens Institute of
+ * Technology.
+ *
+ * This file is in the public domain.
+ *
+ * You don't have to, but if you feel like
+ * acknowledging where you got this code, you may
+ * reference me by name, email address, or point
+ * people to the course website:
+ * https://stevens.netmeister.org/631/
+ */
+
+/* This program illustrates a more common use of a
+ * pipe: one process generates data, the other exec's
+ * another command with stdin connected to the pipe's
+ * read end.  This is equivalent to
  *
  * cat file | ${PAGER:-/usr/bin/more}
  *
@@ -8,6 +24,8 @@
 
 #include <sys/wait.h>
 
+#include <err.h>
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -17,61 +35,65 @@
 #define LINE_LENGTH	128			/* arbitrary! */
 
 int
-main(int argc, char **argv) {
+main(int argc, char **argv)
+{
 	int n, fd[2];
 	pid_t pid;
 	char line[LINE_LENGTH], *pager, *argv0;
 	FILE *fp;
 
 	if (argc != 2) {
-		perror("usage: a.out <pathname>");
-		exit(1);
+		(void)fprintf(stderr, "Usage: %s <pathname>\n", argv[0]);
+		exit(EXIT_FAILURE);
+		/* NOTREACHED */
 	}
+
 	if ((fp = fopen(argv[1], "r")) == NULL) {
-		fprintf(stderr, "can't open %s\n", argv[1]);
-		exit(1);
+		(void)fprintf(stderr, "unable to open %s: %s\n",
+				argv[1], strerror(errno));
+		exit(EXIT_FAILURE);
+		/* NOTREACHED */
 	}
 
 	if (pipe(fd) < 0) {
-		perror("pipe error");
-		exit(1);
+		err(EXIT_FAILURE, "pipe");
+		/* NOTREACHED */
 	}
 
 	if ((pid = fork()) < 0) {
-		perror("fork error");
-		exit(1);
+		err(EXIT_FAILURE, "fork");
+		/* NOTREACHED */
 	}
-	else if (pid > 0) {		/* parent */
-		close(fd[0]);		/* close read end */
-		/* parent copies argv[1] to pipe */
+
+	if (pid > 0) {
+		(void)close(fd[0]);		/* close read end */
 		while (fgets(line, LINE_LENGTH, fp) != NULL) {
 			n = strlen(line);
 			if (write(fd[1], line, n) != n) {
-				perror("write error to pipe");
-				exit(1);
+				err(EXIT_FAILURE, "write to pipe");
+				/* NOTREACHED */
 			}
 		}
 		if (ferror(fp)) {
-			perror("fgets error");
-			exit(1);
+			err(EXIT_FAILURE, "fgets");
+			/* NOTREACHED */
 		}
 
-		close(fd[1]);	/* close write end of pipe for reader */
+		/* We're done writing, so close write end of pipe. */
+		(void)close(fd[1]);
 		if (waitpid(pid, NULL, 0) < 0) {
-			perror("waitpid error");
-			exit(1);
+			err(EXIT_FAILURE, "waitpid");
+			/* NOTREACHED */
 		}
-		exit(0);
-
-	} else {		/* child */
-		close(fd[1]);	/* close write end */
+		exit(EXIT_SUCCESS);
+		/* NOTREACHED */
+	} else {
+		(void)close(fd[1]);	/* close write end */
 		if (fd[0] != STDIN_FILENO) {
 			if (dup2(fd[0], STDIN_FILENO) != STDIN_FILENO) {
-				perror("dup2 error to stdin");
-				exit(1);
+				err(EXIT_FAILURE, "dup2 to stdin");
+				/* NOTREACHED */
 			}
-			/* don't need this after dup2: */
-			/* close(fd[0]); */
 		}
 
 		/* get arguments for execl() */
@@ -82,12 +104,14 @@ main(int argc, char **argv) {
 		else
 			argv0 = pager;
 
-		/* We can of course lie about our name: */
-		argv0 = "/bin/sh (not really)";
+		/* We could of course lie about our name: */
+		argv0 = "tar";
 		execlp(pager, argv0, (char *) 0);
-		fprintf(stderr,"execl error for %s\n", pager);
-		exit(1);
+		(void)fprintf(stderr, "execl error for %s: %s\n",
+				pager, strerror(errno));
+		exit(EXIT_FAILURE);
+		/* NOTREACHED */
 	}
 
-	return 0;
+	/* NOTREACHED */
 }

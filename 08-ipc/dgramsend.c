@@ -1,3 +1,12 @@
+/* This file is part of the sample code and exercises
+ * used by the class "Advanced Programming in the UNIX
+ * Environment" taught by Jan Schaumann
+ * <jschauma@netmeister.org> at Stevens Institute of
+ * Technology.
+ *
+ * https://stevens.netmeister.org/631/
+ */
+
 /*	$NetBSD: dgramsend.c,v 1.3 2003/08/07 10:30:50 agc Exp $
  *
  * Copyright (c) 1986, 1993
@@ -51,43 +60,44 @@ int main(int argc, char **argv)
 {
 	int sock, port;
 	struct sockaddr_in name;
-	struct hostent *hp, *gethostbyname();
+	struct hostent *hp;
 
 	memset(&name, 0, sizeof(name));
 
 	if (argc != 3) {
-		printf("Usage: %s hostname port\n", argv[0]);
-		exit(1);
+		(void)printf("Usage: %s hostname port\n", argv[0]);
+		exit(EXIT_FAILURE);
 	}
 
 	port = atoi(argv[2]);
 	if ((port < 1) || (port > 65536)) {
-		fprintf(stderr, "Invalid port: %s\n", argv[2]);
-		exit(1);
+		(void)fprintf(stderr, "Invalid port: %s\n", argv[2]);
+		exit(EXIT_FAILURE);
 	}
 
-	if ((sock = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
+	if ((sock = socket(PF_INET, SOCK_DGRAM, 0)) < 0) {
 		perror("opening datagram socket");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 
 	/*
 	 * Construct name, with no wildcards, of the socket to send to.
-	 * Getnostbyname() returns a structure including the network address
+	 * getnostbyname() returns a structure including the network address
 	 * of the specified host.  The port number is taken from the command
 	 * line.
 	 */
 	if ((hp = gethostbyname(argv[1])) == 0) {
-		fprintf(stderr, "%s: unknown host\n", argv[1]);
-		exit(2);
+		(void)fprintf(stderr, "%s: unknown host\n", argv[1]);
+		exit(EXIT_FAILURE);
 	}
 	bcopy(hp->h_addr, &name.sin_addr, hp->h_length);
-	name.sin_family = AF_INET;
+	name.sin_family = PF_INET;
 	name.sin_port = htons(port);
 
-	/* Send message. */
-	if (sendto(sock, DATA, sizeof(DATA), 0, (struct sockaddr *)&name, sizeof(name)) < 0)
+	if (sendto(sock, DATA, sizeof(DATA), 0,
+	    (struct sockaddr *)&name, sizeof(name)) < 0) {
 		perror("sending datagram message");
-	close(sock);
-	return 0;
+	}
+	(void)close(sock);
+	return EXIT_SUCCESS;
 }

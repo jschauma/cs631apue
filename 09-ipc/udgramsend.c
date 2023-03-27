@@ -69,7 +69,6 @@ main(int argc, char **argv)
 	    (struct sockaddr *)&name, sizeof(struct sockaddr_un)) < 0) {
 		perror("sending datagram message");
 	}
-	sleep(120);
 	(void)close(sock);
 	return EXIT_SUCCESS;
 }

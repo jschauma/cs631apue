@@ -72,12 +72,9 @@ int main()
 	}
 	(void)printf("socket --> %s\n", NAME);
 
-	while (1) {
-		bzero(buf, BUFSIZ);
-		if (read(sock, buf, BUFSIZ) < 0)
-			perror("reading from socket");
-		(void)printf("--> %s\n", buf);
-	}
+	if (read(sock, buf, BUFSIZ) < 0)
+		perror("reading from socket");
+	(void)printf("--> %s\n", buf);
 	(void)close(sock);
 
 	/* A UNIX domain datagram socket is a 'file'.  If you don't unlink

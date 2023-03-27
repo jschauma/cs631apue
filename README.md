@@ -4,52 +4,59 @@ CS631APUE - Advanced Programming in the UNIX Environment
 In this repository you can find the files I use for my class "[CS631 -
 Advanced Programming in the UNIX Environment]
 (http://stevens.netmeister.org/631/)", which is currently offered at
-[Stevens Institute of Technology](http://www.cs.stevens.edu/).
+[Stevens Institute of Technology](http://www.stevens.edu/).
+
+Video lectures covering these materials are publicly
+available via the [Course YouTube
+Channel](https://youtube.com/c/cs631apue).
+
 
 Contents
 --------
 
-For the most part, you will find the LaTeX files I use to create the
-slides for my lectures.  (I use
+The organization of the this directory tree is by
+lecture.  In each directory, you will find `.pdf`
+files that go with the videos in the YouTube
+channel.  You will also find various code files in the
+same directory.
+
+There may also be older versions of the slides for
+each lecture that I used prior to creating the video
+lectures.  For those, I used
+[xdvipresent](http://clip.dia.fi.upm.es/Software/xdvipresent_html/xdvipresent_2.html),
+and the `.tex` files in the directory can be used to
+create the slides.
+
+Homework assignments etc, are generally kept on the
+course website and are usually changing, so I may not
+necessarily include them here.
+
+Sometimes a given lecture's directory may include
+additional notes or scripts.
+
+
+For the most part, you will find the LaTeX files I use
+to create the slides for my lectures.  (I use
 [xdvipresent](http://clip.dia.fi.upm.es/Software/xdvipresent_html/xdvipresent_2.html)
 to create the slides.)
-
-Homework assignments etc, are generally kept on the course website and are
-usually changing, so I may not necessarily include them here.
-
-Sometimes a given lecture's directory may include additional notes or
-scripts.
-
-The organization of this directory tree is by lecture, and I will
-commit/update the contents throughout each semester as we go
-along.
-
-Videos
-------
-
-Beginning with the Fall 2020 semester, all lectures
-are provided as video lectures via the [CS631APUE
-Youtube Channel](https://v.gd/cs631apue).
-
-These lectures are screen recordings made via Apple
-Keynote; the keynote files themselves are rather
-large, and have not (yet?) been committed into this
-repository.
-
 
 License
 -------
 
-The syllabus of the class and all materials in here (with the exception of
-various graphics or images used as illustration in the slides) were
-created by Jan Schaumann &lt;jschauma@netmeister.org&gt; based on the
-well-known book by W. Richard Stevens; all copyright for the course
-materials is retained.  You are free to use the materials in any manner
-you wish so long as you give credit for it.  Pointing people to this
-repository or the [course website](http://www.cs.stevens.edu/~jschauma/631/)
-is sufficient and appreciated.  Likewise, you are encouraged to contact me with any
-questions, suggestions, corrections, concerns or comments relating to this
-content.
+The syllabus of the class and all materials in here
+(with the exception of various graphics or images used
+as illustration in the slides) were created by Jan
+Schaumann &lt;jschauma@netmeister.org&gt; based on the
+well-known book by W. Richard Stevens; all copyright
+for the course materials is retained.  You are free to
+use the materials in any manner you wish so long as
+you give credit for it.  Pointing people to this
+repository or the [course
+website](https://stevens.netmeister.org/631/) is
+sufficient and appreciated.  Likewise, you are
+encouraged to contact me with any questions,
+suggestions, corrections, concerns or comments
+relating to this content.
 
 <div style="float: center"><table border="1" width="75%" align="center" style="float: center">
 <tr><td>
