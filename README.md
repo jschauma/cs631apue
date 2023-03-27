@@ -1,10 +1,8 @@
 CS631APUE - Advanced Programming in the UNIX Environment
 ========================================================
 
-In this repository you can find the files I use for my class "[CS631 -
-Advanced Programming in the UNIX Environment]
-(http://stevens.netmeister.org/631/)", which is currently offered at
-[Stevens Institute of Technology](http://www.stevens.edu/).
+In this repository you can find the files I use for my class "[CS631 - Advanced Programming in the UNIX Environment](https://stevens.netmeister.org/631/)", which is currently offered at
+[Stevens Institute of Technology](https://www.stevens.edu/).
 
 Video lectures covering these materials are publicly
 available via the [Course YouTube
