@@ -49,9 +49,9 @@ allowfullscreen></iframe>
 <p>First, install UTM from <a
 href="https://mac.getutm.app/">https://mac.getutm.app/</a>.</p>
 
-<p>Next, download the latest "-current" ISO for NetBSD/evbarm from
-<a href="https://nycdn.netbsd.org/pub/NetBSD-daily/HEAD/latest/images/NetBSD-9.99.97-evbarm-aarch64.iso">https://nycdn.netbsd.org/pub/NetBSD-daily/HEAD/latest/images/NetBSD-9.99.97-evbarm-aarch64.iso</a>
-and save it as <tt>~/Desktop/NetBSD-9.99.97-evbarm-aarch64.iso</tt>.</p>
+<p>Next, download the latest ISO for NetBSD/evbarm from
+<a href="https://ftp.netbsd.org/pub/NetBSD/images/10.0/NetBSD-10.0-evbarm-aarch64.iso">https://ftp.netbsd.org/pub/NetBSD/images/10.0/NetBSD-10.0-evbarm-aarch64.iso</a>
+and save it as <tt>~/Desktop/NetBSD-10.0-evbarm-aarch64.iso</tt>.</p>
 
 <p>Start UTM and select '<em>Create a New Virtual Machine</em>':</p>
 <p><img src="utm-fresh.jpg" alt="Screenshot: UTM at first start"></p>
@@ -64,7 +64,7 @@ then '<em>Other</em>' in the OS selection:</p>
 
 <p>On the next screen, select '<em>Boot ISO
 Image</em>' and browse to the saved file
-<tt>~/Desktop/NetBSD-9.99.97-evbarm-aarch64.iso</tt> and
+<tt>~/Desktop/NetBSD-10.0-evbarm-aarch64.iso</tt> and
 '<em>continue</em>':</p>
 
 <p><img src="utm-iso.jpg" alt="Screenshot: UTM Load ISO file"></p>
@@ -75,6 +75,7 @@ concerned, 16 GB would be plenty.</p>
 
 <p>Let's name the VM "apue".</p>
 
+<!--
 <p>Once the VM has been created, select the 'Settings'
 menu from the upper right "sliders" menu, then select
 '<em>Network</em>' on the left and change the '<em>Network
@@ -84,11 +85,12 @@ Mode</em>' to "<em>Bridged (Advanced)</em>":</p>
 <img src="utm-menu.jpg" alt="Screenshot: UTM VM
 Menu">&nbsp;
 <img src="utm-network.jpg" alt="Screenshot: UTM Network Preferences"></p>
+-->
 
 <h4>Installing NetBSD</h4>
 
 <p>Start the VM.  You should see the '<em>Welcome to
-the NetBSD-9.99.97 Installation CD</em>' screen, where
+the NetBSD-10.0 Installation CD</em>' screen, where
 you can hit return or wait for the timeout after which
 the system will boot into the NetBSD installer, where
 we'll follow a very <a
@@ -149,7 +151,6 @@ hurt.</p>
 
 <p><blockquote><pre>'g: Enable sshd'
 'h: Enable ntpd'
-'i: Run ntpdate at boot'
 'o: Add a user'</pre></blockquote></p>
 
 <p><em>Note</em>: it is <em>required</em> for this
@@ -203,7 +204,7 @@ connectivity, then power it down again:</p>
 login: jschauma
 Password:
 
-NetBSD 9.99.97 (GENERIC) #0: Wed May 25 15:52:25 UTC 2022
+NetBSD 10.0 (GENERIC64) #0: Thu Mar 28 08:33:33 UTC 2024
 
 Welcome to NetBSD!
 
@@ -211,24 +212,26 @@ apue$ ifconfig -a
 vioif0: flags=0x8843&lt;UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST&gt; mtu 1500
 	ec_capabilities=0x1&lt;VLAN_MTU&gt;
 	ec_enabled=0
-	address: e2:47:b0:00:bd:cf
+	address: fe:d7:b1:b2:f7:55
 	status: active
-	inet6 fe80::e047:b0ff:fe00:bdcf%vioif0/64 flags 0 scopeid 0x1
-	inet 172.16.1.25/24 broadcast 172.16.1.255 flags 0
+	inet6 fe80::fcd7:b1ff:feb2:f755%vioif0/64 flags 0 scopeid 0x1
+	inet6 fdc2:a538:d647:8432:3641:423b:87e5:c4cf/64 flags 0x40&lt;AUTOCONF&gt;
+	inet 192.168.64.12/24 broadcast 192.168.64.255 flags 0
 lo0: flags=0x8049&lt;UP,LOOPBACK,RUNNING,MULTICAST&gt; mtu 33624
 	status: active
-	inet6 ::1/128 flags 0x20<NODAD>
+	inet6 ::1/128 flags 0x20&lt;NODAD&gt;
 	inet6 fe80::1%lo0/64 flags 0 scopeid 0x2
 	inet 127.0.0.1/8 flags 0
 apue$ su root -c "/sbin/shutdown -p now"</pre></blockquote></p>
 
+<!--
 <p>Note: it appears that as of 2022-06-03, UTM / QEMU
 does not correctly configure IPv6 networking: in
 bridged mode, if your local network supports IPv6,
 your VM will get an IPv6 address, but routing IPv6
 traffic from the VM to the internet does not appear to
 work.  In shared or emulated VLAN mode, the VM does
-not appear to get a DHCPv6 lease at all.</p>
+not appear to get a DHCPv6 lease at all.--></p>
 
 <h3>Using your VM</h3>
 <h4>Starting headlessly</h4>
@@ -239,14 +242,64 @@ open the app and click on things just to start our
 VM.</p>
 
 <p>To avoid this, we can use <tt>qemu</tt> directly to
-start the VM.  However, without UTM you cannot use
-bridged networking (easily).  Using normal user
-networking works fine for the most part, but means
-ICMP won't work in your VM.  If that doesn't bother
-you, then you can use e.g., <a
-href="start-apue.sh">this script</a> to start your
-VM.</p>
+start the VM using a <a
+href="start-apue.sh">simple script</a>.  With this
+approach, we are also port-forwarding SSH traffic to the
+VM via port 2222 on <code>localhost</code>:</p>
 
+<p><blockquote><pre>$ cat &gt; ~/bin/start-apue &lt;&lt;EOF
+#! /bin/sh
+#
+# Helper script to start a NetBSD VM using qemu.
+#
+# See https://stevens.netmeister.org/631/utm/ for more information.
+
+which timeout &gt;/dev/null 2&gt;&amp;1
+if [ $? -gt 0 ]; then
+	# e.g., macOS; we assume Perl is present
+	timeout() { perl -e 'alarm shift; exec @ARGV' "$@"; }
+fi
+
+echo "=&gt; Starting VM..."
+qcow=$(echo /Users/${USER}/Library/Containers/com.utmapp.UTM/Data/Documents/apue.utm/Data/*.qcow2)
+
+qemu-system-aarch64 \
+	-L /Applications/UTM.app/Contents/Resources/qemu  \
+	-smp cpus=4,sockets=1,cores=4,threads=1           \
+	-accel hvf -accel tcg,tb-size=1024                \
+	-m 2048                                           \
+	-cpu host                                         \
+	-M virt,highmem=off                               \
+	-drive file=/Applications/UTM.app/Contents/Resources/qemu/edk2-aarch64-code.fd,if=pflash,format=raw,readonly=on \
+	-drive file=${qcow},format=qcow2                  \
+	-nographic                                        \
+	-serial tcp::4444,server,telnet,nowait            \
+	-net user,hostfwd=tcp::2222-:22 -net nic &gt;/dev/null 2&gt;&amp;1 &amp;
+
+/bin/echo -n "==&gt; Waiting for VM to boot..."
+n=1
+while [ 1 ]; do
+	timeout 2 /bin/sh -c "echo | nc localhost 2222 &gt;/dev/null 2&gt;&amp;1" &gt;/dev/null 2&gt;&amp;1
+	if [ $? -eq 0 ]; then
+		# we still need a few more seconds
+		/bin/echo -n "."
+		sleep 3
+		echo;
+		echo "=&gt; VM up and ready to log in."
+		break
+	fi
+	sleep 1
+	/bin/echo -n "."
+	n=$(( n + 1 ))
+	if [ $n -gt 60 ]; then
+		echo "VM still not up after 60 seconds, bailing out." &gt;&amp;2
+		break
+	fi
+done
+EOF
+$ </pre></blockquote></p>
+
+<!--
 <h4>Minimize GUI Work with UTM</h4>
 
 <p>Alternatively, or if we need fully bridged
@@ -319,6 +372,7 @@ ps wwaux | awk '/UT[M].app/ { print $2 }' | xargs kill
 EOF
 $ chmod a+rx ~/bin/stop-apue
 $ </pre></blockquote></p>
+-->
 
 <h3>Set up your VM for this class</h3>
 
