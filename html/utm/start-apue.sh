@@ -12,7 +12,11 @@ fi
 
 
 echo "=> Starting VM..."
-qcow=$(echo /Users/${USER}/Library/Containers/com.utmapp.UTM/Data/Documents/apue.utm/Data/*.qcow2)
+drives=""
+
+for f in /Users/${USER}/Library/Containers/com.utmapp.UTM/Data/Documents/apue.utm/Data/*.qcow2; do
+	drives="${drives} -drive file=${f},format=qcow2"
+done
 
 qemu-system-aarch64 \
 	-L /Applications/UTM.app/Contents/Resources/qemu  	\
@@ -22,7 +26,7 @@ qemu-system-aarch64 \
 	-cpu host 						\
 	-M virt,highmem=off 					\
 	-drive file=/Applications/UTM.app/Contents/Resources/qemu/edk2-aarch64-code.fd,if=pflash,format=raw,readonly=on         		\
-	-drive file=${qcow},format=qcow2			\
+	${drives} 						\
 	-nographic 						\
 	-serial tcp::4444,server,telnet,nowait 			\
 	-net user,hostfwd=tcp::2222-:22 -net nic >/dev/null 2>&1 &
