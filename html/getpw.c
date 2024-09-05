@@ -65,8 +65,7 @@ void printAllEntries(void);
 void printOneStruct(const struct passwd *pw);
 
 struct passwd *
-who(char *u)
-{
+who(char *u) {
 	struct passwd *pw;
 	long id;
 	char *ep;

@@ -124,7 +124,7 @@ int main()
 					perror("inet_ntop");
 					rip = "unknown";
 				} else {
-					(void)printf("Client (%s) sent: \"%s\"", rip, buf);
+					(void)printf("Client (%s) sent: \"%s\"\n", rip, buf);
 				}
 			}
 		} while (rval != 0);

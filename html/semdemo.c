@@ -51,7 +51,7 @@ union semun {
 
 /*
 * initsem() -- simplified version of W. Richard
-* Stevens' UNIX Network Programming 2nd edition,
+* Stevens's UNIX Network Programming 2nd edition,
 * volume 2, lockvsem.c, page 295;
 */
 int

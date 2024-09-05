@@ -29,7 +29,7 @@
 # 2013.
 #
 # The class CS631 Advanced Programming in the Unix Environment
-# (http://www.cs.stevens.edu/~jschauma/631/) has no strict pre-requisites,
+# (https://stevens.netmeister.org/631/) has no strict pre-requisites,
 # but I need to assess whether a prospective student might be completely
 # lost and not likely to be able to perform even the most basic of tasks
 # required to follow the course.  I use this script to see if students are
@@ -82,12 +82,6 @@ task() {
 ###
 ### Main
 ###
-
-if ! expr "$(hostname -f)" : ".*srcit.stevens-tech.edu" >/dev/null 2>&1; then
-	echo "Please run this script on linux-lab.cs.stevens.edu." >&2
-	exit 1
-fi
-
 
 ## Intro
 

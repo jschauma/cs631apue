@@ -15,6 +15,7 @@
 
 /* A simple program to introduce the concept of shared libraries.
  *
+ * On Linux:
  * Compiling this program will work, as we have the forward declaration
  * from the bsd compatibility header.  Linking the executable will fail,
  * unless we explicitly link against libbsd.

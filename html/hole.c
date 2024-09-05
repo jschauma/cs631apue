@@ -57,7 +57,6 @@ main(void) {
 		perror("error writing buf2");
 		return EXIT_FAILURE;
 	}
-	sleep(30);
 
 	(void)close(fd);
 	return EXIT_SUCCESS;

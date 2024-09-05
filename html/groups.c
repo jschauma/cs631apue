@@ -54,8 +54,7 @@
 struct passwd *who(char *);
 
 struct passwd *
-who(char *u)
-{
+who(char *u) {
 	struct passwd *pw;
 	long id;
 	char *ep;

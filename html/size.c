@@ -28,17 +28,17 @@ main(int argc, char **argv) {
 
 	if (argc != 2) {
 		fprintf(stderr, "usage: %s file\n", argv[0]);
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 
 	if (lstat(argv[1], &sb) == -1) {
 		fprintf(stderr, "Can't stat %s: %s\n", argv[1],
 						strerror(errno));
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 
 	printf("st_size   : %d\n", (int)sb.st_size);
 	printf("st_blocks : %d\n", (int)sb.st_blocks);
 	printf("st_blksize: %d\n", (int)sb.st_blksize);
-	exit(0);
+	exit(EXIT_SUCCESS);
 }

@@ -109,6 +109,7 @@ handleConnection(int fd, struct sockaddr_in6 client)
 	exit(EXIT_SUCCESS);
 	/* NOTREACHED */
 }
+
 void
 handleSocket(int s)
 {

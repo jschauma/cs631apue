@@ -6,6 +6,10 @@ Did I write all the code myself?
      classmates, sample solutions, or anywhere else.
      Review https://stevens.netmeister.org/631/#plagiarism
 
+Did I use any AI technologies?  If so, did I properly
+acknowledge this help?
+   - Review https://stevens.netmeister.org/631/use-of-ai.html
+
 
 Does my code follow the style guide?
    - Code is communication.  Make sure your code is
@@ -32,7 +36,7 @@ issues I encountered?
 
 
 Did I check the return value of all function calls?
-  - Yes, that does include malloc(3).
+  - Yes, that does include but is not limited to malloc(3).
 
 
 Did I send error messages to stderr?  Did I use
@@ -60,3 +64,9 @@ Did I check that I have avoided code duplication?
 Writing the same or very similar code multiple times
 is a sign that my program could benefit from being
 restructured.
+
+
+For any string manipulation, did I use size-bounded
+functions?
+  - Use strlcat(3)/strlcpy(3) instead of
+    strcat(3)/strlcat(3) etc.

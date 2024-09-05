@@ -69,6 +69,7 @@ main(int argc, char **argv) {
 			execlp(buf, buf, (char *)0);
 			fprintf(stderr, "shell: couldn't exec %s: %s\n", buf,
 					strerror(errno));
+			/* See sysexits(3) */
 			exit(EX_UNAVAILABLE);
 		}
 

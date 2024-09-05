@@ -31,13 +31,18 @@ touch "foobar"
 
 su root -c "chown nobody:operator file"
 su root -c "chown games:daemon d"
+#sudo chown nobody:operator file
+#sudo chown games:daemon d
 #su root -c "cp /dev/wd0 ."
 touch noowner
 su root -c "chown 1234 noowner"
+#sudo chown 1234 noowner
 touch nogroup
 su root -c "chown :1234 nogroup"
+#sudo chown :1234 nogroup
 ln -s / "ls-LR"
 su root -c "cp -a /dev/null null"
+#sudo cp -a /dev/null null
 touch $(yes a | head -255 | tr -d '\n')
 
 cat >hole.c <<EOF

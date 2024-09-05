@@ -2,7 +2,7 @@
 .\"   CS631 Advanced Programming in the UNIX Environment
 .\"   https://www.cs.stevens.edu/~jschauma/631/
 .\"
-.Dd December 17, 2020
+.Dd December 22, 2022
 .Dt SISH 1
 .Os
 .Sh NAME
@@ -60,13 +60,16 @@ supports the following three input-/output- redirection operators:
 .Bl -tag -width ___file -offset indent
 .It \*[Gt] file
 Redirect standard output to file.
-Mutually exclusive with the \*[Gt]\*[Gt] opreator.
 .It \*[Gt]\*[Gt] file
 Append standard output to file.
-Mutually exclusive with the \*[Gt] opreator.
 .It \*[Lt] file
 Redirect standard input from file.
 .El
+.Pp
+Note: multiple redirection operators can be given in
+the same command.
+If multiple operators of the same type are specified,
+then the last one will ultimately take effect.
 .Ss Pipeines
 A pipeline is a sequence of one or more commands separated by the control
 operator '|'.
@@ -83,14 +86,20 @@ command.
 .Nm
 supports the following builtins (which are taking precedence over any
 non-builtin commands):
-.Bl -tag -width echo__word_
+.Bl -tag -width echo__word_____
 .It cd Op Ar dir
 Change the current working directory.
 If
 .Ar dir
-is not specified, change to the user's home directory.
-.It echo Op Ar word
-Print the given word, followed by a '\\n'.
+is not specified, change to the directory specified in
+the
+.Ev HOME
+environment variable.
+If that is unset, change to the user's home directory
+as determined via
+.Xr getpwuid 3 .
+.It echo Op Ar word Ar ...
+Print the given word(s), followed by a '\\n'.
 The following special values are supported:
 .Bl -tag -width __
 .It $?
@@ -114,6 +123,14 @@ sets the following environment variables:
 the path of the executable of
 .Nm
 .El
+.Pp
+As noted above,
+.Nm
+uses the
+.Ev HOME
+environment variable when the shell builtin
+.Ar cd
+is invoked without any arguments.
 .Sh EXAMPLES
 The following sequence of commands shows common usage of
 .Nm :

@@ -68,10 +68,10 @@ checkCopyFailures() {
 	# repeat to check path construction
 	cp ${TEST_FILE} file
 	cmd="${CP} file ."
-	runTest "identicial_source_and_test_path" "${cmd}" 1
+	runTest "identical_source_and_test_path" "${cmd}" 1
 	if [ $? -eq 1 ]; then
 		# must not truncate/modify existing file
-		compareFiles "identicial_source_and_test_path" ${TEST_FILE} file
+		compareFiles "identical_source_and_test_path" ${TEST_FILE} file
 	fi
 
 	cmd="${CP} s1 s2"
