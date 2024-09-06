@@ -247,62 +247,13 @@ open the app and click on things just to start our
 VM.</p>
 
 <p>To avoid this, we can use <tt>qemu</tt> directly to
-start the VM using a <a
-href="start-apue.sh">simple script</a>.  With this
-approach, we are also port-forwarding SSH traffic to the
-VM via port 2222 on <code>localhost</code>:</p>
-
-<p><blockquote><pre>$ cat &gt; ~/bin/start-apue &lt;&lt;EOF
-#! /bin/sh
-#
-# Helper script to start a NetBSD VM using qemu.
-#
-# See https://stevens.netmeister.org/631/utm/ for more information.
-
-which timeout &gt;/dev/null 2&gt;&amp;1
-if [ $? -gt 0 ]; then
-	# e.g., macOS; we assume Perl is present
-	timeout() { perl -e 'alarm shift; exec @ARGV' "$@"; }
-fi
-
-echo "=&gt; Starting VM..."
-qcow=$(echo /Users/${USER}/Library/Containers/com.utmapp.UTM/Data/Documents/apue.utm/Data/*.qcow2)
-
-qemu-system-aarch64 \
-	-L /Applications/UTM.app/Contents/Resources/qemu  \
-	-smp cpus=4,sockets=1,cores=4,threads=1           \
-	-accel hvf -accel tcg,tb-size=1024                \
-	-m 2048                                           \
-	-cpu host                                         \
-	-M virt,highmem=off                               \
-	-drive file=/Applications/UTM.app/Contents/Resources/qemu/edk2-aarch64-code.fd,if=pflash,format=raw,readonly=on \
-	-drive file=${qcow},format=qcow2                  \
-	-nographic                                        \
-	-serial tcp::4444,server,telnet,nowait            \
-	-net user,hostfwd=tcp::2222-:22 -net nic &gt;/dev/null 2&gt;&amp;1 &amp;
-
-/bin/echo -n "==&gt; Waiting for VM to boot..."
-n=1
-while [ 1 ]; do
-	timeout 2 /bin/sh -c "echo | nc localhost 2222 &gt;/dev/null 2&gt;&amp;1" &gt;/dev/null 2&gt;&amp;1
-	if [ $? -eq 0 ]; then
-		# we still need a few more seconds
-		/bin/echo -n "."
-		sleep 3
-		echo;
-		echo "=&gt; VM up and ready to log in."
-		break
-	fi
-	sleep 1
-	/bin/echo -n "."
-	n=$(( n + 1 ))
-	if [ $n -gt 60 ]; then
-		echo "VM still not up after 60 seconds, bailing out." &gt;&amp;2
-		break
-	fi
-done
-EOF
-$ </pre></blockquote></p>
+start the VM using a <a href="start-apue.sh">simple
+script</a> (note: you'ĺl need to <a
+href="https://www.qemu.org/download/">install QEMU</a>
+first). With this approach, we are also
+port-forwarding SSH traffic to the VM via port 2222 on
+<code>localhost</code> and serial console traffic via
+port 4444.</p>
 
 <!--
 <h4>Minimize GUI Work with UTM</h4>
