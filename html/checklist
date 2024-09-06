@@ -18,7 +18,7 @@ Does my code follow the style guide?
 
 
 Does my code compile without warnings or errors on a
-NetBSD 9.x system?
+NetBSD 10.0 system?
   - Always use *at least* 'cc -Wall -Werror -Wextra',
     possibly
     'cc -ansi -g -Wall -Werror -Wextra -Wformat=2 -Wjump-misses-init -Wlogical-op -Wpedantic -Wshadow'.
@@ -69,4 +69,4 @@ restructured.
 For any string manipulation, did I use size-bounded
 functions?
   - Use strlcat(3)/strlcpy(3) instead of
-    strcat(3)/strlcat(3) etc.
+    strcat(3)/strcpy(3) etc.
