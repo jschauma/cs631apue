@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+<HEAD>
+  <TITLE>Advanced Programming in the UNIX Environment</TITLE>
+  <link rel="stylesheet" type="text/css" href="../index.css">
+</HEAD>
+
+<BODY>
+  <TABLE border="1" align="center" cellpadding="15">
+    <TR>
+      <TD valign="top">
+        <H2>Advanced Programming in the UNIX Environment</H2>
+	<H3>Pipes Practice</H3>
+	<hr>
+
+<p> In order to better understand Unix systems, it's
+best to actually <em>use</em> Unix systems.  One way
+to do that is to practice using pipelines to
+accomplish certain tasks, to get used to invoking the
+common Unix tools, like <code>sed(1)</code>,
+<code>grep(1)</code>, <code>awk(1)</code>,
+<code>sort(1)</code>, <code>uniq(1)</code>,
+<code>head(1)</code>, <code>tail(1)</code>, ...</p>
+
+<p>So let's play a game of <em>Pipes Practice</em>,
+inspired by the <a
+href="https://punkx.org/unix-pipe-game/">UNIX Pipe
+Card Game</a> and an <a
+href="/615/scripting-exercise.html">exercise</a> I use
+in <a href="/615/">CS615 - System
+Administration</a>:</p>
+
+<p>Let's suppose we have copy-pasta'd the <a
+href="https://www.imdb.com/chart/top/">IMDB Top 250
+Movies</a> page into a plain text file.
+Unfortunately, the formatting got all messed up, so
+now the file looks like this:</p>
+
+<p><blockquote><pre>Tim Robbins in The Shawshank Redemption (1994)
+The Shawshank Redemption
+1994
+2h 22m
+R
+9.3
+ (2.9M)
+
+Marlon Brando in The Godfather (1972)
+The Godfather
+1972
+2h 55m
+R
+9.2
+ (2M)
+
+Christian Bale in The Dark Knight (2008)
+The Dark Knight
+2008
+2h 32m
+PG-13
+9.0
+ (2.9M)
+
+[...]
+</pre></blockquote></p>
+
+<p>Each week, we'll pose a "challenge" to construct a
+pipeline that uses this data file as input and that
+should provide the requested output.  There are two
+challenge modes:</p>
+
+<p>
+  <ol>
+    <li>Find the shortest command or pipeline to produce the desired output.</li>
+    <li>Find the weirdest, most creative, absurd, or simply most convoluted command or pipeline to produce the desired output.</li>
+  </ol>
+</p>
+
+<p>Note: you may <em>not</em> install additional
+software; all challenges must be completed using only
+commands shipped with NetBSD in the default
+installation.</p>
+
+<p>For the second challenge, no command may be invoked
+more than once (e.g., "<code>cat | cat | cat</code>" or
+"<code>base64 | base64 -d</code>" is <em>not</em>
+allowed).</p>
+
+<p>I will post the weekly challenge in Slack, and upon
+resolution update this page with the winning
+submissions.</p>
+
+<p>Unless otherwise noted, the data file to use as
+input for all challenges is <a href="imdb-top250">this
+file</a>.</p>
+
+<h3>Week 1</h3>
+
+<p>Let's start easy.  This week's challenge is to find
+the command(s) to:</p>
+
+<p>
+  <ul>
+    <li>print the first line</li>
+    <li>print the last line</li>
+    <li>print the second line</li>
+    <li>print the second to last line</li>
+  </ul>
+</p>
+
+        <hr>
+        [<a href="../index.html">Course Website</a>]
+      </TD>
+    </TR>
+  </TABLE>
+</BODY>
+</HTML>
