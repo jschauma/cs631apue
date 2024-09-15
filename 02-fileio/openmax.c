@@ -53,7 +53,7 @@ countOpenFiles(int num) {
 	int count = 0;
 	for (int i = 0; i < num; i++) {
 		if (fstat(i, &stats) == 0) {
-			printf("Currently open: fd #%d (inode %ld)\n", i,
+			printf("Currently open: fd #%d (inode %lld)\n", i,
 					stats.st_ino);
 			count++;
 		}

@@ -93,10 +93,6 @@ reset() {
 }
 
 void
-makeFiles() {
-}
-
-void
 setup() {
 	/* Trivial setup via system(3) because we're lazy. */
 	system("mkdir -p ./t ./dir");

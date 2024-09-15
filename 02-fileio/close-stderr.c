@@ -18,6 +18,11 @@
  * standard I/O filedescriptors.  To reopen, you then need
  * to explicitly open the terminal device and dup(2) the
  * descriptor onto it.
+ *
+ * Note: as of 2024-09-15, on macOS Sonoma 14.6.1, the
+ * restored stderr does not seem to work.  There,
+ * 	freopen("/dev/tty", "w+", stderr)
+ * appears to be necessary.
  */
 
 #include <err.h>

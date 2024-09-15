@@ -31,8 +31,7 @@
  *
  * time ./a.out <file >out
  *
- * Then, comment out the setting of O_SYNC, recompile
- * the program and run it again.
+ * Then, recompile with "-DSYNC" and run it again.
  */
 
 #include <fcntl.h>
@@ -57,7 +56,9 @@ main(int argc, char **argv) {
 		exit(EXIT_FAILURE);
 	}
 
-	//flags |= O_SYNC;
+#ifdef SYNC
+	flags |= O_SYNC;
+#endif
 
 	if (fcntl(STDOUT_FILENO, F_SETFL, flags) < 0) {
 		perror("Can't set file descriptor flags");
