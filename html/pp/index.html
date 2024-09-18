@@ -87,8 +87,8 @@ more than once (e.g., "<code>cat | cat | cat</code>" or
 allowed).</p>
 
 <p>I will post the weekly challenge in Slack, and upon
-resolution update this page with the winning
-submissions.</p>
+resolution update this page with possible
+solutions.</p>
 
 <p>Unless otherwise noted, the data file to use as
 input for all challenges is <a href="imdb-top250">this
@@ -101,12 +101,38 @@ the command(s) to:</p>
 
 <p>
   <ul>
-    <li>print the first line</li>
-    <li>print the last line</li>
-    <li>print the second line</li>
-    <li>print the second to last line</li>
+    <li>print the first line
+      <ul>
+        <li><code>sed 1q $file</code></li>
+      </ul>
+    </li>
+    <li>print the last line
+      <ul>
+        <li><code>tail -1 $file</code></li>
+      </ul>
+    </li>
+    <li>print the second line
+      <ul>
+        <li><code>sed -n '2p' $file</code></li>
+      </ul>
+    </li>
+    <li>print the second to last line
+      <ul>
+        <li><code>sed 'x;$!d' $file</code></li>
+      </ul>
+    </li>
   </ul>
 </p>
+
+<h3>Week 2</h3>
+
+<p>
+  <ul>
+    <li>print only the movie titles</li>
+    <li>print only the top 15 movie titles</li>
+  </ul>
+</p>
+
 
         <hr>
         [<a href="../index.html">Course Website</a>]
