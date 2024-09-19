@@ -33,22 +33,23 @@
 
 char *
 getType(const struct stat sb) {
-	if (S_ISREG(sb.st_mode))
+	if (S_ISREG(sb.st_mode)) {
 		return "regular file";
-	else if (S_ISDIR(sb.st_mode))
+	} else if (S_ISDIR(sb.st_mode)) {
 		return "directory";
-	else if (S_ISCHR(sb.st_mode))
+	} else if (S_ISCHR(sb.st_mode)) {
 		return "character special";
-	else if (S_ISBLK(sb.st_mode))
+	} else if (S_ISBLK(sb.st_mode)) {
 		return "block special";
-	else if (S_ISFIFO(sb.st_mode))
+	} else if (S_ISFIFO(sb.st_mode)) {
 		return "FIFO";
-	else if (S_ISLNK(sb.st_mode))
+	} else if (S_ISLNK(sb.st_mode)) {
 		return "symbolic link";
-	else if (S_ISSOCK(sb.st_mode))
+	} else if (S_ISSOCK(sb.st_mode)) {
 		return "socket";
-	else
+	} else {
 		return "unknown";
+	}
 }
 
 int

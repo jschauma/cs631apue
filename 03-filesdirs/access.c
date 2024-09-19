@@ -31,16 +31,17 @@ main(int argc, char **argv) {
 		exit(EXIT_FAILURE);
 	}
 
-	if (access(argv[1], R_OK) == -1)
+	if (access(argv[1], R_OK) == -1) {
 		printf("access error for %s\n", argv[1]);
-	else
+	} else {
 		printf("access ok for %s\n", argv[1]);
+	}
 
-
-	if (open(argv[1], O_RDONLY) == -1)
+	if (open(argv[1], O_RDONLY) == -1) {
 		printf("open error for %s\n", argv[1]);
-	else
+	} else {
 		printf("open ok for %s\n", argv[1]);
+	}
 
 	exit(EXIT_SUCCESS);
 }

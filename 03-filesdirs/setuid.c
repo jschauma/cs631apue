@@ -16,17 +16,17 @@
 /* This trivial program illustrates the use of
  * setuid(2) and seteuid(2).  After compiling,
  * chmod(1) and chown(1) as needed to access a
- * privileged resource (e.g. /etc/sudoers).
+ * privileged resource (e.g. /etc/master.passwd).
  *
  * Note: this example ignores group IDs.  See
  * https://is.gd/l6pu5K for details on the
  * order of dropping all privileges correctly.
  *
  * Example invocation:
- * cc -Wall setuid.c
+ * cc -Wall -Werror -Wextra setuid.c
  * sudo chown root a.out
  * sudo chmod 4755 a.out
- * ./a.out /etc/sudoers
+ * ./a.out /etc/master.passwd
  *
  * Note: after chowning, try to recompile.  Does
  * your compiler overwrite a.out?  Why/why not?
@@ -44,7 +44,7 @@
  * ls -l /tmp/daemon
  * ls -ld /tmp/daemon
  * ./a.out /tmp/daemon/somefile
- * ./a.out /etc/sudoers
+ * ./a.out /etc/master.passwd
  */
 
 #include <errno.h>

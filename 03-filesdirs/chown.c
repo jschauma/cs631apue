@@ -15,6 +15,7 @@
 
 /* This simple program illustrates the use of the chown(2) system call:
  *
+ * sudo useradd -u 1001 fred
  * touch file
  * ./a.out
  * ls -l file
@@ -66,10 +67,10 @@ main(int argc, char **argv) {
 	 * you're root.) */
 	mychown(argv[1], FRED, -1);
 
-	/* Next, let's 'chown:users'... */
+	/* Next, let's 'chown :users'... */
 	mychown(argv[1], -1, USERS_GID);
 
-	/* ... and let's try 'chown:tty'. */
+	/* ... and let's try 'chown :tty'. */
 	mychown(argv[1], -1, TTY_GID);
 
 	exit(EXIT_SUCCESS);
