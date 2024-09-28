@@ -28,6 +28,9 @@
 #include <string.h>
 #include <unistd.h>
 
+/* We picked a small number here to ensure we're still
+ * in the beginning of the file before we start our
+ * write. */
 #define BUFFSIZE	64
 #define COMMENT		"\n/* Just another comment. */\n"
 #define SOURCE 		"./rwex.c"

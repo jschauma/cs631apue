@@ -27,6 +27,7 @@
 #include <string.h>
 #include <unistd.h>
 
+/* We'll see later why / how we picked this number. */
 #ifndef BUFFSIZE
 #define BUFFSIZE 32768
 #endif

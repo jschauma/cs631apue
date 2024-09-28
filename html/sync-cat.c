@@ -40,12 +40,10 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#define BUFFSIZE 512
-
 int
 main(int argc, char **argv) {
 	int n;
-	char buf[BUFFSIZE];
+	char buf[BUFSIZ];
 	int flags;
 
 	/* cast to void to silence compiler warnings */
@@ -64,7 +62,7 @@ main(int argc, char **argv) {
 		exit(EXIT_FAILURE);
 	}
 
-	while ((n = read(STDIN_FILENO, buf, BUFFSIZE)) > 0 )
+	while ((n = read(STDIN_FILENO, buf, BUFSIZ)) > 0 )
 		if ( write(STDOUT_FILENO, buf, n) != n ) {
 			perror("write error");
 			exit(EXIT_FAILURE);
