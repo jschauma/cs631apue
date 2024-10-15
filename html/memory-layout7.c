@@ -14,13 +14,17 @@
  */
 
 /* This program allows us to visualize the layout of a
- * process in memory, printing the addresses of
- * various parts of the program, including components
- * in the text, data, and bss segments as well as on
- * the heap and the stack.
+ * process in memory, with a focus on the environment.
+ * Calling putenv(3) shows that in this example, we
+ * had to find space for the entire new environment,
+ * which now no longer fits at the top of the process
+ * space.
  *
- * This program can also illustrate a stack overflow
- * if compiled with '-DSTACKOVERFLOW'.
+ * You may want to first clear your environment and
+ * only add a single variable to trigger this
+ * behavior:
+ *
+ * env -i FOO=bar ./a.out
  */
 
 #include <err.h>
@@ -46,7 +50,7 @@ void
 printArray(char **a, char *name) {
 	int n = arraySize(a);
 	(void)printf("0x%12lX  %-7s[%d]\n", (unsigned long)&a[n], name, n);
-	(void)printf("0x%12lX  %-7s[%d]    (0x%12lX '%s')\n", (unsigned long)&a[n-1], name, n-1, (unsigned long)a[n-1], a[n-1]);
+	(void)printf("0x%12lX  %-7s[%d]     (0x%12lX '%s')\n", (unsigned long)&a[n-1], name, n-1, (unsigned long)a[n-1], a[n-1]);
 	(void)printf("0x%12lX  %-7s[0]     (0x%12lX '%s')\n", (unsigned long)&a[0], name, (unsigned long)a[0], a[0]);
 	(void)printf("\n");
 }

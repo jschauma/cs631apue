@@ -14,13 +14,7 @@
  */
 
 /* This program allows us to visualize the layout of a
- * process in memory, printing the addresses of
- * various parts of the program, including components
- * in the text, data, and bss segments as well as on
- * the heap and the stack.
- *
- * This program can also illustrate a stack overflow
- * if compiled with '-DSTACKOVERFLOW'.
+ * process in memory, with a focus on the environment.
  */
 
 #include <err.h>
@@ -46,7 +40,7 @@ void
 printArray(char **a, char *name) {
 	int n = arraySize(a);
 	(void)printf("0x%12lX  %-7s[%d]\n", (unsigned long)&a[n], name, n);
-	(void)printf("0x%12lX  %-7s[%d]    (0x%12lX '%s')\n", (unsigned long)&a[n-1], name, n-1, (unsigned long)a[n-1], a[n-1]);
+	(void)printf("0x%12lX  %-7s[%d]     (0x%12lX '%s')\n", (unsigned long)&a[n-1], name, n-1, (unsigned long)a[n-1], a[n-1]);
 	(void)printf("0x%12lX  %-7s[0]     (0x%12lX '%s')\n", (unsigned long)&a[0], name, (unsigned long)a[0], a[0]);
 	(void)printf("\n");
 }

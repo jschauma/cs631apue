@@ -17,7 +17,10 @@
  * process in memory, printing the addresses of
  * various parts of the program, including components
  * in the text, data, and bss segments as well as on
- * the heap and the stack.
+ * the heap and the stack.  In this version, we look
+ * at the difference between the 'extern char
+ * **environ', and the 'char **envp' that is passed
+ * into 'main'.
  *
  * This program can also illustrate a stack overflow
  * if compiled with '-DSTACKOVERFLOW'.
@@ -57,8 +60,8 @@ main(int argc, char **argv, char **envp) {
 
 	(void)printf("High address (args and env):\n");
 	(void)printf("----------------------------\n");
-	(void)printf("envp[%d] at                                            : 0x%12lX\n", vars, (unsigned long)&envp[vars]);
-	(void)printf("environ[%d] at                                         : 0x%12lX\n", vars, (unsigned long)&environ[vars]);
+	(void)printf("envp[%d] at                                             : 0x%12lX\n", vars, (unsigned long)&envp[vars]);
+	(void)printf("environ[%d] at                                          : 0x%12lX\n", vars, (unsigned long)&environ[vars]);
 	(void)printf("envp[0] at                                             : 0x%12lX\n", (unsigned long)envp);
 	(void)printf("environ[0] at                                          : 0x%12lX\n", (unsigned long)environ);
 	(void)printf("last arg at                                            : 0x%12lX\n", (unsigned long)&argv[argc]);
