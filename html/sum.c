@@ -34,7 +34,7 @@
  * display $rax
  * break __start
  * break main
- * break sum
+ * break sum1
  * break sum2
  * run
  *

@@ -13,7 +13,10 @@
  * https://stevens.netmeister.org/631/
  */
 
-/* This program illustrates the risk of calling non-re-entrant functions
+/*
+ * Compile this program with "cc -DUSER=\"${USER}\" reentrant.c"
+ *
+ * This program illustrates the risk of calling non-re-entrant functions
  * in your signal handler.  Depending on the platform, the results of
  * running this program may differ, but you will see a number of possible
  * results:
