@@ -50,6 +50,10 @@
 /* http://poetry.eserver.org/light-brigade.html */
 #define DATA "Half a league, half a league . . ."
 
+#ifndef MAX_PORT
+#define MAX_PORT 65536
+#endif
+
 /*
  * This program creates a socket and initiates a connection with the socket
  * given in the command line.  One message is sent over the connection and
@@ -71,7 +75,7 @@ int main(int argc, char **argv)
 	}
 
 	port = atoi(argv[2]);
-	if ((port < 1) || (port > 65536)) {
+	if ((port < 1) || (port > MAX_PORT)) {
 		(void)fprintf(stderr, "Invalid port: %s\n", argv[2]);
 		exit(EXIT_FAILURE);
 	}

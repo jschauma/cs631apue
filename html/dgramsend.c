@@ -50,6 +50,10 @@
 /* 'Dover Beach' by Matthew Arnold -- look it up. */
 #define DATA "The sea is calm tonight, the tide is full . . ."
 
+#ifndef MAX_PORT
+#define MAX_PORT 65536
+#endif
+
 /*
  * Here I send a datagram to a receiver whose name I get from the command
  * line arguments.  The form of the command line is dgramsend hostname
@@ -70,7 +74,7 @@ int main(int argc, char **argv)
 	}
 
 	port = atoi(argv[2]);
-	if ((port < 1) || (port > 65536)) {
+	if ((port < 1) || (port > MAX_PORT)) {
 		(void)fprintf(stderr, "Invalid port: %s\n", argv[2]);
 		exit(EXIT_FAILURE);
 	}
