@@ -14,16 +14,20 @@
  */
 
 /*
- * Compile this program with "cc -DUSER=\"${USER}\" reentrant.c"
+ * Compile this program with:
  *
- * This program illustrates the risk of calling non-re-entrant functions
- * in your signal handler.  Depending on the platform, the results of
- * running this program may differ, but you will see a number of possible
- * results:
- * - user not found: you accidentally 'skipped' over the entry you were
- *                   looking for
- * - return value corrupted: you got back a different struct passwd then
- *                           the one you requested
+ * cc -DUSER=\"${USER}\" reentrant.c"
+ *
+ * This program illustrates the risk of calling
+ * non-re-entrant functions in your signal handler.
+ * Depending on the platform, the results of running
+ * this program may differ, but you will see a number
+ * of possible results:
+ *
+ * - user not found: you accidentally 'skipped' over
+ *   the entry you were looking for
+ * - return value corrupted: you got back a different
+ *   struct passwd then the one you requested
  * - memory fault: FUBAR
  */
 
