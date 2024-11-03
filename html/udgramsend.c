@@ -1,3 +1,16 @@
+/* This file is part of the sample code and exercises
+ * used by the class "Advanced Programming in the UNIX
+ * Environment" taught by Jan Schaumann
+ * <jschauma@netmeister.org> at Stevens Institute of
+ * Technology.
+ *
+ * https://stevens.netmeister.org/631/
+ *
+ * This file is derived from the IPC tutorials
+ * provided by your NetBSD system under
+ * /usr/share/doc/.
+ */
+
 /*	$NetBSD: udgramsend.c,v 1.3 2003/08/07 10:30:50 agc Exp $
  *
  * Copyright (c) 1986, 1993
@@ -32,6 +45,8 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/un.h>
+
+#include <err.h>
 #include <netdb.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -47,19 +62,19 @@
  */
 
 int
-main(int argc, char **argv)
-{
+main(int argc, char **argv) {
 	int sock;
 	struct sockaddr_un name;
 
 	if (argc != 2) {
-		perror("usage: send <socket>");
+		(void)fprintf(stderr, "usage: send <socket>\n");
 		exit(EXIT_FAILURE);
+		/* NOTREACHED */
 	}
 
 	if ((sock = socket(PF_LOCAL, SOCK_DGRAM, 0)) < 0) {
-		perror("opening datagram socket");
-		exit(EXIT_FAILURE);
+		err(EXIT_FAILURE, "opening datagram socket");
+		/* NOTREACHED */
 	}
 
 	name.sun_family = PF_LOCAL;
@@ -67,7 +82,8 @@ main(int argc, char **argv)
 
 	if (sendto(sock, DATA, sizeof(DATA), 0,
 	    (struct sockaddr *)&name, sizeof(struct sockaddr_un)) < 0) {
-		perror("sending datagram message");
+		err(EXIT_FAILURE, "sending datagram message");
+		/* NOTREACHED */
 	}
 	(void)close(sock);
 	return EXIT_SUCCESS;

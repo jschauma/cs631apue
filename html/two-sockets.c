@@ -29,6 +29,7 @@
 
 #include <netinet/in.h>
 
+#include <err.h>
 #include <netdb.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -38,8 +39,7 @@
 #define BACKLOG 5
 
 int
-createSocket(void)
-{
+createSocket(void) {
 	int sock;
 	socklen_t length;
 	struct sockaddr_in6 server;
@@ -47,8 +47,7 @@ createSocket(void)
 	memset(&server, 0, sizeof(server));
 
 	if ((sock = socket(PF_INET6, SOCK_STREAM, 0)) < 0) {
-		perror("opening stream socket");
-		exit(EXIT_FAILURE);
+		err(EXIT_FAILURE, "opening stream socket");
 		/* NOTREACHED */
 	}
 
@@ -56,22 +55,19 @@ createSocket(void)
 	server.sin6_addr = in6addr_any;
 	server.sin6_port = 0;
 	if (bind(sock, (struct sockaddr *)&server, sizeof(server)) != 0) {
-		perror("binding stream socket");
-		exit(EXIT_FAILURE);
+		err(EXIT_FAILURE, "binding stream socket");
 		/* NOTREACHED */
 	}
 
 	length = sizeof(server);
 	if (getsockname(sock, (struct sockaddr *)&server, &length) != 0) {
-		perror("getting socket name");
-		exit(EXIT_FAILURE);
+		err(EXIT_FAILURE, "getting socket name");
 		/* NOTREACHED */
 	}
 	(void)printf("Socket has port #%d\n", ntohs(server.sin6_port));
 
 	if (listen(sock, BACKLOG) < 0) {
-		perror("listening");
-		exit(EXIT_FAILURE);
+		err(EXIT_FAILURE, "listening");
 		/* NOTREACHED */
 	}
 
@@ -79,8 +75,7 @@ createSocket(void)
 }
 
 void
-handleSocket(int s)
-{
+handleSocket(int s) {
 	int fd, rval;
 	char claddr[INET6_ADDRSTRLEN];
 	struct sockaddr_in6 client;
@@ -109,7 +104,7 @@ handleSocket(int s)
 				perror("inet_ntop");
 				rip = "unknown";
 			} else {
-				(void)printf("Client (%s) sent: %s\n", rip, buf);
+				(void)printf("Client (%s) sent: \"%s\"\n", rip, buf);
 			}
 		}
 	} while (rval != 0);

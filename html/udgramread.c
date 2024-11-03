@@ -1,3 +1,16 @@
+/* This file is part of the sample code and exercises
+ * used by the class "Advanced Programming in the UNIX
+ * Environment" taught by Jan Schaumann
+ * <jschauma@netmeister.org> at Stevens Institute of
+ * Technology.
+ *
+ * https://stevens.netmeister.org/631/
+ *
+ * This file is derived from the IPC tutorials
+ * provided by your NetBSD system under
+ * /usr/share/doc/.
+ */
+
 /*	$NetBSD: udgramread.c,v 1.3 2003/08/07 10:30:50 agc Exp $
  *
  * Copyright (c) 1986, 1993
@@ -41,6 +54,7 @@
  * };
  */
 
+#include <err.h>
 #include <netdb.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -53,28 +67,33 @@
  * This program creates a UNIX domain datagram socket, binds a name to it,
  * then reads from the socket.
  */
-int main()
-{
+int
+main() {
 	int sock;
 	struct sockaddr_un name;
 	char buf[BUFSIZ];
 
 	if ((sock = socket(PF_LOCAL, SOCK_DGRAM, 0)) < 0) {
-		perror("opening datagram socket");
-		exit(EXIT_FAILURE);
+		err(EXIT_FAILURE, "opening datagram socket");
+		/* NOTREACHED */
 	}
 
 	name.sun_family = PF_LOCAL;
 	(void)strncpy(name.sun_path, NAME, sizeof(name.sun_path));
 	if (bind(sock, (struct sockaddr *)&name, sizeof(struct sockaddr_un))) {
-		perror("binding name to datagram socket");
-		exit(EXIT_FAILURE);
+		err(EXIT_FAILURE, "binding name to datagram socket");
+		/* NOTREACHED */
 	}
 	(void)printf("socket --> %s\n", NAME);
 
-	if (read(sock, buf, BUFSIZ) < 0)
-		perror("reading from socket");
-	(void)printf("--> %s\n", buf);
+	while (1) {
+		bzero(buf, BUFSIZ);
+		if (read(sock, buf, BUFSIZ) < 0) {
+			err(EXIT_FAILURE, "reading from socket");
+			/* NOTREACHED */
+		}
+		(void)printf("--> %s\n", buf);
+	}
 	(void)close(sock);
 
 	/* A UNIX domain datagram socket is a 'file'.  If you don't unlink

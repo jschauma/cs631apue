@@ -5,6 +5,10 @@
  * Technology.
  *
  * https://stevens.netmeister.org/631/
+ *
+ * This file is derived from the IPC tutorials
+ * provided by your NetBSD system under
+ * /usr/share/doc/.
  */
 
 /*	$NetBSD: streamwrite.c,v 1.3 2003/08/07 10:30:50 agc Exp $
@@ -41,6 +45,8 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+
+#include <err.h>
 #include <netdb.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -49,10 +55,6 @@
 
 /* http://poetry.eserver.org/light-brigade.html */
 #define DATA "Half a league, half a league . . ."
-
-#ifndef MAX_PORT
-#define MAX_PORT 65536
-#endif
 
 /*
  * This program creates a socket and initiates a connection with the socket
@@ -72,17 +74,19 @@ int main(int argc, char **argv)
 	if (argc != 3) {
 		(void)printf("Usage: %s hostname port\n", argv[0]);
 		exit(EXIT_FAILURE);
+		/* NOTREACHED */
 	}
 
 	port = atoi(argv[2]);
-	if ((port < 1) || (port > MAX_PORT)) {
+	if ((port < 1) || (port > 65536)) {
 		(void)fprintf(stderr, "Invalid port: %s\n", argv[2]);
 		exit(EXIT_FAILURE);
+		/* NOTREACHED */
 	}
 
 	if ((sock = socket(PF_INET6, SOCK_STREAM, 0)) < 0) {
-		perror("opening stream socket");
-		exit(EXIT_FAILURE);
+		err(EXIT_FAILURE, "opening stream socket");
+		/* NOTREACHED */
 	}
 
 	server.sin6_family = PF_INET6;
@@ -94,11 +98,13 @@ int main(int argc, char **argv)
 	server.sin6_port = htons(port);
 
 	if (connect(sock, (struct sockaddr *)&server, sizeof(server)) < 0) {
-		perror("connecting stream socket");
-		exit(EXIT_FAILURE);
+		err(EXIT_FAILURE, "connecting stream socket");
+		/* NOTREACHED */
 	}
-	if (write(sock, DATA, sizeof(DATA)) < 0)
-		perror("writing on stream socket");
+	if (write(sock, DATA, sizeof(DATA)) < 0) {
+		err(EXIT_FAILURE, "writing on stream socket");
+		/* NOTREACHED */
+	}
 	(void)close(sock);
 	return EXIT_FAILURE;
 }

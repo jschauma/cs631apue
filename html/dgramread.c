@@ -5,6 +5,10 @@
  * Technology.
  *
  * https://stevens.netmeister.org/631/
+ *
+ * This file is derived from the IPC tutorials
+ * provided by your NetBSD system under
+ * /usr/share/doc/.
  */
 
 /*	$NetBSD: dgramread.c,v 1.3 2003/08/07 10:30:50 agc Exp $
@@ -41,6 +45,8 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+
+#include <err.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -51,15 +57,15 @@
  * struct sockaddr_in {
  *	short	sin_family;
  *	u_short	sin_port;
- *	struct in_addr sin_addr;
+ *	struct  in_addr sin_addr;
  *	char	sin_zero[8];
  * };
  *
  * This program creates a datagram socket, binds a name to it, then reads
  * from the socket.
  */
-int main()
-{
+int
+main() {
 	int sock;
 	socklen_t length;
 	struct sockaddr_in name;
@@ -68,27 +74,29 @@ int main()
 	memset(&name, 0, sizeof(name));
 
 	if ((sock = socket(PF_INET, SOCK_DGRAM, 0)) < 0) {
-		perror("opening datagram socket");
-		exit(EXIT_FAILURE);
+		err(EXIT_FAILURE, "opening datagram socket");
+		/* NOTREACHED */
 	}
 
 	name.sin_family = PF_INET;
 	name.sin_addr.s_addr = INADDR_ANY;
 	name.sin_port = 0;
 	if (bind(sock, (struct sockaddr *)&name, sizeof(name)) < 0) {
-		perror("binding datagram socket");
-		exit(EXIT_FAILURE);
+		err(EXIT_FAILURE, "binding datagram socket");
+		/* NOTREACHED */
 	}
 
 	/* Find assigned port value and print it out. */
 	length = sizeof(name);
 	if (getsockname(sock, (struct sockaddr *)&name, &length) < 0) {
-		perror("getting socket name");
-		exit(EXIT_FAILURE);
+		err(EXIT_FAILURE, "getting socket name");
+		/* NOTREACHED */
 	}
 	(void)printf("Socket has port #%d\n", ntohs(name.sin_port));
-	if (read(sock, buf, BUFSIZ) < 0)
-		perror("receiving datagram packet");
+	if (read(sock, buf, BUFSIZ) < 0) {
+		err(EXIT_FAILURE, "receiving datagram packet");
+		/* NOTREACHED */
+	}
 	(void)printf("-->%s\n", buf);
 	(void)close(sock);
 	return EXIT_SUCCESS;

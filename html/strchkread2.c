@@ -5,6 +5,10 @@
  * Technology.
  *
  * https://stevens.netmeister.org/631/
+ *
+ * This file is derived from the IPC tutorials
+ * provided by your NetBSD system under
+ * /usr/share/doc/.
  */
 
 /*	$NetBSD: strchkread.c,v 1.3 2003/08/07 10:30:50 agc Exp $
@@ -47,6 +51,7 @@
 
 #include <netinet/in.h>
 
+#include <err.h>
 #include <errno.h>
 #include <netdb.h>
 #include <signal.h>
@@ -83,13 +88,15 @@ handleConnection(int fd, struct sockaddr_in6 client)
 	do {
 		char buf[BUFSIZ];
 		bzero(buf, sizeof(buf));
-		if ((rval = read(fd, buf, BUFSIZ)) < 0)
+		if ((rval = read(fd, buf, BUFSIZ)) < 0) {
 			perror("reading stream message");
-		else if (rval == 0)
-			printf("Ending connection from %s.\n", rip);
-		else
-			printf("Client (%s) sent: %s", rip, buf);
+		} else if (rval == 0) {
+			(void)printf("Ending connection from %s.\n", rip);
+		} else {
+			(void)printf("Client (%s) sent: \"%s\"\n", rip, buf);
+		}
 	} while (rval != 0);
+
 	(void)close(fd);
 	exit(EXIT_SUCCESS);
 	/* NOTREACHED */
@@ -108,14 +115,12 @@ int main()
 	memset(&server, 0, sizeof(server));
 
 	if (signal(SIGCHLD, reap) == SIG_ERR) {
-		perror("signal");
-		exit(EXIT_FAILURE);
+		err(EXIT_FAILURE, "signal");
 		/* NOTREACHED */
 	}
 
 	if ((sock = socket(PF_INET6, SOCK_STREAM, 0)) < 0) {
-		perror("opening stream socket");
-		exit(EXIT_FAILURE);
+		err(EXIT_FAILURE, "opening stream socket");
 		/* NOTREACHED */
 	}
 
@@ -123,23 +128,20 @@ int main()
 	server.sin6_addr = in6addr_any;
 	server.sin6_port = 0;
 	if (bind(sock, (struct sockaddr *)&server, sizeof(server)) != 0) {
-		perror("binding stream socket");
-		exit(EXIT_FAILURE);
+		err(EXIT_FAILURE, "binding stream socket");
 		/* NOTREACHED */
 	}
 
 	/* Find out assigned port number and print it out */
 	length = sizeof(server);
 	if (getsockname(sock, (struct sockaddr *)&server, &length) != 0) {
-		perror("getting socket name");
-		exit(EXIT_FAILURE);
+		err(EXIT_FAILURE, "getting socket name");
 		/* NOTREACHED */
 	}
 	(void)printf("Socket has port #%d\n", ntohs(server.sin6_port));
 
 	if (listen(sock, BACKLOG) < 0) {
-		perror("listening");
-		exit(EXIT_FAILURE);
+		err(EXIT_FAILURE, "listening");
 		/* NOTREACHED */
 	}
 
@@ -170,8 +172,7 @@ int main()
 			}
 
 			if ((pid = fork()) < 0) {
-				perror("fork");
-				exit(EXIT_FAILURE);
+				err(EXIT_FAILURE, "fork");
 				/* NOTREACHED */
 			} else if (!pid) {
 				handleConnection(fd, client);
