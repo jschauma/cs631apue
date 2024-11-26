@@ -43,7 +43,7 @@
 int
 main(int argc, char **argv)
 {
-	int domain, sock, v4or6;
+	int domain, sock, v4or6, v6only;
 	void *s;
 	socklen_t length, s_size;
 	struct sockaddr_storage server;
@@ -57,6 +57,7 @@ main(int argc, char **argv)
 	/* Default is IPv6, but we then become dual
 	 * stack by disabling IPV6_ONLY on the socket. */
 	v4or6 = 6;
+	v6only = 0;
 
 	if (argc == 2) {
 		v4or6 = atoi(argv[1]);
@@ -64,6 +65,9 @@ main(int argc, char **argv)
 			(void)fprintf(stderr, "Usage: %s [4|6]\n", argv[0]);
 			exit(EXIT_FAILURE);
 			/* NOTREACHED */
+		}
+		if (v4or6 == 6) {
+			v6only = 1;
 		}
 	}
 
@@ -94,15 +98,10 @@ main(int argc, char **argv)
 		s = sin;
 		s_size = sizeof(*sin);
 
-		/* Neither v4 nor v6 was explicitly
-		 * requested, so we do both. */
-		if (argc == 1) {
-			int off = 0;
-			if (setsockopt(sock, IPPROTO_IPV6, IPV6_V6ONLY, (void *)&off, sizeof(off)) < 0) {
-				perror("setsockopt");
-				exit(EXIT_FAILURE);
-				/* NOTREACHED */
-			}
+		if (setsockopt(sock, IPPROTO_IPV6, IPV6_V6ONLY, (void *)&v6only, sizeof(v6only)) < 0) {
+			perror("setsockopt");
+			exit(EXIT_FAILURE);
+			/* NOTREACHED */
 		}
 	}
 
@@ -120,15 +119,15 @@ main(int argc, char **argv)
 		/* NOTREACHED */
 	}
 
-	int num;
+	int boundPort;
 	if (domain == PF_INET) {
 		struct sockaddr_in *s = (struct sockaddr_in *)&server;
-		num = ntohs(s->sin_port);
+		boundPort = ntohs(s->sin_port);
 	} else {
 		struct sockaddr_in6 *s = (struct sockaddr_in6 *)&server;
-		num = ntohs(s->sin6_port);
+		boundPort = ntohs(s->sin6_port);
 	}
-	(void)printf("Socket has port #%d\n", num);
+	(void)printf("Socket has port #%d\n", boundPort);
 
 	if (listen(sock, BACKLOG) < 0) {
 		perror("listening");
@@ -186,7 +185,7 @@ main(int argc, char **argv)
 				perror("inet_ntop");
 				rip = "unknown";
 			}
-			(void)printf("Client (%s:%d) sent: \"%s\"", rip, port, buf);
+			(void)printf("Client (%s:%d) sent: \"%s\"\n", rip, port, buf);
 		} while (rval != 0);
 		(void)close(fd);
 	}
