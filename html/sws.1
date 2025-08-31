@@ -96,10 +96,10 @@ will generate a directory index, listing the contents of the directory in
 alphanumeric order.
 Files starting with a "." are ignored.
 .It User Directories
-If the request begins with a "~", then the following string up to the first
+If the request begins with a "/~", then the following string up to the next
 slash is translated into that user's
 .Nm
-directory (ie
+directory (e.g.,
 .Ar /home/<user>/sws/ Ns ).
 .El
 .Sh CGIs

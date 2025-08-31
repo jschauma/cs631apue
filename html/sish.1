@@ -2,7 +2,7 @@
 .\"   CS631 Advanced Programming in the UNIX Environment
 .\"   https://www.cs.stevens.edu/~jschauma/631/
 .\"
-.Dd December 22, 2022
+.Dd December 19, 2024
 .Dt SISH 1
 .Os
 .Sh NAME
@@ -82,6 +82,10 @@ If a command is terminated by the control operator ampersand (\*[Am]), the
 shell executes the command asynchronously -- that is, the shell does not
 wait for the command to finish before prompting the user for the next
 command.
+.Pp
+.Nm
+will print the process ID of the backgrounded job in
+brackets.
 .Ss Builtins
 .Nm
 supports the following builtins (which are taking precedence over any
@@ -100,6 +104,15 @@ as determined via
 .Xr getpwuid 3 .
 .It echo Op Ar word Ar ...
 Print the given word(s), followed by a '\\n'.
+If
+.Ar word
+begins with a '$', then the value of the environment
+variable identified by
+.Ar word
+is printed instead of
+.Ar word
+itself.
+.Pp
 The following special values are supported:
 .Bl -tag -width __
 .It $?
@@ -138,6 +151,8 @@ The following sequence of commands shows common usage of
 $ sish
 sish$ echo $$
 6465
+sish$ echo $SHELL
+/usr/local/bin/sish
 sish$ ls
 file1   file2
 sish$ ls | wc -l
@@ -148,11 +163,13 @@ sish$ echo Writing a shell is fun! > /tmp/out
 sish$ < /tmp/out cat
 Writing a shell is fun!
 sish$ find / >/dev/null &
+[14328]
 sish$ 
 sish$ aed -e <file >file.enc
 sish$ cmd | sort | uniq -c | sort -n
  121 foo
  304 bar
+sish$ cat>/tmp/g </tmp/f
 sish$ something
 something: command not found
 sish$ echo $?
@@ -197,7 +214,8 @@ if the given command could not be executed for any reason.
 .Xr ksh 1 ,
 .Xr sh 1 ,
 .Xr execve 2 ,
-.Xr fork 2
+.Xr fork 2 ,
+.Xr pipe 2
 .Sh HISTORY
 Writing a simple shell has been a frequent assignment in many Unix
 programming classes.

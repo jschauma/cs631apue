@@ -20,7 +20,7 @@ printBufs(long n) {
 		err(EXIT_FAILURE, "malloc");
 	}
 
-	(void)strncpy(buf2, DATA2, 8);
+	(void)strncpy(buf2, DATA2, sizeof(buf2));
 	buf2[8-1] = '\0';
 	(void)strncpy(buf3, DATA3, 8);
 	buf3[8-1] = '\0';

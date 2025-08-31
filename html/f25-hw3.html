@@ -1,0 +1,92 @@
+<!DOCTYPE HTML>
+
+<HTML lang="en">
+<HEAD>
+
+  <TITLE>CS631 -- Advanced Programming in the UNIX Environment</TITLE>
+  <link rel="stylesheet" type="text/css" href="index.css">
+
+</HEAD>
+
+<BODY>
+  <TABLE style="border: 2px double">
+    <TR>
+      <TD style="padding: 10px; vertical-align: top">
+        <H2>CS631 -- Advanced Programming in the UNIX Environment - HW#2</H2>
+
+        <H3>HW#2: implement 'command(3)'</H3>
+
+        <H4>Summary</H4>
+	<p>The objective of this assignment is for you apply the first
+	lessons of Interprocess Communication from class and to write a
+	tool that requires communication between two related processes
+	using the <tt>pipe(2)</tt> system call.
+	</p>
+	<h4>Problem assignment</h4>
+	<p>
+          Write a function <tt>command(3)</tt> as described in
+          <a href="command.pdf">this manual page</a>.  Example
+          usage:</p>
+
+          <p><blockquote><pre>int
+main() {
+	char out[BUFSIZ] = { 0 }, err[BUFSIZ] = { 0 };
+	if (command("ls -l", out, BUFSIZ-1, err, BUFSIZ-1) == -1) {
+		perror("command");
+		exit(EXIT_FAILURE);
+	}
+	out[BUFSIZ-1] = '\0';
+	err[BUFSIZ-1] = '\0';
+	printf("stdout:\n%s\n", out);
+	printf("stderr:\n%s\n", err);
+	return EXIT_SUCCESS;
+}</pre></blockquote></p>
+
+        <p>As usual, your program will be well formatted,
+          properly commented (where necessary!), be able to be
+          compiled without any warnings using the '-Wall
+          -Werror -Wextra' flags on a NetBSD 9.x system, not generate
+          any diagnostic messages or superflous output, generate
+          meaningful error messages to stderr, etc. etc.
+        </p>
+
+	<h4>Hints</h4>
+	<p>Review the code examples from <a href="lecture08.pdf">Lecture 08</a>.
+          Also take a look at the source for the <tt>system(3)</tt> library
+          function, from which you may take code for this assignment.</p>
+
+	<p>You will need to:</p>
+        <ul>
+          <li>create two pipes, one for <tt>stdout</tt>, one for
+          <tt>stderr</tt> of the command to execute</li>
+          <li>ignore <tt>SIGINT</tt>, <tt>SIGQUIT</tt>; block
+          <tt>SIGCHLD</tt></li>
+          <li><tt>fork(2)</tt> a new process</li>
+          <li><tt>dup2(2)</tt> the respective file descriptors
+          onto the write-ends of the pipes</li>
+          <li><tt>exec(3)</tt> the command in question</li>
+          <li><tt>read(2)</tt> from the read-ends of the pipes</li>
+          <li>append output to the respective buffer, careful to not overflow them</li>
+          <li><tt>wait(3)</tt> for the process to terminate</li>
+        </ul>
+
+	<h4>Deliverables and Due Date</h4>
+	<p>You will submit a single file named "$username-command.c" (where
+           "$username" is your Stevens username).  That file will contain
+           the above <tt>main</tt> function as provided to you as well as
+           your implementatin of the <tt>command</tt> function.</p>
+        <p>
+           The due date for this assignment is 16:00:00 Eastern time on 2025-11-03.
+           Note that for this assignment there is no resubmission.</p>
+	<p>Please attach the file to an email sent from your <tt>@stevens.edu</tt>
+           email address to <a
+           href="mailto:jschauma@stevens.edu?subject=[CS631] HW2">jschauma@stevens.edu</a>
+          with a subject of "[CS631] HW2". </p>
+
+        <hr>
+        [<a href="index.html">Course Website</a>]
+      </td>
+    </tr>
+  </table>
+</BODY>
+</HTML>

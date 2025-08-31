@@ -18,6 +18,7 @@
         <H2>Advanced Programming in the UNIX Environment</H2>
 	<H3>CS631 - APUE - NetBSD/UTM Setup</H3>
 	<hr>
+
 <p>
 This document will guide you through the setup of a
 <a href="https://www.netbsd.org">NetBSD</a> VM using
@@ -44,7 +45,7 @@ allowfullscreen></iframe>
 <p>Note that this video uses
 NetBSD-current; the only meaningful difference is the
 <code>.iso</code> in question.  Simply use the NetBSD
-10.0 image and/or follow the steps shown below:</p>
+10.1 image and/or follow the steps shown below:</p>
 
 <hr>
 
@@ -52,11 +53,16 @@ NetBSD-current; the only meaningful difference is the
 <h4>Creating a new UTM Image</h4>
 
 <p>First, install UTM from <a
-href="https://mac.getutm.app/">https://mac.getutm.app/</a>.</p>
+href="https://mac.getutm.app/">https://mac.getutm.app/</a>
+or <a
+href="https://github.com/utmapp/UTM/releases/tag/v4.5.4">https://github.com/utmapp/UTM/releases/tag/v4.5.4</a>.
+(Note: the latest version of UTM that worked for me
+was v4.5.4; versions newer than that lead to different
+errors as of 2025-03-01.)</p>
 
 <p>Next, download the latest ISO for NetBSD/evbarm from
-<a href="https://cdn.netbsd.org/pub/NetBSD/images/10.0/NetBSD-10.0-evbarm-aarch64.iso">https://cdn.netbsd.org/pub/NetBSD/images/10.0/NetBSD-10.0-evbarm-aarch64.iso</a>
-and save it as <tt>~/Desktop/NetBSD-10.0-evbarm-aarch64.iso</tt>.</p>
+<a href="https://cdn.netbsd.org/pub/NetBSD/images/10.1/NetBSD-10.1-evbarm-aarch64.iso">https://cdn.netbsd.org/pub/NetBSD/images/10.1/NetBSD-10.1-evbarm-aarch64.iso</a>
+and save it as <tt>~/Desktop/NetBSD-10.1-evbarm-aarch64.iso</tt>.</p>
 
 <p>Start UTM and select '<em>Create a New Virtual Machine</em>':</p>
 <p><img src="utm-fresh.jpg" alt="Screenshot: UTM at first start"></p>
@@ -69,7 +75,7 @@ then '<em>Other</em>' in the OS selection:</p>
 
 <p>On the next screen, select '<em>Boot ISO
 Image</em>' and browse to the saved file
-<tt>~/Desktop/NetBSD-10.0-evbarm-aarch64.iso</tt> and
+<tt>~/Desktop/NetBSD-10.1-evbarm-aarch64.iso</tt> and
 '<em>continue</em>':</p>
 
 <p><img src="utm-iso.jpg" alt="Screenshot: UTM Load ISO file"></p>
@@ -95,7 +101,7 @@ Menu">&nbsp;
 <h4>Installing NetBSD</h4>
 
 <p>Start the VM.  You should see the '<em>Welcome to
-the NetBSD-10.0 Installation CD</em>' screen, where
+the NetBSD-10.1 Installation CD</em>' screen, where
 you can hit return or wait for the timeout after which
 the system will boot into the NetBSD installer, where
 we'll follow a very <a
@@ -209,7 +215,7 @@ connectivity, then power it down again:</p>
 login: jschauma
 Password:
 
-NetBSD 10.0 (GENERIC64) #0: Thu Mar 28 08:33:33 UTC 2024
+NetBSD 10.1 (GENERIC64) #0: Thu Mar 28 08:33:33 UTC 2024
 
 Welcome to NetBSD!
 

@@ -1,72 +1,61 @@
 For each assignment, copy this file into your homework
 submission directory and answer all questions.
 
-Did I write all the code myself?
+Did you write all the code myself?
    - Don't copy and paste code from the internet, your
      classmates, sample solutions, or anywhere else.
      Review https://stevens.netmeister.org/631/#plagiarism
 
-Did I use any AI technologies?  If so, did I properly
-acknowledge this help?
-   - Review https://stevens.netmeister.org/631/use-of-ai.html
+
+If this assignment allowed the use of AI, did you
+include the original prompt in your README?
 
 
-Does my code follow the style guide?
+Does your code follow the style guide?
    - Code is communication.  Make sure your code is
      readable, well-structured, properly indented,
      with sensibily named variables and functions.
 
 
-Does my code compile without warnings or errors on a
+Does your code compile without warnings or errors on a
 NetBSD 10.0 system?
   - Always use *at least* 'cc -Wall -Werror -Wextra',
     possibly
     'cc -ansi -g -Wall -Werror -Wextra -Wformat=2 -Wjump-misses-init -Wlogical-op -Wpedantic -Wshadow'.
 
 
-Did I provide a Makefile?
+Did you provide a Makefile?
   - 'make' should use the above CFLAGS and produce an
     executable
 
 
-Did I provide a README to explain any problems or
+Did your provide a README to explain any problems or
 issues I encountered?
   - Make sure that your text is well-formatted, plain
     ASCII in proper English.  Use a spell checker.
 
 
-Did I check the return value of all function calls?
-  - Yes, that does include but is not limited to malloc(3).
+Did you check the return value of all functions that
+could fail?
 
 
-Did I send error messages to stderr?  Did I use
+Did you send error messages to stderr?  Did you use
 strerror(3) or perror(3) etc. to print meaningful
 error messages?
 
 
-Did I use only meaningful and necessary comments?
-  - Your comments should explain the 'why', not the
-    'what'.
-
-Does my program only generate meaningful output?
-Debugging information should be removed.
-
-
-Does my program return zero on success, non-zero otherwise?
-
-
-Did I make sure that my .h files only include function
+Did you make sure that my .h files only include function
 forward declarations, macros, etc., no function
 implementations or other code?
 
 
-Did I check that I have avoided code duplication?
-Writing the same or very similar code multiple times
-is a sign that my program could benefit from being
-restructured.
+Did you check that your code implements the best
+practices we discussed (e.g., avoidance of magic
+numbers, code duplication, appropriate use of
+subroutines, comments, ...)?
 
 
-For any string manipulation, did I use size-bounded
+For any string manipulation, did you use size-bounded
 functions?
   - Use strlcat(3)/strlcpy(3) instead of
     strcat(3)/strcpy(3) etc.

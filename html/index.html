@@ -7,14 +7,14 @@
 </HEAD>
 
 <BODY>
-  <TABLE style="margin: 0 auto">
+  <TABLE>
 <!-- border="1" align="center" cellpadding="15"> -->
     <TR>
       <TD style="vertical-align: top">
         <H2>Advanced Programming in the UNIX Environment</H2>
-	<H3>CS631 - APUE</H3>
-	<hr>
-	<H3 id="outline">Course Outline</H3>
+        <H3>CS631 - APUE</H3>
+        <hr>
+        <H3 id="outline">Course Outline</H3>
 
         <P>In this course, students will learn to develop complex
         system-level software in the C programming language while gaining
@@ -31,31 +31,28 @@
         maintenance on Unix systems (development and debugging
         tools such as "make" and "gdb") will also be covered.</P>
 
-	<P><b>Students are expected to have a good working knowledge
-	of the C programming language, have written non-trivial
-	programs before, and to be able to competently use a Unix 
-	system with a command-line shell interface.
-	<em>All coursework will be done exclusively on a Unix system
-	from the command-line.  All programming is done in C.</em>  This is <em>not</em> an
-	introduction to using Unix nor to programming in C!</b></P>
+        <P><b>Students are expected to have a good working knowledge
+        of the C programming language, have written non-trivial
+        programs before, and to be able to competently use a Unix 
+        system with a command-line shell interface.
+        <em>All coursework will be done exclusively on a Unix system
+        from the command-line.  All programming is done in C.</em>  This is <em>not</em> an
+        introduction to using Unix nor to programming in C!</b></P>
 
-	<P>If you email me to waive the prerequisites, please provide
-	information about how you meet the requirements listed above in
-	bold.  (This has the added benefit of showing that you've actually
-	read at least this far on this page.)</p>
+        <P>If you email me to waive the prerequisites, please provide
+        information about how you meet the requirements listed above in
+        bold.  (This has the added benefit of showing that you've actually
+        read at least this far on this page.)</p>
 
         <!-- <P>This class overlaps <em>significantly</em> with
-	CS392 ``Systems Programming'' - if you have taken this class,
+        CS392 ``Systems Programming'' - if you have taken this class,
         please talk to me in person before trying to register for CS631.</P> -->
 
-	<hr>
+        <hr>
 
         <H3 id="time">Time, Date &amp; Place:</H3>
-	<p><b>Interactive/synchronous: Mondays, 18:30 Eastern, Babbio 202<!-- or online <a href="https://stevens.zoom.us/j/91309973136">via Zoom</a>--></b><br>
-		<b>Online on-demand: anytime <a
-href="https://youtube.com/c/cs631apue">via YouTube video
-lectures</a></b></p>
-
+        <p><b>Interactive/synchronous: Mondays, 18:30 Eastern, Edwin A. Stevens 329<!-- or online <a href="https://stevens.zoom.us/j/91309973136">via Zoom</a>--></b><br>
+           <b>Online on-demand: anytime <a href="https://youtube.com/c/cs631apue">via YouTube video lectures</a></b></p>
 
         <H3 id="instructor">Instructor:</H3>
         <p><A href=
@@ -70,93 +67,93 @@ lectures</a></b></p>
 
         <H3 id="resources">Resources:</H3>
 
-	<p>Content and discussions:
-	<ul>
+        <p>Content and discussions:
+        <ul>
           <LI><A href=
           "https://lists.stevens.edu/mailman/listinfo/cs631apue">CS631APUE Mailinglist</a><br>
-	  <em>Note: all class communications happen via this mailing
+          <em>Note: all class communications happen via this mailing
 list.</em><br>
-	  All registered students are subscribed to this list using their
-	  <tt>@stevens.edu</tt> address.  It is critical that you read this list.</li>
-	  <li><a href="https://cs631apue2024.slack.com">Course Slack</a></li>
-	  <li><a href="https://youtube.com/c/cs631apue">Course Videos / Youtube Channel</a> (<a href="https://www.youtube.com/feeds/videos.xml?channel_id=UC7-CyoYfsrVI-dsuHRQx0IQ">RSS feed</a>)</li>
-	</ul>
+          All registered students will be subscribed to this list using their
+          <tt>@stevens.edu</tt> address at the beginning of the semester.  It is critical that you read this list.</li>
+          <li><a href="https://cs631apue2025.slack.com">Course Slack</a></li>
+          <li><a href="https://youtube.com/c/cs631apue">Course Videos / Youtube Channel</a> (<a href="https://www.youtube.com/feeds/videos.xml?channel_id=UC7-CyoYfsrVI-dsuHRQx0IQ">RSS feed</a>)</li>
+        </ul>
 
-	<p>Assignments and meta-information:
-	<ul>
-	  <li><a href="#syllabus">Course Syllabus</a></li>
+        <p>Assignments and meta-information:
+        <ul>
+          <li><a href="#syllabus">Course Syllabus</a></li>
           <LI><A href="hw">General Homework Guidelines</a></li>
-          <LI><A href="use-of-ai.html">Permitted use of (generative) AI technologies</a></li>
-	  <LI><A href="style">Source Code Style Guide</A> (see also: <a href="https://www.youtube.com/watch?v=CFRhGnuXG-4">Why You Shouldn't Nest Your Code</a>)</li>
-	  <li><a href="https://www.netmeister.org/blog/readability-counts.html">Recommendations To Write (Slightly More) Readable And (Thus) Robust Code</a></li>
-	  <LI><A href="checklist">Code Submission Checklist</A></li>
-	  <LI><a href="#source-code">Links to OS Source Code</a></li>
-	  <li><a href="#books">Textbooks used in this class</a></li>
-	  <li><a href="#systems">Systems used in this class</a></li>
-	  <li><a href="#grading">Grading Policies</a></li>
-	  <li><a href="#hw">Homework Assignments</a></li>
-	  <li><a href="#midterm">Midterm Project</a></li>
-	  <li><a href="#group-project">Group Project</a></li>
-	</ul>
-	</p>
+          <LI><A href="use-of-ai.html">Permitted use of AI technologies</a></li>
+          <LI><A href="style">Source Code Style Guide</A> (see also: <a href="https://www.youtube.com/watch?v=CFRhGnuXG-4">Why You Shouldn't Nest Your Code</a>)</li>
+          <li><a href="https://www.netmeister.org/blog/readability-counts.html">Recommendations To Write (Slightly More) Readable And (Thus) Robust Code</a></li>
+          <LI><A href="checklist">Code Submission Checklist</A></li>
+          <LI><a href="#source-code">Links to OS Source Code</a></li>
+          <li><a href="#books">Textbooks used in this class</a></li>
+          <li><a href="#systems">Systems used in this class</a></li>
+          <li><a href="#grading">Grading Policies</a></li>
+          <li><a href="#hw">Homework Assignments</a></li>
+          <li><a href="#midterm">Midterm Project</a></li>
+          <li><a href="#group-project">Group Project</a></li>
+        </ul>
+        </p>
 
-	<p>Related links and documents:
+        <p>Related links and documents:
         <UL>
           <LI><A href="https://www.open-std.org/jtc1/sc22/wg14/www/docs/n1256.pdf">C99</a> standard</a></li>
           <LI><A href="https://wiki.sei.cmu.edu/confluence/display/c/SEI+CERT+C+Coding+Standard">SEI CERT C Coding Standard</a></a></li>
-	  <LI><A href="text">Writing ASCII Text</A></li>
+          <LI><A href="text">Writing ASCII Text</A></li>
           <LI><A href=
           "http://man.netbsd.org/cgi-bin/man-cgi/man">
           NetBSD Manual Pages</A></LI>
 
           <LI><A href="https://pubs.opengroup.org/onlinepubs/9799919799/">Single UNIX Specification</A> (POSIX)</LI>
-	  <LI><a href="apue-code.tar.gz">All Code Examples</a></li>
-	  <!-- <LI><a href="video.html">Lecture recordings</a></li> -->
-	  <li><a href="https://github.com/jschauma/cs631apue">Raw course
+          <LI><a href="apue-code.tar.gz">All Code Examples</a></li>
+          <!-- <LI><a href="video.html">Lecture recordings</a></li> -->
+          <li><a href="https://github.com/jschauma/cs631apue">Raw course
 material on GitHub</a></li>
           <li><a href="git.html">Using git</a></li>
         </UL>
-	</p>
+        </p>
 
-	<p>Tool Tips:
-	<ul>
-	  <li><a href="https://youtu.be/TWog5NklSws">ctags(1)</a> [<a href="tt/ctags/tt-ctags.pdf">slides</a>]&nbsp;[<a href="tt/ctags/tt-ctags.txt">transcript</a>]
-	  <li><a href="https://youtu.be/vxTXXaCr4s8">screen(1)</a> [<a href="tt/screen/tt-screen.pdf">slides</a>]&nbsp;[<a href="tt/screen/tt-screen.txt">transcript</a>]
-	  <li><a href="https://youtu.be/XqhOUqi4fc0">/usr/share/docs</a> [<a href="tt/docs/tt-docs.pdf">slides</a>]&nbsp;[<a href="tt/docs/tt-docs.txt">transcript</a>]
-	  <li><a href="https://youtu.be/FyPqII2rewA"><tt>sizeof != strlen</tt></a> [<a href="tt/sizeof/tt-sizeof.pdf">slides</a>]&nbsp;[<a href="tt/sizeof/tt-sizeof.txt">transcript</a>]&nbsp;[<a href="tt/sizeof/sizeof.c">sizeof.c</a>]&nbsp;[<a href="https://raw.githubusercontent.com/jschauma/manpages/main/man7/sizeof.7.txt">sizeof manual page</a>]
-	  <li><a href="https://youtu.be/hCqfmuG5Acc">Installing NetBSD/evbarm in UTM on Apple M1</a> [<a href="tt/netbsd-utm/netbsd-utm.txt">transcript</a>]
-	  <li><a href="https://youtu.be/mRZsV7aMK0I">ed(1) is the standard text editor</a> [<a href="tt/ed/tt-ed.txt">transcript</a>]
-	</ul>
+        <p>Tool Tips:
+        <ul>
+          <li><a href="https://youtu.be/TWog5NklSws">ctags(1)</a> [<a href="tt/ctags/tt-ctags.pdf">slides</a>]&nbsp;[<a href="tt/ctags/tt-ctags.txt">transcript</a>]
+          <li><a href="https://youtu.be/vxTXXaCr4s8">screen(1)</a> [<a href="tt/screen/tt-screen.pdf">slides</a>]&nbsp;[<a href="tt/screen/tt-screen.txt">transcript</a>]
+          <li><a href="https://youtu.be/XqhOUqi4fc0">/usr/share/docs</a> [<a href="tt/docs/tt-docs.pdf">slides</a>]&nbsp;[<a href="tt/docs/tt-docs.txt">transcript</a>]
+          <li><a href="https://youtu.be/FyPqII2rewA"><tt>sizeof != strlen</tt></a> [<a href="tt/sizeof/tt-sizeof.pdf">slides</a>]&nbsp;[<a href="tt/sizeof/tt-sizeof.txt">transcript</a>]&nbsp;[<a href="tt/sizeof/sizeof.c">sizeof.c</a>]&nbsp;[<a href="https://raw.githubusercontent.com/jschauma/manpages/main/man7/sizeof.7.txt">sizeof manual page</a>]
+          <li><a href="https://youtu.be/hCqfmuG5Acc">Installing NetBSD/evbarm in UTM on Apple M1</a> [<a href="tt/netbsd-utm/netbsd-utm.txt">transcript</a>]
+          <li><a href="https://youtu.be/mRZsV7aMK0I">ed(1) is the standard text editor</a> [<a href="tt/ed/tt-ed.txt">transcript</a>]
+        </ul>
 
-	<hr>
-	<h3 id="source-code">Source Code</h3>
+        <hr>
+        <h3 id="source-code">Source Code</h3>
 
         <P>You will be writing a lot of code in this class. You may
         also find the need to <em>read</em> a lot of code not written by you
         as well as the manual pages accompanying the sources.</p>
 
-	<p>Our primary reference platform being
-	NetBSD, you can install the full sources into
-	<a href="virtualbox/">your VirtualBox</a> or
+        <p>Our primary reference platform being
+        NetBSD, you can install the full sources into
+        <a href="virtualbox/">your VirtualBox</a> or
 <a href="utm/">UTM VM</a> via e.g., <a
-	href="fetch-sources.sh">this script</a>.</p>
+        href="fetch-sources.sh">this script</a>.</p>
 
-	<p>To browse or fetch sources for other Open
-	Source Unix variations, please see these
-	links:</p>
+        <p>To browse or fetch sources for other Open
+        Source Unix variations, please see these
+        links:</p>
 
-	<p>
-	<ul>
-	<li><a href="http://sources.debian.net/">Debian</a></li>
-	<li><a href="http://svnweb.freebsd.org/">FreeBSD</a></li>
-	<li><a href="http://ftp.gnu.org/gnu/coreutils/">GNU coreutils</a></li>
-	<li><a href="https://github.com/illumos/illumos-gate/tree/master/usr/src">illumos</a> (OpenSolaris derivative)</li>
-	<li><a href="http://cvsweb.netbsd.org/bsdweb.cgi/src/">NetBSD</a></li>
-	<li><a href="https://cvsweb.openbsd.org/src/">OpenBSD</a></li>
-	</ul>
+        <p>
+        <ul>
+        <li><a href="http://sources.debian.net/">Debian</a></li>
+        <li><a href="http://svnweb.freebsd.org/">FreeBSD</a></li>
+        <li><a href="http://ftp.gnu.org/gnu/coreutils/">GNU coreutils</a></li>
+        <li><a href="https://github.com/illumos/illumos-gate/tree/master/usr/src">illumos</a> (OpenSolaris derivative)</li>
+        <li><a href="http://cvsweb.netbsd.org/bsdweb.cgi/src/">NetBSD</a></li>
+        <li><a href="https://cvsweb.openbsd.org/src/">OpenBSD</a></li>
+        </ul>
 
 
-	<hr>
+        <hr>
         <H3 id="books">Textbooks:</H3>
 
         <P>The textbook used in this class is:
@@ -173,14 +170,14 @@ material on GitHub</a></li>
           <A href=
           "http://www.apuebook.com/code3e.html">Code
           Examples</A> | <a href="http://proquest.safaribooksonline.com/book/programming/unix/9780321638014">Safari Online version</a><BR></LI>
-	</UL>
-	</p>
+        </UL>
+        </p>
 
-	<p>
+        <p>
         The following books are recommended purely for your own personal
         reference.  They're not used in the class as a text, but are
         related and very useful books to have:
-	<UL>
+        <UL>
           <LI>
           ``<A href="http://amzn.com/0131103628">The C
           Programming Language</A>'' -- <EM>important</EM>: make
@@ -209,31 +206,31 @@ material on GitHub</a></li>
         </ul>
         </p>
 
-	<hr>
-	<H3 id="systems">Systems Used</H3>
-	<p>All software development will be done on a <a
-	href="https://www.netbsd.org">NetBSD</a> system.  It is
-	your responsibility to gain access to such a system <b>prior
-	to the start of the class</b>.  Please see <a href="netbsd.html">this
-	page</a> for more information. Here are instructions on how to install NetBSD in a <a href="virtualbox/">VirtualBox</a> or <a href="utm/">UTM</a>.</a></p>
-	<p>
-	<p>All grading will be done on a NetBSD &gt;= 10.0 system.  While you may
-	choose to develop on your own personal host, you should make sure
-	that your code compiles and runs flawlessly on this OS version.</p>
+        <hr>
+        <H3 id="systems">Systems Used</H3>
+        <p>All software development will be done on a <a
+        href="https://www.netbsd.org">NetBSD</a> system.  It is
+        your responsibility to gain access to such a system <b>prior
+        to the start of the class</b>.  Please see <a href="netbsd.html">this
+        page</a> for more information. Here are instructions on how to install NetBSD in a <a href="virtualbox/">VirtualBox</a> or <a href="utm/">UTM</a>.</a></p>
+        <p>
+        <p>All grading will be done on a NetBSD &gt;= 10.0 system.  While you may
+        choose to develop on your own personal host, you should make sure
+        that your code compiles and runs flawlessly on this OS version.</p>
 
-	<!-- <p>
-	You may also find it useful to
+        <!-- <p>
+        You may also find it useful to
 get yourself an account on the
 <a href="linux-lab.html">Stevens linux-lab systems</a>
 to be able to compare another system.
-	</p> -->
+        </p> -->
 
-	<hr>
+        <hr>
         <H3 id="grading">Grading:</H3>There will most likely be:
         <UL>
-	  <LI><!-- <a href="course-notes.html">course notes</a>, -->participation and checkpoints: 50 points</LI>
+          <LI><!-- <a href="course-notes.html">course notes</a>, -->participation and checkpoints: 40 points</LI>
 
-          <LI>2 homework assignment, worth 25 points each</LI>
+          <LI>3 homework assignment, worth 20 points each</LI>
 
           <LI>1 midterm project, worth 100 points</LI>
 
@@ -241,14 +238,12 @@ to be able to compare another system.
 
           <LI>1 final assignment, worth 100 points</LI>
 
-          <!-- <LI>1 final exam, worth 100 points</LI> -->
-
           <LI>no make-up assignments</LI>
           <LI>no extra credit</LI>
           <LI>no curve</LI>
         </UL>
 
-	Letter grades will be given as follows:
+        Letter grades will be given as follows:
         <UL>
           <LI>90% - 100% of total available points =&gt; A</LI>
           <LI>80% - 90% of total available points =&gt; B</LI>
@@ -256,27 +251,27 @@ to be able to compare another system.
           <LI>0 - 70% of total available points =&gt; F</LI>
         </UL>
 
-	Within each letter grade, there are +/- grades given at the
-	discretion of the instructor. (Exception: there is no A+)
+        Within each letter grade, there are +/- grades given at the
+        discretion of the instructor. (Exception: there is no A+)
 
-	<H4 id="cheating">Plagiarism, Cheating and other ways to get an F</H4>
-	This really should not be necessary, but just to preempt any complains
-	that I did not make myself clear:
-	<blockquote>
-	Students are responsible for their own work.  It is unethical (and in
-	some cases illegal) to present as one's work the ideas, words or
-	representations of another without the proper indication of the
-	source.  Therefore, it is the student's responsibility to give credit
-	for any quotation, idea or data (such as statistical data or source
-	code) borrowed from an outside source.
-	<br><br>
-	Failure to do so constitutes <a
+        <H4 id="cheating">Plagiarism, Cheating and other ways to get an F</H4>
+        This really should not be necessary, but just to preempt any complains
+        that I did not make myself clear:
+        <blockquote>
+        Students are responsible for their own work.  It is unethical (and in
+        some cases illegal) to present as one's work the ideas, words or
+        representations of another without the proper indication of the
+        source.  Therefore, it is the student's responsibility to give credit
+        for any quotation, idea or data (such as statistical data or source
+        code) borrowed from an outside source.
+        <br><br>
+        Failure to do so constitutes <a
 href="https://www.netmeister.org/blog/plagiarism.html">plagiarism</a>, may imply copyright
-	infringement and license violations and is viewed as cheating
-	in this class.
-	</blockquote>
-	Any incidents are reported to the Dean of Graduate
-	Academics, as per the <a
+        infringement and license violations and is viewed as cheating
+        in this class.
+        </blockquote>
+        Any incidents are reported to the Dean of Graduate
+        Academics, as per the <a
 href="https://my.stevens.edu/system/files/graduate_student_code_of_academic_integrity_0.pdf">Graduate
 Student Code of Academic Conduct</a>.
         <p>
@@ -286,376 +281,331 @@ Student Code of Academic Conduct</a>.
         for more details on the permitted use of AI in this
         class.
         </p>
-	<hr>
+        <hr>
         <H3 id="hw">Homework Assignments:</H3>
-	<p>Assignments will be posted as the semester progresses.</p>
-	<p><ul>
-		<li><a href="f24-hw1.html">HW#1: trivially copy a file</a></li>
-		<li><a href="f24-hw2.html">HW#2: implement the <tt>command(3)</tt> library function</a></li>
-<!--		<li><a href="f19-hw1.html">HW#1: trivially copy a file</a></li>
-		<li><a href="f19-sish.html">Final assignment: write a simple shell</a></li>
-		<li><a href="intro.html">Intro "test"</a></li>
-		<li><a href="f16-hw1.html">HW#1: read code</a></li>
-		<li><a href="f16-hw3.html">HW#3 - sws milestone#1</a></li>
-		<li><a href="f16-hw4.html">HW#4 - Encryption/decryption</a></li>
-		<li><a href="f15-hw3.html">HW#3: webserver framework</a></li>
-		<li><a href="f15-aed.html">"HW#4": write a simple tool to perform encryption/decryption of content</a></li>
-		<li><a href="f14-hw4.html">HW#4: sws, milestone#2</a></li>
-simple shell</a></li>
--->
-	</ul>
-	</p>
-	<p>
-	The following exercises are not graded, but
-	are recommended to be completed before or soon after
-	the given lecture to help you better understand the
-	concepts dicussed.
-	</p>
-	<p>
-	<ul>
-	<li><a href="pp/">Pipes Practice</a> -- weekly challenges</li>
-	<li><a href="fixme-exercise.html">Lecture 01 - Generic Warmup Exercise</a></li>
-	<li><a href="compare-code-exercise.html">Lecture 01 - Compare Code Exercise</a></li>
-	<li><a href="fd-exercise.html">Lecture 02 - File Descriptor Warmup Exercise</a></li>
-	<li><a href="stdout-exercise.html">Lecture 02 - File Descriptor and Stdout Exercise</a></li>
-	<li><a href="compare-stat.html">Lecture 03 - Compare <tt>stat(1)</tt> Exercise</a></li>
-	<li><a href="cd-exercise.html">Lecture 04 - File System Exercise: Implement the cd(1) and pwd(1) commands</a></li>
-	<li><a href="stack-exercise.html">Lecture 06 - Process Execution Exercise: Inspect the call stack</a></li>
-	<li><a href="startup-exercise.html">Lecture 06 - Program Startup Exercise</a></li>
-	<li><a href="env-exercise.html">Lecture 06 - Environment Exercise</a></li>
-	<li><a href="siggot-exercise.html">Lecture 07 - Play the Signals Game of Thrones</a></li>
-	<li><a href="two-pipes-exercise.html">Lecture 08 - Bi-directional communications using pipe(2)</a></li>
-	<li><a href="pipe-readers-exercise.html">Lecture 08 - How do multiple <tt>pipe(2)</tt> readers/writers behave?</a></li>
-	<li><a href="code-reading-exercise.html">Lecture 10 - HTTP Code Reading</a></li>
-	<li><a href="libgreet-exercise.html">Lecture 11 - libgreet</a></li>
-	<li><a href="aed-exercise.html">Lecture 12 - write a tool to encrypt/decrypt data using AES</a></li>
-	</ul>
-	</p>
-	<hr>
+        <p>Assignments will be posted as the semester progresses.</p>
+        <ul>
+          <li><a href="f25-hw1.html">HW#1: trivially copy a file</a></li>
+          <li><a href="f25-hw2.html">HW#2: use AI to write <code>stat -F</code></a></li>
+          <li><a href="f25-hw3.html">HW#3: implement the <code>command(3)</code> library function</a></li>
+        </ul>
+        <p>
+        The following exercises are not graded, but
+        are recommended to be completed before or soon after
+        the given lecture to help you better understand the
+        concepts dicussed.
+        </p>
+        <ul>
+          <li><a href="pp/">Pipes Practice</a> -- weekly challenges</li>
+          <li><a href="fixme-exercise.html">Lecture 01 - Generic Warmup Exercise</a></li>
+          <li><a href="compare-code-exercise.html">Lecture 01 - Compare Code Exercise</a></li>
+          <li><a href="fd-exercise.html">Lecture 02 - File Descriptor Warmup Exercise</a></li>
+          <li><a href="stdout-exercise.html">Lecture 02 - File Descriptor and Stdout Exercise</a></li>
+          <li><a href="compare-stat.html">Lecture 03 - Compare <tt>stat(1)</tt> Exercise</a></li>
+          <li><a href="cd-exercise.html">Lecture 04 - File System Exercise: Implement the cd(1) and pwd(1) commands</a></li>
+          <li><a href="stack-exercise.html">Lecture 06 - Process Execution Exercise: Inspect the call stack</a></li>
+          <li><a href="startup-exercise.html">Lecture 06 - Program Startup Exercise</a></li>
+          <li><a href="env-exercise.html">Lecture 06 - Environment Exercise</a></li>
+          <li><a href="siggot-exercise.html">Lecture 07 - Play the Signals Game of Thrones</a></li>
+          <li><a href="two-pipes-exercise.html">Lecture 08 - Bi-directional communications using pipe(2)</a></li>
+          <li><a href="pipe-readers-exercise.html">Lecture 08 - How do multiple <tt>pipe(2)</tt> readers/writers behave?</a></li>
+          <li><a href="code-reading-exercise.html">Lecture 10 - HTTP Code Reading</a></li>
+          <li><a href="libgreet-exercise.html">Lecture 11 - libgreet</a></li>
+          <li><a href="aed-exercise.html">Lecture 12 - write a tool to encrypt/decrypt data using AES</a></li>
+        </ul>
+        <hr>
         <H3 id="midterm">Midterm Project:</H3>
-	<p>Implement the "<a href="ls.pdf">ls(1)</a>" command as
+        <p>Implement the "<a href="ls.pdf">ls(1)</a>" command as
         decribed in the manual page provided to you.
-        See the full <A href="f24-midterm.html">midterm project
+        See the full <A href="f25-midterm.html">midterm project
         description</A> for details.</P>
 
-	<hr>
+        <hr>
         <H3 id="group-project">Group Project:</H3>
         <p>Implement the "<a href="sws.1.pdf">sws(1)</a>" command as
         decribed in the manual page provided to you.
-	See the full <A href="f24-group-project.html">group project
+        See the full <A href="f25-group-project.html">group project
         description</A> for details.</P>
-
-	<!--
-	<hr>
-        <H3 id="final-exam">Final Exam:</H3>
-	<p>Details to be announced.</p>
-        In 2012, we had a take-home
-        <a href="final-F2012.txt">final</a>.  The final may differ in the coming semester.
-	-->
-	<hr>
+        <hr>
         <H3 id="syllabus">Syllabus:</H3>
 
-	Homework assignments, slides, and other material listed below are
-	from the previous semester.  We will update the content as the
-	semester progresses.
+        Homework assignments, slides, and other material listed below are
+        from the previous semester.  We will update the content as the
+        semester progresses.
         <TABLE width="100%" border="1" cellpadding="5">
           <TR>
             <TH>Date</TH>
-
             <TH>Topic</TH>
-
             <TH>Reading</TH>
-
             <TH>Links</TH>
-
           </TR>
 
           <TR>
-            <TD><nobr>2024-09-09</nobr></TD>
+            <TD><nobr>2025-09-08</nobr></TD>
 
             <TD>Introduction, UNIX history, UNIX Programming
-            Basics</TD>
+            Basics, Coding Style</TD>
 
             <TD>Stevens: Chapters 1, 2<br>
-		<a href="https://www.netmeister.org/book/02-unix.pdf">Unix history and basic features</a></TD>
+                <a href="https://www.netmeister.org/book/02-unix.pdf">Unix history and basic features</a></TD>
 
             <TD nowrap="nowrap">
-			<b>Week 01, Segment 1: Introduction</b><br>
-			[<a href="01-introduction.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/BsB9Cg6yJc4">video lecture</a>]&nbsp;[<a href="01-introduction.txt">transcript</a>]<br>
+              <b>Week 01, Segment 1: Introduction</b><br>
+              [<a href="01-introduction.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/BsB9Cg6yJc4">video lecture</a>]&nbsp;[<a href="01-introduction.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 01, Segment 2: UNIX History</b><br>
-			[<a href="01-history.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/3H7SQWTR6Dw">video lecture</a>]&nbsp;[<a href="01-history.txt">transcript</a>]<br>
+              <b>Week 01, Segment 2: UNIX History</b><br>
+              [<a href="01-history.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/3H7SQWTR6Dw">video lecture</a>]&nbsp;[<a href="01-history.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 01, Segment 3: UNIX Basics</b><br>
-			[<a href="01-basics.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/w3spRzZ8bSA">video lecture</a>]&nbsp;[<a href="01-basics.txt">transcript</a>]<br>
+              <b>Week 01, Segment 3: UNIX Basics</b><br>
+              [<a href="01-basics.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/w3spRzZ8bSA">video lecture</a>]&nbsp;[<a href="01-basics.txt">transcript</a>]<br>
             &#160;<BR>
-            <A href="apue-code/01/simple-cat.c">simple-cat.c</A><BR>
-            <A href="apue-code/01/simple-ls.c">simple-ls.c</A><BR>
-            <A href="apue-code/01/simple-shell.c">simple-shell.c</A><BR>
-            <A href="apue-code/01/simple-shell2.c">simple-shell2.c</A><br>
-            <A href="apue-code/01/welcome.c">welcome.c</A><BR><br>
-            <!-- <a href="/cgi-bin/631-F22.cgi">Instructor Masking Preference</a><br> -->
-            <a href="/cgi-bin/631-01.cgi">Week 01 Checkpoint</a> (due by 16:00 Eastern before class)<br>
-<!--            <a href="intro.html">Intro</a><br>
-	    <a href="f16-hw1.html">HW#1</a></TD> -->
-	    </TD>
+              <A href="apue-code/01/simple-cat.c">simple-cat.c</A><BR>
+              <A href="apue-code/01/simple-ls.c">simple-ls.c</A><BR>
+              <A href="apue-code/01/simple-shell.c">simple-shell.c</A><BR>
+              <A href="apue-code/01/simple-shell2.c">simple-shell2.c</A><br>
+              <A href="apue-code/01/welcome.c">welcome.c</A><BR><br>
+              <a href="/cgi-bin/631-01.cgi">Week 01 Checkpoint</a> (due by 16:00 Eastern before class)<br>
+            </TD>
           </TR>
 
           <TR>
-            <TD>2024-09-16</TD>
+            <TD>2025-09-15</TD>
 
             <TD>File I/O, File Sharing</TD>
 
             <TD>Stevens: Chapter 3</TD>
 
             <TD nowrap="nowrap">
-			<b>Week 02, Segment 1: File Descriptors</b><br>
-			[<a href="02-fds.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/h5A1OQjuCqk">video lecture</a>]&nbsp;[<a href="02-fds.txt">transcript</a>]<br>
+              <b>Week 02, Segment 1: File Descriptors</b><br>
+              [<a href="02-fds.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/h5A1OQjuCqk">video lecture</a>]&nbsp;[<a href="02-fds.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 02, Segment 2: open(2)/close(2)</b><br>
-			[<a href="02-open-close.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/QnL4eYpb5Iw">video lecture</a>]&nbsp;[<a href="02-open-close.txt">transcript</a>]<br>
+              <b>Week 02, Segment 2: open(2)/close(2)</b><br>
+              [<a href="02-open-close.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/QnL4eYpb5Iw">video lecture</a>]&nbsp;[<a href="02-open-close.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 02, Segment 3: read(2)/write(2)/lseek(2)</b><br>
-			[<a href="02-read-write-lseek.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/EUUPw8MOV_A">video lecture</a>]&nbsp;[<a href="02-read-write-lseek.txt">transcript</a>]<br>
+              <b>Week 02, Segment 3: read(2)/write(2)/lseek(2)</b><br>
+              [<a href="02-read-write-lseek.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/EUUPw8MOV_A">video lecture</a>]&nbsp;[<a href="02-read-write-lseek.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 02, Segment 4: File Sharing</b><br>
-			[<a href="02-file-sharing.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/CAbUtc86ULw">video lecture</a>]&nbsp;[<a href="02-file-sharing.txt">transcript</a>]<br>
+              <b>Week 02, Segment 4: File Sharing</b><br>
+              [<a href="02-file-sharing.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/CAbUtc86ULw">video lecture</a>]&nbsp;[<a href="02-file-sharing.txt">transcript</a>]<br>
             &#160;<BR>
-            <A href="apue-code/02/argv.c">argv.c</A><BR>
-            <A href="apue-code/02/close-stderr.c">close-stderr.c</A><BR>
-            <A href="apue-code/02/fds.c">fds.c</A><BR>
-            <A href="apue-code/02/hole.c">hole.c</A><BR>
-            <A href="apue-code/02/lseek.c">lseek.c</A><BR>
-            <A href="apue-code/02/openat.c">openat.c</A><BR>
-            <A href="apue-code/02/openex.c">openex.c</A><BR>
-            <A href="apue-code/02/openmax.c">openmax.c</A><BR>
-            <A href="apue-code/02/redir.c">redir.c</A><BR>
-            <A href="apue-code/02/rwex.c">rwex.c</A><BR>
-            <A href="apue-code/02/sync-cat.c">sync-cat.c</A><BR><br>
-            <a href="/cgi-bin/631-02.cgi">Week 02 Checkpoint</a> (due by 16:00 Eastern before class)<br><br>
-            <a href="f24-hw1.html">HW1</a>: <A href="bbcp.1.pdf">bbcp(1)</A>
+              <A href="apue-code/02/argv.c">argv.c</A><BR>
+              <A href="apue-code/02/close-stderr.c">close-stderr.c</A><BR>
+              <A href="apue-code/02/fds.c">fds.c</A><BR>
+              <A href="apue-code/02/hole.c">hole.c</A><BR>
+              <A href="apue-code/02/lseek.c">lseek.c</A><BR>
+              <A href="apue-code/02/openat.c">openat.c</A><BR>
+              <A href="apue-code/02/openex.c">openex.c</A><BR>
+              <A href="apue-code/02/openmax.c">openmax.c</A><BR>
+              <A href="apue-code/02/redir.c">redir.c</A><BR>
+              <A href="apue-code/02/rwex.c">rwex.c</A><BR>
+              <A href="apue-code/02/sync-cat.c">sync-cat.c</A><BR><br>
+              <a href="/cgi-bin/631-02.cgi">Week 02 Checkpoint</a> (due by 16:00 Eastern before class)<br><br>
+              <a href="f25-hw1.html">HW1</a>: <A href="bbcp.1.pdf">bbcp(1)</A>
            </td>
           </TR>
 
           <TR>
-            <TD>2024-09-23</TD>
-
+            <TD>2025-09-22</TD>
             <TD>Files and Directories</TD>
-
             <TD>Stevens: Chapter 4</TD>
 
             <TD nowrap="nowrap">
-			<b>Week 03, Segment 1: stat(2) intro</b><br>
-			[<a href="03-stat.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/veFwXrEHPsk">video lecture</a>]&nbsp;[<a href="03-stat.txt">transcript</a>]<br>
+              <b>Week 03, Segment 1: stat(2) intro</b><br>
+              [<a href="03-stat.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/veFwXrEHPsk">video lecture</a>]&nbsp;[<a href="03-stat.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 03, Segment 2: UIDs intro</b><br>
-			[<a href="03-uids.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/YlcF3ncTQpo">video lecture</a>]&nbsp;[<a href="03-uids.txt">transcript</a>]<br>
+              <b>Week 03, Segment 2: UIDs intro</b><br>
+              [<a href="03-uids.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/YlcF3ncTQpo">video lecture</a>]&nbsp;[<a href="03-uids.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 03, Segment 3: struct stat st_mode</b><br>
-			[<a href="03-perms.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/vS6abFjN3ZY">video lecture</a>]&nbsp;[<a href="03-perms.txt">transcript</a>]<br>
+              <b>Week 03, Segment 3: struct stat st_mode</b><br>
+              [<a href="03-perms.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/vS6abFjN3ZY">video lecture</a>]&nbsp;[<a href="03-perms.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 03, Segment 4: chmod(2) and chown(2)</b><br>
-			[<a href="03-chmod-chown.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/5MJmCanZDyk">video lecture</a>]&nbsp;[<a href="03-chmod-chown.txt">transcript</a>]<br>
+              <b>Week 03, Segment 4: chmod(2) and chown(2)</b><br>
+              [<a href="03-chmod-chown.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/5MJmCanZDyk">video lecture</a>]&nbsp;[<a href="03-chmod-chown.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 03, Segment 5: umask(2)</b><br>
-			[<a href="03-umask.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/bRAR2bv2HSM">video lecture</a>]&nbsp;[<a href="03-umask.txt">transcript</a>]<br>
+              <b>Week 03, Segment 5: umask(2)</b><br>
+              [<a href="03-umask.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/bRAR2bv2HSM">video lecture</a>]&nbsp;[<a href="03-umask.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 03, Segment 6: Union Mounts and Whiteout Files</b><br>
-			[<a href="03-whiteout.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/MkFExG9jhEE">video lecture</a>]&nbsp;[<a href="03-whiteout.txt">transcript</a>]<br>
+              <b>Week 03, Segment 6: Union Mounts and Whiteout Files</b><br>
+              [<a href="03-whiteout.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/MkFExG9jhEE">video lecture</a>]&nbsp;[<a href="03-whiteout.txt">transcript</a>]<br>
             &#160;<BR>
 
             &#160;<BR>
-            <A href="apue-code/03/access.c">access.c</A><BR>
-            <A href="apue-code/03/chmod.c">chmod.c</A><BR>
-            <A href="apue-code/03/chown.c">chown.c</A><BR>
-            <A href="apue-code/03/myuids.c">myuids.c</A><BR>
-            <A href="apue-code/03/setuid.c">setuid.c</A><BR>
-            <A href="apue-code/03/size.c">size.c</A><BR>
-            <A href="apue-code/01/simple-ls.c">simple-ls.c</A><BR>
-            <A href="apue-code/03/simple-ls-stat.c">simple-ls-stat.c</A><BR>
-            <A href="apue-code/03/umask.c">umask.c</A><BR><br>
-            <a href="/cgi-bin/631-03.cgi">Week 03 Checkpoint</a>  (due by 16:00 Eastern before class)<br>
-	    <a href="f24-midterm.html">Midterm Project Assignment</a></TD>
+              <A href="apue-code/03/access.c">access.c</A><BR>
+              <A href="apue-code/03/chmod.c">chmod.c</A><BR>
+              <A href="apue-code/03/chown.c">chown.c</A><BR>
+              <A href="apue-code/03/myuids.c">myuids.c</A><BR>
+              <A href="apue-code/03/setuid.c">setuid.c</A><BR>
+              <A href="apue-code/03/size.c">size.c</A><BR>
+              <A href="apue-code/01/simple-ls.c">simple-ls.c</A><BR>
+              <A href="apue-code/03/simple-ls-stat.c">simple-ls-stat.c</A><BR>
+              <A href="apue-code/03/umask.c">umask.c</A><BR><br>
+              <a href="/cgi-bin/633-03.cgi">Week 03 Checkpoint</a>  (due by 16:00 Eastern before class)<br>
+              <a href="f25-hw2.html">HW#2: use AI to write <code>stat -F</code></a><br>
+              <a href="f25-midterm.html">Midterm Project Assignment</a></TD>
           </TR>
 
           <TR>
-            <TD>2024-09-30</TD>
-
-            <TD>Filesystems, System Data Files, Time &amp;
-            Date</TD>
-
+            <TD>2025-09-29</TD>
+            <TD>Filesystems, System Data Files, Time &amp; Date</TD>
             <TD>Stevens: Chapter 4, 6<br>
-		<a
+              <a
 href="https://www.netmeister.org/book/04-file-systems.pdf">File Systems and Storage Models</a>: 4.4.1, 4.5 - 4.7</TD>
 
             <TD nowrap="nowrap">
-			<b>Week 04, Segment 1: The Unix Filesystem</b><br>
-			[<a href="04-ufs.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/kY4JAXYyByQ">video lecture</a>]&nbsp;[<a href="04-ufs.txt">transcript</a>]<br>
+              <b>Week 04, Segment 1: The Unix Filesystem</b><br>
+              [<a href="04-ufs.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/kY4JAXYyByQ">video lecture</a>]&nbsp;[<a href="04-ufs.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 04, Segment 2: Links</b><br>
-			[<a href="04-links.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/0l8o2goJ1kc">video lecture</a>]&nbsp;[<a href="04-links.txt">transcript</a>]<br>
+              <b>Week 04, Segment 2: Links</b><br>
+              [<a href="04-links.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/0l8o2goJ1kc">video lecture</a>]&nbsp;[<a href="04-links.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 04, Segment 3: Directories</b><br>
-			[<a href="04-dirs.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/xZ7dNXZ58G8">video lecture</a>]&nbsp;[<a href="04-dirs.txt">transcript</a>]<br>
+              <b>Week 04, Segment 3: Directories</b><br>
+              [<a href="04-dirs.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/xZ7dNXZ58G8">video lecture</a>]&nbsp;[<a href="04-dirs.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 04, Segment 4: Directory Size</b><br>
-			[<a href="04-dirsize.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/gY0SE-71LZA">video lecture</a>]&nbsp;[<a href="04-dirsize.txt">transcript</a>]<br>
+              <b>Week 04, Segment 4: Directory Size</b><br>
+              [<a href="04-dirsize.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/gY0SE-71LZA">video lecture</a>]&nbsp;[<a href="04-dirsize.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 04, Segment 5: /etc/passwd</b><br>
-			[<a href="04-etc-passwd.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/fv16TWDnLYM">video lecture</a>]&nbsp;[<a href="04-etc-passwd.txt">transcript</a>]<br>
+              <b>Week 04, Segment 5: /etc/passwd</b><br>
+              [<a href="04-etc-passwd.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/fv16TWDnLYM">video lecture</a>]&nbsp;[<a href="04-etc-passwd.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 04, Segment 6: getpwuid(2) and /etc/groups</b><br>
-			[<a href="04-getpwuid.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/aomkx6_aWpc">video lecture</a>]&nbsp;[<a href="04-getpwuid.txt">transcript</a>]<br>
+              <b>Week 04, Segment 6: getpwuid(2) and /etc/groups</b><br>
+              [<a href="04-getpwuid.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/aomkx6_aWpc">video lecture</a>]&nbsp;[<a href="04-getpwuid.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 04, Segment 7: atime, mtime, ctime</b><br>
-			[<a href="04-amctimes.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/ffYEEj5vnlw">video lecture</a>]&nbsp;[<a href="04-amctimes.txt">transcript</a>]<br>
+              <b>Week 04, Segment 7: atime, mtime, ctime</b><br>
+              [<a href="04-amctimes.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/ffYEEj5vnlw">video lecture</a>]&nbsp;[<a href="04-amctimes.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 04, Segment 8: time(3) is an illusion</b><br>
-			[<a href="04-time.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/3N2aH1vUacQ">video lecture</a>]&nbsp;[<a href="04-time.txt">transcript</a>]<br>
+              <b>Week 04, Segment 8: time(3) is an illusion</b><br>
+              [<a href="04-time.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/3N2aH1vUacQ">video lecture</a>]&nbsp;[<a href="04-time.txt">transcript</a>]<br>
             &#160;<BR>
             &#160;<BR>
-	    <a href="apue-code/04/cd.c">cd.c</A><BR>
-	    <a href="apue-code/04/getpw.c">getpw.c</A><BR>
-	    <a href="apue-code/04/groups.c">groups.c</A><BR>
-	    <a href="apue-code/04/lns.c">lns.c</A><BR>
-	    <a href="apue-code/04/rename.c">rename.c</A><BR>
-            <A href="apue-code/04/sizeof.c">sizeof.c</A><BR>
-            <A href="apue-code/04/time.c">time.c</A><BR><br>
-            <A href="apue-code/04/wait-unlink.c">wait-unlink.c</A><BR>
-            <a href="/cgi-bin/631-04.cgi">Week 04 Checkpoint</a> (due by 16:00 Eastern before class)<br>
+              <a href="apue-code/04/cd.c">cd.c</A><BR>
+              <a href="apue-code/04/getpw.c">getpw.c</A><BR>
+              <a href="apue-code/04/groups.c">groups.c</A><BR>
+              <a href="apue-code/04/lns.c">lns.c</A><BR>
+              <a href="apue-code/04/rename.c">rename.c</A><BR>
+              <A href="apue-code/04/sizeof.c">sizeof.c</A><BR>
+              <A href="apue-code/04/time.c">time.c</A><BR><br>
+              <A href="apue-code/04/wait-unlink.c">wait-unlink.c</A><BR>
+              <a href="/cgi-bin/631-04.cgi">Week 04 Checkpoint</a> (due by 16:00 Eastern before class)<br>
             </td>
           </TR>
 
           <TR>
-            <TD>2024-10-07</TD>
-
+            <TD>2025-10-06</TD>
             <TD>UNIX tools: cc(1), make(1), revision control, diff(1), patch(1), gdb(1)</TD>
-
             <TD><A href=
             "http://www.cvshome.org/docs/manual/cvs-1.11.6/cvs.html">
             CVS Documentation</A><br>
-		<a
-href="https://dev.gentoo.org/~vapier/crt.txt">Mini FAQ
-about the misc libc/gcc crt files</a><br>
-          <A href="http://sourceware.org/gdb/current/onlinedocs/gdb/">
-            Debugging with GDB</A><BR>
-            <A href=
-            "http://heather.cs.ucdavis.edu/~matloff/UnixAndC/CLanguage/Debug.html">
-            Guide to Faster, Less Frustrating Debugging</A><BR>
-            <A href=
-            "http://www.unknownroad.com/rtfm/gdbtut/gdbtoc.html">gdb
-            Tutorial</A><br>
-		<a href="http://git-scm.com/">Git</a></TD>
+                <a href="https://dev.gentoo.org/~vapier/crt.txt">Mini FAQ about the misc libc/gcc crt files</a><br>
+          <A href="http://sourceware.org/gdb/current/onlinedocs/gdb/">Debugging with GDB</A><BR>
+            <A href="http://heather.cs.ucdavis.edu/~matloff/UnixAndC/CLanguage/Debug.html">Guide to Faster, Less Frustrating Debugging</A><BR>
+            <A href="http://www.unknownroad.com/rtfm/gdbtut/gdbtoc.html">gdb Tutorial</A><br>
+            <a href="http://git-scm.com/">Git</a></TD>
             <TD>
-			<b>Week 05, Segment 1: The Unix Development Environment</b><br>
-			[<a href="05-tools.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/QYwYLR3UD2w">video lecture</a>]&nbsp;[<a href="05-tools.txt">transcript</a>]<br>
+              <b>Week 05, Segment 1: The Unix Development Environment</b><br>
+              [<a href="05-tools.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/QYwYLR3UD2w">video lecture</a>]&nbsp;[<a href="05-tools.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 05, Segment 2: The Editor</b><br>
-			[<a href="05-editors.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/DdaJ87G9Kes">video lecture</a>]&nbsp;[<a href="05-editors.txt">transcript</a>]<br>
+              <b>Week 05, Segment 2: The Editor</b><br>
+              [<a href="05-editors.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/DdaJ87G9Kes">video lecture</a>]&nbsp;[<a href="05-editors.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 05, Segment 3: The Compiler Toolchain, Part I</b><br>
-			[<a href="05-compilers-1.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/SOeo4zLBqdI">video lecture</a>]&nbsp;[<a href="05-compilers-1.txt">transcript</a>]<br>
+              <b>Week 05, Segment 3: The Compiler Toolchain, Part I</b><br>
+              [<a href="05-compilers-1.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/SOeo4zLBqdI">video lecture</a>]&nbsp;[<a href="05-compilers-1.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 05, Segment 4: The Compiler Toolchain, Part II</b><br>
-			[<a href="05-compilers-2.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/8qPxQ3g8bso">video lecture</a>]&nbsp;[<a href="05-compilers-2.txt">transcript</a>]<br>
+              <b>Week 05, Segment 4: The Compiler Toolchain, Part II</b><br>
+              [<a href="05-compilers-2.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/8qPxQ3g8bso">video lecture</a>]&nbsp;[<a href="05-compilers-2.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 05, Segment 5: The Compiler Toolchain, Part III</b><br>
-			[<a href="05-compilers-3.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/ddvYL-G3oew">video lecture</a>]&nbsp;[<a href="05-compilers-3.txt">transcript</a>]<br>
+              <b>Week 05, Segment 5: The Compiler Toolchain, Part III</b><br>
+              [<a href="05-compilers-3.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/ddvYL-G3oew">video lecture</a>]&nbsp;[<a href="05-compilers-3.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 05, Segment 6: The Compiler Toolchain, Part IV</b><br>
-			[<a href="05-compilers-4.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/8LCyPmjknBY">video lecture</a>]&nbsp;[<a href="05-compilers-4.txt">transcript</a>]<br>
+              <b>Week 05, Segment 6: The Compiler Toolchain, Part IV</b><br>
+              [<a href="05-compilers-4.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/8LCyPmjknBY">video lecture</a>]&nbsp;[<a href="05-compilers-4.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 05, Segment 7: <tt>make(1)</tt></b><br>
-			[<a href="05-make.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/WLTuUtj7LPw">video lecture</a>]&nbsp;[<a href="05-make.txt">transcript</a>]<br>
+              <b>Week 05, Segment 7: <tt>make(1)</tt></b><br>
+              [<a href="05-make.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/WLTuUtj7LPw">video lecture</a>]&nbsp;[<a href="05-make.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 05, Segment 8: Debugging Your Code</b><br>
-			[<a href="05-gdb.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/61YwbTQy2G0">video lecture</a>]&nbsp;[<a href="05-gdb.txt">transcript</a>]<br>
+              <b>Week 05, Segment 8: Debugging Your Code</b><br>
+              [<a href="05-gdb.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/61YwbTQy2G0">video lecture</a>]&nbsp;[<a href="05-gdb.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 05, Segment 9: Using <tt>gdb(1)</tt></b><br>
-			[<a href="05-gdb-2.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/Miw0XLzHCws">video lecture</a>]&nbsp;[<a href="05-gdb-2.txt">transcript</a>]<br>
+              <b>Week 05, Segment 9: Using <tt>gdb(1)</tt></b><br>
+              [<a href="05-gdb-2.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/Miw0XLzHCws">video lecture</a>]&nbsp;[<a href="05-gdb-2.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 05, Segment 10: Using <tt>gdb(1)</tt>, part II</b><br>
-			[<a href="05-gdb-3.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/fOp4Q4mnTD4">video lecture</a>]&nbsp;[<a href="05-gdb-3.txt">transcript</a>]<br>
+              <b>Week 05, Segment 10: Using <tt>gdb(1)</tt>, part II</b><br>
+              [<a href="05-gdb-3.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/fOp4Q4mnTD4">video lecture</a>]&nbsp;[<a href="05-gdb-3.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 05, Segment 11: Using <tt>gdb(1)</tt>, part III</b><br>
-			[<a href="05-gdb-4.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/hgcj7iAxhhU">video lecture</a>]&nbsp;[<a href="05-gdb-4.txt">transcript</a>]<br>
+              <b>Week 05, Segment 11: Using <tt>gdb(1)</tt>, part III</b><br>
+              [<a href="05-gdb-4.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/hgcj7iAxhhU">video lecture</a>]&nbsp;[<a href="05-gdb-4.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 05, Segment 12: Using <tt>gdb(1)</tt> to understand pointers</b><br>
-			[<a href="05-gdb-5.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/hr-rn0yUhAw">video lecture</a>]&nbsp;[<a href="05-gdb-5.txt">transcript</a>]<br>
+              <b>Week 05, Segment 12: Using <tt>gdb(1)</tt> to understand pointers</b><br>
+              [<a href="05-gdb-5.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/hr-rn0yUhAw">video lecture</a>]&nbsp;[<a href="05-gdb-5.txt">transcript</a>]<br>
             &#160;<BR>
 
-
-<A href="lecture05.pdf">Lecture Slides</A><BR>
+            <A href="lecture05.pdf">Lecture Slides</A><BR>
             <BR>
-	    <A href="apue-code/05/compilechain/">compile chain examples</a><br>
-	    <A href="apue-code/05/make-examples/">make examples</a><br>
-	    <A href="apue-code/05/gdb-examples/">gdb examples</a><br><br>
+            <A href="apue-code/05/compilechain/">compile chain examples</a><br>
+            <A href="apue-code/05/make-examples/">make examples</a><br>
+            <A href="apue-code/05/gdb-examples/">gdb examples</a><br><br>
             <a href="/cgi-bin/631-05.cgi">Week 05 Checkpoint</a> (due by 16:00 Eastern before class)<br><br>
           </TR>
 
           <TR>
-            <TD>2024-10-14</TD>
+            <TD>2025-10-13</TD>
             <TD colspan="3"><em>Fall Recess</em></TD>
           </TR>
 
           <TR>
-
-            <TD>2024-10-15</TD>
-
+            <TD>2025-10-14</TD>
             <TD>Process Environment, Process Control</TD>
-
             <TD>
               <em>Note: Tuesday Class</em><br><br>
               Stevens: Chapters 7, 8<br>
-		<a
+                <a
 href="https://insecure.org/stf/smashstack.html">Smashing The Stack For Fun And Profit</a><br>
-		<a
+                <a
 href="http://dbp-consulting.com/tutorials/debugging/linuxProgramStartup.html">Linux x86 Program Start Up</a><br>
-		<a href="https://www.netmeister.org/blog/stdarg.html"><tt>stdarg</tt> And The Case Of The Forgotten Registers</a><br>
-		<a href="https://www.netmeister.org/blog/return-printf.html">There is no 'printf'.</a><br>
-		<a href="https://man7.org/tlpi/download/TLPI-24-Process_Creation.pdf">Process Creation</a></TD>
+                <a href="https://www.netmeister.org/blog/stdarg.html"><tt>stdarg</tt> And The Case Of The Forgotten Registers</a><br>
+                <a href="https://www.netmeister.org/blog/return-printf.html">There is no 'printf'.</a><br>
+                <a href="https://man7.org/tlpi/download/TLPI-24-Process_Creation.pdf">Process Creation</a></TD>
 
             <TD nowrap="nowrap">
-			<b>Week 06, Segment 1: Memory Layout of a Process</b><br>
-			[<a href="06-memory-layout.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/aHmcowhoOzU">video lecture</a>]&nbsp;[<a href="06-memory-layout.txt">transcript</a>]<br>
+              <b>Week 06, Segment 1: Memory Layout of a Process</b><br>
+              [<a href="06-memory-layout.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/aHmcowhoOzU">video lecture</a>]&nbsp;[<a href="06-memory-layout.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 06, Segment 2: Program Startup</b><br>
-			[<a href="06-program-start.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/Yul4d-BDdx8">video lecture</a>]&nbsp;[<a href="06-program-start.txt">transcript</a>]<br>
+              <b>Week 06, Segment 2: Program Startup</b><br>
+              [<a href="06-program-start.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/Yul4d-BDdx8">video lecture</a>]&nbsp;[<a href="06-program-start.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 06, Segment 3: Program Termination</b><br>
-			[<a href="06-program-termination.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/xNeEw1f_js8">video lecture</a>]&nbsp;[<a href="06-program-termination.txt">transcript</a>]<br>
+              <b>Week 06, Segment 3: Program Termination</b><br>
+              [<a href="06-program-termination.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/xNeEw1f_js8">video lecture</a>]&nbsp;[<a href="06-program-termination.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 06, Segment 4: The Environment</b><br>
-			[<a href="06-env.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/8DEPA6nJXNY">video lecture</a>]&nbsp;[<a href="06-env.txt">transcript</a>]<br>
+              <b>Week 06, Segment 4: The Environment</b><br>
+              [<a href="06-env.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/8DEPA6nJXNY">video lecture</a>]&nbsp;[<a href="06-env.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 06, Segment 5: Process Limits and Identifiers</b><br>
-			[<a href="06-limits-pids.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/bnki8QKjSfQ">video lecture</a>]&nbsp;[<a href="06-limits-pids.txt">transcript</a>]<br>
+              <b>Week 06, Segment 5: Process Limits and Identifiers</b><br>
+              [<a href="06-limits-pids.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/bnki8QKjSfQ">video lecture</a>]&nbsp;[<a href="06-limits-pids.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 06, Segment 6: Process Control</b><br>
-			[<a href="06-process-control.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/KJq5nTCFsIg">video lecture</a>]&nbsp;[<a href="06-process-control.txt">transcript</a>]<br>
+              <b>Week 06, Segment 6: Process Control</b><br>
+              [<a href="06-process-control.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/KJq5nTCFsIg">video lecture</a>]&nbsp;[<a href="06-process-control.txt">transcript</a>]<br>
             &#160;<BR>
             &#160;<BR>
-            <A href="apue-code/06/const.c">const.c</A><BR>
-            <A href="apue-code/06/entry.c">entry.c</A><BR>
-            <A href="apue-code/06/exit-handlers.c">exit-handlers.c</A><BR>
-            <A href="apue-code/06/forkflush.c">forkflush.c</A><BR>
-            <A href="apue-code/06/forkseek.c">forkseek.c</A><BR>
-            <A href="apue-code/06/hw.c">hw.c</A><BR>
-            <A href="apue-code/06/malloc.c">malloc.c</A><BR>
-            <A href="apue-code/06/memory-layout0.c">memory-layout0.c</A><BR>
-            <A href="apue-code/06/memory-layout1.c">memory-layout1.c</A><BR>
-            <A href="apue-code/06/memory-layout2.c">memory-layout2.c</A><BR>
-            <A href="apue-code/06/memory-layout3.c">memory-layout3.c</A><BR>
-            <A href="apue-code/06/memory-layout4.c">memory-layout4.c</A><BR>
-            <A href="apue-code/06/memory-layout5.c">memory-layout5.c</A><BR>
-            <A href="apue-code/06/memory-layout6.c">memory-layout6.c</A><BR>
-            <A href="apue-code/06/memory-layout7.c">memory-layout7.c</A><BR>
-            <A href="apue-code/06/memory-layout8.c">memory-layout8.c</A><BR>
-            <A href="apue-code/06/sum.c">sum.c</A><BR>
-            <A href="apue-code/06/zombies.c">zombies.c</A><br><br>
-	    <a
+              <A href="apue-code/06/const.c">const.c</A><BR>
+              <A href="apue-code/06/entry.c">entry.c</A><BR>
+              <A href="apue-code/06/exit-handlers.c">exit-handlers.c</A><BR>
+              <A href="apue-code/06/forkflush.c">forkflush.c</A><BR>
+              <A href="apue-code/06/forkseek.c">forkseek.c</A><BR>
+              <A href="apue-code/06/hw.c">hw.c</A><BR>
+              <A href="apue-code/06/malloc.c">malloc.c</A><BR>
+              <A href="apue-code/06/memory-layout0.c">memory-layout0.c</A><BR>
+              <A href="apue-code/06/memory-layout1.c">memory-layout1.c</A><BR>
+              <A href="apue-code/06/memory-layout2.c">memory-layout2.c</A><BR>
+              <A href="apue-code/06/memory-layout3.c">memory-layout3.c</A><BR>
+              <A href="apue-code/06/memory-layout4.c">memory-layout4.c</A><BR>
+              <A href="apue-code/06/memory-layout5.c">memory-layout5.c</A><BR>
+              <A href="apue-code/06/memory-layout6.c">memory-layout6.c</A><BR>
+              <A href="apue-code/06/memory-layout7.c">memory-layout7.c</A><BR>
+              <A href="apue-code/06/memory-layout8.c">memory-layout8.c</A><BR>
+              <A href="apue-code/06/sum.c">sum.c</A><BR>
+              <A href="apue-code/06/zombies.c">zombies.c</A><br><br>
+              <a
 href="http://cvsweb.netbsd.org/bsdweb.cgi/src/lib/csu/common/crt0-common.c?rev=HEAD&content-type=text/x-cvsweb-markup">NetBSD crt0-common.c</a><br><br>
-            <a href="/cgi-bin/631-06.cgi">Week 06 Checkpoint</a> (due by 16:00 Eastern before class)<br><br>
+              <a href="/cgi-bin/631-06.cgi">Week 06 Checkpoint</a> (due by 16:00 Eastern before class)<br><br>
             <!-- <A href="setjmp1.c">setjmp1.c</A><BR>
             <A href="setjmp2.c">setjmp2.c</A><BR>
             <A href="setjmp3.c">setjmp3.c</A> --></TD>
@@ -663,282 +613,271 @@ href="http://cvsweb.netbsd.org/bsdweb.cgi/src/lib/csu/common/crt0-common.c?rev=H
 
           <TR>
 
-            <TD>2024-10-21</TD>
+            <TD>2025-10-20</TD>
             <TD>Process Groups, Sessions, Signals</TD>
-
             <TD>Stevens: Chapter 9, 10<br>
-		<a
+                <a
 href="https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap11.html">POSIX
 Terminal Interface Description</a><br>
-		<a href="https://notes.shichao.io/apue/ch9/">Shichao's Notes</a><br>
-		<a
+                <a href="https://notes.shichao.io/apue/ch9/">Shichao's Notes</a><br>
+                <a
 href="http://www.informit.com/articles/article.aspx?p=366888&seqNum=7">FreeBSD Process Management</a> (from "The Design and Implementation of the FreeBSD Operating System")<br>
-		<a href="https://lcamtuf.coredump.cx/signals.txt">Delivering Signals for Fun and Profit</a></td>
+                <a href="https://lcamtuf.coredump.cx/signals.txt">Delivering Signals for Fun and Profit</a></td>
 
             <TD width="25%">
-			<b>Week 07, Segment 1: The Login Process</b><br>
-			[<a href="07-login-process.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/eNYTJbmYzH8">video lecture</a>]&nbsp;[<a href="07-login-process.txt">transcript</a>]<br>
+              <b>Week 07, Segment 1: The Login Process</b><br>
+              [<a href="07-login-process.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/eNYTJbmYzH8">video lecture</a>]&nbsp;[<a href="07-login-process.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 07, Segment 2: Process Groups and Sessions</b><br>
-			[<a href="07-process-groups-and-sessions.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/NfHqGv0PlIw">video lecture</a>]&nbsp;[<a href="07-process-groups-and-sessions.txt">transcript</a>]<br>
+              <b>Week 07, Segment 2: Process Groups and Sessions</b><br>
+              [<a href="07-process-groups-and-sessions.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/NfHqGv0PlIw">video lecture</a>]&nbsp;[<a href="07-process-groups-and-sessions.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 07, Segment 3: Job Control</b><br>
-			[<a href="07-job-control.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/l6-663i8bwQ">video lecture</a>]&nbsp;[<a href="07-job-control.txt">transcript</a>]<br>
+              <b>Week 07, Segment 3: Job Control</b><br>
+              [<a href="07-job-control.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/l6-663i8bwQ">video lecture</a>]&nbsp;[<a href="07-job-control.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 07, Segment 4: Signals</b><br>
-			[<a href="07-signals.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/Vh7rBGj0Ty4">video lecture</a>]&nbsp;[<a href="07-signals.txt">transcript</a>]<br>
+              <b>Week 07, Segment 4: Signals</b><br>
+              [<a href="07-signals.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/Vh7rBGj0Ty4">video lecture</a>]&nbsp;[<a href="07-signals.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 07, Segment 5: Reentrant and Interrupted Functions</b><br>
-			[<a href="07-reentrant.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/0GRLhpMao3I">video lecture</a>]&nbsp;[<a href="07-reentrant.txt">transcript</a>]<br>
+              <b>Week 07, Segment 5: Reentrant and Interrupted Functions</b><br>
+              [<a href="07-reentrant.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/0GRLhpMao3I">video lecture</a>]&nbsp;[<a href="07-reentrant.txt">transcript</a>]<br>
             &#160;<BR>
             &#160;<BR>
-	    <a href="apue-code/07/eintr.c">eintr.c</a><br>
-	    <a href="apue-code/07/pending.c">pending.c</a><br>
-            <a href="apue-code/07/reentrant.c">reentrant.c</a><br>
-            <a href="apue-code/07/signals1.c">signals1.c</a><br>
-            <a href="apue-code/07/signals2.c">signals2.c</a><br>
-            <a href="apue-code/07/signals3.c">signals3.c</a><br>
-            <a href="apue-code/07/signals4.c">signals4.c</a><br>
-            <A href="apue-code/07/sigusr.c">sigusr.c</A><br><br>
-            <a href="/cgi-bin/631-07.cgi">Week 07 Checkpoint</a> (due by 16:00 Eastern before class)
+              <a href="apue-code/07/eintr.c">eintr.c</a><br>
+              <a href="apue-code/07/pending.c">pending.c</a><br>
+              <a href="apue-code/07/reentrant.c">reentrant.c</a><br>
+              <a href="apue-code/07/signals1.c">signals1.c</a><br>
+              <a href="apue-code/07/signals2.c">signals2.c</a><br>
+              <a href="apue-code/07/signals3.c">signals3.c</a><br>
+              <a href="apue-code/07/signals4.c">signals4.c</a><br>
+              <A href="apue-code/07/sigusr.c">sigusr.c</A><br><br>
+              <a href="/cgi-bin/631-07.cgi">Week 07 Checkpoint</a> (due by 16:00 Eastern before class)
            </TD>
           </TR>
 
           <TR>
-            <TD>2024-10-28</TD>
+            <TD>2025-10-27</TD>
             <TD>Interprocess Communication I</TD>
             <TD>Stevens: Chapter 15<br>
-		<A href="https://web.archive.org/web/20160507131726/http://www.kohala.com/start/unpv22e/unpv22e.chap12.pdf">Shared Memory Introduction</A><BR>
-		<a href="https://web.archive.org/web/20180316204322/http://www.linuxdevcenter.com/pub/a/linux/2007/05/24/semaphores-in-linux.html">Semaphores in Linux</a><br>
-		<a href="https://www.softprayog.in/programming/interprocess-communication-using-posix-message-queues-in-linux">Interprocess communication using POSIX message queues in Linux</a><br>
-		<a href="https://man7.org/tlpi/download/TLPI-52-POSIX_Message_Queues.pdf">POSIX Message Queues</a>
-		</td>
+                <A href="https://web.archive.org/web/20160507131726/http://www.kohala.com/start/unpv22e/unpv22e.chap12.pdf">Shared Memory Introduction</A><BR>
+                <a href="https://web.archive.org/web/20180316204322/http://www.linuxdevcenter.com/pub/a/linux/2007/05/24/semaphores-in-linux.html">Semaphores in Linux</a><br>
+                <a href="https://www.softprayog.in/programming/interprocess-communication-using-posix-message-queues-in-linux">Interprocess communication using POSIX message queues in Linux</a><br>
+                <a href="https://man7.org/tlpi/download/TLPI-52-POSIX_Message_Queues.pdf">POSIX Message Queues</a>
+                </td>
             <TD width="25%">
-			<b>Week 08, Segment 1: Interprocess Communications Intro</b><br>
-			[<a href="08-ipc-intro.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/JHV2dsGZUzk">video lecture</a>]&nbsp;[<a href="08-ipc-intro.txt">transcript</a>]<br>
+              <b>Week 08, Segment 1: Interprocess Communications Intro</b><br>
+              [<a href="08-ipc-intro.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/JHV2dsGZUzk">video lecture</a>]&nbsp;[<a href="08-ipc-intro.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 08, Segment 2: System V IPC</b><br>
-			[<a href="08-sysv-ipc.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/hTUquvhWysA">video lecture</a>]&nbsp;[<a href="08-sysv-ipc.txt">transcript</a>]<br>
+              <b>Week 08, Segment 2: System V IPC</b><br>
+              [<a href="08-sysv-ipc.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/hTUquvhWysA">video lecture</a>]&nbsp;[<a href="08-sysv-ipc.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 08, Segment 3: Pipes and FIFOs</b><br>
-			[<a href="08-pipes.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/mq5G33Sbc_o">video lecture</a>]&nbsp;[<a href="08-pipes.txt">transcript</a>]<br>
+              <b>Week 08, Segment 3: Pipes and FIFOs</b><br>
+              [<a href="08-pipes.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/mq5G33Sbc_o">video lecture</a>]&nbsp;[<a href="08-pipes.txt">transcript</a>]<br>
             &#160;<BR>
             <BR>
-            <A href="ipctut.pdf">BSD IPC Tutorial</A><BR>
-            <a href="https://beej.us/guide/bgipc/html/">Beej's Guide to Unix IPC</a><br>
-            <BR>
-            <a href="apue-code/08/memory-layout.c">memory-layout.c</a><br>
-            <a href="apue-code/08/mqrecv.c">mqrecv.c</a><br>
-            <a href="apue-code/08/mqsend.c">mqsend.c</a><br>
-            <a href="apue-code/08/msgrecv.c">msgrecv.c</a><br>
-            <a href="apue-code/08/msgsend.c">msgsend.c</a><br>
-            <A href="apue-code/08/pipe1.c">pipe1.c</A><BR>
-            <A href="apue-code/08/pipe2.c">pipe2.c</A><BR>
-            <a href="apue-code/08/popen.c">popen.c</a><br>
-            <a href="apue-code/08/semdemo.c">semdemo.c</a><br>
-            <a href="apue-code/08/shmdemo.c">shmdemo.c</a><br>
-	<br>
-            <a href="/cgi-bin/631-08.cgi">Week 08 Checkpoint</a> (due by 16:00 Eastern before class)<br>
-	<a href="f24-hw2.html">HW#2: implement 'command(3)'</a><br>
-		</TD>
+              <A href="ipctut.pdf">BSD IPC Tutorial</A><BR>
+              <a href="https://beej.us/guide/bgipc/html/">Beej's Guide to Unix IPC</a><br>
+              <BR>
+              <a href="apue-code/08/memory-layout.c">memory-layout.c</a><br>
+              <a href="apue-code/08/mqrecv.c">mqrecv.c</a><br>
+              <a href="apue-code/08/mqsend.c">mqsend.c</a><br>
+              <a href="apue-code/08/msgrecv.c">msgrecv.c</a><br>
+              <a href="apue-code/08/msgsend.c">msgsend.c</a><br>
+              <A href="apue-code/08/pipe1.c">pipe1.c</A><BR>
+              <A href="apue-code/08/pipe2.c">pipe2.c</A><BR>
+              <a href="apue-code/08/popen.c">popen.c</a><br>
+              <a href="apue-code/08/semdemo.c">semdemo.c</a><br>
+              <a href="apue-code/08/shmdemo.c">shmdemo.c</a><br>
+              <br>
+              <a href="/cgi-bin/631-08.cgi">Week 08 Checkpoint</a> (due by 16:00 Eastern before class)<br>
+              <a href="f25-hw3.html">HW#3: implement 'command(3)'</a><br>
+           </TD>
           </TR>
 
           <TR>
-            <TD>2024-11-04</TD>
-
+            <TD>2025-11-03</TD>
             <TD>Interprocess Communication II</TD>
-
             <TD>Stevens: Chapter 16 / 17<br>
-            	<A href="ipc.pdf">BSD IPC</A><BR>
-		<a href="https://ops.tips/blog/how-linux-creates-sockets/">How Linux creates sockets and counts them</a><br>
-		<a href="https://web.archive.org/web/20220615155840/https://ops.tips/blog/how-linux-tcp-introspection/">How Linux allows TCP introspection</a><br>
-		<a href="http://www.kegel.com/c10k.html">The C10K problem</a><br>
-		<a href="https://www.netmeister.org/blog/ipcbufs.html">IPC Buffer Sizes</a><br>
-		</TD>
+                <A href="ipc.pdf">BSD IPC</A><BR>
+                <a href="https://ops.tips/blog/how-linux-creates-sockets/">How Linux creates sockets and counts them</a><br>
+                <a href="https://web.archive.org/web/20220615155840/https://ops.tips/blog/how-linux-tcp-introspection/">How Linux allows TCP introspection</a><br>
+                <a href="http://www.kegel.com/c10k.html">The C10K problem</a><br>
+                <a href="https://www.netmeister.org/blog/ipcbufs.html">IPC Buffer Sizes</a><br>
+                </TD>
 
             <TD width="25%">
-			<b>Week 09, Segment 1: <tt>socketpair(2)</tt></b><br>
-			[<a href="09-socketpairs.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/w6Au54pVt-8">video lecture</a>]&nbsp;[<a href="09-socketpairs.txt">transcript</a>]<br>
+              <b>Week 09, Segment 1: <tt>socketpair(2)</tt></b><br>
+              [<a href="09-socketpairs.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/w6Au54pVt-8">video lecture</a>]&nbsp;[<a href="09-socketpairs.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 09, Segment 2: <tt>socket(PF_LOCAL, SOCK_DGRAM, 0)</tt></b><br>
-			[<a href="09-sockets-local.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/7LoLt49oB9A">video lecture</a>]&nbsp;[<a href="09-sockets-local.txt">transcript</a>]<br>
+              <b>Week 09, Segment 2: <tt>socket(PF_LOCAL, SOCK_DGRAM, 0)</tt></b><br>
+              [<a href="09-sockets-local.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/7LoLt49oB9A">video lecture</a>]&nbsp;[<a href="09-sockets-local.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 09, Segment 3: <tt>socket(PF_INET, SOCK_DGRAM, 0)</tt></b><br>
-			[<a href="09-sockets-inet-dgram.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/MMQ50PADnrY">video lecture</a>]&nbsp;[<a href="09-sockets-inet-dgram.txt">transcript</a>]<br>
+              <b>Week 09, Segment 3: <tt>socket(PF_INET, SOCK_DGRAM, 0)</tt></b><br>
+              [<a href="09-sockets-inet-dgram.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/MMQ50PADnrY">video lecture</a>]&nbsp;[<a href="09-sockets-inet-dgram.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 09, Segment 4: <tt>socket(PF_INET6, SOCK_STREAM, 0)</tt></b><br>
-			[<a href="09-sockets-inet6-stream.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/qKMXw76Dk1o">video lecture</a>]&nbsp;[<a href="09-sockets-inet6-stream.txt">transcript</a>]<br>
+              <b>Week 09, Segment 4: <tt>socket(PF_INET6, SOCK_STREAM, 0)</tt></b><br>
+              [<a href="09-sockets-inet6-stream.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/qKMXw76Dk1o">video lecture</a>]&nbsp;[<a href="09-sockets-inet6-stream.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 09, Segment 5: I/O Multiplexing</b><br>
-			[<a href="09-io-multiplexing.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/Y5PiHboUctw">video lecture</a>]&nbsp;[<a href="09-io-multiplexing.txt">transcript</a>]<br>
+              <b>Week 09, Segment 5: I/O Multiplexing</b><br>
+              [<a href="09-io-multiplexing.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/Y5PiHboUctw">video lecture</a>]&nbsp;[<a href="09-io-multiplexing.txt">transcript</a>]<br>
             &#160;<BR>
-            <BR>
-            <A href="apue-code/09/dualstack-streamread.c">dualstack-streamread.c</A><BR>
-            <A href="apue-code/09/socketpair.c">socketpair.c</A><BR>
-            <A href="apue-code/09/udgramread.c">udgramread.c</A><BR>
-            <A href="apue-code/09/udgramsend.c">udgramsend.c</A><BR>
-            <A href="apue-code/09/dgramread.c">dgramread.c</A><BR>
-            <A href="apue-code/09/dgramsend.c">dgramsend.c</A><BR>
-            <A href="apue-code/09/streamread.c">streamread.c</A><BR>
-            <A href="apue-code/09/streamwrite.c">streamwrite.c</A><BR>
-            <A href="apue-code/09/two-sockets.c">two-sockets.c</A><BR>
-            <A href="apue-code/09/two-sockets-select.c">two-sockets-select.c</A><BR>
-            <A href="apue-code/09/one-socket-select.c">one-socket-select.c</A><BR>
-            <A href="apue-code/09/one-socket-select-fork.c">one-socket-select-fork.c</A><BR>
-		<br>
-            <a href="/cgi-bin/631-09.cgi">Week 09 Checkpoint</a> (due by 16:00 Eastern before class)<br><br>
-	    <a href="f24-group-project.html">Group Project Assignment</a><br>
-	    </TD>
+              <BR>
+              <A href="apue-code/09/dualstack-streamread.c">dualstack-streamread.c</A><BR>
+              <A href="apue-code/09/socketpair.c">socketpair.c</A><BR>
+              <A href="apue-code/09/udgramread.c">udgramread.c</A><BR>
+              <A href="apue-code/09/udgramsend.c">udgramsend.c</A><BR>
+              <A href="apue-code/09/dgramread.c">dgramread.c</A><BR>
+              <A href="apue-code/09/dgramsend.c">dgramsend.c</A><BR>
+              <A href="apue-code/09/streamread.c">streamread.c</A><BR>
+              <A href="apue-code/09/streamwrite.c">streamwrite.c</A><BR>
+              <A href="apue-code/09/two-sockets.c">two-sockets.c</A><BR>
+              <A href="apue-code/09/two-sockets-select.c">two-sockets-select.c</A><BR>
+              <A href="apue-code/09/one-socket-select.c">one-socket-select.c</A><BR>
+              <A href="apue-code/09/one-socket-select-fork.c">one-socket-select-fork.c</A><BR>
+             <br>
+             <a href="/cgi-bin/631-09.cgi">Week 09 Checkpoint</a> (due by 16:00 Eastern before class)<br><br>
+             <a href="f25-group-project.html">Group Project Assignment</a><br>
+            </TD>
           </TR>
 
           <TR>
-            <TD>2024-11-11</TD>
+            <TD>2025-11-10</TD>
 
             <TD id="daemon">D&aelig;mon Processes, HTTP / Group Project Discussions</TD>
 <!-- Code Reading / HTTP Server Implementations</TD>
-
             <TD><a href="http://www.eterna23.net/bozohttpd/">bozohottpd</a><br>
-		<a href="http://www.acme.com/software/mini_httpd/">mini_httpd</a><br><br>
-		<a href="https://httpd.apache.org/download.cgi">apache</a><br>
-		<a href="https://www.lighttpd.net/download/">lighttpd</a><br>
-		<a href="https://nginx.org/en/download.html">nginx</a><br>
-		<a href="http://www.mathopd.org/download.html">mathopd</a><br>
-		<a href="http://nullhttpd.sourceforge.net/httpd/">null httpd</a><br>
-		<a href="http://inglorion.net/software/muhttpd/">muhttpd</a><br>
-		Too tiny indeed: <a href="http://tinyhttpd.sourceforge.net/">tinyhttpd</a><br> -->
-		<TD>
-		Stevens: Chapter 13<br>
-		</TD>
+                <a href="http://www.acme.com/software/mini_httpd/">mini_httpd</a><br><br>
+                <a href="https://httpd.apache.org/download.cgi">apache</a><br>
+                <a href="https://www.lighttpd.net/download/">lighttpd</a><br>
+                <a href="https://nginx.org/en/download.html">nginx</a><br>
+                <a href="http://www.mathopd.org/download.html">mathopd</a><br>
+                <a href="http://nullhttpd.sourceforge.net/httpd/">null httpd</a><br>
+                <a href="http://inglorion.net/software/muhttpd/">muhttpd</a><br>
+                Too tiny indeed: <a href="http://tinyhttpd.sourceforge.net/">tinyhttpd</a><br> -->
+                <TD>
+                Stevens: Chapter 13<br>
+                </TD>
 
             <TD>
-			<b>Week 10, Segment 1: D&aelig;mon Processes</b><br>
-			[<a href="10-daemons.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/YbYQqVMv7b8">video lecture</a>]&nbsp;[<a href="10-daemons.txt">transcript</a>]<br>
+              <b>Week 10, Segment 1: D&aelig;mon Processes</b><br>
+              [<a href="10-daemons.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/YbYQqVMv7b8">video lecture</a>]&nbsp;[<a href="10-daemons.txt">transcript</a>]<br>
             &#160;<BR>
-			<a href="10-http.pdf">HTTP Slides</a></TD>
-  
+              <a href="10-http.pdf">HTTP Slides</a></TD>
           </TR> 
 
           <TR>
-            <TD>2024-11-18</TD>
-
+            <TD>2025-11-17</TD>
             <TD>Shared Libraries</TD>
 
             <TD>
-		<a
+                <a
 href="http://jvns.ca/blog/2014/09/06/how-to-read-an-executable/">How to read an Executable</a><br>
-		<a href="https://lwn.net/Articles/276782/">Ian Lance Taylor's blog post series on linkers</a><br>
-		<a href="https://web.archive.org/web/20150320212734/http://www.iecc.com/linker/">Linkers and Loaders</a><br>
-		<a href="https://www.akkadia.org/drepper/dsohowto.pdf">How To Write Shared Libraries</a><br>
-		<a href="https://refspecs.linuxbase.org/elf/elf.pdf">Tool Interface Standard (TIS) ELF Specification</a><br>
-		<a href="https://sourceware.org/glibc/wiki/GNU_IFUNC">GNU indirect function support (IFUNC)</a><br>
-		<a href="elf.html">The Executable and Linkable Format (ELF)</a></TD>
+                <a href="https://lwn.net/Articles/276782/">Ian Lance Taylor's blog post series on linkers</a><br>
+                <a href="https://web.archive.org/web/20150320212734/http://www.iecc.com/linker/">Linkers and Loaders</a><br>
+                <a href="https://www.akkadia.org/drepper/dsohowto.pdf">How To Write Shared Libraries</a><br>
+                <a href="https://refspecs.linuxbase.org/elf/elf.pdf">Tool Interface Standard (TIS) ELF Specification</a><br>
+                <a href="https://sourceware.org/glibc/wiki/GNU_IFUNC">GNU indirect function support (IFUNC)</a><br>
+                <a href="elf.html">The Executable and Linkable Format (ELF)</a></TD>
 
             <TD width="25%" id="elf"><b>Week 11, Segment 1: The Executable and Linkable Format</b><br>
-			[<a href="11-elf.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/i1UDF05iZPU">video lecture</a>]&nbsp;[<a href="11-elf.txt">transcript</a>]<br>
+              [<a href="11-elf.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/i1UDF05iZPU">video lecture</a>]&nbsp;[<a href="11-elf.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 11, Segment 2: Of Linkers and Loaders</b><br>
-			[<a href="11-linker-loader.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/8KWuz7gLycc">video lecture</a>]&nbsp;[<a href="11-linker-loader.txt">transcript</a>]<br>
+              <b>Week 11, Segment 2: Of Linkers and Loaders</b><br>
+              [<a href="11-linker-loader.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/8KWuz7gLycc">video lecture</a>]&nbsp;[<a href="11-linker-loader.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 11, Segment 3: Shared Libraries</b><br>
-			[<a href="11-shlibs.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/eloJO0ssrfc">video lecture</a>]&nbsp;[<a href="11-shlibs.txt">transcript</a>]<br>
+              <b>Week 11, Segment 3: Shared Libraries</b><br>
+              [<a href="11-shlibs.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/eloJO0ssrfc">video lecture</a>]&nbsp;[<a href="11-shlibs.txt">transcript</a>]<br>
             &#160;<BR>
-		<a href="apue-code/11/crypt.c">crypt.c</a><br>
-		<a href="apue-code/11/dlopenex.c">dlopenex.c</a><br>
-		<a href="apue-code/11/evil.c">evil.c</a><br>
-		<!-- <a href="greet.h">greet.h</a><br>
-		<a href="greet.c">greet.c</a><br> -->
-		<a href="apue-code/11/hello.c">hello.c</a><br>
-		<a href="apue-code/11/ldtest1.2.c">ldtest1.2.c</a><br>
-		<a href="apue-code/11/ldtest1.c">ldtest1.c</a><br>
-		<a href="apue-code/11/ldtest2.c">ldtest2.c</a><br>
-		<a href="apue-code/11/main.c">main.c</a><br>
-		<a href="apue-code/11/setget.c">setget.c</a><br><br>
-		<a href="/cgi-bin/631-11.cgi">Week 11 Checkpoint</a> (due by 16:00 Eastern before class)<br>
-	        <a href="libgreet-exercise.html">libgreet exercise</a></td>
+              <a href="apue-code/11/crypt.c">crypt.c</a><br>
+              <a href="apue-code/11/dlopenex.c">dlopenex.c</a><br>
+              <a href="apue-code/11/evil.c">evil.c</a><br>
+              <!-- <a href="greet.h">greet.h</a><br>
+              <a href="greet.c">greet.c</a><br> -->
+              <a href="apue-code/11/hello.c">hello.c</a><br>
+              <a href="apue-code/11/ldtest1.2.c">ldtest1.2.c</a><br>
+              <a href="apue-code/11/ldtest1.c">ldtest1.c</a><br>
+              <a href="apue-code/11/ldtest2.c">ldtest2.c</a><br>
+              <a href="apue-code/11/main.c">main.c</a><br>
+              <a href="apue-code/11/setget.c">setget.c</a><br><br>
+              <a href="/cgi-bin/631-11.cgi">Week 11 Checkpoint</a> (due by 16:00 Eastern before class)<br>
+              <a href="libgreet-exercise.html">libgreet exercise</a></td>
           </TR>
           <TR>
-            <TD>2024-11-25</TD>
+            <TD>2025-11-25</TD>
             <TD>Advanced I/O: Nonblocking I/O, Polling, and Record
             Locking / Encryption in a Nutshell</TD>
-
             <TD>Stevens: Chapter 14</TD>
-
             <TD width="25%">
-			<b>Week 12, Segment 1: syslog(3)</b><br>
-			[<a href="12-syslog.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/YfdAJ8rhG-I">video lecture</a>]&nbsp;[<a href="12-syslog.txt">transcript</a>]<br>
+              <b>Week 12, Segment 1: syslog(3)</b><br>
+              [<a href="12-syslog.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/YfdAJ8rhG-I">video lecture</a>]&nbsp;[<a href="12-syslog.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 12, Segment 2: Non-blocking I/O</b><br>
-			[<a href="12-nonblocking.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/_hOLO_27L7U">video lecture</a>]&nbsp;[<a href="12-nonblocking.txt">transcript</a>]<br>
+              <b>Week 12, Segment 2: Non-blocking I/O</b><br>
+              [<a href="12-nonblocking.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/_hOLO_27L7U">video lecture</a>]&nbsp;[<a href="12-nonblocking.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 12, Segment 3: Resource Locking</b><br>
-			[<a href="12-locking.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/017DtsMRHjg">video lecture</a>]&nbsp;[<a href="12-locking.txt">transcript</a>]<br>
+              <b>Week 12, Segment 3: Resource Locking</b><br>
+              [<a href="12-locking.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/017DtsMRHjg">video lecture</a>]&nbsp;[<a href="12-locking.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 12, Segment 4: Asynchronous and Memory Mapped I/O</b><br>
-			[<a href="12-aio-mmap.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/_R_t0d5BzEk">video lecture</a>]&nbsp;[<a href="12-aio-mmap.txt">transcript</a>]<br>
+              <b>Week 12, Segment 4: Asynchronous and Memory Mapped I/O</b><br>
+              [<a href="12-aio-mmap.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/_R_t0d5BzEk">video lecture</a>]&nbsp;[<a href="12-aio-mmap.txt">transcript</a>]<br>
             &#160;<BR>
 
-            <BR>
-		<a href="lecture12.pdf">Lecture
-Slides</a> (previous semester, includes section on
-encryption basics)
-            <BR>
-            <BR>
-            <A href="apue-code/12/slogdemo.c">slogdemo.c</A><br>
-            <A href="apue-code/12/nonblock.c">nonblock.c</A><br>
-            <A href="apue-code/12/flock.c">flock.c</A><br>
-            <A href="https://www.netmeister.org/blog/strlcat.html">Use <tt>strlcat(3)</tt>!</A><br><br>
-            <a href="/cgi-bin/631-12.cgi">Week 12 Checkpoint</a> (due by 16:00 Eastern before class)<br>
-	    <!-- <a href="f16-hw4.html">HW4</a> -->
-	</TD>
+              <BR>
+              <a href="lecture12.pdf">Lecture Slides</a> (previous semester, includes section on encryption basics)
+              <BR>
+              <BR>
+              <A href="apue-code/12/slogdemo.c">slogdemo.c</A><br>
+              <A href="apue-code/12/nonblock.c">nonblock.c</A><br>
+              <A href="apue-code/12/flock.c">flock.c</A><br>
+              <A href="https://www.netmeister.org/blog/strlcat.html">Use <tt>strlcat(3)</tt>!</A><br><br>
+              <a href="/cgi-bin/631-12.cgi">Week 12 Checkpoint</a> (due by 16:00 Eastern before class)<br>
+            <!-- <a href="f16-hw4.html">HW4</a> -->
+        </TD>
           </TR>
 
           <TR>
-            <TD>2024-12-02</TD>
+            <TD>2025-12-01</TD>
             <TD>Restricting processes / Containers</TD>
             <TD>
-		<a href="https://www.netmeister.org/blog/restricting-processes.html">Course Notes</a><br>
-		<a
+                <a href="https://www.netmeister.org/blog/restricting-processes.html">Course Notes</a><br>
+                <a
 href="https://www.netbsd.org/~rmind/pub/netbsd_5_scheduling_apis.pdf">Thread
 scheduling and related interfaces in NetBSD 5.0</a><br>
-		<a href="https://www.netmeister.org/blog/cpu-pinning-and-sets.html">CPU Pinning and CPU Sets</a></TD>
+                <a href="https://www.netmeister.org/blog/cpu-pinning-and-sets.html">CPU Pinning and CPU Sets</a></TD>
             <TD>
-			<b>Week 13, Segment 1: POSIX ACLs</b><br>
-			[<a href="13-acls.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/lCACl3NE058">video lecture</a>]&nbsp;[<a href="13-acls.txt">transcript</a>]<br>
+              <b>Week 13, Segment 1: POSIX ACLs</b><br>
+              [<a href="13-acls.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/lCACl3NE058">video lecture</a>]&nbsp;[<a href="13-acls.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 13, Segment 2: eUIDs, file flags, mount options, securelevels</b><br>
-			[<a href="13-euids-restricting-root.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/WBm5j-XAyVk">video lecture</a>]&nbsp;[<a href="13-euids-restricting-root.txt">transcript</a>]<br>
+              <b>Week 13, Segment 2: eUIDs, file flags, mount options, securelevels</b><br>
+              [<a href="13-euids-restricting-root.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/WBm5j-XAyVk">video lecture</a>]&nbsp;[<a href="13-euids-restricting-root.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 13, Segment 3: Restricted shells, Chroots, Jails</b><br>
-			[<a href="13-shells-chroots-jails.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/UF7gNYaZuG0">video lecture</a>]&nbsp;[<a href="13-shells-chroots-jails.txt">transcript</a>]<br>
+              <b>Week 13, Segment 3: Restricted shells, Chroots, Jails</b><br>
+              [<a href="13-shells-chroots-jails.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/UF7gNYaZuG0">video lecture</a>]&nbsp;[<a href="13-shells-chroots-jails.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 13, Segment 4: Process Priorities</b><br>
-			[<a href="13-priorities.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/icjvv-RFm1I">video lecture</a>]&nbsp;[<a href="13-priorities.txt">transcript</a>]<br>
+              <b>Week 13, Segment 4: Process Priorities</b><br>
+              [<a href="13-priorities.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/icjvv-RFm1I">video lecture</a>]&nbsp;[<a href="13-priorities.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 13, Segment 5: Processor Affinity and CPU Sets</b><br>
-			[<a href="13-cpusets.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/sy8121p4pjw">video lecture</a>]&nbsp;[<a href="13-cpusets.txt">transcript</a>]<br>
+              <b>Week 13, Segment 5: Processor Affinity and CPU Sets</b><br>
+              [<a href="13-cpusets.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/sy8121p4pjw">video lecture</a>]&nbsp;[<a href="13-cpusets.txt">transcript</a>]<br>
             &#160;<BR>
-			<b>Week 13, Segment 6: Capabilities, Control Groups, Containers</b><br>
-			[<a href="13-containers.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/ozzyh5wjjdw">video lecture</a>]&nbsp;[<a href="13-containers.txt">transcript</a>]<br>
+              <b>Week 13, Segment 6: Capabilities, Control Groups, Containers</b><br>
+              [<a href="13-containers.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/ozzyh5wjjdw">video lecture</a>]&nbsp;[<a href="13-containers.txt">transcript</a>]<br>
             &#160;<BR>
-		<a href="apue-code/13/break-chroot.c">break-chroot.c</a><br>
-		<a href="apue-code/13/busy-child.c">busy-child.c</a><br>
-		<a href="apue-code/13/load.c">load.c</a><br>
-		<a href="apue-code/13/priority.c">priority.c</a><br>
-		<a href="apue-code/13/mkchroot">mkchroot</a><br><br>
-		<a href="/cgi-bin/631-13.cgi">Week 13 Checkpoint</a> (due by 16:00 Eastern before class)<br>
-		</TD>
+              <a href="apue-code/13/break-chroot.c">break-chroot.c</a><br>
+              <a href="apue-code/13/busy-child.c">busy-child.c</a><br>
+              <a href="apue-code/13/load.c">load.c</a><br>
+              <a href="apue-code/13/priority.c">priority.c</a><br>
+              <a href="apue-code/13/mkchroot">mkchroot</a><br><br>
+              <a href="/cgi-bin/631-13.cgi">Week 13 Checkpoint</a> (due by 16:00 Eastern before class)<br>
+            </TD>
           </TR>
 
           <TR>
-            <TD>2024-12-09</TD>
-
+            <TD>2025-12-08</TD>
             <TD>Review</TD>
-
             <TD>&nbsp;</TD>
-
             <TD><!-- <A
 href="https://create.kahoot.it/share/cs631-advanced-programming-in-the-unix-environment/d5280f84-bd71-4efe-85e8-0f2d22d86086">Review Kahoot</a><br><br> -->
-		<a href="f24-sish.html">Final Assignment: sish(1)</a></TD>
+                <a href="lecture14.pdf">Review Slides</a><br><br>
+                <a href="f25-sish.html">Final Assignment: sish(1)</a><br><br>
+                <a href="/cgi-bin/631-review.cgi">Week 14 Checkpoint</a>  (due by 16:00 Eastern before class)<br></TD>
           </TR>
 
         </TABLE>
