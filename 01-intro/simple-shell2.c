@@ -32,6 +32,11 @@
 #include <sysexits.h>
 #include <unistd.h>
 
+/* strlen(3) may not be async signal safe;
+ * we'll revisit this in Week 7 */
+#define MSG "\nCaught SIGINT!\n$$ "
+#define MSGLEN 19
+
 char *
 getinput(char *buffer, size_t buflen) {
 	printf("$$ ");
@@ -40,8 +45,8 @@ getinput(char *buffer, size_t buflen) {
 
 void
 sig_int(int signo) {
-	printf("\nCaught SIGINT (Signal #%d)!\n$$ ", signo);
-	(void)fflush(stdout);
+	(void)signo;
+	(void)write(STDOUT_FILENO, MSG, MSGLEN);
 }
 
 int
