@@ -12,10 +12,6 @@ assignment, did you clearly identify which parts
 re-used?
 
 
-If this assignment allowed the use of AI, did you
-include the original prompt in your README?
-
-
 Does your code follow the style guide?
    - Code is communication.  Make sure your code is
      readable, well-structured, properly indented,
@@ -35,8 +31,8 @@ Did you provide a Makefile?
   - use suffix rules to compile individual .c files
 
 
-Did your provide a README to explain any problems or
-issues I encountered?
+Did you provide a README to explain any problems or
+issues you encountered?
   - Make sure that your text is well-formatted, plain
     ASCII in proper English.  Use a spell checker.
   - Break your text at around 80 characters.
@@ -53,7 +49,7 @@ strerror(3) or perror(3) etc. to print meaningful
 error messages?
 
 
-Did you make sure that my .h files only include function
+Did you make sure that your .h files only include function
 forward declarations, macros, etc., no function
 implementations or other code?
 

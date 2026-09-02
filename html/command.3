@@ -1,4 +1,4 @@
-.Dd November 17, 2022
+.Dd August 29, 2026
 .Dt COMMAND 3
 .Os
 .Sh NAME
@@ -7,7 +7,7 @@
 .Sh SYNOPSIS
 .In command.h
 .Ft int
-.Fn command "const char *string" "char *outbuf" "int outlen" "char *errbuf" "int errlen"
+.Fn command "const char *string" "char *outbuf" "int outlen" "char *errbuf" "int errlen" "int quote"
 .Sh DESCRIPTION
 The
 .Fn command
@@ -37,6 +37,14 @@ will NUL-terminate the data it wrote;
 otherwise, the buffer is
 .Em not
 terminated.
+.Pp
+If
+.Ar quote
+is non-zero, then
+.Ar string
+is first passed to
+.Xr shquote 3
+before being handed to the command interpreter.
 .Pp
 The calling process waits for the shell to finish executing the command,
 ignoring

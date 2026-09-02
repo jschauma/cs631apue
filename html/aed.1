@@ -1,4 +1,4 @@
-.Dd November 17, 2019
+.Dd August 29, 2026
 .Dt AED 1
 .Os AED
 .Sh NAME
@@ -11,7 +11,8 @@
 The
 .Nm
 utility can be used to perform symmetric encryption/decryption of the
-input stream using 256bit AES with a SHA256 digest.
+input stream using 256bit AES in Cipher Block Chaining
+mode with a SHA256 digest.
 .Sh OPTIONS
 .Nm
 supports the following command-line options:
@@ -30,7 +31,7 @@ reads data from stdin and either encrypts or decrypts it (depending on the
 or
 .Fl e
 flag).
-It uses AES 256bit CBC mode with a SHA256 digest with keying material
+It uses 256bit AES CBC mode with a SHA256 digest with keying material
 derived from the passphrase using the
 .Xr EVP_BytesToKey 3
 function, generating a suitable salt via
@@ -41,7 +42,7 @@ reads the password from which to derive the key material from the
 .Ar AED_PASS
 environment variable.
 .Pp
-When encrypting, the output is prefixed by the string "Salted__",
+When encrypting, the ciphertext output is prefixed by the string "Salted__",
 followed by the 8 byte salt.
 Output is written to stdout.
 .Sh EXAMPLES
@@ -63,6 +64,13 @@ chained:
 .Bd -literal -offset indent
 cat file | aed -e | aed -d
 .Ed
+.Pp
+This program is compatible with the following
+.Xr openssl
+invocation:
+.Bd -literal -offset indent
+openssl enc -aes-256-cbc -md sha256 -pass env:AED_PASS
+.Ed
 .Sh EXIT STATUS
 .Nm
 exits 0 on success, and >0 if an error occurred.
@@ -72,10 +80,10 @@ exits 0 on success, and >0 if an error occurred.
 .Xr RAND_bytes
 .Pp
 https://www.netmeister.org/blog/passing-passwords.html
+.Pp
+https://wiki.openssl.org/index.php/EVP_Symmetric_Encryption_and_Decryption
 .Sh HISTORY
 This program (or variants thereof) was first assigned as a stand-alone
 programming assignment for the class
 .Dq Advanced Programming in the UNIX Environment
 at Stevens Institute of Technology in the Fall of 2012.
-.Sh BUGS
-Well, let's see...
