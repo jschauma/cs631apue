@@ -47,6 +47,10 @@
 #include <string.h>
 #include <unistd.h>
 
+/* Our process is set up with stdin, stdout, and
+ * stderr already open. */
+#define DEFAULT_OPEN 3
+
 int
 countOpenFiles(int num) {
 	struct stat stats;
@@ -123,7 +127,7 @@ main() {
 
 	printf("Which one is it?\n\n");
 
-	openFiles(openmax);
+	openFiles(openmax + DEFAULT_OPEN);
 
 	return EXIT_SUCCESS;
 }

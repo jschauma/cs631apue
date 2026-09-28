@@ -268,13 +268,13 @@ material on GitHub</a></li>
         <H3 id="grading">Grading:</H3>
 
         <UL>
-          <LI><!-- <a href="course-notes.html">course notes</a>, -->participation and checkpoints: 50 points</LI>
+          <LI>participation and checkpoints: 50 points</LI>
 
-          <LI>7 homework assignments worth 10 or 20 points, for a total of 100 points</LI>
+          <LI>6 homework assignments worth 10 or 20 points, for a total of 80 points</LI>
 
           <LI>1 midterm project, worth 100 points</LI>
 
-          <LI>1 group project, worth 200 points</LI>
+          <LI>1 group project, worth 170 points</LI>
 
           <LI>1 final assignment, worth 100 points</LI>
 
@@ -334,13 +334,13 @@ href="https://assets.stevens.edu/mviowpldu823/2OPzyEojDAg080ca2LDTih/87f4e49e9a2
         <hr>
         <H3 id="hw">Homework Assignments:</H3>
         <p>Assignments will be posted as the semester progresses.</p>
-	<!--
         <ul>
-          <li><a href="f25-hw1.html">HW#1: trivially copy a file</a></li>
-          <li><a href="f25-hw2.html">HW#2: use AI to write <code>stat -F</code></a></li>
-          <li><a href="f25-hw3.html">HW#3: implement the <code>command(3)</code> library function</a></li>
+          <li><a href="f26-hw1.html">HW#1: Hello, World (World World World ...)</a></li>
+          <li><a href="f26-hw2.html">HW#2: trivially copy a file</a></li>
+          <li><a href="f26-hw3.html">HW#3: userinfo(1)</a></li>
+          <li><a href="f26-hw4.html">HW#4: patch <code>cp(1)</code></a></li>
+          <li><a href="f26-hw6.html">HW#7: AES-CBC encryption/decryption</a></li>
         </ul>
-	-->
         <p>
         The following exercises are not graded, but
         are recommended to be completed before or soon after
@@ -355,6 +355,7 @@ href="https://assets.stevens.edu/mviowpldu823/2OPzyEojDAg080ca2LDTih/87f4e49e9a2
           <li><a href="stdout-exercise.html">Lecture 02 - File Descriptor and Stdout Exercise</a></li>
           <li><a href="compare-stat.html">Lecture 03 - Compare <code>stat(1)</code> Exercise</a></li>
           <li><a href="cd-exercise.html">Lecture 04 - File System Exercise: Implement the cd(1) and pwd(1) commands</a></li>
+          <li><a href="fork-v-thread-exercise.html">Lecture 06 - Fork vs. Thread Exercise</a></li>
           <li><a href="stack-exercise.html">Lecture 06 - Process Execution Exercise: Inspect the call stack</a></li>
           <li><a href="startup-exercise.html">Lecture 06 - Program Startup Exercise</a></li>
           <li><a href="env-exercise.html">Lecture 06 - Environment Exercise</a></li>
@@ -362,8 +363,8 @@ href="https://assets.stevens.edu/mviowpldu823/2OPzyEojDAg080ca2LDTih/87f4e49e9a2
           <li><a href="two-pipes-exercise.html">Lecture 08 - Bi-directional communications using pipe(2)</a></li>
           <li><a href="pipe-readers-exercise.html">Lecture 08 - How do multiple <code>pipe(2)</code> readers/writers behave?</a></li>
           <!-- <li><a href="code-reading-exercise.html">Lecture 10 - HTTP Code Reading</a></li> -->
-          <!-- <li><a href="libgreet-exercise.html">Lecture 11 - libgreet</a></li> -->
-          <li><a href="aed-exercise.html">Lecture 12 - write a tool to encrypt/decrypt data using AES</a></li>
+          <li><a href="libgreet-exercise.html">Lecture 11 - libgreet</a></li>
+          <!-- <li><a href="aed-exercise.html">Lecture 12 - write a tool to encrypt/decrypt data using AES</a></li> -->
         </ul>
 
         <hr>
@@ -372,9 +373,9 @@ href="https://assets.stevens.edu/mviowpldu823/2OPzyEojDAg080ca2LDTih/87f4e49e9a2
         <p>
           Implement the "<a href="ls.pdf">ls(1)</a>" command as
           decribed in the manual page provided to you.  See the
-          full <A href="f25-midterm.html">midterm project
+          full <A href="f26-midterm.html">midterm project
           description</A> for details.
-        </P>
+        </p>
 
         <hr>
         <H3 id="group-project">Group Project:</H3>
@@ -382,9 +383,9 @@ href="https://assets.stevens.edu/mviowpldu823/2OPzyEojDAg080ca2LDTih/87f4e49e9a2
         <p>
           Implement the "<a href="sws.1.pdf">sws(1)</a>" command
           as decribed in the manual page provided to you.  See
-          the full <A href="f25-group-project.html">group
+          the full <A href="f26-group-project.html">group
           project description</A> for details.
-        </P>
+        </p>
 
         <hr>
         <H3 id="syllabus">Syllabus:</H3>
@@ -427,9 +428,16 @@ href="https://assets.stevens.edu/mviowpldu823/2OPzyEojDAg080ca2LDTih/87f4e49e9a2
               <A href="apue-code/01/simple-shell.c">simple-shell.c</A><BR>
               <A href="apue-code/01/simple-shell2.c">simple-shell2.c</A><br>
               <A href="apue-code/01/welcome.c">welcome.c</A><BR><br>
-              <a href="/cgi-bin/631-01.cgi">Week 01 Checkpoint</a> (due by 16:00 Eastern before class)<br>
-              <a href="01-f25.pdf">Lecture slides</a><br>
-              <a href="f26-hw1.html">HW#1: Hello, World (World World World ...)</a><br>
+              <a href="01-f26.pdf">Lecture slides</a><br><br>
+              <a href="/cgi-bin/631-01.cgi">Week 01 Checkpoint</a> (due by 16:00 Eastern before class)<br><br>
+              Recommended exercises:<br>
+              <ul>
+                <li><a href="compare-code-exercise.html">Code reading exercise</a></li>
+              </ul>
+              Homework Assignment:<br>
+              <ul>
+                <li><a href="f26-hw1.html">HW#1: Hello, World (World World World ...)</a> (due by 2026-09-21 16:00:00 Eastern)</li>
+              </ul>
             </TD>
           </TR>
 
@@ -465,8 +473,16 @@ href="https://assets.stevens.edu/mviowpldu823/2OPzyEojDAg080ca2LDTih/87f4e49e9a2
               <A href="apue-code/02/rwex.c">rwex.c</A><BR>
               <A href="apue-code/02/sync-cat.c">sync-cat.c</A><BR><br>
 
-              <a href="/cgi-bin/631-02.cgi">Week 02 Checkpoint</a> (due by 16:00 Eastern before class)<br>
-              <a href="f26-hw2.html">HW2</a>: <A href="bbcp.1.pdf">bbcp(1)</A><br>
+              <a href="/cgi-bin/631-02.cgi">Week 02 Checkpoint</a> (due by 16:00 Eastern before class)<br><br>
+              Recommended exercises:<br>
+              <ul>
+                <li><a href="fd-exercise.html">File Descriptors Warmup Exercise</a></li>
+                <li><a href="stdout-exercise.html">File Descriptors and Stdout Exercise</a></li>
+              </ul>
+              Homework Assignment:<br>
+              <ul>
+                <li><a href="f26-hw2.html">HW2: trivially copy a file</a> (due by 2026-09-28 16:00:00 Eastern)</li>
+              </ul>
            </td>
           </TR>
 
@@ -505,8 +521,12 @@ href="https://assets.stevens.edu/mviowpldu823/2OPzyEojDAg080ca2LDTih/87f4e49e9a2
               <A href="apue-code/01/simple-ls.c">simple-ls.c</A><BR>
               <A href="apue-code/03/simple-ls-stat.c">simple-ls-stat.c</A><BR>
               <A href="apue-code/03/umask.c">umask.c</A><BR><br>
-              <a href="/cgi-bin/631-03.cgi">Week 03 Checkpoint</a>  (due by 16:00 Eastern before class)<br>
-              <a href="f25-midterm.html">Midterm Project Assignment</a></TD>
+              <a href="/cgi-bin/631-03.cgi">Week 03 Checkpoint</a>  (due by 16:00 Eastern before class)<br><br>
+              Recommended exercises:<br>
+              <ul>
+                <li><a href="compare-stat.html">Code reading: <code>stat(1)</code></a></li>
+              </ul>
+              <a href="f26-midterm.html">Midterm Project Assignment</a> (due by 2026-10-26 16:00 Eastern)</TD>
           </TR>
 
           <TR>
@@ -539,8 +559,7 @@ href="https://assets.stevens.edu/mviowpldu823/2OPzyEojDAg080ca2LDTih/87f4e49e9a2
             &#160;<BR>
               <b>Week 04, Segment 8: time(3) is an illusion</b><br>
               [<a href="04-time.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/3N2aH1vUacQ">video lecture</a>]&nbsp;[<a href="04-time.txt">transcript</a>]<br>
-            &#160;<BR>
-            &#160;<BR>
+              &#160;<BR>
               <a href="apue-code/04/cd.c">cd.c</A><BR>
               <a href="apue-code/04/getpw.c">getpw.c</A><BR>
               <a href="apue-code/04/groups.c">groups.c</A><BR>
@@ -549,8 +568,15 @@ href="https://assets.stevens.edu/mviowpldu823/2OPzyEojDAg080ca2LDTih/87f4e49e9a2
               <A href="apue-code/04/sizeof.c">sizeof.c</A><BR>
               <A href="apue-code/04/time.c">time.c</A><BR>
               <A href="apue-code/04/wait-unlink.c">wait-unlink.c</A><BR><BR>
-              <a href="/cgi-bin/631-04.cgi">Week 04 Checkpoint</a> (due by 16:00 Eastern before class)<br>
-              <a href="f26-hw3.html">HW3: userinfo(1)</a><br>
+              <a href="/cgi-bin/631-04.cgi">Week 04 Checkpoint</a> (due by 16:00 Eastern before class)<br><br>
+              Recommended exercises:<br>
+              <ul>
+                <li><a href="cd-exercise.html">Implement the cd(1) and pwd(1) commands</a></li>
+              </ul>
+              Homework assignment:<br>
+              <ul>
+                <li><a href="f26-hw3.html">HW3: userinfo(1)</a> (due by 2026-10-13 16:00:00 Eastern)</li>
+              </ul>
             </td>
           </TR>
 
@@ -609,12 +635,15 @@ href="https://assets.stevens.edu/mviowpldu823/2OPzyEojDAg080ca2LDTih/87f4e49e9a2
               [<a href="05-gdb-5.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/hr-rn0yUhAw">video lecture</a>]&nbsp;[<a href="05-gdb-5.txt">transcript</a>]<br>
             &#160;<BR>
 
-            <A href="lecture05.pdf">Lecture Slides</A><BR>
-            <BR>
+            <A href="lecture05.pdf">Lecture Slides</A><BR><BR>
             <A href="apue-code/05/compilechain/">compile chain examples</a><br>
             <A href="apue-code/05/make-examples/">make examples</a><br>
             <A href="apue-code/05/gdb-examples/">gdb examples</a><br><br>
             <a href="/cgi-bin/631-05.cgi">Week 05 Checkpoint</a> (due by 16:00 Eastern before class)<br><br>
+            Homework assignment:<br>
+            <ul>
+              <li><a href="f26-hw4.html">HW4: patch <code>cp(1)</code></a> (due by 2026-10-19 16:00:00 Eastern)</li>
+            </ul>
           </TR>
 
           <TR>
@@ -672,8 +701,14 @@ href="https://assets.stevens.edu/mviowpldu823/2OPzyEojDAg080ca2LDTih/87f4e49e9a2
               <A href="apue-code/06/zombies.c">zombies.c</A><br><br>
               <a
 href="http://cvsweb.netbsd.org/bsdweb.cgi/src/lib/csu/common/crt0-common.c?rev=HEAD&content-type=text/x-cvsweb-markup">NetBSD crt0-common.c</a><br><br>
-              <a href="/cgi-bin/631-06.cgi">Week 06 Checkpoint</a> (due by 16:00 Eastern before class)<br>
-              <a href="f26-hw4.html">HW4: Fork vs. Thread</a><br>
+              <a href="/cgi-bin/631-06.cgi">Week 06 Checkpoint</a> (due by 16:00 Eastern before class)<br><br>
+              Recommended exercises:<br>
+              <ul>
+                <li><a href="fork-v-thread-exercise.html">Fork vs. Thread Exercise</a></li>
+                <li><a href="stack-exercise.html">Process Execution Exercise: Inspect the call stack</a></li>
+                <li><a href="startup-exercise.html">Program Startup Exercise: Track down how programs are started on Linux</a></li>
+                <li><a href="env-exercise.html">Environment limitations</a></li>
+              </ul>
             <!-- <A href="setjmp1.c">setjmp1.c</A><BR>
             <A href="setjmp2.c">setjmp2.c</A><BR>
             <A href="setjmp3.c">setjmp3.c</A> --></TD>
@@ -689,8 +724,8 @@ href="http://cvsweb.netbsd.org/bsdweb.cgi/src/lib/csu/common/crt0-common.c?rev=H
                 <a href="https://notes.shichao.io/apue/ch9/">Shichao's Notes</a><br>
                 <a href="http://www.informit.com/articles/article.aspx?p=366888&seqNum=7">FreeBSD Process Management</a>
                 (from "The Design and Implementation of the FreeBSD Operating System")<br>
-                <a href="https://lcamtuf.coredump.cx/signals.txt">Delivering Signals for Fun and Profit</a></td>
-
+                <a href="https://lcamtuf.coredump.cx/signals.txt">Delivering Signals for Fun and Profit</a>
+            </TD>
             <TD style="width: 25%">
               <b>Week 07, Segment 1: The Login Process</b><br>
               [<a href="07-login-process.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/eNYTJbmYzH8">video lecture</a>]&nbsp;[<a href="07-login-process.txt">transcript</a>]<br>
@@ -717,6 +752,10 @@ href="http://cvsweb.netbsd.org/bsdweb.cgi/src/lib/csu/common/crt0-common.c?rev=H
               <a href="apue-code/07/signals4.c">signals4.c</a><br>
               <A href="apue-code/07/sigusr.c">sigusr.c</A><br><br>
               <a href="/cgi-bin/631-07.cgi">Week 07 Checkpoint</a> (due by 16:00 Eastern before class)
+              Recommended exercises:<br>
+              <ul>
+                <li><a href="siggot-exercise.html">Play the Signals Game of Thrones</a></li>
+              </ul>
            </TD>
           </TR>
 
@@ -727,8 +766,10 @@ href="http://cvsweb.netbsd.org/bsdweb.cgi/src/lib/csu/common/crt0-common.c?rev=H
                 <A href="https://web.archive.org/web/20160507131726/http://www.kohala.com/start/unpv22e/unpv22e.chap12.pdf">Shared Memory Introduction</A><BR>
                 <a href="https://web.archive.org/web/20180316204322/http://www.linuxdevcenter.com/pub/a/linux/2007/05/24/semaphores-in-linux.html">Semaphores in Linux</a><br>
                 <a href="https://www.softprayog.in/programming/interprocess-communication-using-posix-message-queues-in-linux">Interprocess communication using POSIX message queues in Linux</a><br>
-                <a href="https://man7.org/tlpi/download/TLPI-52-POSIX_Message_Queues.pdf">POSIX Message Queues</a>
-                </td>
+                <a href="https://man7.org/tlpi/download/TLPI-52-POSIX_Message_Queues.pdf">POSIX Message Queues</a><br>
+                <A href="ipctut.pdf">BSD IPC Tutorial</A><BR>
+                <a href="https://beej.us/guide/bgipc/html/">Beej's Guide to Unix IPC</a><br>
+            </TD>
             <TD style="width: 25%">
               <b>Week 08, Segment 1: Interprocess Communications Intro</b><br>
               [<a href="08-ipc-intro.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/JHV2dsGZUzk">video lecture</a>]&nbsp;[<a href="08-ipc-intro.txt">transcript</a>]<br>
@@ -740,10 +781,6 @@ href="http://cvsweb.netbsd.org/bsdweb.cgi/src/lib/csu/common/crt0-common.c?rev=H
               [<a href="08-pipes.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/mq5G33Sbc_o">video lecture</a>]&nbsp;[<a href="08-pipes.txt">transcript</a>]<br>
             &#160;<BR>
             <BR>
-              <A href="ipctut.pdf">BSD IPC Tutorial</A><BR>
-              <a href="https://beej.us/guide/bgipc/html/">Beej's Guide to Unix IPC</a><br>
-              <BR>
-              <a href="apue-code/08/memory-layout.c">memory-layout.c</a><br>
               <a href="apue-code/08/mqrecv.c">mqrecv.c</a><br>
               <a href="apue-code/08/mqsend.c">mqsend.c</a><br>
               <a href="apue-code/08/msgrecv.c">msgrecv.c</a><br>
@@ -754,7 +791,12 @@ href="http://cvsweb.netbsd.org/bsdweb.cgi/src/lib/csu/common/crt0-common.c?rev=H
               <a href="apue-code/08/semdemo.c">semdemo.c</a><br>
               <a href="apue-code/08/shmdemo.c">shmdemo.c</a><br>
               <br>
-              <a href="/cgi-bin/631-08.cgi">Week 08 Checkpoint</a> (due by 16:00 Eastern before class)<br>
+              <a href="/cgi-bin/631-08.cgi">Week 08 Checkpoint</a> (due by 16:00 Eastern before class)<br><br>
+              Recommended exercises:<br>
+              <ul>
+                <li><a href="two-pipes-exercise.html">Bi-directional communications using <code>pipe(2)</code></a></li>
+                <li><a href="pipe-readers-exercise.html">How do multiple readers/writers behave?</a></li>
+              </ul>
               <!-- <a href="f26-hw5.html">HW#3: implement 'command(3)'</a><br> -->
            </TD>
           </TR>
@@ -801,7 +843,6 @@ href="http://cvsweb.netbsd.org/bsdweb.cgi/src/lib/csu/common/crt0-common.c?rev=H
               <A href="apue-code/09/one-socket-select-fork.c">one-socket-select-fork.c</A><BR>
              <br>
              <a href="/cgi-bin/631-09.cgi">Week 09 Checkpoint</a> (due by 16:00 Eastern before class)<br><br>
-             <a href="f25-group-project.html">Group Project Assignment</a><br>
              <a href="code-reading-exercise.html">Code Reading Assignment</a><br>
             </TD>
           </TR>
@@ -818,7 +859,7 @@ href="http://cvsweb.netbsd.org/bsdweb.cgi/src/lib/csu/common/crt0-common.c?rev=H
               All the various HTTP RFCs
               (<a href="https://www.akamai.com/blog/news/the-next-generation-of-http">see also</a>)<br><br>
               <a href="https://www.rfc-editor.org/info/rfc1945/">RFC1945 -- Hypertext Transfer Protocol -- HTTP/1.0</a><br><br>
-              <a href="http://www.eterna23.net/bozohttpd/">bozohottpd</a><br>
+              <a href="http://www.eterna23.net/bozohttpd/">bozohttpd</a><br>
               <a href="http://i1.dk/download/ihttpd/">ihttpd</a><br>
               <a href="http://www.mathopd.org/download.html">mathopod</a><br>
               <a href="http://inglorion.net/software/muhttpd/">muhttpd</a><br>
@@ -832,7 +873,8 @@ href="http://cvsweb.netbsd.org/bsdweb.cgi/src/lib/csu/common/crt0-common.c?rev=H
               [<a href="12-syslog.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/YfdAJ8rhG-I">video lecture</a>]&nbsp;[<a href="12-syslog.txt">transcript</a>]<br>
             &#160;<BR>
               <a href="10-http.pdf">HTTP Slides</a><br><br>
-             <a href="/cgi-bin/631-10.cgi">Week 10 Checkpoint</a> (due by 16:00 Eastern before class)<br>
+             <a href="/cgi-bin/631-10.cgi">Week 10 Checkpoint</a> (due by 16:00 Eastern before class)<br><br>
+             <a href="f26-group-project.html">Group Project Assignment</a><br>
             </TD>
           </TR>
           <TR>
@@ -872,7 +914,11 @@ href="http://cvsweb.netbsd.org/bsdweb.cgi/src/lib/csu/common/crt0-common.c?rev=H
               <a href="apue-code/11/ldtest2.c">ldtest2.c</a><br>
               <a href="apue-code/11/main.c">main.c</a><br>
               <a href="apue-code/11/setget.c">setget.c</a><br><br>
-              <a href="/cgi-bin/631-11.cgi">Week 11 Checkpoint</a> (due by 16:00 Eastern before class)<br>
+              <a href="/cgi-bin/631-11.cgi">Week 11 Checkpoint</a> (due by 16:00 Eastern before class)<br><br>
+              Recommended exercises:<br>
+              <ul>
+                <li><a href="libgreet-exercise.html">Implement the 'libgreet' library.</a></li>
+              </ul>
               <!-- <a href="f26-hw6.html">HW#6: implement the 'libgreet' library'</a><br> -->
           </TR>
           <TR>
@@ -889,12 +935,10 @@ href="http://cvsweb.netbsd.org/bsdweb.cgi/src/lib/csu/common/crt0-common.c?rev=H
             &#160;<BR>
               <b>Week 12, Segment 4: Asynchronous and Memory Mapped I/O</b><br>
               [<a href="12-aio-mmap.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/_R_t0d5BzEk">video lecture</a>]&nbsp;[<a href="12-aio-mmap.txt">transcript</a>]<br>
-            &#160;<BR>
+            &#160;<BR><BR>
 
-              <BR>
-              <a href="12-cryptobasics.pdf">Cryptographic Basics</a> lecture slides
-              <BR>
-              <BR>
+              <a href="12-cryptobasics.pdf">Cryptographic Basics</a> lecture slides<BR><BR>
+
               <A href="apue-code/12/slogdemo.c">slogdemo.c</A><br>
               <A href="apue-code/12/nonblock.c">nonblock.c</A><br>
               <A href="apue-code/12/flock.c">flock.c</A><br>
@@ -902,9 +946,14 @@ href="http://cvsweb.netbsd.org/bsdweb.cgi/src/lib/csu/common/crt0-common.c?rev=H
               <A href="apue-code/12/pwhash.c">pwhash.c</A><br>
               <A href="apue-code/12/prng.c">prng.c</A><br>
               <A href="https://www.netmeister.org/blog/strlcat.html">Use <code>strlcat(3)</code>!</A><br><br>
-              <a href="/cgi-bin/631-12.cgi">Week 12 Checkpoint</a> (due by 16:00 Eastern before class)<br>
-              <a href="f26-hw7.html">HW7: AES-CBS encryption/decryption</a><br>
-        </TD>
+
+              <a href="/cgi-bin/631-12.cgi">Week 12 Checkpoint</a> (due by 16:00 Eastern before class)<br><br>
+
+              Homework assignment:<br>
+              <ul>
+                <li><a href="f26-hw6.html">HW6: AES-CBS encryption/decryption</a> (due by 2026-12-07 16:00:00 Eastern)</li>
+              </ul>
+            </TD>
           </TR>
 
           <TR>
@@ -949,7 +998,7 @@ href="http://cvsweb.netbsd.org/bsdweb.cgi/src/lib/csu/common/crt0-common.c?rev=H
             <TD><!-- <A
 href="https://create.kahoot.it/share/cs631-advanced-programming-in-the-unix-environment/d5280f84-bd71-4efe-85e8-0f2d22d86086">Review Kahoot</a><br><br> -->
                 <a href="f25.pdf">Review Slides</a><br><br>
-                <a href="f25-sish.html">Final Assignment: sish(1)</a><br><br>
+                <a href="f26-sish.html">Final Assignment: sish(1)</a><br><br>
                 <a href="/cgi-bin/631-review.cgi">Week 14 Checkpoint</a>  (due by 16:00 Eastern before class)<br></TD>
           </TR>
         </TABLE>

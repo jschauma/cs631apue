@@ -1,4 +1,4 @@
-.Dd August 29, 2026
+.Dd September 06, 2026
 .Dt AED 1
 .Os AED
 .Sh NAME
@@ -41,6 +41,8 @@ function, generating a suitable salt via
 reads the password from which to derive the key material from the
 .Ar AED_PASS
 environment variable.
+If that variable is empty, then the tool will prompt
+the user for a password on the controlling terminal.
 .Pp
 When encrypting, the ciphertext output is prefixed by the string "Salted__",
 followed by the 8 byte salt.

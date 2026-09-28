@@ -19,7 +19,7 @@
           others is an important aspect of programming.  <a
           href="http://git-scm.com/">Git</a> is a popular free and open
           source distributed version control system and well worth knowing
-          at least the fundamental of.
+          at least the fundamentals of.
         </p>
         <p>
           Note: <code>git(1)</code> can be used without and independent of <a
@@ -41,6 +41,9 @@
           assignments by following these steps:
         </p>
         <blockquote><code><pre>$ ssh shell.cs631.dotwtf.wtf
+shell$ git config --global init.defaultBranch main
+shell$ git config --global user.name "Your Name"
+shell$ git config --global user.email ${USER}@stevens.edu
 shell$ mkdir .cs631.git
 shell$ cd .cs631.git
 shell$ git init --bare
@@ -106,11 +109,11 @@ $ </pre></code></blockquote>
         updating your copy of the repository and ending it by committing
         your changes.  If you are ready to push your changes, you would
         then push them to the repository:
-        <blockquote><code><pre>$ cd group1
+        <blockquote><code><pre>$ cd hw1
 $ git pull
-$ $EDITOR notes
+$ $EDITOR main.c
 [edit]
-$ git commit
+$ git [add|commit] ...
 $ git push</pre></code></blockquote>
         </p>
         <p>
@@ -127,32 +130,15 @@ $ git push</pre></code></blockquote>
         <p>
           For your group project, you will need to use a
           shared repository for your team.  One of you
-          will create a new repository for your group.
+          will create a new bare repository for your group
+          with the right group permissions (i.e.,
+          <code>g+rwx</code>).
         </p>
 
-        <h4>Working with git</h4>
-        <p>
-        You should make it a habit to begin your working session by
-        updating your copy of the repository and ending it by committing
-        your changes.  If you are ready to push your changes, you would
-        then push them to the repository:
-        <blockquote><code><pre>$ cd group1
-$ git pull
-$ $EDITOR notes
-[edit]
-$ git commit
-$ git push</pre></code></blockquote>
-        </p>
-        <p>
-        Please <em>always</em> write a <em>meaningful</em> commit message.
-        See these links for why/how:
-        <ul>
-          <li><a href="http://www.slideshare.net/TarinGamberini/commit-messages-goodpractices">Commit messages - Good practices</a></li>
-          <li><a href="http://robots.thoughtbot.com/5-useful-tips-for-a-better-commit-message">5 Useful Tips For A Better Commit Message</a></li>
-          <li><a href="http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html">A Note About Git Commit Messages</a></li>
-        </ul>
-        </p>
         <hr>
         [<a href="index.html">Course Website</a>]
+      </TD>
+    </TR>
+  </TABLE>
 </BODY>
 </HTML>
