@@ -1,0 +1,26 @@
+# Almost identical to 'Makefile.2' - use diff to find out what's
+# different.  Then use both Makefile.2 and Makefile.4 to illustrate
+# precedence of variables.
+PROG=	ls
+OBJS=	cmp.o ls.o main.o print.o stat_flags.o util.o
+
+# If commented out, defaults will be used. If uncommented, these values
+# will be used, even though there is no other explicit mention of this
+# variable in this Makefile.
+CFLAGS=	-Wall -g
+
+all: ${PROG}
+
+showvars:
+	@echo "CC=${CC}"
+	@echo "CFLAGS=${CFLAGS}"
+	@echo "LDFLAGS=${LDFLAGS}"
+	@echo "PROG=${PROG}"
+	@echo "OBJS=${OBJS}"
+
+${PROG}: ${OBJS}
+	@echo $@ depends on $?
+	${CC} ${LDFLAGS} ${OBJS} -o ${PROG}
+
+clean:
+	rm -f ls *.o

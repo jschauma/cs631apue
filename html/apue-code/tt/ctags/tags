@@ -1,0 +1,4 @@
+Msimple-shell	simple-shell.c	/^main(int argc, char **argv) {$/
+Mtags	tags	/^Msimple-shell	simple-shell.c	\/^main(int argc, cha/
+getinput	getinput.c	/^getinput(char *buffer, size_t buflen) {$/
+sig_int	sig.c	/^sig_int(int signo) {$/

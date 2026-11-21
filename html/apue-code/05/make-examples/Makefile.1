@@ -1,0 +1,36 @@
+# A simplistic Makefile used to illustrate the very basics of make(1).
+# The following Makefiles build on this and show more realistic usage.
+#
+# Run 'make', then 'touch ls.h' and 'make' again.
+
+CC=cc
+
+all: ls
+
+showvars:
+	@echo "CC=${CC}"
+	@echo "CFLAGS=${CFLAGS}"
+
+ls:  cmp.o ls.o main.o print.o stat_flags.o util.o
+	${CC} cmp.o ls.o main.o print.o stat_flags.o util.o -o ls
+
+cmp.o: extern.h ls.h
+	${CC} -c cmp.c
+
+ls.o: extern.h ls.h
+	${CC} -c ls.c
+
+main.o: extern.h ls.h
+	${CC} -c main.c
+
+print.o: extern.h ls.h
+	${CC} -c print.c
+
+stat_flags.o: stat_flags.h
+	${CC} -c stat_flags.c
+
+util.o: extern.h ls.h
+	${CC} -c util.c
+
+clean:
+	rm -f ls *.o

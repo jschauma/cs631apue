@@ -1,0 +1,29 @@
+# Like the previous Makefiles, only introducing suffixes.  Repeats the
+# lesson that Unix doesn't care what things are named.
+PROG=	ls
+OBJS=	cmp.o ls.b main.b print.b stat_flags.bar util.bar
+CFLAGS=	-Wall -g
+
+.SUFFIXES:  .c .b .bar
+
+all: ${PROG}
+
+showvars:
+	@echo "CC=${CC}"
+	@echo "CFLAGS=${CFLAGS}"
+	@echo "LDFLAGS=${LDFLAGS}"
+	@echo "PROG=${PROG}"
+	@echo "OBJS=${OBJS}"
+
+${PROG}: ${OBJS}
+	@echo $@ depends on $?
+	${CC} ${LDFLAGS} ${OBJS} -o ${PROG}
+
+.c.b:
+	${CC} -c $< -o $@
+
+.c.bar:
+	${CC} ${CFLAGS} -c $< -o $@
+
+clean:
+	rm -f ${PROG} ${OBJS}

@@ -1,0 +1,26 @@
+Mdgramread	dgramread.c	/^int main()$/
+Mdgramsend	dgramsend.c	/^int main(int argc, char **argv)$/
+Mmemory-layout	memory-layout.c	/^main(int argc, char **argv) {$/
+Mmsgrecv	msgrecv.c	/^main(int argc, char **argv) {$/
+Mmsgsend	msgsend.c	/^main(int argc, char **argv) {$/
+Mone-socket-select	one-socket-select.c	/^int main()$/
+Mone-socket-select-fork	one-socket-select-fork.c	/^int main()$/
+Mpipe1	pipe1.c	/^main(int argc, char **argv) {$/
+Mpipe2	pipe2.c	/^main(int argc, char **argv) {$/
+Mpopen	popen.c	/^main(int argc, char **argv) {$/
+Msemdemo	semdemo.c	/^main(void) {$/
+Mshmdemo	shmdemo.c	/^main(int argc, char **argv) {$/
+Msocketpair	socketpair.c	/^int main()$/
+Mstrchkread	strchkread.c	/^int main()$/
+Mstrchkread2	strchkread2.c	/^int main()$/
+Mstreamread	streamread.c	/^int main()$/
+Mstreamwrite	streamwrite.c	/^int main(int argc, char **argv)$/
+Mtwo-sockets	two-sockets.c	/^main()$/
+Mtwo-sockets-select	two-sockets-select.c	/^int main()$/
+Mudgramread	udgramread.c	/^int main()$/
+Mudgramsend	udgramsend.c	/^main(int argc, char **argv)$/
+createSocket	two-sockets-select.c	/^createSocket(void)$/
+handleConnection	one-socket-select-fork.c	/^handleConnection(int fd, struct sockaddr_in6 clien/
+handleSocket	one-socket-select-fork.c	/^handleSocket(int s)$/
+initsem	semdemo.c	/^initsem(key_t key) {$/
+reap	one-socket-select-fork.c	/^reap() {$/

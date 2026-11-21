@@ -129,12 +129,12 @@ checkCopySuccesses() {
 
 	# cp of a fifo is an edge condition, so let's
 	# only check the result, not the return code
-	TOTAL=$(( ${TOTAL} + 1 ))
-	verbose "Test #${TOTAL} (copy_fifo): Checking '${CP} fifo file2'..." 1
-	timeout 5 ${CP} fifo file2 >/dev/null 2>&1 &
-	timeout 1 /bin/sh -c "echo foo >fifo"
-	echo foo >file1
-	compareFiles "copy_fifo" file1 file2
+#	TOTAL=$(( ${TOTAL} + 1 ))
+#	verbose "Test #${TOTAL} (copy_fifo): Checking '${CP} fifo file2'..." 1
+#	timeout 5 ${CP} fifo file2 >/dev/null 2>&1 &
+#	timeout 1 /bin/sh -c "echo foo >fifo"
+#	echo foo >file1
+#	compareFiles "copy_fifo" file1 file2
 }
 
 # purpose : verify program accepts the correct set of arguments

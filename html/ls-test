@@ -14,21 +14,21 @@ COMMANDS="./ls
 ./ls -l /dev
 ./ls -lsh
 ./ls -lF
-./ls -A ~/testdir
-./ls -w ~/testdir
-./ls ~/testdir | more
-./ls ~/testdir/d
-./ls -l ~/testdir/d
-./ls -la ~/testdir/d
+./ls -A /scratch/testdir
+./ls -w /scratch/testdir
+./ls /scratch/testdir | more
+./ls /scratch/testdir/d
+./ls -l /scratch/testdir/d
+./ls -la /scratch/testdir/d
 ./ls /tmp/a.out /netbsd /etc/passwd
 ./ls -lis /
-BLOCKSIZE=bacon ./ls -ls
+BLOCKSIZE=banana ./ls -ls
 BLOCKSIZE=0 ./ls -ls
 BLOCKSIZE=2048 ./ls -ls
 BLOCKSIZE=-50 ./ls -ls
 BLOCKSIZE=50 ./ls -ls
 TZ=PST8PDT ./ls -lc
-TZ=bacon ./ls -lc
+TZ=banana ./ls -lc
 ./ls -lks
 ./ls / /tmp ~ .
 ./ls -?

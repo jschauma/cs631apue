@@ -1,0 +1,45 @@
+/* This file is part of the sample code and exercises
+ * used by the class "Advanced Programming in the UNIX
+ * Environment" taught by Jan Schaumann
+ * <jschauma@netmeister.org> at Stevens Institute of
+ * Technology.
+ *
+ * This file is in the public domain.
+ *
+ * You don't have to, but if you feel like
+ * acknowledging where you got this code, you may
+ * reference me by name, email address, or point
+ * people to the course website:
+ * https://stevens.netmeister.org/631/
+ */
+
+/* This file is used together with the file 'main.c' to
+ * help students use gdb(1) to understand
+ * manipulations of strings and buffers.
+ *
+ * See https://youtu.be/hgcj7iAxhhU as well as
+ * 'pointer.c'
+ */
+
+
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+#define DATA2 "Hello, I'm buf2!"
+#define DATA3 "Hello, I'm buf3!"
+
+void
+printBufs(long n) {
+	char *buf = malloc(n);
+	char *buf2 = malloc(8);
+	char *buf3 = malloc(8);
+
+	strcpy(buf2, DATA2);
+	strcpy(buf3, DATA3);
+	gets(buf);
+
+	printf("buf is : '%s'\n", buf);
+	printf("buf2 is: '%s'\n", buf2);
+	printf("buf3 is: '%s'\n", buf3);
+}

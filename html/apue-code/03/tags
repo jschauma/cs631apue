@@ -1,0 +1,14 @@
+Maccess	access.c	/^main(int argc, char **argv) {$/
+Mchmod	chmod.c	/^main() {$/
+Mdirentsize	direntsize.c	/^main(int argc, char **argv) {$/
+Msetuid	setuid.c	/^main(int argc, char **argv) {$/
+Msimple-ls	simple-ls.c	/^main(int argc, char **argv) {$/
+Msimple-ls-stat	simple-ls-stat.c	/^main(int argc, char **argv) {$/
+Msize	size.c	/^main(int argc, char **argv) {$/
+Msls	sls.c	/^main(int argc, char **argv) {$/
+Mstill-simple-ls	still-simple-ls.c	/^main(int argc, char **argv) {$/
+Mumask	umask.c	/^main() {$/
+getType	simple-ls-stat.c	/^getType(const struct stat sb) {$/
+myOpen	umask.c	/^myOpen(const char *path) {$/
+myseteuid	setuid.c	/^myseteuid(int myeuid) {$/
+printUids	setuid.c	/^printUids(const char *msg) {$/

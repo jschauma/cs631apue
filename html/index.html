@@ -147,7 +147,7 @@ material on GitHub</a></li>
           <li><a href="https://youtu.be/TWog5NklSws">ctags(1)</a> [<a href="tt/ctags/tt-ctags.pdf">slides</a>]&nbsp;[<a href="tt/ctags/tt-ctags.txt">transcript</a>]
           <li><a href="https://youtu.be/vxTXXaCr4s8">screen(1)</a> [<a href="tt/screen/tt-screen.pdf">slides</a>]&nbsp;[<a href="tt/screen/tt-screen.txt">transcript</a>]
           <li><a href="https://youtu.be/XqhOUqi4fc0">/usr/share/docs</a> [<a href="tt/docs/tt-docs.pdf">slides</a>]&nbsp;[<a href="tt/docs/tt-docs.txt">transcript</a>]
-          <li><a href="https://youtu.be/FyPqII2rewA"><code>sizeof != strlen</code></a> [<a href="tt/sizeof/tt-sizeof.pdf">slides</a>]&nbsp;[<a href="tt/sizeof/tt-sizeof.txt">transcript</a>]&nbsp;[<a href="tt/sizeof/sizeof.c">sizeof.c</a>]&nbsp;[<a href="https://raw.githubusercontent.com/jschauma/manpages/main/man7/sizeof.7.txt">sizeof manual page</a>]
+          <li><a href="https://youtu.be/FyPqII2rewA"><code>sizeof != strlen</code></a> [<a href="tt/sizeof/tt-sizeof.pdf">slides</a>]&nbsp;[<a href="tt/sizeof/tt-sizeof.txt">transcript</a>]&nbsp;[<a href="apue-code/tt/sizeof/sizeof.c">sizeof.c</a>]&nbsp;[<a href="https://raw.githubusercontent.com/jschauma/manpages/main/man7/sizeof.7.txt">sizeof manual page</a>]
           <li><a href="https://youtu.be/hCqfmuG5Acc">Installing NetBSD/evbarm in UTM on Apple M1</a> [<a href="tt/netbsd-utm/netbsd-utm.txt">transcript</a>]
           <li><a href="https://youtu.be/mRZsV7aMK0I">ed(1) is the standard text editor</a> [<a href="tt/ed/tt-ed.txt">transcript</a>]
         </ul>
@@ -339,7 +339,7 @@ href="https://assets.stevens.edu/mviowpldu823/2OPzyEojDAg080ca2LDTih/87f4e49e9a2
           <li><a href="f26-hw2.html">HW#2: trivially copy a file</a></li>
           <li><a href="f26-hw3.html">HW#3: userinfo(1)</a></li>
           <li><a href="f26-hw4.html">HW#4: patch <code>cp(1)</code></a></li>
-          <li><a href="f26-hw6.html">HW#7: AES-CBC encryption/decryption</a></li>
+          <li><a href="f26-hw6.html">HW#6: AES-CBC encryption/decryption</a></li>
         </ul>
         <p>
         The following exercises are not graded, but
@@ -521,6 +521,7 @@ href="https://assets.stevens.edu/mviowpldu823/2OPzyEojDAg080ca2LDTih/87f4e49e9a2
               <A href="apue-code/01/simple-ls.c">simple-ls.c</A><BR>
               <A href="apue-code/03/simple-ls-stat.c">simple-ls-stat.c</A><BR>
               <A href="apue-code/03/umask.c">umask.c</A><BR><br>
+              <a href="03-f26.pdf">Lecture slides</a><br><br>
               <a href="/cgi-bin/631-03.cgi">Week 03 Checkpoint</a>  (due by 16:00 Eastern before class)<br><br>
               Recommended exercises:<br>
               <ul>
@@ -679,6 +680,9 @@ href="https://assets.stevens.edu/mviowpldu823/2OPzyEojDAg080ca2LDTih/87f4e49e9a2
               <b>Week 06, Segment 6: Process Control</b><br>
               [<a href="06-process-control.pdf">slides</a>]&nbsp;[<a href="https://youtu.be/KJq5nTCFsIg">video lecture</a>]&nbsp;[<a href="06-process-control.txt">transcript</a>]<br>
             &#160;<BR>
+              <b>Week 06, Segment 7: setjmp(3)/longjmp(3)</b><br>
+              [<a href="06-setjmp.pdf">slides</a>]<br>
+            &#160;<BR>
             &#160;<BR>
               <A href="https://man.netbsd.org/stack.7">stack(7)</A><BR><br>
               <A href="apue-code/12/const.c">const.c</A><BR>
@@ -697,6 +701,8 @@ href="https://assets.stevens.edu/mviowpldu823/2OPzyEojDAg080ca2LDTih/87f4e49e9a2
               <A href="apue-code/06/memory-layout6.c">memory-layout6.c</A><BR>
               <A href="apue-code/06/memory-layout7.c">memory-layout7.c</A><BR>
               <A href="apue-code/06/memory-layout8.c">memory-layout8.c</A><BR>
+              <A href="apue-code/06/setjmp1.c">setjmp1.c</A><BR>
+              <A href="apue-code/06/setjmp2.c">setjmp2.c</A><BR>
               <A href="apue-code/06/sum.c">sum.c</A><BR>
               <A href="apue-code/06/zombies.c">zombies.c</A><br><br>
               <a
@@ -709,9 +715,7 @@ href="http://cvsweb.netbsd.org/bsdweb.cgi/src/lib/csu/common/crt0-common.c?rev=H
                 <li><a href="startup-exercise.html">Program Startup Exercise: Track down how programs are started on Linux</a></li>
                 <li><a href="env-exercise.html">Environment limitations</a></li>
               </ul>
-            <!-- <A href="setjmp1.c">setjmp1.c</A><BR>
-            <A href="setjmp2.c">setjmp2.c</A><BR>
-            <A href="setjmp3.c">setjmp3.c</A> --></TD>
+            </TD>
           </TR>
 
           <TR>
@@ -797,7 +801,7 @@ href="http://cvsweb.netbsd.org/bsdweb.cgi/src/lib/csu/common/crt0-common.c?rev=H
                 <li><a href="two-pipes-exercise.html">Bi-directional communications using <code>pipe(2)</code></a></li>
                 <li><a href="pipe-readers-exercise.html">How do multiple readers/writers behave?</a></li>
               </ul>
-              <!-- <a href="f26-hw5.html">HW#3: implement 'command(3)'</a><br> -->
+              <!-- <a href="f26-hw5.html">HW#5: implement 'command(3)'</a><br> -->
            </TD>
           </TR>
 
@@ -859,6 +863,7 @@ href="http://cvsweb.netbsd.org/bsdweb.cgi/src/lib/csu/common/crt0-common.c?rev=H
               All the various HTTP RFCs
               (<a href="https://www.akamai.com/blog/news/the-next-generation-of-http">see also</a>)<br><br>
               <a href="https://www.rfc-editor.org/info/rfc1945/">RFC1945 -- Hypertext Transfer Protocol -- HTTP/1.0</a><br><br>
+              <a href="https://www.netmeister.org/blog/http-123.html">Bootstrapping HTTP/1.1, HTTP/2, and HTTP/3</a><br><br>
               <a href="http://www.eterna23.net/bozohttpd/">bozohttpd</a><br>
               <a href="http://i1.dk/download/ihttpd/">ihttpd</a><br>
               <a href="http://www.mathopd.org/download.html">mathopod</a><br>
